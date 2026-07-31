@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ООП · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html" class="active">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p><strong>Процедурне програмування</strong> — збірка не пов'язаних явно функцій і змінних для
+зберігання й обробки інформації. Цей підхід простий і прямолінійний, але при
+зростанні кодової бази, результатом може бути те, що називається <strong> spaghetti
+code </strong></p>
+<ul>
+<li>тісно пов'язаний код.</li>
+</ul>
+<p><img src="images/spaghetti-code.png" alt="spaghetti code"></p>
+<p>Нижче маємо процедурний код, не пов'язані змінні й функція для підрахунку
+результату.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> baseSalary <span class="token operator">=</span> <span class="token number">30000</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> overtime <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> rate <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">getWage</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">baseSalary<span class="token punctuation">,</span> overtime<span class="token punctuation">,</span> rate</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> baseSalary <span class="token operator">+</span> overtime <span class="token operator">*</span> rate<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token function">getWage</span><span class="token punctuation">(</span>baseSalary<span class="token punctuation">,</span> overtime<span class="token punctuation">,</span> rate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Об'єктноорієнтоване програмування (ООП)</strong> — методологія, заснована на поданні
+програми у вигляді сукупності об'єктів, кожен з яких містить дані (властивості)
+і методи для взаємодії з ними.</p>
+<p><img src="images/oop-objects.png" alt="objects"></p>
+<p>Використовуємо ООП зібравши дані в об'єкт employee.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> employee <span class="token operator">=</span> <span class="token punctuation">{</span>
+  baseSalary<span class="token punctuation">:</span> <span class="token number">30000</span><span class="token punctuation">,</span>
+  overtime<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+  rate<span class="token punctuation">:</span> <span class="token number">20</span><span class="token punctuation">,</span>
+  <span class="token function">getWage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>baseSalary <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>overtime <span class="token operator">*</span> <span class="token keyword">this</span><span class="token punctuation">.</span>rate<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+employee<span class="token punctuation">.</span><span class="token function">getWage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>При такому підході у методу немає параметрів, використовуються властивості
+об'єкта, які налаштовуються при створенні об'єкта і можливо так само змінюються
+іншими методами. На виході маємо сутність з простим інтерфейсом, що знижує
+складність програми та підвищує повторне використання коду в інших частинах
+програми.</p>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p> Ідеологічно, ООП це підхід до програмування як до
+моделювання, вирішуючи основне завдання - структурування інформації з точки зору
+керованості, що істотно покращує контроль процесу моделювання. Це вкрай важливо
+при реалізації великих проєктів. </p>
+</div></div></p>
+<h1 id="основні-поняття-ооп">2. Основні поняття ООП</h1>
+<p>Уявіть собі, що ми проєктуємо автомобіль. У нього буде двигун, чотири колеса,
+бензобак і т. д. Автомобіль повинен мати можливість заводитися, набирати й
+зменшувати швидкість. Ми знаємо як взаємодіє двигун і колеса, тобто згідно з
+якими законами взаємодіють різні частини машини.</p>
+<h2 id="клас">2.1. Клас</h2>
+<p>Ми описуємо всі запчастини з яких складається автомобіль, то яким чином ці
+запчастини взаємодіють між собою і що має зробити водій, щоб машина
+загальмувала, включилися фари й інше. Результатом нашої роботи буде деякий ескіз
+(шаблон, схема). Ми тільки що розробили те, що в ООП називається клас.</p>
+<p><strong>Клас</strong> — спосіб опису суті, визначає стан і поведінку, залежне від цього
+стану, а також правила для взаємодії з даною сутністю (контракт).</p>
+<p>У нашому випадку, клас визначає сутність - автомобіль. Властивостями класу
+будуть двигун, колеса, фари і т. д. Методами класу будуть відкрити двері,
+завести двигун, збільшити швидкість і т. п.</p>
+<h2 id="обєкт">2.2. Об'єкт</h2>
+<p>Ми спроєктували креслення, і машини, розроблені за ним, сходять з конвеєра.
+Кожна з них точно повторює креслення, всі системи взаємодіють саме так, як ми
+спроєктували, але кожна машина унікальна. Вони всі мають номер кузова і двигуна,
+але всі номери різні, автомобілі розрізняються кольором, оздобленням салону. Ці
+автомобілі є екземплярами класу.</p>
+<p><strong>Об'єкт (екземпляр)</strong> — це окремий представник класу, який має конкретний стан
+і поведінку, повністю визначається класом. Це те, що створено за кресленням,
+тобто за описом з класу.</p>
+<p>Говорячи простою мовою, об'єкт має конкретні значення властивостей і методів, що
+працюють з цими властивостями на основі правил, заданих в класі. В даному
+прикладі, якщо клас це деякий абстрактний автомобіль на кресленні, то об'єкт -
+це конкретний автомобіль, що стоїть у нас під вікнами.</p>
+<h2 id="інтерфейс">2.3. Інтерфейс</h2>
+<p>Коли ми підходимо до автомата з кавою або сідаємо за кермо автомобіля, існує
+деякий набір елементів управління, з якими ми можемо взаємодіяти.</p>
+<p><strong>Інтерфейс</strong> — це набір властивостей і методів класу, доступних для
+використання при роботі з екземпляром.</p>
+<p>По суті, інтерфейс специфікує клас, чітко визначаючи всі можливі дії над ним.
+Хороший приклад інтерфейсу - приладова панель автомобіля, яка дозволяє
+зателефонувати за такі методи як збільшення швидкості, гальмування, поворот,
+перемикання передач, включення фар і т. п.</p>
+<p>При описі інтерфейсу класу дуже важливо дотримати баланс між гнучкістю і
+простотою. Клас з простим інтерфейсом буде легко використовувати, але будуть
+існувати завдання, які за допомогою нього вирішити буде не під силу. Якщо
+інтерфейс буде гнучким, то швидше за все, він буде складатися з досить складних
+методів з великою кількістю параметрів, які будуть дозволяти робити дуже багато,
+але його використання буде пов'язане з великими труднощами й ризиком
+припуститися помилки, щось переплутавши.</p>
+<h1 id="парадигми">3. Парадигми</h1>
+<p>ООП побудовано на чотирьох основних поняттях: інкапсуляція, абстракція,
+успадкування та поліморфізм.</p>
+<h2 id="інкапсуляція">3.1. Інкапсуляція</h2>
+<p>Внутрішні процеси роботи автомобіля досить складні. Але всі ці дії приховані від
+користувача і дозволяють йому крутити кермо і натискати на педаль газу, не
+замислюючись, що в цей час відбувається всередині. Саме приховування внутрішніх
+процесів, що відбуваються в автомобілі, дозволяє ефективно його використовувати
+навіть новачкам. Це і є інкапсуляція.</p>
+<p><strong>Інкапсуляція (encapsulation)</strong> — це властивість системи, що дозволяє об'єднати
+дані й методи, що працюють з ними, в класі й приховати деталі реалізації від
+користувача.</p>
+<p>Інкапсуляція нерозривно пов'язана з поняттям інтерфейсу класу. Все те, що не
+входить в інтерфейс, інкапсулюється (приховано) в класі. Користувач може
+працювати з усім функціоналом через інтерфейс, не замислюючись над тим, як
+реалізований функціонал.</p>
+<h2 id="абстракція">3.2. Абстракція</h2>
+<p>Уявіть, що водій їде в автомобілі по жвавій ділянці руху. Зрозуміло, що в цей
+момент він не буде замислюватися про хімічний склад фарби автомобіля,
+особливості взаємодії шестерень в коробці передач або впливу форми кузова на
+швидкість. Однак, кермо, педалі, покажчик повороту він буде використовувати
+регулярно.</p>
+<p><strong>Абстрагування (abstraction)</strong> — це спосіб виділити набір значущих
+характеристик об'єкта, виключаючи з розгляду незначущі.</p>
+<h2 id="спадкування">3.3. Спадкування</h2>
+<p>Уявімо, що інженерам поставили завдання розробки й випуску модельного ряду більш
+сучасних автомобілів. При цьому у них вже є стара модель, яка відмінно
+зарекомендувала себе. Очевидно, що інженери не будуть проєктувати новий
+автомобіль з нуля, а взявши за основу попереднє покоління, внесуть низку
+конструктивних змін.</p>
+<p>Всі модифікації матимуть більшість властивостей колишньої моделі. При цьому
+кожна з моделей буде реалізувати деяку нову функціональність або конструктивну
+особливість. В цьому випадку, ми маємо справу зі спадкуванням.</p>
+<p><strong>Спадкування (inheritance)</strong> — це властивість системи, що дозволяє описати
+новий клас на основі вже існуючого, з частково або повністю запозичує
+функціоналом. Клас, від якого виробляється спадкування, називається базовим,
+батьківським або суперкласом. Новий клас називається нащадком, спадкоємцем або
+похідним класом.</p>
+<p>Якщо взяти приклад з життя, у нас є HTML-елементи. У наступних модулях ми
+дізнаємося що всі вони представлені об'єктами. У них є спільні властивості й
+методи для управління станом. Замість того щоб додавати загальні властивості на
+кожен тип елемента, ми можемо описати їх в класі HTMLElement, і ті елементи,
+яким потрібен подібний інтерфейс, можуть наслідувати від HTMLElement.
+Спадкування допомагає зменшити обсяг повторюваного коду.</p>
+<p><img src="images/inheritance.png" alt="inheritance"></p>
+<h2 id="поліморфізм">3.4. Поліморфізм</h2>
+<p>Будь-яке навчання водінню не мало б сенсу, якби людина, яка навчилася водити,
+скажімо, Audi не міг потім водити BMW або будь-який інший автомобіль. З іншого
+боку, можна уявити керування автомобілем використовуючи джойстик або мишку з
+клавіатурою, а поведінка автомобіля буде ідентичною, як би використовували
+кермо.</p>
+<p>Вся річ у тім, що основні елементи управління автомобіля мають одну і ту ж
+конструкцію і принцип дії. По суті, можна сказати, що всі автомобілі мають один
+і той же інтерфейс, а водій, абстрагуючись від сутності автомобіля, працює саме
+з цим інтерфейсом. Незалежно від того, яким чином буде реалізовуватися рух і
+внутрішнє функціонування машини, інтерфейс залишиться колишнім.</p>
+<p><strong>Поліморфізм (polymorphism)</strong> — це властивість системи дозволяє використовувати
+об'єкти з однаковим інтерфейсом без інформації про тип і внутрішню структуру
+об'єкта. Дозволяє перевизначати в класах спадкоємців реалізації методів базового
+класу.</p>
+  </main>
+</div>
+</body>
+</html>

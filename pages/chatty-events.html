@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Throttle і Debounce · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html" class="active">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p>Досить часто необхідно реалізувати який-небудь функціонал при зміні розміру
+вікна, скролінгу або вводі користувача. Це може бути сортування колекції й
+відмальовка результатів, анімація, маніпуляції з DOM-деревом та інше. Все це
+покращує UX (user experience), але на жаль, дають велике навантаження на
+браузер, через те що обробники подій спрацьовують надто часто.</p>
+<p>Наприклад, якщо прикріпити обробник скрол до елементу і прокрутити цей елемент
+за допомогою трекпада, колеса прокрутки або просто перетягуванням смуги
+прокрутки, можна викликати близько 30 подій в секунду. Але повільна прокрутка
+(свайп) в смартфоні може викликати до 100 подій в секунду. якщо обробник події
+виконує важкі обчислення і інші маніпуляції з DOM, гарантовано будуть проблеми з
+продуктивністю.</p>
+<p><strong>Throttle</strong> і <strong>Debounce</strong> - це два схожих (але різних за поведінкою) прийому,
+дозволяють контролювати, скільки разів ми дозволяємо виконання функції з плином
+часу. Для ознайомлення з цими методами будемо використовувати їх реалізацію з
+бібліотеки <a href="https://lodash.com/" target="_blank">Lodash</a>.</p>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p>Використовуючи ці два підходи ми не контролюємо як часто
+браузер буде генерувати події. Ми лише беремо контроль над частотою виконання
+callback-функції переданої в обробник події.</p>
+</div></div></p>
+<h1 id="throttle">2. Throttle</h1>
+<p>Прийом <code>throttle</code> забезпечує контроль над кількістю раз, яке функція може бути
+викликана протягом проміжку часу. Тобто дозволяє виконувати функцію не частіше
+ніж один раз в <code>N</code> мілісекунд, гарантуючи її регулярне виконання.</p>
+<p><img src="images/throttle.png" alt="throttle"></p>
+<pre class="language-"><code class="lang-js">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span>
+  <span class="token string">'scroll'</span><span class="token punctuation">,</span>
+  _<span class="token punctuation">.</span><span class="token function">throttle</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Scroll event handler invocation every 300ms.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><a href="https://lodash.com/docs/4.17.11#throttle" target="_blank">Посилання на документацію _.throttle()</a></p>
+<h1 id="debounce">3. Debounce</h1>
+<p>Прийом <code>debounce</code> гарантує, що функція не буде викликана знову, поки не пройде
+певну кількість часу без її виклику. Тобто дозволяє виконати функцію, тільки
+якщо пройшло <code>N</code> мілісекунд без її виклику, групуючи множинні виклики в один.</p>
+<p><img src="images/debounce.png" alt="debounce"></p>
+<pre class="language-"><code class="lang-js">document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'input'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span>
+  <span class="token string">'input'</span><span class="token punctuation">,</span>
+  _<span class="token punctuation">.</span><span class="token function">debounce</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>
+      <span class="token string">'Input event handler invocation after 300ms of inactivity past burst.'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><a href="https://lodash.com/docs/4.17.11#debounce" target="_blank">Посилання на документацію _.debounce()</a></p>
+<h1 id="додаткові-матеріали">4. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://webdevkin.ru/posts/frontend/kak-ispolzovat-throttle-i-debounce" target="_blank">Як і навіщо використовувати throttle і debounce</a></li>
+<li><a href="https://css-tricks.com/debouncing-throttling-explained-examples/" target="_blank">Debouncing and Throttling Explained Through Examples</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSON · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html" class="active">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p><strong><a href="http://www.json.org/index.html" target="_blank">JSON</a></strong> — сучасний формат зберігання і
+передачі даних.</p>
+<p>Об'єктоподібний синтаксис JSON дуже зручний. Саме в цьому форматі дані будуть
+приходити і відправлятися на сервер, зберігатися в локальному сховищі й т. п.</p>
+<p><code>JSON</code> можна розглядати як строкове представлення JavaScript-об'єкта. Підтримує
+наступні значення: <code>string</code>, <code>number</code>, <code>object</code>, <code>array</code>, <code>boolean</code>, <code>null</code>.</p>
+<p>Нижче наведено приклад JSON-файлу. Він дуже схожий на об'єкти, за винятком того,
+що ключі і все крім: <code>чисел</code>, <code>булей</code>, <code>null</code>, <code>літерала масиву і об'єкту</code>,
+завжди повинні бути в подвійних лапках.</p>
+<pre class="language-"><code class="lang-json"><span class="token punctuation">{</span>
+  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Josh"</span><span class="token punctuation">,</span>
+  <span class="token property">"weight"</span><span class="token operator">:</span> <span class="token number">175</span><span class="token punctuation">,</span>
+  <span class="token property">"age"</span><span class="token operator">:</span> <span class="token number">30</span><span class="token punctuation">,</span>
+  <span class="token property">"eyecolor"</span><span class="token operator">:</span> <span class="token string">"brown"</span><span class="token punctuation">,</span>
+  <span class="token property">"isHappy"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token property">"cars"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"Chevy"</span><span class="token punctuation">,</span> <span class="token string">"Honda"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"favoriteBook"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"When the Fire Nation Attacked"</span><span class="token punctuation">,</span>
+    <span class="token property">"author"</span><span class="token operator">:</span> <span class="token string">"Nickelodeon"</span><span class="token punctuation">,</span>
+    <span class="token property">"released"</span><span class="token operator">:</span> <span class="token string">"02-21-2005"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Javascript і JSON відмінно працюють разом завдяки методам <code>JSON.stringify()</code> і
+<code>JSON.parse()</code>. Вони перетворять JS-об'єкт в JSON і назад, і незалежно від того,
+що у вас є, можна легко отримати зворотне.</p>
+<p><a href="https://jsonlint.com/" target="_blank">Онлайн JSON-валідатор</a></p>
+<h1 id="метод-jsonstringifyobj">2. Метод JSON.stringify(obj)</h1>
+<p>Щоб використовувати <code>JSON.stringify()</code>, просто передайте JavaScript-об'єкт, який
+необхідно перетворити в JSON.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> dog <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Mango'</span><span class="token punctuation">,</span>
+  age<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+  isHappy<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> dogJSON <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>dog<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>dogJSON<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {"name":"Mango","age":3,"isHappy":true}</span>
+</code></pre>
+<p><code>JSON.stringify(dog)</code> взяв об'єкт <code>dog</code> і перетворив його в рядок. Цей рядок
+тепер валідний JSON і може бути збережений в файл або переданий по мережі.</p>
+<h1 id="метод-jsonparsestring">3. Метод JSON.parse(string)</h1>
+<p>Щоб отримати JavaScript-об'єкт з JSON, ви повинні розібрати (розпарсити) його,
+операція зворотна <code>stringify</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> json <span class="token operator">=</span> <span class="token string">'{"name":"Mango","age":3,"isHappy":true}'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> dog <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>json<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>dog<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {name: "Mango", age: 3, isHappy: true}</span>
+</code></pre>
+<p>Тепер, коли <code>dog</code> є звичайним JavaScript-об'єктом, його можна використовувати.</p>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Функції · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html" class="active">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="поняття-функції">1. Поняття функції</h1>
+<p>Дуже часто при створенні програм ділянка коду повторюється. А якщо програма велика, то виникає необхідність повторно використовувати подібні ділянки коду, часто з новими початковими значеннями. Втіленням цієї ідеї є функції.</p>
+<p><strong>Функція</strong> - це підпрограма, незалежна частина коду, призначена для виконання конкретного завдання.</p>
+<p>Функції можна уявити як чорний ящик, вони отримують щось на вході (дані), і віддають щось на виході (результат виконання коду всередині функції).</p>
+<p><img src="images/fn-basics.png" alt="function as a box"></p>
+<p>Функції - це інструмент для структурування великих програм, зменшення повторень та ізолювання коду.</p>
+<h1 id="функціональний-вираз">2. Функціональний вираз</h1>
+<p><strong>Функціональний вираз (function expression)</strong> — звичайне оголошення змінної, значення якої буде функція.</p>
+<p>Оголосимо змінну <code>add</code>, і дамо їй функцію, що приймає 3 значення і повертає результат складання цих значень.</p>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p> Ім'я функції це дія, дієслово починається з маленької літери, що відповідає на питання <code>'Що зробити?'</code>. Наприклад: <code>findSmallesNumber</code>,
+<code>fetchUserInfo</code>, <code>validateInput</code>. </p>
+</div></div></p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">add</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> a <span class="token operator">+</span> b <span class="token operator">+</span> c<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Визначення функції починається з ключового слова <code>function</code>, за яким може слідувати необов'язкове ім'я функції. В круглих дужках йдуть <strong>параметри</strong> —
+перерахування даних, які функція буде отримувати ззовні. Параметрів може бути кілька, або взагалі їх не бути, тоді записуються просто порожні круглі дужки <code>()</code>.</p>
+<p>Далі йде <strong>тіло функції</strong>, укладену в фігурні дужки <code>{}</code>, що містить інструкції які необхідно виконати при виконанні функції. Тіло функції завжди укладають в фігурні дужки, навіть якщо воно складається з однієї інструкції.</p>
+<p>Оператор <code>return</code> визначає значення, що повертається. Коли інтерпретатор доходить до <code>return</code>, він відразу ж виходить з функції, і повертає це значення в те місце коду, де функція була викликана.</p>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p> Оператор <code>return</code> без вираження повертає значення
+<code>undefined</code>. При відсутності <code>return</code> в тілі функції, вона все одно поверне значення <code>undefined</code>. </p>
+</div></div></p>
+<p>Потім, коли необхідно, функція <strong>викликається</strong> за допомогою імені та круглих дужок, всередині яких можуть бути передані <strong>аргументи</strong>.</p>
+<ul>
+<li>Термін <strong>аргументи</strong> використовується при виконанні функції, коли ми передаємо
+значення в функцію.</li>
+<li>Термін <strong>параметри</strong> використовується при оголошенні функції, це ті локальні
+змінні всередині функції, в які будуть записані значення аргументів у
+час її виклику.</li>
+</ul>
+<p>В JavaScript важливий порядок оголошення параметрів функції. Не існує ніякого іншого механізму пояснити інтерпретатору як значення аргументів функції при виклику пов'язані з параметрами.</p>
+<p>Порядок оголошення параметрів відповідає порядку передачі аргументів при виклику функції: значення першого аргументу буде присвоєно першому параметру, другого аргументу другому параметру і т. д. Якщо параметрів буде менше ніж аргументів, то параметрами без значень буде присвоєно <code>undefined</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// a, b, c це параметри</span>
+<span class="token keyword">const</span> <span class="token function-variable function">add</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> a <span class="token operator">+</span> b <span class="token operator">+</span> c<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 1, 2, 3 це аргументи</span>
+<span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 6</span>
+
+<span class="token comment">// 5, 10, 15 це аргументи</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 30</span>
+</code></pre>
+<p>Функція може або викликати побічні ефекти (змінювати загальні змінні), або повертати результат своєї роботи, залежить від завдання. Залежно від того, який фрагмент коду буде поміщений всередині функції, відбудеться або повернення обчисленого значення, або зміна стану програми, іноді обидва.</p>
+<h1 id="порядок-виконання-коду">3. Порядок виконання коду</h1>
+<p>Якщо при виконанні коду, інтерпретатор зустрічає виклик функції, він призупиняє виконання поточного коду і починає виконувати код з тіла функції. Після того як весь код функції буде виконаний, інтерпретатор виходить з тіла функції, повертаючись в те місце, звідки прийшов, і продовжує виконувати код нижче виклику функції.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">fnA</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Почала виконуватися [fnA]'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">fnB</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Продовжила виконуватися [fnA] після виходу з [fnB]'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">fnB</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Виконується [fnB]'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Почав виконання [main]'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">fnA</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Продовжив виконуватися [main] після виходу з [fnA]'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * Почав виконання [main]
+ * Почала виконуватися [fnA]
+ * Виконується [fnB]
+ * Продовжила виконуватися [fnA] після виходу з [fnB]
+ * Продовжила виконуватися [main] після виходу з [fnA]
+ */</span>
+</code></pre>
+<p>Покроково розберемо виконання коду прикладу:</p>
+<ul>
+<li>При вході в js-файл, код починає виконуватися зверху вниз.</li>
+<li>Виклик <code>fnA()</code> змушує інтерпретатор призупинити виконання коду, і зайти
+в тіло функції <code>fnA</code>.</li>
+<li>У функції <code>fnA</code> інтерпретатор зустрічає виклик функції <code>fnB</code>, яка
+перехоплює контроль і виконується.</li>
+<li>Як тільки інтерпретатор виконав функцію <code>fnB</code>, тобто в ній стався
+<code>return</code>, в нашому випадку не явний, інтерпретатор повертається в функцію <code>fnA</code>
+і продовжує виконувати її з того місця де зупинився.</li>
+<li>Як тільки інтерпретатор виконав функцію <code>fnA</code>, тобто в ній стався
+<code>return</code>, в нашому випадку не явний, інтерпретатор повертається в глобальний код
+і продовжує його виконання.</li>
+</ul>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p> Виклич <code>console.log()</code>, через те, що це функція, теж перехоплюють контроль. Вони були пропущені для більш зрозумілого опису процесу.</p>
+</div></div></p>
+<h1 id="параметри-за-замовчуванням">4. Параметри за замовчуванням</h1>
+<p>При виконанні функції необов'язково вказувати значення всіх аргументів, які перераховані в параметрах функції. Але іноді, параметрам яким не передали значення через аргумент, буває необхідно присвоїти якесь значення, відмінне від <code>undefined</code>.</p>
+<p>Нові можливості ES6 дозволяють зробити це дуже простим і очевидним чином, вказуючи значення за замовчуванням прямо при оголошенні параметрів в підпису функції. При такому записі, якщо значення переданого аргументу дорівнює
+<code>undefined</code>, в параметр записується значення за замовчуванням.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">count</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">countFrom <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> countTo <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">,</span> step <span class="token operator">=</span> <span class="token number">1</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`countFrom = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>countFrom<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, countTo = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>countTo<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, step = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>step<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> countFrom<span class="token punctuation">;</span> i <span class="token operator"><=</span> countTo<span class="token punctuation">;</span> i <span class="token operator">+=</span> step<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token function">count</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// countFrom = 1, countTo = 5, step = 1</span>
+<span class="token function">count</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// countFrom = 2, countTo = 10, step = 1</span>
+<span class="token function">count</span><span class="token punctuation">(</span><span class="token keyword">undefined</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// countFrom = 0, countTo = 5, step = 2</span>
+<span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// countFrom = 0, countTo = 10, step = 1</span>
+</code></pre>
+<h1 id="псевдо-масив-arguments">5. Псевдо масив arguments</h1>
+<p>Доступ до набору всіх аргументів можна отримати через спеціальну локальну змінну <code>arguments</code>, яка доступна тільки всередині функції і зберігає всі аргументи як псевдо масив.</p>
+<p><strong>Псевдо масив</strong> — колекція, що має властивість <code>length</code> і можливість звернутися до елементу за індексом, але відсутністю більшості методів для роботи з масивом.</p>
+<p>Псевдо масив <code>arguments</code> містить список <strong>аргументів</strong>, переданих функції при виклику, але кількість переданих аргументів може не збігатися з кількістю оголошених параметрів і це не призведе до помилки.</p>
+<p>Розглянемо приклад використання <code>arguments</code> в функції, яка підсумовує будь-яку кількість аргументів:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">sum</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> total <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> argument <span class="token keyword">of</span> arguments<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    total <span class="token operator">+=</span> argument<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">return</span> total<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//  6</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//  10</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//  15</span>
+</code></pre>
+<h2 id="способи-перетворити-псевдо-масив">5.1. Способи перетворити псевдо масив</h2>
+<p>Оскільки у псевдо масива немає методів на кшталт <code>slice()</code> або <code>includes()</code>, часто необхідно перетворити його в повноцінний масив. На практиці використовують кілька основних способів перетворення.</p>
+<p>Використовуючи метод <code>Array.from()</code>, який створить масив з ітеруючого об'єкта.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">fn</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// В змінній args буде повноцінний масив</span>
+  <span class="token keyword">const</span> args <span class="token operator">=</span> Array<span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span>arguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Використовуючи операцію <code>...</code> (rest), вона дозволяє зібрати будь-яку кількість елементів, в нашому випадку аргументів, в масив і зберегти його в змінну. Збираємо всі аргументи використовуючи операцію <code>rest</code> прямо в підпису функції.</p>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p> Операція <code>rest</code> більш детально розглядається далі в курсі, тут же показано одне з її можливих застосувань. </p>
+</div></div></p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">fn</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter"><span class="token operator">...</span>args</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// В змінній args буде повноцінний масив</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<h1 id="патерн-guard-clause">6. Патерн Guard Clause</h1>
+<p>Оператор <code>if...else</code> - це основний спосіб створення логічних дерев. Проте, складні вкладені розгалуження роблять код більш заплутаним і важким для розуміння.</p>
+<p>Створимо функцію яка обробляє зняття грошей з особового рахунку в банку. Функція отримує суму для зняття і поточний баланс рахунку, після чого в залежності від умови, виконує той чи інший блок коду.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">withdraw</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">amount<span class="token punctuation">,</span> balance</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>amount <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Для проведення операції введіть суму більше нуля.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>amount <span class="token operator">></span> balance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Недостатньо коштів на рахунку.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Операція зняття коштів проведена.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token function">withdraw</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Для проведення операції введіть суму більше нуля.</span>
+<span class="token function">withdraw</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Недостатньо коштів на рахунку.</span>
+<span class="token function">withdraw</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Операція зняття коштів проведена.</span>
+</code></pre>
+<p>Навіть в такому простому прикладі є група вкладених умовних операторів, серед яких не відразу можна виділити нормальний хід виконання коду через особливості
+синтаксису <code>if...else</code>.</p>
+<p><strong>Патерн guard clause</strong> - це спосіб використовувати можливість дострокового повернення з функції за допомогою оператора <code>return</code>, щоб зробити вкладені умовні вирази більш одновимірними.</p>
+<p>Виділимо всі перевірки умов в окремі оператори <code>if</code>, після чого додаємо код, який йде в тілі <code>else</code>. В ідеальному випадку, повинен вийти плоский список умовних операторів, що йдуть один за іншим, а в кінці блок який виконується тільки в тому випадку якщо не виконується жоден <code>if</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">withdraw</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">amount<span class="token punctuation">,</span> balance</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">/*
+   * Перевіряється умова. Якщо воно виконується, відбувається
+   * console.log і вихід з функції. Код йде після тіла if
+   * не виконається.
+   */</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>amount <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Для проведення операції введіть суму більше нуля.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">/*
+   * Якщо умова першого if не виконалася, його тіло пропускається
+   * і інтерпретатор доходить до цього if.
+   * Перевіряється умова. Якщо воно виконується, відбувається
+   * console.log і вихід з функції. Код йде після тіла if
+   * не виконається.
+   */</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>amount <span class="token operator">></span> balance<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Недостатньо коштів на рахунку.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">/*
+   * Якщо жоден з попередніх if не виконався,
+   * інтерпретатор доходить до цього коду і виконує його.
+   */</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Операція зняття коштів проведена.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token function">withdraw</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Для проведення операції введіть суму більше нуля.</span>
+<span class="token function">withdraw</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Недостатньо коштів на рахунку.</span>
+<span class="token function">withdraw</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Операція зняття коштів проведена.</span>
+</code></pre>
+<p>Використовуючи такий підхід отримуємо більш чистий, плоский і зрозумілий код, який легше рефакторити.</p>
+<h1 id="оголошення-функції">7. Оголошення функції</h1>
+<p>Інший спосіб створити функцію - використовувати ключове слово <code>function</code> на початку інструкції. Такий запис називається <strong>Оголошення функції (function declaration)</strong>.</p>
+<p>Інструкція визначає змінну <code>add</code> і привласнює їй задану функцію. Ця форма запису не вимагає обов'язкової крапки з комою після закриття фігурної дужки тіла функції.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">function</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> a <span class="token operator">+</span> b <span class="token operator">+</span> c<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Особливістю цього синтаксису є те, що функцію можна викликати до її оголошення в коді. Це може бути зручно, тому що не потрібно турбуватися про необхідність визначати всі функції вище того місця, де вони використовуються. Механізм підняття ідентифікаторів описаний <a href="scope.html#hoisting">тут</a>.</p>
+<pre class="language-"><code class="lang-js"><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 6</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'text'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// text</span>
+
+<span class="token keyword">function</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> a <span class="token operator">+</span> b <span class="token operator">+</span> c<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token parameter">str</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>З іншого боку, при такому синтаксисі може бути складно відстежити зв'язок між місцем оголошення функції і місцем її виклику. Сучасні гайди по стилю коду, складені великими компаніями з багаторічним досвідом розробки, так само схиляється до використання функціональних виразів. Тому рекомендується використовувати функціональні вирази, замість оголошень функції.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// ❌ Погано</span>
+<span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+<span class="token comment">// ✅ Добре</span>
+<span class="token keyword">const</span> <span class="token function-variable function">fn</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Прототипи · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html" class="active">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="прототип-обєкта">1. Прототип об`єкта</h1>
+<p>ООП в JavaScript побудовано на прототипному спадкуванні. Об'єкти можна
+організувати в ланцюжки так, щоб властивість, не знайдене в одному об'єкті,
+автоматично шукалось би в іншому. Сполучною ланкою виступає спеціально прихована
+властивість <code>[[Prototype]]</code>, в консолі вона зображається як <code>__proto__</code>.</p>
+<h2 id="прототип">1.1. Прототип</h2>
+<p>Якщо один об'єкт має спеціальне посилання в полі <code>__proto__</code> на інший об'єкт, то
+при читанні властивості з нього, якщо шукана властивість відсутня в самому
+об'єкті, вона шукається в об'єкті на який посилається <code>__proto__</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> animal <span class="token operator">=</span> <span class="token punctuation">{</span> eats<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> dog <span class="token operator">=</span> <span class="token punctuation">{</span> barks<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+dog<span class="token punctuation">.</span>__proto__ <span class="token operator">=</span> animal<span class="token punctuation">;</span>
+
+<span class="token comment">// В dog можна знайти обидві властивості</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>dog<span class="token punctuation">.</span>barks<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>dog<span class="token punctuation">.</span>eats<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+</code></pre>
+<p>Перший лог працює очевидним чином - він виводить властивість <code>barks</code> об'єкта
+<code>Dog</code>. Другий лог хоче вивести <code>dog.eats</code>, шукає його в самому об'єкті <code>dog</code>, що
+не знаходить і продовжує пошук в об'єкті по посиланню з <code>dog .__ proto__</code>,
+тобто, в цьому випадку, в <code>animal</code>.</p>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p>Об'єкт, на який вказує посилання в <code>__proto__</code>,
+називається прототипом. В даному прикладі <code>animal</code> це <strong> прототип </strong> для
+<code>dog</code>.</p>
+</div></div></p>
+<p>Якщо ми додамо об'єкту <code>dog</code> властивість <code>eats</code> і дамо йому <code>false</code>, то
+результат буде таким.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> animal <span class="token operator">=</span> <span class="token punctuation">{</span> eats<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> dog <span class="token operator">=</span> <span class="token punctuation">{</span> barks<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> eats<span class="token punctuation">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+dog<span class="token punctuation">.</span>__proto__ <span class="token operator">=</span> animal<span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>dog<span class="token punctuation">.</span>barks<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>dog<span class="token punctuation">.</span>eats<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false, властивість взято з dog</span>
+</code></pre>
+<p>Іншими словами, прототип - це <strong> резервне сховище властивостей і методів об'єкта
+</strong>, автоматично використовується при пошуку. У об'єкта, який виступає прототипом
+може також бути свій прототип, у того свій, і так далі. При цьому властивості
+будуть шукатися по ланцюжку спадкування.</p>
+<p>У специфікації властивість <code>__proto__</code> позначено як<code>[[Prototype]]</code>. Подвійні
+квадратні дужки тут важливі, вони вказують на те, що це внутрішня, службова
+властивість.</p>
+<p><div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p> Незважаючи на те, що властивість <code>__proto__</code> на
+сьогоднішній день стандартизовано, і простіше для пояснення матеріалу, його
+зміна напряму є грубим порушенням. На практиці використовуються методи для
+маніпуляції з прототипами, такі як <code>Object.create ()</code>,
+<code>Object.getPrototypeOf ()</code>, <code>Object.setPrototypeOf ()</code> і інші. </p>
+</div></div></p>
+<h2 id="objectcreate">1.2. Object.create()</h2>
+<p>Для того щоб правильно поставити прототип об'єкта, можна використовувати метод
+<code>Object.create (obj)</code>, передавши параметром <code>obj</code> посилання на об'єкт який ми
+хочемо зробити прототипом для створюваного об'єкта.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> animal <span class="token operator">=</span> <span class="token punctuation">{</span> eats<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> dog <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>animal<span class="token punctuation">)</span><span class="token punctuation">;</span>
+dog<span class="token punctuation">.</span>barks <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>dog<span class="token punctuation">.</span>barks<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>dog<span class="token punctuation">.</span>eats<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+</code></pre>
+<p>На малюнку нижче видно те, що називається <strong> ланцюжком прототипів (prototype
+chain) </strong>. У властивість <code>__proto__</code> об'єкта <code>dog</code> записано посилання на об'єкт
+<code>Animal</code>, у властивість<code>__proto__</code> якого, в свою чергу, записано посилання на
+батька всіх об'єктів <code>Object</code>. Саме тому ми можемо викликати методи на кшталт
+<code>HasOwnProperty</code> або <code>toString</code>, хоча ми не визначали їх для <code>dog</code> або <code>Animal</code>.</p>
+<p><img src="images/proto-chain.png" alt="proto chain"></p>
+<p>Механізм пошуку властивості працює до першого збігу. Інтерпретатор шукає
+властивість на ім'я в об'єкті, якщо не знаходить, то звертається до властивості
+<code>[[Prototype]]</code>, тобто переходить за посиланням до об'єкта-прототипу, а потім і
+прототипу.</p>
+<p>В кінці цього ланцюжка знаходиться <code>null</code>. У разі першого збігу буде повернуто
+значення властивості. Якщо інтерпретатор добереться до кінця ланцюжка і не
+знайде властивості з таким ключем, то поверне <code>undefined</code>.</p>
+<p><img src="images/proto-chain-schema.png" alt="proto chain schema"></p>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p>Даний механізм називається динамічна диспетчеризація
+(Dynamic dispatch) або делегація (delegation). На відміну від статичної
+диспетчеризації, коли посилання вирішуються під час компіляції, динамічна
+диспетчеризація завжди дозволяє посилання під час виконання програми.</p>
+</div></div></p>
+<h2 id="objectprototypehasownproperty">1.3. Object.prototype.hasOwnProperty()</h2>
+<p>Після того як ми дізналися про те, як відбувається пошук властивостей об'єкта,
+має стати зрозуміло, чому цикл <code>for ... in</code> не робить різниці між властивостями
+об'єкта і його прототипу.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> animal <span class="token operator">=</span> <span class="token punctuation">{</span> eats<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> dog <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>animal<span class="token punctuation">)</span><span class="token punctuation">;</span>
+dog<span class="token punctuation">.</span>barks <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> key <span class="token keyword">in</span> dog<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// barks, eats</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Саме тому ми використовуємо метод <code>obj.hasOwnProperty (prop)</code>, який повертає
+<code>true</code>, якщо властивість <code>prop</code> належить самому об'єкту <code>obj</code>, а не його
+прототипу, інакше <code>false</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> animal <span class="token operator">=</span> <span class="token punctuation">{</span> eats<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> dog <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>animal<span class="token punctuation">)</span><span class="token punctuation">;</span>
+dog<span class="token punctuation">.</span>barks <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> key <span class="token keyword">in</span> dog<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>dog<span class="token punctuation">.</span><span class="token function">hasOwnProperty</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
+
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// barks</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Метод <code>Object.keys (obj)</code> поверне масив тільки власних ключів об'єкта <code>obj</code>,
+тому рекомендується використовувати саме його.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> animal <span class="token operator">=</span> <span class="token punctuation">{</span> eats<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> dog <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>animal<span class="token punctuation">)</span><span class="token punctuation">;</span>
+dog<span class="token punctuation">.</span>barks <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> dogKeys <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>dog<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>dogKeys<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['barks']</span>
+</code></pre>
+<h1 id="властивість-functionprototype">2. Властивість Function.prototype</h1>
+<p>Ми вже знаємо що таке прототип об'єкта, властивість <code>__proto__</code>, як відбувається
+пошук відсутніх властивостей об'єкта по ланцюжку і методи вказівки прототипу для
+одного об'єкта. Але в реальних задачах об'єкти створюються динамічно, тобто
+функцією-конструктором, через <code>new</code>. Розберімося, як відбувається вказівка
+прототипу в цьому випадку.</p>
+<p>Створимо функцію-конструктор <code>Guest</code> яка буде створювати нам екземпляри об'єктів
+гостя готелю.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">Guest</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> room</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>room <span class="token operator">=</span> room<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Оскільки, функція це теж об'єкт, у кожної функції, крім стрілкових, є
+властивість <code>prototype</code>, в якому спочатку зберігається об'єкт з єдиним полем
+<code>Constructor</code>, що вказує на саму функцію-конструктор.</p>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p> У стрілкових функцій немає властивості <code>prototype</code>,
+тому що їх не можна викликати через <code>new</code>, і, відповідно, в ньому нема потреби.</p>
+</div></div></p>
+<p>Властивість <code>Function.prototype</code>:</p>
+<ul>
+<li>Є об'єктом</li>
+<li>У нього можна записувати властивості й методи</li>
+<li>Властивості і методи <code>prototype</code> будуть доступні за посиланням<code>__proto__</code>
+об'єкта</li>
+<li>У властивості <code>prototype</code> спочатку є метод <code>constructor</code></li>
+</ul>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">Guest</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> room</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>room <span class="token operator">=</span> room<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Guest</span><span class="token punctuation">.</span>prototype<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {constructor: ƒ}</span>
+</code></pre>
+<p>При створенні об'єкта через <code>new</code>, в його поле<code>__proto__</code> записується посилання
+на об'єкт зберігається у властивості <code>prototype</code> функції-конструктора.</p>
+<p><img src="images/new-operator.png" alt="operator new"></p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">Guest</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> room</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>room <span class="token operator">=</span> room<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> mango <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Guest</span><span class="token punctuation">(</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token number">28</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>mango<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><img src="images/mango-prototype.png" alt="object prototype"></p>
+<p>Цю особливість ми можемо використовувати для того, щоб додавати в об'єкт
+<code>Protopype</code> методи, які будуть доступні за посиланням абсолютно всіх об'єктах
+створеним через <code>new Guest (...)</code>.</p>
+<p>Причому якщо ми створимо мільйон примірників гостя, набір методів буде не у
+кожного свій, а всього один, загальний, що зберігається у властивості
+<code>Guest.prototype</code> і доступний всім нащадкам по посиланню, яке записується в поле
+<code>__proto__</code> об'єкта при створенні, через прототипного успадкування і ланцюжки
+прототипів.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">Guest</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> room</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>room <span class="token operator">=</span> room<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token class-name">Guest</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">showGuestInfo</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`name: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, room: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>room<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> mango <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Guest</span><span class="token punctuation">(</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token number">28</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> poly <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Guest</span><span class="token punctuation">(</span><span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token number">36</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+mango<span class="token punctuation">.</span><span class="token function">showGuestInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// name: Mango, room: 28</span>
+poly<span class="token punctuation">.</span><span class="token function">showGuestInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// name: Poly, room: 36</span>
+</code></pre>
+<p><img src="images/mango-poly-inst.png" alt="prototypes"></p>
+<p>Оскільки у властивості <code>prototype</code> лежить об'єкт, то при прототипному
+спадкуванні відбувається привласнення по посиланню, тому якщо ми змінимо
+значення у властивості <code>Prototype</code>, то це нове значення отримають і всі
+властивості, які мають посилання на об'єкт <code>prototype</code>.</p>
+<h2 id="властивість-constructor">2.1. Властивість constructor</h2>
+<p>Була згадка того, що за замовчуванням, об'єкт у властивості <code>protopype</code> вже
+містить поле <code>constructor</code>. Запишемо це поле явно:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">Guest</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> room</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>room <span class="token operator">=</span> room<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token class-name">Guest</span><span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">{</span>
+  constructor<span class="token punctuation">:</span> Guest<span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>У коді вище ми створили властивість <code>Guest.prototype</code> вручну, але абсолютно
+такий же об'єкт генерується автоматично. А властивість <code>constructor</code> містить
+посилання на саму функцію-конструктор.</p>
+<p><img src="images/constructor.png" alt="constructor"></p>
+<p>Властивість <code>[[Prototype]]</code> об'єкта називають прихованою властивістю, тому що
+прямий доступ до нього обмежений засобами самої мови. Метод який робить запис
+посилання в об'єкт в момент створення має такий доступ. Знаходиться цей метод в
+об'єкті <code>prototype</code> функції й називається <code>consrtuctor</code> 🙂.</p>
+<p><a href="http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/" target="_blank">Understanding Prototypes in JavaScript</a></p>
+<h1 id="спадкування-і-конструктори">3. Спадкування і конструктори</h1>
+<p>Конструктор це функція для створення об'єктів за шаблоном. Оператор <code>new</code>
+створює об'єкт і викликає функцію-конструктор в контексті цього об'єкта. На
+виході отримуємо об'єкт з полями зазначеними в функції-конструкторі через <code>this</code>
+і полем <code>[[Prototype]]</code> яке містить посилання на поле prototype
+функції-конструктора.</p>
+<p>Іноді трапляються завдання коли об'єкти створені функцією-конструктором повинні
+також мати доступ до полів і методів прототипу оголошення в інших
+функції-конструкторі.</p>
+<p>Наприклад, ми пишемо гру в стилі RPG, і нам необхідно підготувати логіку для
+класової системи персонажів, де є спільний конструктор <code>Hero</code> з дефолтними
+полями загальними для всіх класів, на зразок імені, здоров'я, кількості досвіду
+і т. п. Після чого нам необхідно зробити конструктори для <code>Warrior</code> і <code>Wizard</code>,
+екземпляри яких також повинні мати доступ до полів <code>Hero</code>, але водночас мати
+свої власні.</p>
+<p>Реалізуймо це використовуючи прототипне успадкування.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">Hero</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> xp</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>xp <span class="token operator">=</span> xp<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * Тепер у нас є конструктор базового класу героя,
+ * Додамо в prototype якийсь метод.
+ */</span>
+<span class="token class-name">Hero</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">gainXp</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">amount</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> gained </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>amount<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> experience points`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>xp <span class="token operator">+=</span> amount<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> mango <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Hero</span><span class="token punctuation">(</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>mango<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Hero { name: 'Mango', xp: 1000 }</span>
+
+<span class="token comment">// Оскільки mango це екземпляр Hero, то йому доступні методи з Hero.prototype</span>
+mango<span class="token punctuation">.</span><span class="token function">gainXp</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Mango gained 500 experience points</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>mango<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Hero { name: 'Mango', xp: 1500 }</span>
+</code></pre>
+<p>Далі необхідно створити клас <code>Warrior</code>, оскільки немає сенсу додавати в <code>Hero</code>
+абсолютно всі поля всіх класів. Тому нам необхідно створити ще
+функцію-конструктор, але при цьому вона повинна бути якось пов'язана з <code>Hero</code>.</p>
+<p>Для вирішення цього завдання ми можемо використовувати метод <code>call ()</code>,
+викликавши функцію-конструктор <code>Hero</code> і передавши їй об'єкт створюється в
+<code>Warrior</code> як контекст.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">Warrior</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> xp<span class="token punctuation">,</span> weapon</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">/*
+   * Під час виконання функції Warrior викликаємо функцію Hero
+   * в контексті об'єкта створюваного в Warrior, а так само передаємо
+   * аргументи для ініціалізації полів this.name і this.xp
+   *
+   * this це майбутній екземпляр Warrior
+   */</span>
+  <span class="token function">Hero</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> name<span class="token punctuation">,</span> xp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Тут додаємо нову властивість - зброя</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>weapon <span class="token operator">=</span> weapon<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Відразу додамо метод для атаки в prototype воїна</span>
+<span class="token class-name">Warrior</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">attack</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> attacks with </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>weapon<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> poly <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Warrior</span><span class="token punctuation">(</span><span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token string">'sword'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>poly<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Warrior {name: "Poly", xp: 200, weapon: "sword"}</span>
+poly<span class="token punctuation">.</span><span class="token function">attack</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Poly attacks with sword</span>
+</code></pre>
+<p>Начебто все добре, але що станеться якщо ми спробуємо викликати у <code>poly</code> метод
+<code>GainXp ()</code>, який оголошено на <code>Hero.prototype</code>? - буде помилка</p>
+<pre class="language-"><code class="lang-js">poly<span class="token punctuation">.</span><span class="token function">gainXp</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Uncaught TypeError: poly.gainXp is not a function</span>
+</code></pre>
+<p>Річ у тім, що поля з <code>Hero.prototype</code> не повинні додаватися в ланцюжок
+прототипів по замовчуванню. Необхідно явно вказати зв'язок поля
+<code>Warrior.prototype</code> і <code>Hero.prototype</code>. Зробити це дуже легко, але важливо
+розуміти як і чому це працює</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">/*
+ * Використовуємо Object.create () для того щоб спочатку записати
+ * В Warrior.prototype порожній об'єкт, в __proto__ якого буде
+ * Посилання на Hero.prototype. Це необхідно зробити до того
+ * Як додавати методи
+ */</span>
+<span class="token class-name">Warrior</span><span class="token punctuation">.</span>prototype <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token class-name">Hero</span><span class="token punctuation">.</span>prototype<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Не забуваємо додати в Warrior.prototype властивість constructor</span>
+<span class="token class-name">Warrior</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>constructor <span class="token operator">=</span> Warrior<span class="token punctuation">;</span>
+
+<span class="token comment">// Додамо метод для атаки</span>
+<span class="token class-name">Warrior</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">attack</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> attacks with </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>weapon<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Спробуємо тепер</span>
+poly<span class="token punctuation">.</span><span class="token function">gainXp</span><span class="token punctuation">(</span><span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Poly gained 300 experience points</span>
+</code></pre>
+<p>В результаті ми отримали ланцюжок прототипів. При виклику <code>poly.gainXp ()</code>, йде
+пошук поля <code>gainXp</code> в самому об'єкті <code>poly</code>, якщо такого немає, тоді йде пошук в
+тому об'єкті який вказаний в полі <code>poly .__ proto__</code>, це посилання на
+<code>Warrior.ptototype</code>.</p>
+<p>Якщо ж його немає і там, то пошук йде в поле <code>__proto__</code> того об'єкта, що
+зазначений в <code>poly .__ proto__</code>, тобто в <code>poly .__ proto __.__ proto__</code>, а це
+посилання на <code>Hero.prototype</code>, де є метод <code>gainXp</code>.</p>
+<p>Повний код прикладу.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">Hero</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> xp</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>xp <span class="token operator">=</span> xp<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token class-name">Hero</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">gainXp</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">amount</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> gained </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>amount<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> experience points`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>xp <span class="token operator">+=</span> amount<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">Warrior</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> xp<span class="token punctuation">,</span> weapon</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">Hero</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> name<span class="token punctuation">,</span> xp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">this</span><span class="token punctuation">.</span>weapon <span class="token operator">=</span> weapon<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token class-name">Warrior</span><span class="token punctuation">.</span>prototype <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token class-name">Hero</span><span class="token punctuation">.</span>prototype<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Warrior</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>constructor <span class="token operator">=</span> Warrior<span class="token punctuation">;</span>
+
+<span class="token class-name">Warrior</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">attack</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> attacks with </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>weapon<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> poly <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Warrior</span><span class="token punctuation">(</span><span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token string">'sword'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h1 id="додаткові-матеріали">4. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://www.digitalocean.com/community/tutorials/understanding-prototypes-and-inheritance-in-javascript" target="_blank">Understanding Prototypes and Inheritance in JavaScript</a></li>
+<li><a href="https://hackernoon.com/inheritance-in-javascript-21d2b82ffa6f" target="_blank">Inheritance in JavaScript</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

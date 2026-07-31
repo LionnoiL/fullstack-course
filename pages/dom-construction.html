@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Процес побудови веб-сторінки · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html" class="active">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="процес-побудови-веб-сторінки">1. Процес побудови веб-сторінки</h1>
+<p>Коли браузер створює DOM, якщо він зустрічає тег <code>script</code> в HTML, він повинен
+виконати його відразу. Якщо скрипт є зовнішнім, він повинен спочатку завантажити
+скрипт.</p>
+<p>За замовчуванням, щоб виконати скрипт, побудова DOM призупиняється, і
+відновлюється тільки після того, як JavaScript-движок виконав скрипт.</p>
+<p><img src="images/build-1.png" alt="parser blocking script"></p>
+<p>Чому побудова DOM призупиняється? Скрипти можуть змінювати як HTML, так і його
+продукт - DOM, додаючи вузли. Скрипти можуть також запитувати щось про DOM, і
+якщо це відбувається, коли DOM все ще будується, він може повернути несподівані
+результати.</p>
+<p>JavaScript блокує побудову DOM, оскільки він може модифікувати документ. CSS не
+може змінити документ, тому здається, що немає причин для його блокування,
+правильно?</p>
+<p>Однак, що якщо скрипт запитує інформацію (про стиль), яка ще не була
+проаналізована? Браузер не знає, що збирається виконати скрипт - він може
+запросити щось на зразок фонового кольору DOM-вузла, який залежить від таблиці
+стилів.</p>
+<p><img src="images/html-css-js.png" alt="html css js unity"></p>
+<p>Через це CSS може блокувати розбір HTML в залежності від порядку зовнішніх
+таблиць стилів і сценаріїв в документі. Якщо перед скриптами в документі є
+зовнішні таблиці стилів, конструкція об'єктів DOM і CSSOM може заважати один
+одному.</p>
+<p>Коли синтаксичний аналізатор потрапляє в тег сценарію, конструкція DOM НЕ може
+тривати до тих пір, поки JavaScript не завершить виконання, і JavaScript не буде
+виконано до тих пір, поки CSS не буде завантажений, проаналізовано і не буде
+доступний CSSOM.</p>
+<p><img src="images/build-2.png" alt="parser blocking css"></p>
+<p>Ще одна річ, про яку слід пам'ятати, полягає в тому, що навіть якщо CSS не
+блокує конструкцію DOM, він блокує рендеринг. Браузер нічого не відобразить,
+поки не буде DOM і CSSOM. Це пов'язано з тим, що сторінки без CSS часто
+непридатні для використання. Якщо браузер показав безладну сторінку без CSS, а
+через кілька миттєвостей стилізовану, це називається <strong> Flash of Unstyled
+Content </strong>.</p>
+<p>Раптові зміщення вмісту і візуальні зміни погано впливають на <strong> UX (user
+experience) </strong>. Щоб обійти ці проблеми, ви повинні прагнути якомога швидше
+доставити CSS. Пам'ятайте правило «стилі нагорі, сценарії внизу»? Тепер ви
+знаєте навіщо робити саме так.</p>
+<h1 id="атрибути-defer-і-async">2. Атрибути defer і async</h1>
+<p>Синхронні скрипти блокують парсер, це проблема. І не всі скрипти однаково
+важливі для користувачів, наприклад, для відстеження та аналітики. Рішення?
+Асинхронне завантаження цих менш важливих скриптів.</p>
+<p>Атрибути <code>defer</code> і <code>async</code> були введені, щоб дати розробникам можливість
+розповісти браузеру, які скрипти обробляти асинхронно.</p>
+<p>Обидва атрибути повідомляють браузеру, що він може продовжити розбір HTML при
+завантаженні сценарію в фоновому режимі, а потім виконати скрипт після його
+завантаження. Таким чином, завантаження скриптів не блокує конструкцію DOM і
+рендеринг сторінок. Результат: користувач може бачити сторінку до того, як всі
+сценарії завершили завантаження.</p>
+<p>Різниця між ними - це той момент, коли завантажені скрипти починають
+виконуватися.</p>
+<p>Виконання <code>defer</code> скриптів починається після завершення парсинга, але перед
+подією <code>DOMContentLoaded</code>. Це гарантує, що скрипти будуть виконуватися в тому
+порядку, в якому вони відображаються в HTML, і не будуть блокувати синтаксичний
+аналізатор.</p>
+<pre class="language-"><code class="lang-html"><span class="token tag"><span class="token tag"><span class="token punctuation"><</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>path-to-script.js<span class="token punctuation">"</span></span> <span class="token attr-name">defer</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation"></</span>script</span><span class="token punctuation">></span></span>
+</code></pre>
+<p><img src="images/defer.png" alt="defer"></p>
+<p><code>async</code> виконується при першій нагоді після завершення і перед подією
+завантаження вікна. Це означає, що можливо скрипти не виконуються в тому
+порядку, в якому вони відображаються в HTML. Це також означає, що вони можуть
+перервати створення DOM.</p>
+<pre class="language-"><code class="lang-html"><span class="token tag"><span class="token tag"><span class="token punctuation"><</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>path-to-script.js<span class="token punctuation">"</span></span> <span class="token attr-name">async</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation"></</span>script</span><span class="token punctuation">></span></span>
+</code></pre>
+<p><img src="images/async.png" alt="defer"></p>
+<p>Де б вони не були вказані, асинхронні скрипти завантажуються з низьким
+пріоритетом. Вони часто завантажуються після всіх інших скриптів, які не
+блокуючи створення DOM. Однак, якщо <code>async</code> скрипт завершує завантаження раніше,
+його виконання може блокувати створення DOM і все синхронні скрипти, які згодом
+завершують завантаження.</p>
+  </main>
+</div>
+</body>
+</html>

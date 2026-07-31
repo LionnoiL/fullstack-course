@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Логічні оператори · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html" class="active">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="двійкова-логіка">1. Двійкова логіка</h1>
+<p>Будь-яка програма може бути створена на основі декількох принципів:
+послідовності виконання і розгалужень.</p>
+<p><strong>Послідовність виконання</strong> — слідування запису коду зверху вниз. Але не завжди програма повинна виконуватися строго послідовно. Для зміни послідовності використовуються цикли та розгалуження.</p>
+<p><strong>Розгалуження</strong> — можливість виконати ту чи іншу послідовність коду в залежності від умови. Умова може бути будь-яким, але результат його перевірки
+завжди буде одним з двох значень <code>true</code> або <code>false</code>.</p>
+<p>Комп'ютер використовує бінарний (від латинського bis - двічі) код. Тобто всього
+два значення використовуються для створення будь-яких програм: <code>0</code> і <code>1</code>. Це
+означає, що умови також задаються у вигляді <code>0</code> (немає, false) і <code>1</code> (так,
+true).</p>
+<p>У математиці існує розділ булевої логіки, в якому умови бінарні, тобто можуть
+бути представлені у вигляді <code>0</code> і <code>1</code>, а також у вигляді слів <code>true</code> і <code>false</code>.
+Саме ця логіка використовується для реалізації розгалуження.</p>
+<h2 id="приведення-типів">1.1. Приведення типів</h2>
+<p>Для того щоб працювала булева логіка необхідно на вході мати два значення. Тому в JavaScript, в логічних операціях, здійснюється приведення типів операндів до <code>true</code> або <code>false</code>. Приведення відбувається якщо в коді виявлений логічний оператор.</p>
+<p><strong>Truthy</strong> і <strong>Falsy</strong> — терміни, які використовуються для тих значень, які, в логічній операції, приводяться до <code>true</code> або <code>false</code>, хоча спочатку не були
+булями.</p>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p> Запам'ятайте 6 хибних (falsy) значень, які приводять до
+<code>false</code> в логічному перетворенні: <code>0</code>, <code>NaN</code>, <code>null</code>, <code>undefined</code>, порожній
+рядок: <code>""</code> або <code>''</code>, <code>false</code>. Абсолютно все інше приводиться до <code>true</code>.</p>
+</div></div></p>
+<h1 id="логічні-оператори">2. Логічні оператори</h1>
+<p>Є три логічних оператори, які використовуються для перевірки виконання множинних
+виразів.</p>
+<p><img src="images/boolean-operators.png" alt="logical operators"></p>
+<h2 id="логічне-«і»">2.1. Логічне «І»</h2>
+<p>Оператор <code>&&</code> приводить всі операнди до булю і повертає одне зі значень
+(операндів). Лівий операнд якщо його можна привести до <code>false</code>, і правий в інших
+випадках.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> num <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> result <span class="token operator">=</span> num <span class="token operator">></span> <span class="token number">10</span> <span class="token operator">&&</span> num <span class="token operator"><</span> <span class="token number">30</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+</code></pre>
+<p>У коді вище ми перевіряємо умову: змінна <code>num</code> більше <code>10</code> і менше <code>30</code>. Оскільки обидві умови повернуть <code>true</code>, то і результатом всього виразу буде <code>true</code>.</p>
+<p>Для того щоб оператор <code>&&</code> повернув <code>true</code>, потрібно щоб всі операнди були істинними (truthy). Якщо хоча б один з операндів буде приведений до <code>false</code>, то результатом виразу буде цей операнд.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> num <span class="token operator">=</span> <span class="token number">40</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> result <span class="token operator">=</span> num <span class="token operator">></span> <span class="token number">10</span> <span class="token operator">&&</span> num <span class="token operator"><</span> <span class="token number">30</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+</code></pre>
+<h2 id="логічне-«або»">2.2. Логічне «АБО»</h2>
+<p>Оператор <code>||</code> повертає одне зі значень (операндів). Лівий операнд якщо його
+можна привести до <code>true</code>, і правий в інших випадках.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> num <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> result <span class="token operator">=</span> num <span class="token operator"><</span> <span class="token number">10</span> <span class="token operator">||</span> num <span class="token operator">></span> <span class="token number">30</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+</code></pre>
+<p>Це теж буде <code>true</code> оскільки хоча б один з операндів був приведений до <code>true</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> num <span class="token operator">=</span> <span class="token number">40</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> result <span class="token operator">=</span> num <span class="token operator"><</span> <span class="token number">10</span> <span class="token operator">||</span> num <span class="token operator">></span> <span class="token number">30</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+</code></pre>
+<p>А тут ні одна з умов не виконується, тому отримуємо <code>false</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> num <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> result <span class="token operator">=</span> num <span class="token operator"><</span> <span class="token number">10</span> <span class="token operator">||</span> num <span class="token operator">></span> <span class="token number">30</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+</code></pre>
+<h2 id="логічне-«не»">2.3. Логічне «НЕ»</h2>
+<p>Оператор <code>!</code> призводить операнд до булю, якщо необхідно, а потім замінює його на
+протилежний.</p>
+<pre class="language-"><code class="lang-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+</code></pre>
+<h2 id="порядок-обчислення">2.4. Порядок обчислення</h2>
+<p>При виконанні логічних операцій, правий операнд може не обчислюватися.</p>
+<p><img src="images/queue.png" alt="and or image"></p>
+<p><strong>"Купити квиток І відпочити"</strong> - якщо лівий операнд <code>"Купити квиток"</code> виявиться
+<code>false</code>, то обчислювати другий немає сенсу.</p>
+<pre class="language-"><code class="lang-js"><span class="token boolean">false</span> <span class="token operator">&&</span> <span class="token punctuation">(</span>цей операнд не обчислюється<span class="token punctuation">)</span>
+</code></pre>
+<p><strong>"Відпочити АБО зберегти гроші"</strong> - якщо лівий операнд <code>"Відпочити"</code> виявиться
+<code>true</code>, то обчислювати другий немає сенсу.</p>
+<pre class="language-"><code class="lang-js"><span class="token boolean">true</span> <span class="token operator">||</span> <span class="token punctuation">(</span>цей операнд не обчислюється<span class="token punctuation">)</span>
+</code></pre>
+<h1 id="додаткові-матеріали">3. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://blog.usejournal.com/mastering-javascripts-and-logical-operators-fd619b905c8f" target="_blank">Mastering JavaScript’s && and || logical operators</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_Operators" target="_blank">MDN: Логічні оператори</a></li>
+<li><a href="https://youtu.be/UvI-AMAtrvE" target="_blank">Logic Gates Explained (видео)</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

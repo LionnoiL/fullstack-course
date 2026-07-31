@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Присвоєння за посиланням і за значенням · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html" class="active">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="присвоєння-за-посиланням-і-за-значенням">1. Присвоєння за посиланням і за значенням</h1>
+<p>Фундаментальною різницею складних типів від примітивів, є те, як вони зберігаються і копіюються.</p>
+<p>Примітиви: <code>рядки</code>, <code>числа</code>, <code>булі</code>,<code>null</code> і <code>undefined</code>, при присвоєнні копіюються цілком, <strong>за значенням (by value)</strong>.</p>
+<p>Зі складними типами все не так. В змінній, якій присвоєно масив або об'єкт, зберігається не саме значення, а адрес його місця в пам'яті, іншими словами - посилання (покажчик) на нього, і передаються вони <strong>за посиланням (by reference)</strong>.</p>
+<p>Уявімо змінну у вигляді листа паперу. Значення цієї змінної ми представимо у вигляді запису на цьому аркуші.</p>
+<p><img src="images/original.svg" alt="Змінна і її значення"></p>
+<p>Якщо ми хочемо повідомити вміст цього запису користувачам, то ми можемо вчинити так - зробити фізичні копії і вручити їх кожному, тобто зробити множинні незалежні копії (привласнення за значенням).</p>
+<p><img src="images/by-value.svg" alt="Багато копій - присвоєння за значенням"></p>
+<p>Або помістити лист в закритій кімнаті і дати користувачам ключ від цієї кімнати, тобто 1 примірник із загальним доступом (привласнення за посиланням).</p>
+<p><img src="images/by-reference.svg" alt="Єдиний екземпляр - привласнення за посиланням"></p>
+<p>Тепер змінимо дані на аркуші паперу, значення змінної. Очевидно, що відвідувачі кімнати завжди будуть бачити зміни, які ми вносимо, оскільки змінюється оригінал і вони мають доступ до нього. І також очевидно, що власники паперових копій не помітять змін дивлячись на свої копії.</p>
+<p><img src="images/full.svg" alt="Присвоєння за значенням vs привласнення за посиланням"></p>
+<p>При передачі по значенню, змінним виділяється новий осередок пам'яті і в неї копіюються дані. Аналогія з множинними копіями паперового листа має цілком реальне втілення, окремий лист для кожної копії.</p>
+<p>При передачі за посиланням, замість створення нового об'єкта, змінної присвоюється посилання (покажчик) на вже існуючий об'єкт, тобто на його місце в пам'яті. Таким чином кілька змінних можуть вказувати на один і той же об'єкт, за аналогією із закритою кімнатою, у них є ключ доступу до оригіналу листа.</p>
+<p>Всі примітивні типи присвоюються за значенням, тобто створюється копія.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token comment">// Присвоєння за значенням, в пам'яті буде створена ще</span>
+<span class="token comment">// одна комірка в яку буде скопійовано значення 5</span>
+<span class="token keyword">let</span> b <span class="token operator">=</span> a<span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span>
+
+<span class="token comment">// Змінимо значення a</span>
+a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 10</span>
+<span class="token comment">// Значення b не змінилося оскільки ця окрема копія</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span>
+</code></pre>
+<p>Складні типи - об'єкти, масиви, функції присвоюються за посиланням, тобто змінна просто отримує посилання на вже існуючий об'єкт.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token comment">// Присвоєння за посиланням.</span>
+<span class="token comment">// Оскільки a це масив, в b записується посилання на вже існуючий</span>
+<span class="token comment">// масив в пам'яті. Тепер a і b вказують на один і той же масив.</span>
+<span class="token keyword">const</span> b <span class="token operator">=</span> a<span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['Mango']</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['Mango']</span>
+
+<span class="token comment">// Змінимо масив, додавши ще один елемент, використовуючи покажчик з a</span>
+a<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string">'Poly'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['Mango', 'Poly']</span>
+
+<span class="token comment">// b змінилося теж, тому що b, як і a,</span>
+<span class="token comment">// просто містять посилання на одне і те ж місце в пам'яті</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['Mango', 'Poly']</span>
+
+<span class="token comment">// Результат повторюється</span>
+b<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string">'Ajax'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['Mango', 'Poly', 'Ajax']</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['Mango', 'Poly', 'Ajax']</span>
+</code></pre>
+  </main>
+</div>
+</body>
+</html>

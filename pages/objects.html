@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Об&#x27;єкти · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html" class="active">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p>При описі якоїсь сутності: користувача, гостя, продукту, необхідна структура
+дозволяє зберігати всі характеристики докладно і в одному місці. В більшості мов
+програмування для цього є типи даних <code>Object (об'єкт)</code>.</p>
+<p>З точки зору мови програмування, об'єкт - це набір властивостей і методів. З
+точки зору розробника об'єкт - це абстракція, що описує якісь дані і функції для
+обробки цих даних.</p>
+<p>Які саме властивості (дані) і методи (функції обробки даних) повинні бути в
+об'єкті вирішується кожен раз з урахуванням конкретного завдання.</p>
+<h1 id="створення-обєкта">2. Створення об'єкта</h1>
+<p><strong>Об'єкт</strong> — асоціативний масив, тип даних, який зберігає властивості
+(properties) і методи (methods).</p>
+<p>Створення об'єкта через літерал схоже на створення масиву, тільки
+використовуються фігурні <code>{}</code>, а не квадратні дужки.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>При створенні об'єкт може бути ініціалізований властивостями, кожний з яких
+описується парами <code>ключ: значення (key: value)</code>. Властивості розділяються комою.</p>
+<p><strong>Ключ</strong> — це завжди рядок. Значним можуть бути будь-які типи: примітиви,
+масиви, об'єкти, булі, функції і т. п.</p>
+<p>Правила іменування ключів прості:</p>
+<ul>
+<li>Якщо ключ укладений в лапки, то це може бути довільний рядок.</li>
+<li>Якщо лапок немає, то вступають обмеження - ім'я без пробілів, починаються на
+   букву або символи <code>_</code> і<code>$</code>.</li>
+</ul>
+<p>Наприклад, в програмі для туроператора знадобиться об'єкт, що описує готель:
+назва, рівень сервісу, місткість і т. п.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
+  stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<h1 id="доступ-до-властивостей">3. Доступ до властивостей</h1>
+<p>Доступ до властивості об'єкта, для того, щоб отримати або привласнити йому
+значення, може бути записаний двома способами:</p>
+<ul>
+<li><code>object.key</code> - через крапку.</li>
+<li><code>object ["key"]</code> - через квадратні дужки з ім'ям ключа в лапках.</li>
+</ul>
+<p>На місце звернення буде повернуто значення властивості з таким ключем.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
+  stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hotel<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Resort Hotel</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hotel<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Resort Hotel</span>
+
+hotel<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'Coastline Resort'</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hotel<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Coastline Resort</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hotel<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Coastline Resort</span>
+
+hotel<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'Stardust Hotel'</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hotel<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Stardust Hotel</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hotel<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Stardust Hotel</span>
+</code></pre>
+<p>Якщо під час запису значення по ключу, такого ключа в об'єкті немає, він буде
+створений.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
+  stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+hotel<span class="token punctuation">.</span>address <span class="token operator">=</span> <span class="token string">'1, Beach ave.'</span><span class="token punctuation">;</span>
+hotel<span class="token punctuation">[</span><span class="token string">'manager'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'Chuck Norris'</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hotel<span class="token punctuation">.</span>address<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1, Beach ave.</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hotel<span class="token punctuation">.</span>manager<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Chuck Norris</span>
+</code></pre>
+<h1 id="видалення-властивостей">4. Видалення властивостей</h1>
+<p>Видалити властивість об'єкта можна за допомогою оператора <code>delete</code>. Видалення
+властивостей - операція вкрай рідкісна, найчастіше властивості тільки додаються
+або змінюються.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
+  stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">delete</span> hotel<span class="token punctuation">.</span>name<span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hotel<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {stars: 5, capacity: 100}</span>
+
+<span class="token keyword">delete</span> hotel<span class="token punctuation">[</span><span class="token string">'stars'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hotel<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {capacity: 100}</span>
+</code></pre>
+<h1 id="відсутні-властивості">5. Відсутні властивості</h1>
+<p>Відсутня властивість, при зверненні до нього по ключу, повертає <code>undefined</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
+  stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  guests<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'mango'</span><span class="token punctuation">,</span> <span class="token string">'poly'</span><span class="token punctuation">,</span> <span class="token string">'ajax'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hotel<span class="token punctuation">.</span>stars<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hotel<span class="token punctuation">.</span>pool<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// undefined</span>
+</code></pre>
+<h1 id="короткі-властивості">6. Короткі властивості</h1>
+<p>Часто є змінні, наприклад, <code>name</code> і <code>stars</code>, і ми хочемо використовувати їх в
+об'єкті так, щоб ім'я змінної стало ключем, а значення змінної значенням
+властивості. При оголошенні об'єкта в цьому випадку досить вказати тільки ім'я
+властивості, а значення буде взято зі змінної з аналогічним ім'ям. це синтаксис
+коротких властивостей (shorthand properties).</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">let</span> name <span class="token operator">=</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> stars <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Цей ES5 запис надлишковий</span>
+<span class="token keyword">const</span> es5hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> name<span class="token punctuation">,</span>
+  stars<span class="token punctuation">:</span> stars<span class="token punctuation">,</span>
+  capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * ES6 Shorthand properties
+ * Ім'я ключа буде аналогічно імені змінної
+ * Значення властивості буде дорівнювати значенню змінної
+ */</span>
+<span class="token keyword">const</span> es6hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">,</span>
+  stars<span class="token punctuation">,</span>
+  capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>es6hotel<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {name: "Resort Hotel", stars: 5, capacity: 100}</span>
+</code></pre>
+<h1 id="обчислювані-властивості">7. Обчислювані властивості</h1>
+<p>Іноді необхідно додати до об'єкта поле з ключем, значення якого ми заздалегідь
+не знаємо, він зберігається як значення змінної. Раніше для цього необхідно було
+спочатку створити об'єкт, а потім додавати властивості через квадратні дужки.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> key <span class="token operator">=</span> <span class="token string">'person'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> object <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+object<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'Mango'</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>object<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {person: 'Mango'}</span>
+</code></pre>
+<p>Використовуючи обчислювані властивості, можна уникнути зайвого коду, і в деяких
+випадках значно його спростити. Значенням обчислювальної властивості може бути
+будь-який валідний вираз.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> key <span class="token operator">=</span> <span class="token string">'person'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token function-variable function">getKey</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token string">'age'</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Computed properties</span>
+<span class="token keyword">const</span> object <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token string">'Mango'</span><span class="token punctuation">,</span>
+  <span class="token punctuation">[</span><span class="token function">getKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>object<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {person: 'Mango', age: 2}</span>
+</code></pre>
+<h1 id="методи-обєкта">8. Методи об'єкта</h1>
+<p>Об'єкти зберігають не тільки дані, але і функції для роботи з цими даними. Якщо
+значення властивості це функція, то воно називається <strong> методом об'єкта</strong>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
+  stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+  <span class="token comment">// Так метод оголошувався в ES5</span>
+  <span class="token function-variable function">greetInES5</span><span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Welcome!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">// Так метод оголошується в ES6</span>
+  <span class="token function">greetInES6</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Welcome!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+hotel<span class="token punctuation">.</span><span class="token function">greetInEs5</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Welcome!</span>
+hotel<span class="token punctuation">.</span><span class="token function">greetInEs6</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Welcome!</span>
+</code></pre>
+<p>Оскільки методи - це звичайні властивості, значення яких це функція, їх можна
+додавати або видаляти в будь-який момент.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
+  stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+hotel<span class="token punctuation">.</span><span class="token function-variable function">greet</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Welcome!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+hotel<span class="token punctuation">.</span><span class="token function">greet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Welcome!</span>
+</code></pre>
+<h2 id="доступ-до-обєкта-через-this">8.1. Доступ до об'єкта через this</h2>
+<p>Методи використовуються для роботи з властивостями об'єкта, їх зміни. Для
+доступу до поточного об'єкта, в методі використовується не ім'я об'єкта, а
+ключове слово <code>This</code> - контекст. Значним <code>this</code> є об'єкт перед<code>'крапкою'</code>, в
+контексті якого викликаний метод.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
+  stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+  <span class="token function">showName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">changeCapacity</span><span class="token punctuation">(</span><span class="token parameter">value</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>capacity <span class="token operator">=</span> value<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+hotel<span class="token punctuation">.</span><span class="token function">showName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Resort Hotel</span>
+
+hotel<span class="token punctuation">.</span><span class="token function">changeCapacity</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hotel<span class="token punctuation">.</span>capacity<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 200</span>
+</code></pre>
+<p>Значення <code>this</code> визначається в момент виклику функції, а не в момент її
+оголошення. Тобто під час виклику <code>hotel.showName ()</code>, в <code>this</code> всередині
+функції <code>ShowName</code> буде записане посилання на об'єкт<code>hotel</code>.</p>
+<p><img src="images/context.jpg" alt="this"></p>
+<p>Буде логічно замислитися - чому б не використовувати при зверненні до
+властивостей ім'я об'єкта. Річ у тім, що ім'я об'єкта штука ненадійна, методи
+одного об'єкта можна копіювати в інший (з іншим ім'ям), а в майбутньому ми
+дізнаємося що часто при створенні об'єкта ми заздалегідь не знаємо імені.
+Використання <code>this</code> гарантує, що функція працює саме з тим об'єктом, в контексті
+якого викликана.</p>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p> Ми детально розберемо ключове слово <code>this</code> і всі його
+підводні камені в наступних модулях, а зараз досить просто використовувати
+<code>This</code> при зверненні до властивості об'єкта в його методах. </p>
+</div></div></p>
+  </main>
+</div>
+</body>
+</html>

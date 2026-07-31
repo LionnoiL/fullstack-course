@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Node.js · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html" class="active">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p><strong>Node.js</strong> — легке і ефективне середовище виконання JavaScript. Дозволяє писати
+високопродуктивні серверні додатки і інструменти. Node.js побудований на
+JavaScript-движку V8 і написаний на C ++, тому він швидкий.</p>
+<p>Спочатку Node.js створювався як серверне оточення для додатків, але розробники
+почали використовувати його для створення інструментів, які допомагають
+автоматизувати виконання локальних завдань. В результаті виникла навколо Node.js
+нова екосистема інструментів (на кшталт Grunt і Gulp), привела до трансформації
+процесу фронтенд-розробки.</p>
+<h2 id="установка">1.1. Установка</h2>
+<p>Щоб встановити останню версію перейдіть на
+<a href="https://nodejs.org/en/" target="_blank">офіційну сторінку</a>, завантажте інсталятор і
+дотримуйтесь вказівкам, досить просто натискати <code>Next</code>. Є установники для
+Windows і MacOS, а також скомпільовані бінарники і вихідний код для Linux.</p>
+<p>Після установки, в терміналі буде доступна команда <code>node</code>. Для того щоб
+переконатися що установка пройшла успішно, перевірте версію, запустивши в
+консолі команду <code>node</code> з прапором <code>version</code>.</p>
+<pre class="language-"><code class="lang-bash">node --version
+</code></pre>
+<h1 id="основи-nodejs">2. Основи Node.js</h1>
+<p>Node.js дозволяє виконувати JavaScript-код без браузера. Відкрийте будь-який
+термінал, і виконайте команду <code>node</code>, запуститься
+<a href="https://ru.wikipedia.org/wiki/REPL" target="_blank">REPL</a> — інтерактивне середовище виконання
+JS-коду. Виведемо щось в консоль.</p>
+<p><img src="images/node-log.png" alt="node log"></p>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p>Для того щоб вийти з REPL, два рази натисніть комбінацію
+<code>Ctrl+C</code>.</p>
+</div></div></p>
+<p>Тепер створимо папку <code>node-tut</code>, а в ній файл <code>index.js</code> з кодом який ми писали
+в <code>REPL</code>. Для запуску потрібно відкрити термінал і перейти в папку <code>node-tut</code>, в
+якій лежить <code>index.js</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// index.js</span>
+<span class="token keyword">const</span> message <span class="token operator">=</span> <span class="token string">'Node.js in amazing!'</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Тепер в консолі запускаємо файл за допомогою команди <code>node index.js</code>. Отримуємо
+той же результат - висновок рядка безпосередньо в терміналі.</p>
+<p><img src="images/node-run.png" alt="node run"></p>
+<p>В цьому і полягає суть Node.js - можливість виконувати JavaScript поза браузера.
+Таким чином можна писати цілі додатки, наприклад бекенд або інструменти не
+залежать від браузера.</p>
+  </main>
+</div>
+</body>
+</html>

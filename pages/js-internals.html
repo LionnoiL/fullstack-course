@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Стек викликів і лексичне оточення · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html" class="active">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="контекст-виконання-і-стек-викликів">1. Контекст виконання і стек викликів</h1>
+<p>При виконанні функції, всередині її тіла можуть викликатися інші функції, а в
+них інші і т. д. JavaScript однопотоковий (в основному) мова, тобто в одну
+одиницю часу може виконуватися тільки одна операція.</p>
+<p>Це означає, що вже викликані функції, які не закінчили своє виконання, повинні
+чекати виконання функцій викликаних всередині себе, для того щоб продовжити своє
+виконання. Відповідно необхідний механізм зберігання списку функцій які були
+викликані, але ще не закінчили своє виконання, і управління порядком виконання
+цих функцій, і саме за це відповідає стек контекстів виконання.</p>
+<p><strong> Стек </strong> - структура даних, яка працює за принципом
+<code>Останнім прийшов - першим вийшов (LIFO - Last In, First Out)</code>. Останнє, що ви
+додали в стек, буде видалено з нього першим, тобто можна додати або видалити
+елементи тільки з верхівки стека.</p>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p> Уявіть стек як масив у якого є тільки методи <code>Pop</code> і
+<code>push</code>, тобто ми можемо додати або видалити тільки елемент в кінці колекції.</p>
+</div></div></p>
+<p><strong> Контекст виконання (execution context) </strong> - внутрішня конструкція мови для
+відстеження виконання функції, містить метаінформацію про її виклик.</p>
+<ul>
+<li><strong> Глобальний контекст виконання (global execution context) </strong> - це контекст
+  є за замовчуванням, сам файл скрипта - це функція яка запускається на
+  виконання.</li>
+<li><strong> Контекст виконання функції (functional execution context) </strong> - створюється
+  кожен раз при виконанні функції.</li>
+</ul>
+<p><strong> Стек викликів (Execution Context stack, call stack) </strong> - внутрішня
+конструкція движка, яка містить всі контексти виконання.</p>
+<p><strong> Stack frame (кадр стека, запис стека) </strong> - структура яка додається на стек
+при виконанні функції. Зберігає деяку метаінформацію: ім'я функції, аргументи
+які були передані разом із дзвінком і номер рядка в якій стався виклик.</p>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p> Іноді можна побачити помилку переповнення стека:
+<code>Uncaught RangeError: Maximum call stack size exceeded</code>. Це може статися при
+помилці в використанні рекурсії або зациклення викликів функцій, тобто якщо
+йдуть нескінченні виклики функцій і нічого не повертається, і на стек додаються
+і додаються записи. Є межа кількості записів стека, після досягнення якого буде
+така помилка. </p>
+</div></div></p>
+<p>Глобальний контекст є в стеці за замовчуванням, створюється на старті виконання
+скрипта, зазвичай називається <code>main</code> або <code>global</code>, і знаходиться в його нижній
+частині, тобто поміщається туди першим. Якщо при виконанні коду відбувається
+виклик функції, для неї створюється новий контекст і додається на верх стека
+контекстів.</p>
+<p>JS-двіжок виконує функцію, контекст виконання якої знаходиться на самому верху
+стека. Після того як відбудеться вихід з функції (<code>return</code>), її контекст
+виконання знімається зі стека. Далі виконуватися функція, контекст якої лежить
+наступним.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">bar</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'bar'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">baz</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'baz'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">foo</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'foo'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">baz</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>При виконанні цього коду спочатку викликається <code>foo ()</code>, потім всередині
+<code>foo ()</code> спочатку викликається <code>bar ()</code>, а потім <code>baz ()</code>. Виклики
+<code>console.log ()</code> так само враховуються, адже це функція. На ілюстрації нижче
+покроково зображений стек викликів прикладу.</p>
+<p><img src="images/call-stack.png" alt="call stack"></p>
+<h1 id="лексичне-оточення">2. Лексичне оточення</h1>
+<p><strong>Лексичне оточення (lexical environment)</strong> — внутрішня, закрита від прямого
+доступу структура движка для зберігання в пам'яті таблиці (
+<code>Environment Record</code>) ідентифікаторів змінних і їх значень, а так само значення
+<code>this</code>, і механізм для вилучення цих значень при зверненні на ім'я, а так само
+посилання на батьківське лексичне оточення (<code>Parent</code>).</p>
+<p>Кожен раз, коли викликається функція і створюється її контекст виконання,
+створюється лексичне оточення прив'язане до цього виклику. Якщо при виклику
+функції всередині неї оголошується ще одна функція, то в її прихована
+властивість (Inernal property або internal slot) <code>[[Environment]]</code> записується
+посилання на це оточення.</p>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p> В JavaScript функція це об'єкт, який створюється від
+конструктора <code>Function</code>. Функція може містити властивості, як службові
+внутрішні, так і визначаються розробником. </p>
+</div></div></p>
+<p>Таким чином кожна функція запам'ятовує лексичне оточення того контексту
+виконання в якому вона була оголошена. Це дозволяє підтримувати ланцюжок
+лексичних оточень і тому працює ланцюжок областей видимості.</p>
+<p>Лексичне оточення можна уявити як словник - набір пар <code>ключ: значення</code>. Знаючи
+ключ можна отримати значення. Точно так же, як і при роботі зі звичайним
+паперовим словником, де ключ - це слово, а значення - визначення слова.</p>
+<ul>
+<li>Все змінні всередині функції, після оголошення, записуються в словник.</li>
+<li>У словнику зберігається посилання на зовнішнє лексичне оточення, то в якому
+  функція була оголошена.</li>
+<li>Для глобального оточення, посилання на зовнішнє оточення немає, там <code>null</code>.</li>
+<li>Так само тут зберігається посилання на контекст виконання, про це пізніше.</li>
+</ul>
+<p>В процесі виконання функції, значення змінних можуть змінюватися, що відразу ж
+відбивається в лексичному оточенні. В кінці виконання функції її лексичне
+оточення знищується, а зайнята ним пам'ять вивільняється.</p>
+<p>Пошук значення ідентифікатора починається з локального оточення, і якщо в ньому
+не знайдений потрібний ідентифікатор, то пошук йде далі по ланцюжку оточень, аж
+до глобального.</p>
+<p>У прикладі нижче, коментарями показано стан словника перед виконанням кожного
+рядка коду. Не забувайте, що створення і наповнення словника відбувається при
+виконанні функції, а не при її визначенні.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">/*
+  Global env - створюється при виконанні файлу скрипта
+    Record: {}
+    Parent: null
+*/</span>
+
+<span class="token keyword">const</span> x <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+<span class="token comment">/*
+  Global env
+    Record: {x: 10}
+    Parent: null
+*/</span>
+
+<span class="token keyword">const</span> y <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+<span class="token comment">/*
+  Global env
+    Record: {x: 10, y: 20}
+    Parent: null
+*/</span>
+
+<span class="token comment">/*
+  Записується в момент оголошення функції
+  [[Environment]] = Global env
+*/</span>
+<span class="token keyword">const</span> <span class="token function-variable function">foo</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">z</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">/*
+    Foo env - створюється в момент виклику функції
+      Record: {z: 30}
+      Parent: Global env
+  */</span>
+
+  <span class="token keyword">const</span> x <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+  <span class="token comment">/*
+    Foo env - створюється в момент виклику функції
+      Record: {z: 30, x: 100}
+      Parent: Global env
+  */</span>
+
+  <span class="token keyword">return</span> x <span class="token operator">+</span> y <span class="token operator">+</span> z<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+  Global env
+    Record: {x: 10, y: 20, foo: <function>}
+    Parent: null
+*/</span>
+
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 150</span>
+</code></pre>
+<p><img src="images/environment-chain.png" alt="environment chain"></p>
+<h1 id="додаткові-матеріали">3. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://hackernoon.com/execution-context-in-javascript-319dd72e8e2c" target="_blank">Execution context, Scope chain and JavaScript internals</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

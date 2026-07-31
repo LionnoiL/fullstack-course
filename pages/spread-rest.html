@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Операції spread і rest · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html" class="active">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p>У сучасному JavaScript з'явилася нова операція для роботи з ітеруючими
+об'єктами, такими як рядок, масив або об'єкт. Її функціонал і назва, на відміну
+від синтаксису, залежить від місця застосування.</p>
+<h1 id="операція-spread">2. Операція spread</h1>
+<p><code>...</code> - spread, розпорошення. Дозволяє розпорошити колекцію елементів в іншу
+колекцію, зробивши копію оригінальної не зраджуючи її. При цьому, під час
+розпилення, якщо елемент колекції примітив - створюється копія елемента, в разі
+складного типу створюється посилання на оригінальний елемент.</p>
+<p>Розпилення можна використовувати всього в 3-х ситуаціях:</p>
+<ul>
+<li>Під час виклику функції, для передачі масиву елементів окремими аргументами</li>
+<li>У літералі масиву, при створенні нового масиву</li>
+<li>У літералі об'єкта, при створенні нового об'єкта</li>
+</ul>
+<h2 id="розпилення-аргументів">2.1. Розпилення аргументів</h2>
+<p>Уявімо ситуацію, коли у нас є масив температур за якийсь період, і необхідно
+програмно знайти найменшу температуру в масиві використовуючи метод
+<code>Math.min ()</code>, який очікує кілька аргументів, а не масив.</p>
+<p>Якщо передати просто масив, отримаємо <code>NaN</code>, тому що<code>Math.min ()</code>не вміє
+працювати з масивом.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> temperatures <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">18</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">21</span><span class="token punctuation">,</span> <span class="token number">17</span><span class="token punctuation">,</span> <span class="token number">29</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> min <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>temperatures<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// NaN</span>
+</code></pre>
+<p>В цьому випадку нам допоможе операція розпилення, щоб передати елементи масиву
+окремими аргументами при виконанні функції.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> temperatures <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">18</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">21</span><span class="token punctuation">,</span> <span class="token number">17</span><span class="token punctuation">,</span> <span class="token number">29</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> min <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span><span class="token operator">...</span>temperatures<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 12</span>
+</code></pre>
+<p>Тобто запис <code>Math.min (... [18, 14, 12, 21, 17, 29])</code> аналогічний
+<code>Math.min (18, 14, 12, 21, 17, 29)</code>, операція spread застосувала масив елементів
+в аргументи функції.</p>
+<h2 id="розпилення-масивів">2.2. Розпилення масивів</h2>
+<p>При роботі з масивами, можна скопіювати елементи одного масиву в інший. Масив
+<code>copyOfHouses</code> буде незалежною копією масиву<code>houses</code> і відповідно зміни в
+будь-якому з них не відобразяться в іншому.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> houses <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Arryn'</span><span class="token punctuation">,</span> <span class="token string">'Frey'</span><span class="token punctuation">,</span> <span class="token string">'Greyjoy'</span><span class="token punctuation">,</span> <span class="token string">'Stark'</span><span class="token punctuation">,</span> <span class="token string">'Lannister'</span><span class="token punctuation">,</span> <span class="token string">'Tyrell'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> copyOfHouses <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span>houses<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>houses<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['Arryn','Frey','Greyjoy','Stark','Lannister','Tyrell']</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>copyOfHouses<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['Arryn','Frey','Greyjoy','Stark','Lannister','Tyrell']</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>houses <span class="token operator">===</span> copyOfHouses<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false - різні посилання</span>
+</code></pre>
+<p>Те ж саме можна було зробити використовуючи метод <code>slice ()</code>, операція <code>spread</code>
+просто дозволяє записувати це більш коротко, особливо коли кілька розпилень.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> houses <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Arryn'</span><span class="token punctuation">,</span> <span class="token string">'Frey'</span><span class="token punctuation">,</span> <span class="token string">'Greyjoy'</span><span class="token punctuation">,</span> <span class="token string">'Stark'</span><span class="token punctuation">,</span> <span class="token string">'Lannister'</span><span class="token punctuation">,</span> <span class="token string">'Tyrell'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> slicedCopyOfHouses <span class="token operator">=</span> houses<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>houses<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['Arryn','Frey','Greyjoy','Stark','Lannister','Tyrell']</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>slicedCopyOfHouses<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['Arryn','Frey','Greyjoy','Stark','Lannister','Tyrell']</span>
+</code></pre>
+<p>При цьому можна додавати і видаляти елементи при створенні нового масиву.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> houses <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Arryn'</span><span class="token punctuation">,</span> <span class="token string">'Frey'</span><span class="token punctuation">,</span> <span class="token string">'Greyjoy'</span><span class="token punctuation">,</span> <span class="token string">'Stark'</span><span class="token punctuation">,</span> <span class="token string">'Lannister'</span><span class="token punctuation">,</span> <span class="token string">'Tyrell'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> completeHouses <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span>houses<span class="token punctuation">,</span> <span class="token string">'Targaryen'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>houses<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['Arryn','Frey','Greyjoy','Stark','Lannister','Tyrell']</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>completeHouses<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['Arryn','Frey','Greyjoy','Stark','Lannister','Tyrell','Targaryen']</span>
+</code></pre>
+<p>Можна дуже зручно з'єднувати кілька масивів в один новий. Порядок розпилення
+вихідних масивів впливає на порядок елементів в результативному масиві.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> firstBatch <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Arryn'</span><span class="token punctuation">,</span> <span class="token string">'Frey'</span><span class="token punctuation">,</span> <span class="token string">'Greyjoy'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> secondBatch <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Stark'</span><span class="token punctuation">,</span> <span class="token string">'Lannister'</span><span class="token punctuation">,</span> <span class="token string">'Tyrell'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> houses <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span>firstBatch<span class="token punctuation">,</span> <span class="token operator">...</span>secondBatch<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>houses<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['Arryn','Frey','Greyjoy','Stark','Lannister','Tyrell']</span>
+</code></pre>
+<p>Можна використовувати класичні методи масиву на кшталт <code>slice ()</code> в комбінації з
+операцією <code>spread</code>. Всі хто дивився серіал <code>Game of Thrones</code> знають, що ніхто
+крім сім'ї Ланістерів не платить за борги. Зробимо масив, який містить всі
+сім'ї, крім Ланістерів.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> houses <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Arryn'</span><span class="token punctuation">,</span> <span class="token string">'Frey'</span><span class="token punctuation">,</span> <span class="token string">'Greyjoy'</span><span class="token punctuation">,</span> <span class="token string">'Stark'</span><span class="token punctuation">,</span> <span class="token string">'Lannister'</span><span class="token punctuation">,</span> <span class="token string">'Tyrell'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> housesInDebt <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span>houses<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">...</span>houses<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>housesInDebt<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['Arryn','Frey','Greyjoy','Stark','Tyrell']</span>
+</code></pre>
+<p>Можна оновлювати елементи НЕ змінюючи оригінальний масив, а створюючи новий з
+Оновлення значень.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> houses <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Arryn'</span><span class="token punctuation">,</span> <span class="token string">'Frey'</span><span class="token punctuation">,</span> <span class="token string">'Greyjoy'</span><span class="token punctuation">,</span> <span class="token string">'Stark'</span><span class="token punctuation">,</span> <span class="token string">'Lannister'</span><span class="token punctuation">,</span> <span class="token string">'Tyrell'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Вертикальний запис зручніше для читання</span>
+<span class="token keyword">const</span> updatedHouses <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token operator">...</span>houses<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token string">'Frey of the Crossing'</span><span class="token punctuation">,</span>
+  <span class="token operator">...</span>houses<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>updatedHouses<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// ['Arryn', 'Frey of the Crossing', 'Greyjoy', 'Stark', 'Lannister', 'Tyrell']</span>
+</code></pre>
+<h2 id="розпилення-обєктів">2.3. Розпилення об'єктів</h2>
+<p>Для об'єктів, у майбутніх стандартах мови, буде так само затверджена операція
+<code>Spread</code>. А в сучасних браузерах, і використовуючи такі інструменти як <code>Babel</code>,
+його можна застосовувати вже зараз. Він дозволяє розпорошувати властивості
+одного об'єкта в інший.</p>
+<p>Розпилення можна використовувати як заміну <code>Object.assign ()</code>, тобто коли
+необхідно створити новий об'єкт або оновити вже існуючий за результатом злиття
+декількох інших об'єктів.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token punctuation">{</span> x<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> y<span class="token punctuation">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> b <span class="token operator">=</span> <span class="token punctuation">{</span> x<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> z<span class="token punctuation">:</span> <span class="token number">3</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> c <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {x: 0, y: 2, z: 3}</span>
+
+<span class="token comment">// Те ж саме використовуючи операцію spread</span>
+<span class="token keyword">const</span> d <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token operator">...</span>a<span class="token punctuation">,</span> <span class="token operator">...</span>b <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>d<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {x: 0, y: 2, z: 3}</span>
+</code></pre>
+<p>Під час злиття можна додавати властивості в довільне місце. Але слід пам'ятати,
+що властивості розпорошуючого об'єкта можуть перезаписати значення існуючої
+властивості, якщо імена ключів збігаються, а розпорошення відбувається після
+вказівки властивості</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token punctuation">{</span> x<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> y<span class="token punctuation">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> b <span class="token operator">=</span> <span class="token punctuation">{</span> x<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> z<span class="token punctuation">:</span> <span class="token number">3</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> c <span class="token operator">=</span> <span class="token punctuation">{</span> x<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span> j<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token operator">...</span>a<span class="token punctuation">,</span> z<span class="token punctuation">:</span> <span class="token number">15</span><span class="token punctuation">,</span> <span class="token operator">...</span>b <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {x: 0, j: 10, y: 2, z: 3}</span>
+</code></pre>
+<p>Створюємо химеру :)</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> lion <span class="token operator">=</span> <span class="token punctuation">{</span> hasTail<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> legs<span class="token punctuation">:</span> <span class="token number">4</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> eagle <span class="token operator">=</span> <span class="token punctuation">{</span> canFly<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> chimera <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token operator">...</span>lion<span class="token punctuation">,</span> <span class="token operator">...</span>eagle <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>chimera<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {hasTail: true, legs: 4, canFly: true}</span>
+</code></pre>
+<h1 id="операція-rest">3. Операція rest</h1>
+<p><code>...</code> - rest, збір. Дозволяє скопіювати групу елементів колекції в нову
+колекцію, не змінюючи оригінальну. При цьому, під час збору, якщо елемент
+колекції примітив - створюється копія елемента, в разі складного типу
+створюється посилання на оригінальний елемент.</p>
+<p>Використовується в підпису функції для збору аргументів або при
+деструктуризації, для зберігання залишку елементів.</p>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p> деструктуризація масивів і об'єктів описана в
+наступному розділі, а функції розглянемо зараз. </p>
+</div></div></p>
+<p>Є функція <code>add</code>, яка складає довільну кількість аргументів. Отримати доступ до
+всіх аргументів можна використовуючи спеціальну змінну <code>arguments</code>, але в
+стрілкових функціях її немає, а в звичайних функціях вона псевдомасив.
+Використовуючи операцію <code>rest</code> можна зібрати всі аргументи в масив прямо в
+підпису функції.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">add</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token operator">...</span>args</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// масив всіх аргументів</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Тепер припустимо, що функція <code>add</code> не просто рахує суму аргументів, а ще отримує
+першим аргументом число, яке необхідно додавати до кожного подальшого аргументу
+при обчисленні суми.</p>
+<p>Використовуючи <code>rest</code> можна взяти тільки ту частину аргументів, яка необхідна,
+оголосивши параметри до <code>rest</code>. Всі аргументи, для яких будуть оголошені
+параметри, передадуть їм свої значення, всі інші будуть поміщені в масив <code>Args</code>.</p>
+<p><div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p> Операція <code>rest</code> збирає решту аргументів і тому має
+йти останньою в підпису функції, інакше буде помилка. </p>
+</div></div></p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">add</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">value<span class="token punctuation">,</span> <span class="token operator">...</span>args</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// перший аргумент</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// масив всіх інших аргументів</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token function">add</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">add</span><span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h1 id="додаткові-матеріали">4. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://nitayneeman.com/posts/object-rest-and-spread-properties-in-ecmascript-2018/" target="_blank">Object Rest/Spread Properties in ES2018</a></li>
+<li><a href="https://davidwalsh.name/spread-operator" target="_blank">Great Uses of the Spread Operator</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Замикання · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html" class="active">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="замикання">1. Замикання</h1>
+<p><strong> Замикання (closure) </strong> - це зв'язок між функцією і її ланцюжком областей
+видимості.</p>
+<p>Цей механізм можливий завдяки лексичному оточенню. При виконанні функції, її
+лексичне оточення отримує посилання на ту область видимості, де функція була
+оголошена (зовнішнє лексичне оточення), тим самим отримуючи доступ до змінних з
+неї, буквально утримуючи в пам'яті таблицю доступних змінних.</p>
+<p>Разом, замикання це термін який описує здатність функції запам'ятовувати
+лексичне оточення в якому вона була оголошена, і продовжувати отримувати доступ
+до змінних з цього лексичного оточення незалежно від того де вона була
+викликана.</p>
+<p>Розглянемо приклад функції-лічильника з недоступною із зовні змінної.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">createCounter</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">/*
+   * Локальна змінна privateValue доступна тільки в замиканні.
+   * Отримати до неї доступ в зовнішньому коді неможливо.
+   */</span>
+  <span class="token keyword">let</span> privateValue <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">const</span> <span class="token function-variable function">increment</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    privateValue <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>privateValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>
+    increment<span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> counterA <span class="token operator">=</span> <span class="token function">createCounter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+counterA<span class="token punctuation">.</span><span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1</span>
+counterA<span class="token punctuation">.</span><span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 2</span>
+
+<span class="token keyword">const</span> counterB <span class="token operator">=</span> <span class="token function">createCounter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+counterB<span class="token punctuation">.</span><span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1</span>
+counterB<span class="token punctuation">.</span><span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 2</span>
+counterB<span class="token punctuation">.</span><span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 3</span>
+</code></pre>
+<p>У прикладі функція <code>createCounter</code> створює локальну змінну <code>privateValue</code>, а
+також локальну функцію <code>increment</code>, яка збільшує значення <code>privateValue</code> і
+виводить значення в консоль.</p>
+<p>Функція <code>increment</code> не містить власної локальної змінної <code>privateValue</code>, але
+завдяки механізму замикання їй доступна змінна з зовнішнього оточення функції
+<code>createCounter</code>. В результаті вона може користуватися змінної <code>PrivateValue</code>,
+створеної під час виклику функції <code>createCounter</code>, навіть після того, як
+<code>increment</code> буде повернута з виклику <code>createCounter</code>.</p>
+<p>Якщо заглянути всередину <code>counterA</code> і <code>counterB</code> використовуючи
+<code>console.dir ()</code>, наочно видно механізм замикання.</p>
+<p><img src="images/counter-closure.png" alt="closure"></p>
+<p>Напишемо функцію приготування кухарем нікого страви.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">makeDish</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">shefName<span class="token punctuation">,</span> dish</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>shefName<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> is cooking </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>dish<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token function">makeDish</span><span class="token punctuation">(</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'apple pie'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Mango is cooking apple pie</span>
+<span class="token function">makeDish</span><span class="token punctuation">(</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'fish'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Mango is cooking fish</span>
+<span class="token function">makeDish</span><span class="token punctuation">(</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'beef stew'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Mango is cooking beef stew</span>
+
+<span class="token function">makeDish</span><span class="token punctuation">(</span><span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'muffins'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Poly is cooking muffins</span>
+<span class="token function">makeDish</span><span class="token punctuation">(</span><span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'pork chops'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Poly is cooking pork chops</span>
+<span class="token function">makeDish</span><span class="token punctuation">(</span><span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'roast beef'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Poly is cooking roast beef</span>
+</code></pre>
+<p>Проблема такого підходу в тому, що при кожному виклику функції доводиться
+передавати ім'я кухаря який буде готувати страву. Розв'язати цю проблему можна
+використовуючи замикання. Пишемо функцію створення шефа з ім'ям, яка повертає
+іншу функцію для приготування страви.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">makeShef</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">/*
+   * Параметр name це локальна змінна для функції makeShef.
+   * Це означає що вона буде доступна функції makeDish через замикання.
+   */</span>
+  <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token function">makeDish</span><span class="token punctuation">(</span><span class="token parameter">dish</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> is cooking </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>dish<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> mango <span class="token operator">=</span> <span class="token function">makeShef</span><span class="token punctuation">(</span><span class="token string">'Mango'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">mango</span><span class="token punctuation">(</span><span class="token string">'apple pie'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Mango is cooking apple pie</span>
+<span class="token function">mango</span><span class="token punctuation">(</span><span class="token string">'beef stew'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Mango is cooking beef stew</span>
+
+<span class="token keyword">const</span> poly <span class="token operator">=</span> <span class="token function">makeShef</span><span class="token punctuation">(</span><span class="token string">'Poly'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">poly</span><span class="token punctuation">(</span><span class="token string">'pancakes'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Poly is cooking pancakes</span>
+<span class="token function">poly</span><span class="token punctuation">(</span><span class="token string">'eggs and bacon'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Poly is cooking eggs and bacon</span>
+</code></pre>
+<p>Подивимося в консоль.</p>
+<p><img src="images/shef-closure.png" alt="closure"></p>
+<h1 id="додаткові-матеріали">2. Додаткові матеріали</h1>
+<p>Вичерпна стаття по замиканнях від <strong> Preethi Kasireddy </strong>, по посиланнях нижче,
+обов'язкова до прочитання у вільний від вивчення основного матеріалу час.</p>
+<ul>
+<li><a href="https://medium.com/@sshambir/%D0%BE%D1%81%D0%B2%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC-%D0%B7%D0%B0%D0%BC%D1%8B%D0%BA%D0%B0%D0%BD%D0%B8%D1%8F-%D0%B2-javascript-5b83267ef7d1" target="_blank">Освоюємо замикання в Javascript (переклад ru)</a></li>
+<li><a href="https://medium.freecodecamp.org/lets-learn-javascript-closures-66feb44f6a44" target="_blank">Let’s Learn JavaScript Closures (оригинал en)</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

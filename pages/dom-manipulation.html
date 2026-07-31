@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Створення та видалення вузлів · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html" class="active">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="робота-з-dom-вузлами">1. Робота з DOM-вузлами</h1>
+<p>Використовуючи DOM API ми можемо не тільки вибирати вже існуючі, а й видаляти, а
+так само створювати нові елементи, після чого додавати їх в документ.</p>
+<h2 id="створення">1.1. Створення</h2>
+<pre class="language-"><code class="lang-bash">document.createElement<span class="token punctuation">(</span>tagName<span class="token punctuation">)</span>
+</code></pre>
+<p>Створює HTML-елемент за зазначеним іменем тега і повертає посилання на нього як
+результат свого виконання. <code>TagName</code> це рядок, який вказує тип створюваного
+елемента. Елемент створюється в пам'яті, в DOM його ще немає.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> heading <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'h1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>heading<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// <h1></h1></span>
+
+heading<span class="token punctuation">.</span>textContent <span class="token operator">=</span> <span class="token string">'This is a heading'</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>heading<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// <h1>This is a heading</h1></span>
+
+<span class="token keyword">const</span> image <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'img'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+image<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">'src'</span><span class="token punctuation">,</span> <span class="token string">'https://placeimg.com/640/480/nature'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+image<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">'alt'</span><span class="token punctuation">,</span> <span class="token string">'nature'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>image<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// <img src="https://placeimg.com/640/480/nature" alt="nature"></span>
+</code></pre>
+<h2 id="додавання">1.2. Додавання</h2>
+<p>Щоб створений елемент був відображений на сторінці, його необхідно додати до вже
+існуючого елементу в DOM. Припустимо, що додаємо в якийсь елемент <code>ParentElem</code>,
+для цього є методи.</p>
+<pre class="language-"><code class="lang-bash">parentElem.appendChild<span class="token punctuation">(</span>elem<span class="token punctuation">)</span>
+</code></pre>
+<p>Додає <code>elem</code> в кінець дочірніх елементів <code>parentElem</code>.</p>
+<pre class="language-"><code class="lang-bash">parentElem.insertBefore<span class="token punctuation">(</span>elem, nextSibling<span class="token punctuation">)</span>
+</code></pre>
+<p>Додає <code>elem</code> в колекцію дітей <code>parentElem</code>, перед елементом <code>nextSibling</code>. Якщо
+другим аргументом вказати <code>null</code>, тоді <code>insertBefore</code> спрацює як <code>appendChild</code>.</p>
+<p><a href="https://codepen.io/goit-fe-adv/pen/zdgLmN/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p>Якщо елемент для вставки це існуючий вузол, то він
+вилучається зі свого старого місця і ставиться на нове. Звідси випливає
+правило - один і той же вузол не може бути одночасно в двох місцях.</p>
+</div></div></p>
+<h3 id="методи-appendprepend-beforeafter-replacewith">1.2.1. Методи append/prepend, before/after, replaceWith</h3>
+<p>Є методи які дозволяють вставити що завгодно і куди завгодно. У всіх цих
+методах, <code>nodes</code> - DOM-вузли або рядки, в будь-якому поєднанні і кількості.
+Причому рядки вставляються як текстові вузли.</p>
+<ul>
+<li><code>elem.append(nodes)</code> - додає <code>nodes</code> в кінець <code>elem</code></li>
+<li><code>elem.prepend(nodes)</code> - додає <code>nodes</code> на початок <code>elem</code></li>
+<li><code>elem.after(nodes)</code> - додає <code>nodes</code> після вузла <code>elem</code></li>
+<li><code>elem.before(nodes)</code> - додає <code>nodes</code> перед вузлом <code>elem</code></li>
+<li><code>elem.replaceWith(nodes)</code> - додає <code>nodes</code> замість <code>elem</code></li>
+</ul>
+<p><a href="https://codepen.io/goit-fe-adv/pen/VzoEXa/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<h2 id="видалення">1.3. Видалення</h2>
+<p>Для того щоб видалити вузол існують два методи. Перший, більш старий метод
+працює у всіх браузерах, дозволяє видалити дитину <code>elem</code> з батьків <code>Parent</code>. В
+такому випадку необхідно мати посилання як на батька так і на дитину.</p>
+<pre class="language-"><code class="lang-bash">parent.removeChild<span class="token punctuation">(</span>elem<span class="token punctuation">)</span>
+</code></pre>
+<p>Більш сучасний метод, але з гарантованою підтримкою тільки в нових браузерах,
+він викликається на самому елементі <code>elem</code> який необхідно видалити.</p>
+<pre class="language-"><code class="lang-bash">elem.remove<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p><a href="https://codepen.io/goit-fe-adv/pen/MvNBde/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<h2 id="клонування">1.4. Клонування</h2>
+<p>Уявімо що у нас є елемент з текстом, і ми хочемо вставити такий же елемент в
+іншу частину документа. Ми вже знаємо що кожен елемент може існувати в
+<code>document</code> в одному екземплярі. Але елемент можна клонувати і працювати з цим
+клоном (точною копією).</p>
+<p>Так само ми могли б створити новий елемент і працювати з ним, але в ряді
+випадків набагато ефективніше клонувати існуючий, а потім змінити текст
+всередині. Зокрема, якщо елемент великий, то клонувати його буде швидше, ніж
+перестворити.</p>
+<pre class="language-"><code class="lang-bash">elem.cloneNode<span class="token punctuation">(</span>true<span class="token punctuation">)</span>
+</code></pre>
+<p>Створить глибоку копію елемента - разом з атрибутами, включаючи всі піддерево.
+Якщо ж викликати з аргументом <code>false</code>, то копія буде зроблена без дочірніх
+елементів.</p>
+<p><a href="https://codepen.io/goit-fe-adv/pen/JygaNZ/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<h1 id="властивість-innerhtml">2. Властивість innerHTML</h1>
+<p>Ще один спосіб створити DOM-елементи і помістити їх в дерево це використовувати
+рядки і дозволити браузеру зробити всю важку роботу. Як ми побачимо далі, у
+такого підходу є свої плюси і мінуси.</p>
+<h2 id="створення-вузлів">2.1. Створення вузлів</h2>
+<p><code>elem.innerHTML</code> — властивість, дозволяє отримати вміст елемента, включаючи
+теги, у вигляді рядка. Значення, що повертається <code>innerHTML</code> — завжди валідний
+HTML-код.</p>
+<p>Воно є як для читання так і для запису. Якщо записати в <code>innerHTML</code> елемента
+рядок з HTML-тегами, то браузер її розпарсить і перетворить їх в валідні
+DOM-вузли.</p>
+<pre class="language-"><code class="lang-js">elem<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token string">'<p class="text">Pellentesque habitant.</p>'</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Такий код говорить браузеру розпарсити рядок, перевірити на наявність тегів,
+якщо знайшов такі то створити DOM-елементи і вставити їх в правильному порядку.
+При такому підході, на відміну від <code>createElement</code>, ми не отримуємо посилання на
+створений DOM-елемент. Водночас, створювати багато розмітки простіше.</p>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p> Зміна <code>innerHTML</code> повністю видалить і перестворить всіх
+нащадків контейнера. В результаті ми отримуємо додаткові витрати на серіалізацію
+вже існуючої розмітки, що не дуже добре.</p>
+</div></div></p>
+<p><a href="https://codepen.io/goit-fe-adv/pen/QMeVyj/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<h1 id="метод-insertadjacenthtml">3. Метод insertAdjacentHTML()</h1>
+<p>Метод парсит зазначений рядок як HTML і додає результуючі вузли в вказане місце
+DOM-дерева. Чи не робить повторний рендеринг для існуючих елементів всередині
+елемента-батька на якому використовується. Це дозволяє уникнути додаткового
+етапу серіалізації, роблячи його швидше, ніж безпосередня маніпуляція
+<code>innerHTML</code>.</p>
+<pre class="language-"><code class="lang-bash">element.insertAdjacentHTML<span class="token punctuation">(</span>position, string<span class="token punctuation">)</span>
+</code></pre>
+<p><code>position</code> — позиція щодо елемента. Приймає одне з таких значень:</p>
+<ul>
+<li><code>'beforebegin'</code> - перед element</li>
+<li><code>'afterbegin'</code> - всередину element, в самий початок контента</li>
+<li><code>'beforeend'</code> - всередину element, в самий кінець контенту</li>
+<li><code>'afterend'</code> - після element</li>
+</ul>
+<p><img src="images/insertadjacent.png" alt="inserAdjacentHTML"></p>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>beforebegin</code> і <code>afterend</code> працюють тільки в тому
+випадку, якщо вузол вже знаходиться в DOM-дереві і має батьківський
+елемент.</p>
+</div></div></p>
+<p><a href="https://codepen.io/goit-fe-adv/pen/jLgQyR/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<p>У цього методу є брати-близнюки. Їх синтаксис, за винятком останнього параметра,
+повністю збігається з <code>insertAdjacentHTML</code>. Разом вони утворюють універсальний
+швейцарський ніж для вставки чого завгодно куди завгодно.</p>
+<ul>
+<li><code>elem.insertAdjacentElement(position, elem)</code> — вставляє в довільне місце не
+HTML-строку, а елемент <code>elem</code>.</li>
+<li><code>elem.insertAdjacentText(position, text)</code> — створює текстовий вузол з рядка
+<code>text</code> і вставляє його в зазначене місце щодо <code>elem</code>.</li>
+</ul>
+<h1 id="оптимізація-роботи-с-dom">4. Оптимізація роботи с DOM</h1>
+<p>Маніпуляція DOM-дерева це дорога операція. Необхідно всіма можливими методами
+намагатися мінімізувати кількість звернень до DOM. Розберемося з дуже важливими
+концепціями при роботі c DOM-деревом.</p>
+<p><a href="https://youtu.be/dndeRnzkJDU" target="_blank">Як браузер малює сторінку</a></p>
+<h2 id="repaint">4.1. Repaint</h2>
+<p>Відбувається коли зміни відбулися в стилях елемента впливають на зовнішній
+вигляд, але не на геометрію. Наприклад, <code>opacity</code>,<code>background-color</code>,
+<code>visibility</code> і <code>Outline</code>. Браузер відмальовує його заново, з урахуванням нового
+стилю. Це дорога операція, тому що браузер перевіряє видимість всіх інших вузлів
+в дереві, один або більше можуть виявитися приховані під змінений зовнішній
+вигляд.</p>
+<h2 id="reflow">4.2. Reflow</h2>
+<p>Відбувається коли зміни зачіпають вміст, структуру документа, становище
+елементів. Йде перерахунок позиціювання і розмірів всіх елементів, що веде до
+перемальовування частини або всього документа. Зміни розміру одного
+батьківського контейнера вплине на всіх його дітей і предків. Має значно більший
+вплив на продуктивність ніж <code>repaint</code>.</p>
+<h2 id="висновки">4.3. Висновки</h2>
+<p>Завжди необхідно думати про оптимізацію роботи з DOM. Всі перераховані вище
+операції блокують браузер. Сторінка не може виконувати ніякі інші операції в той
+час, коли відбувається <code>reflow</code> або <code>repaint</code>. Причинами таких змін зазвичай є:</p>
+<ul>
+<li>Маніпуляції з DOM (додавання, видалення, зміна, перестановка елементів)</li>
+<li>Зміна вмісту, в т.ч. тексту в полях форм</li>
+<li>Розрахунок або зміна CSS-властивостей</li>
+<li>Додавання та видалення таблиць стилів</li>
+<li>Маніпуляції з атрибутом <code>class</code></li>
+<li>Маніпуляції з вікном браузера (зміни розмірів, прокрутка)</li>
+<li>Активація псевдокласів (наприклад <code>: hover</code>)</li>
+</ul>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p> Сучасні браузери оптимізують процес відтворення сторінки
+без втручання розробника. І все ж не забувайте думати про продуктивність,
+дотримуйтесь кращим практикам зі статей в додаткових матеріалах цієї
+секції.</p>
+</div></div></p>
+<h2 id="додаткові-матеріали">4.4. Додаткові матеріали</h2>
+<ul>
+<li><a href="https://habr.com/post/224187/" target="_blank">Візуалізація WEB-сторінки: що про це повинен знати front-end розробник</a></li>
+<li><a href="https://blog.usejournal.com/what-the-heck-is-repaint-and-reflow-in-the-browser-b2d0fb980c08" target="_blank">Understanding Repaint and Reflow in JavaScript</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/performance/rendering/avoid-large-complex-layouts-and-layout-thrashing" target="_blank">Avoid Large, Complex Layouts and Layout Thrashing</a></li>
+<li><a href="https://www.sitepoint.com/10-ways-minimize-reflows-improve-performance/" target="_blank">10 Ways to Minimize Reflows and Improve Performance</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

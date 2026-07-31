@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Методи масиву · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html" class="active">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="методи-split-і-join">1. Методи split() і join()</h1>
+<p><code>split(s)</code> — дозволяє перетворити рядок в масив, розбивши її по розподілу <code>s</code>.
+Це не метод масиву, але розглядаємо ми його зараз так, як раніше про масиви не знали.</p>
+<p><code>join(s)</code> — робить в точності протилежне <code>split</code>. Він бере масив і склеює його в рядок, використовуючи <code>s</code> як роздільник.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// split</span>
+<span class="token keyword">const</span> message <span class="token operator">=</span> <span class="token string">'Welcome to Bahamas!'</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Розбиває рядок по розмежовувачу, в такому випадку це пробіл</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["Welcome", "to", "Bahamas!"]</span>
+
+<span class="token comment">// Виклик split з нового рядка розіб'є по буквах</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [багато букв :)]</span>
+
+<span class="token comment">// join</span>
+<span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Зшиє всі елементи масиву в рядок,</span>
+<span class="token comment">// між кожною парою елементів буде вказаний роздільник</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "Mango Poly Ajax"</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">','</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "Mango,Poly,Ajax"</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">'-'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "Mango-Poly-Ajax"</span>
+</code></pre>
+<h1 id="методи-indexof-і-includes">2. Методи indexOf() і includes()</h1>
+<p><code>array.indexOf(x)</code> — повертає перший індекс, в якому елемент <code>x</code> був знайдений в масиві, або число <code>-1</code>, якщо такого елемента немає. Використовуйте <code>indexOf</code>
+тоді, коли необхідно отримати безпосередньо індекс елемента.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Kiwi'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'Poly'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 2</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'Monkong'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// -1</span>
+</code></pre>
+<p><code>array.includes(x)</code> — визначає, чи містить масив деякий елемент <code>x</code>,
+повертаючи <code>true</code> або <code>false</code> відповідно. Використовуйте <code>includes</code> тоді, коли необхідно перевірити, чи є елемент в масиві і не важливий його порядковий номер.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Kiwi'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span><span class="token string">'Poly'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span><span class="token string">'Monkong'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+</code></pre>
+<h2 id="перевірка-множинних-умов-з-includes">2.1. Перевірка множинних умов з includes()</h2>
+<p>На перший погляд приклад нижче виглядає цілком добре. Однак, що якщо у нас буде більше червоних фруктів, наприклад ще вишня (cherry) або журавлина (cranberries)? Чи будемо ми розширювати умову за допомогою додаткових <code>||</code>?</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> fruit <span class="token operator">=</span> <span class="token string">'apple'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>fruit <span class="token operator">===</span> <span class="token string">'apple'</span> <span class="token operator">||</span> fruit <span class="token operator">===</span> <span class="token string">'strawberry'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'It is a red fruit!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Можемо переписати умову, з використанням <code>Array.includes</code>, це дуже просто і масштабовано.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Виносимо варіанти в масив</span>
+<span class="token keyword">const</span> redFruits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'apple'</span><span class="token punctuation">,</span> <span class="token string">'strawberry'</span><span class="token punctuation">,</span> <span class="token string">'cherry'</span><span class="token punctuation">,</span> <span class="token string">'cranberries'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> fruit <span class="token operator">=</span> <span class="token string">'cherry'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>redFruits<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span>fruit<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  сonsole<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'It is a red fruit!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h1 id="методи-push-pop-shift-unshift">3. Методи push(), pop(), shift(), unshift()</h1>
+<p>Додають або видаляють крайні елементи масиву. Працюють тільки з крайнім лівим і крайнім правим елементом масиву, і не можуть поставити або видалити елемент з довільної позиції. Для наочності погляньте на ілюстрацію нижче.</p>
+<p><img src="images/arr-methods.jpg" alt="array methods"></p>
+<h2 id="push-і-pop">3.1. push і pop</h2>
+<p><code>push()</code> — дозволяє додати один або кілька елементів в кінець масиву. Метод повертає значення властивості <code>length</code>, яке визначає кількість елементів в масиві.</p>
+<p><img src="images/push.png" alt="push"></p>
+<p><code>pop()</code> — видаляє елемент з кінця масиву і повертає видалений елемент. Якщо масив порожній, метод повертає <code>undefined</code>.</p>
+<p><img src="images/pop.png" alt="pop"></p>
+<p>У прикладі кодом описані ілюстрації вище, перші 3 кроки. Створюється порожній масив з ім'ям <code>stack</code> і в кінець масиву додається три числа, одне за іншим використовуючи <code>push()</code>, потім вони видаляються використовуючи <code>pop()</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Створюємо порожній масив</span>
+<span class="token keyword">const</span> stack <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// подаємо елементи в кінець масиву</span>
+stack<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>stack<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [1]</span>
+
+stack<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>stack<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [1, 2]</span>
+
+stack<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>stack<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [1, 2, 3]</span>
+
+<span class="token comment">// Видаляємо елементи з кінця масиву</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//  3</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>stack<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [1, 2]</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//  2</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>stack<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [1]</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//  1</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>stack<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// []</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//  undefined</span>
+</code></pre>
+<h2 id="shift-і-unshift">3.2. shift() і unshift()</h2>
+<p>Рідше використовуються методи <code>shift</code> і <code>unshift</code>.</p>
+<ul>
+<li><code>shift()</code> — видаляє елемент з початку масиву і повертає його (елемента) значення.</li>
+<li><code>unshift()</code> — додає елемент в початок масиву.</li>
+</ul>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">.</span><span class="token function">shift</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Mango</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["Ajax", "Poly"]</span>
+
+clients<span class="token punctuation">.</span><span class="token function">unshift</span><span class="token punctuation">(</span><span class="token string">'Kiwi'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["Kiwi", "Ajax", "Poly"]</span>
+</code></pre>
+<h1 id="метод-slice">4. Метод slice()</h1>
+<p>Синтаксис метода <code>slice()</code> однаковий для рядків і масивів. Його просто запам'ятати. Він дозволяє отримувати елементи підмножини масиву і додавати їх в новий масив. У більшості випадків використовується для створення копії частини або цілого вихідного масиву.</p>
+<pre class="language-"><code class="lang-bash">slice<span class="token punctuation">(</span>begin, end<span class="token punctuation">)</span>
+</code></pre>
+<p>Копіює елементи від <code>begin</code>, до, але не ключа, <code>end</code>.</p>
+<p><img src="images/slice.png" alt="slice method"></p>
+<ul>
+<li>Обидва аргументи (<code>begin</code> і <code>end</code>) не обов'язкові.</li>
+<li>Параметр <code>begin</code> визначає індекс, з якого слід починати витяг.</li>
+<li>Параметр <code>end</code>, визначає індекс елемента, на якому слід закінчити витяг. Метод <code>slice</code> не включає елемент з індексом <code>end</code> у витягнуті елементи.</li>
+<li>Якщо <code>begin</code> і <code>end</code> не вказані, копіювання буде з початку масиву, з індексу
+<code>0</code>, - тобто скопіюється весь масив.</li>
+<li>Якщо не вказати параметр <code>end</code>, метод <code>slice</code> буде використовувати довжину масиву
+(<code>length</code>) для параметра <code>end</code>.</li>
+<li>Метод <code>slice</code> не змінює вихідний масив, а повертає новий масив, що містить копію елементів вихідного.</li>
+<li>Можна використовувати негативні індекси, вони рахуються з кінця.</li>
+</ul>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Kiwi'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Поверне новий масив в якому будуть елементи з індексами від 1 до 2</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["Ajax", "Poly"]</span>
+
+<span class="token comment">// Поверне новий масив в якому будуть</span>
+<span class="token comment">// елементи з індексами від 1 до (clients.length - 1)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["Ajax", "Poly", "Kiwi"]</span>
+
+<span class="token comment">// Поверне копію вихідного масиву</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["Mango", Ajax", "Poly", "Kiwi"]</span>
+
+<span class="token comment">// Поверне новий масив складаються з останніх двох елементом вихідного</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["Poly", "Kiwi"]</span>
+</code></pre>
+<h1 id="метод-splice">5. Метод splice()</h1>
+<p><code>splice()</code> — швейцарський ніж для роботи з масивами, в тому випадку, якщо вихідний масив необхідно змінити. Дозволяє видаляти, додавати і замінювати елементи в довільному місці масиву.</p>
+<h2 id="видалення-елементів-масиву">5.1. Видалення елементів масиву</h2>
+<p>Щоб видалити елементи в масиві, передаються два аргументи.</p>
+<pre class="language-"><code class="lang-bash">splice<span class="token punctuation">(</span>position, num<span class="token punctuation">)</span>
+</code></pre>
+<ul>
+<li><code>position</code> — вказує позицію (індекс) першого елемента для видалення</li>
+<li><code>num</code> — визначає кількість видаляються елементів</li>
+</ul>
+<p>Метод <code>splice</code> змінює вихідний масив і повертає масив, що містить видалені елементи.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Припустимо, у нас є масив оцінок, який містить п'ять чисел від 1 до 5.</span>
+<span class="token keyword">const</span> scores <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Наступна операція видаляє три елементи масиву,</span>
+<span class="token comment">// починаючи з першого елемента (індекс 0).</span>
+<span class="token keyword">const</span> deletedScores <span class="token operator">=</span> scores<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Тепер масив scores містить два елементи.</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>scores<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [4, 5]</span>
+
+<span class="token comment">// А масив deletedScores містить три віддалених елементів.</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>deletedScores<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [1, 2, 3]</span>
+</code></pre>
+<p>На малюнку показаний виклик методу <code>score.splice(0, 3)</code> з прикладу вище.</p>
+<p><img src="images/splice-remove.png" alt="splice method"></p>
+<h2 id="додавання-елементів-в-масив">5.2. Додавання елементів в масив</h2>
+<p>Ви можете вставити один або декілька елементів в масив, передавши три або більше аргументу методу <code>splice</code>, при цьому другий аргумент повинен бути рівний нулю.</p>
+<pre class="language-"><code class="lang-bash">splice<span class="token punctuation">(</span>position, 0, new_element_1, new_element_2, <span class="token punctuation">..</span>.<span class="token punctuation">)</span>
+</code></pre>
+<ul>
+<li>Аргумент <code>position</code> вказує початкову позицію в масиві, в якій будуть вставлені нові елементи.</li>
+<li>Другий аргумент дорівнює нулю <code>0</code>, він говорить методу не видаляти будь-які елементи.</li>
+<li>Третій, четвертий і всі наступні аргументи - це нові елементи, які вставляються в масив.</li>
+</ul>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p> Зверніть увагу, що метод <code>splice</code> змінює вихідний масив. Крім того, він не видаляє будь-які елементи, тому в цьому випадку повертається порожній масив.</p>
+</div></div></p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Припустимо, що у вас є масив з назвами квітів у вигляді рядків.</span>
+<span class="token keyword">const</span> colors <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'red'</span><span class="token punctuation">,</span> <span class="token string">'green'</span><span class="token punctuation">,</span> <span class="token string">'blue'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Наступна операція поміщає один новий елемент перед другим елементом.</span>
+colors<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'purple'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Тепер масив квітів містить чотири елементи</span>
+<span class="token comment">// з новим елементом, вставленим в другу позицію.</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>colors<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["red", "green", "purple", "blue"]</span>
+
+<span class="token comment">// Ви можете вставити більше одного елемента, передавши четвертий, п'ятий аргумент і т. д.</span>
+colors<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'yellow'</span><span class="token punctuation">,</span> <span class="token string">'pink'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>На малюнку показаний виклик методу <code>colors.splice(2, 0, 'purple')</code> з прикладу вище.</p>
+<p><img src="images/splice-insert.png" alt="splice method"></p>
+<h2 id="заміна-елементів-масиву">5.3. Заміна елементів масиву</h2>
+<p>Метод <code>splice()</code> також дозволяє вставити нові елементи в масив при одночасному видаленні існуючих елементів.</p>
+<p>Для цього необхідно передати принаймні три аргументи: другим - кількість елементів для видалення, а третім - елементи для вставки. Кількість видалених і додаються елементів може не збігатися.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Припустимо, у вас є масив мов програмування з чотирьох елементів.</span>
+<span class="token keyword">const</span> languages <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'C'</span><span class="token punctuation">,</span> <span class="token string">'C++'</span><span class="token punctuation">,</span> <span class="token string">'Java'</span><span class="token punctuation">,</span> <span class="token string">'JavaScript'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Наступна операція замінює другий елемент на новий.</span>
+languages<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'Python'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// У масиві мов тепер все ще чотири елементи,</span>
+<span class="token comment">// але другий елемент тепер «Python» замість «C++».</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>languages<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["C", "Python", "Java", "JavaScript"]</span>
+
+<span class="token comment">// Ви можете замінити один елемент на кілька елементів,</span>
+<span class="token comment">// передавши більше аргументів</span>
+languages<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'C#'</span><span class="token punctuation">,</span> <span class="token string">'Swift'</span><span class="token punctuation">,</span> <span class="token string">'Go'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>languages<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// ["C", "Python", "C#", "Swift", "Go", "JavaScript"]</span>
+</code></pre>
+<p>На малюнку показаний виклик методу <code>languages.splice(1, 1, 'Python')</code> з прикладу вище.</p>
+<p><img src="images/splice-replace.png" alt="splice method"></p>
+<h1 id="метод-concat">6. Метод concat()</h1>
+<p>Використовується для об'єднання двох або більше масивів. Цей метод не змінює вихідний масив, а повертає новий.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> oldClients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Kiwi'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> newClients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Monkong'</span><span class="token punctuation">,</span> <span class="token string">'Singu'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> allClients <span class="token operator">=</span> oldClients<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>newClients<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>allClients<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// ["Mango", "Ajax", "Poly", "Kiwi", "Monkong", "Singu"]</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>oldClients<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// ["Mango", "Ajax", "Poly", "Kiwi"]</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>newClients<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// ["Monkong", "Singu"]</span>
+</code></pre>
+  </main>
+</div>
+</body>
+</html>

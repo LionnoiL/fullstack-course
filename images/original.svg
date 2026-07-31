@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="400"
+   height="400"
+   viewBox="0 0 105.83333 105.83333"
+   version="1.1"
+   id="svg5870"
+   inkscape:version="0.92.1 r15371"
+   sodipodi:docname="paper.svg">
+  <defs
+     id="defs5864" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="-58.571429"
+     inkscape:cy="560"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="0"
+     inkscape:window-y="26"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5867">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-191.16667)">
+    <rect
+       style="fill:#d5c0e1;fill-opacity:1;stroke:#5c3566;stroke-width:1.47512805;stroke-miterlimit:1.29999995;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4485"
+       width="64.158195"
+       height="86.532867"
+       x="20.081614"
+       y="203.31163" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:9.42547512px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.23563686"
+       x="35.229858"
+       y="226.77618"
+       id="text4489"
+       transform="scale(1.0287757,0.97202917)"><tspan
+         sodipodi:role="line"
+         id="tspan4487"
+         x="35.229858"
+         y="226.77618"
+         style="stroke-width:0.23563686">Hello</tspan><tspan
+         sodipodi:role="line"
+         x="35.229858"
+         y="238.55803"
+         style="stroke-width:0.23563686"
+         id="tspan4491">World!</tspan></text>
+  </g>
+</svg>

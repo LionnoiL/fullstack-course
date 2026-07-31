@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Розгалуження · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html" class="active">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="оператори-розгалуження">1. Оператори розгалуження</h1>
+<p>Логічні оператори не можуть самостійно управляти потоком виконання програми, для
+цього використовуються розгалуження. Всі вони влаштовані за одним принципом -
+вхідні дані приводяться до булю (<code>true</code> або <code>false</code>) і, в залежності від
+результату цього значення, потік програми направляється в ту чи іншу гілку.</p>
+<h1 id="інструкція-if">2. Інструкція if</h1>
+<p><img src="images/if.svg" alt="Синтаксис if"></p>
+<p>Вхідні дані, які приводяться до булевого типу називаються <strong>умовою</strong>. Умову поміщають за оператором <code>if</code> у круглих дужках. Якщо умова приводиться до <code>true</code>, то виконується код в фігурних дужках (гілка).</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">let</span> cost <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> subscription <span class="token operator">=</span> <span class="token string">'pro'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>subscription <span class="token operator">===</span> <span class="token string">'pro'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  cost <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>cost<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 100</span>
+</code></pre>
+<p>Якщо умова приводиться до <code>false</code>, код у фігурних дужках буде пропущений.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">let</span> cost <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> subscription <span class="token operator">=</span> <span class="token string">'free'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>subscription <span class="token operator">===</span> <span class="token string">'pro'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  cost <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>cost<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 0</span>
+</code></pre>
+<h2 id="інструкція-ifelse">2.1. Інструкція if...else</h2>
+<p><img src="images/if-else.svg" alt="Синтаксис if...else"></p>
+<p>Розширює синтаксис оператора <code>if</code> тим, що в разі якщо умова приводиться до
+<code>false</code>, виконається код у фігурних дужках після оператора <code>else</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">let</span> cost<span class="token punctuation">;</span>
+<span class="token keyword">const</span> subscription <span class="token operator">=</span> <span class="token string">'free'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>subscription <span class="token operator">===</span> <span class="token string">'pro'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  cost <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+  cost <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>cost<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 0</span>
+</code></pre>
+<p>При <code>true</code>, оператор <code>else</code> і пов'язаний з ним програмний блок, ігноруються.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">let</span> cost<span class="token punctuation">;</span>
+<span class="token keyword">const</span> subscription <span class="token operator">=</span> <span class="token string">'pro'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>subscription <span class="token operator">===</span> <span class="token string">'pro'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  cost <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+  cost <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>cost<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 100</span>
+</code></pre>
+<h2 id="інструкція-elseif">2.2. Інструкція else...if</h2>
+<p><img src="images/if-else-if.svg" alt="Синтаксис else...if"></p>
+<p>Розширює синтаксис оператора <code>if...else</code> тим, що після <code>else</code> знову додається
+оператор <code>if</code>. На перший погляд код з безлічі подібних вкладень здається
+складним. Насправді все відгалуження це результат <code>false</code> на всі попередні
+питання.</p>
+<p>При першому ж <code>true</code> перевірки припиняються і виконується тільки один сценарій, відповідний цьому <code>true</code>. Тому подібний запис слід читати як: шукаю перший збіг
+умови, ігнорую все інше.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">let</span> cost<span class="token punctuation">;</span>
+<span class="token keyword">const</span> subscription <span class="token operator">=</span> <span class="token string">'premium'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>subscription <span class="token operator">===</span> <span class="token string">'free'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  cost <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>subscription <span class="token operator">===</span> <span class="token string">'pro'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  cost <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>subscription <span class="token operator">===</span> <span class="token string">'premium'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  cost <span class="token operator">=</span> <span class="token number">500</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Invalid subscription type'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>cost<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 500</span>
+</code></pre>
+<h1 id="тернарний-оператор">3. Тернарний оператор</h1>
+<p>Є конструкція, схожа на <code>if...else</code>, і спрощеним синтаксисом, що називається тернарним оператором (ternary - потрійний).</p>
+<pre class="language-"><code class="lang-shell"><span class="token punctuation">{</span>умова<span class="token punctuation">}</span> ? <span class="token punctuation">{</span>вираз якщо умова правдива<span class="token punctuation">}</span> <span class="token keyword">:</span> <span class="token punctuation">{</span>вираз якщо умова не правдива<span class="token punctuation">}</span>
+</code></pre>
+<p>Така конструкція працює наступним чином:</p>
+<ul>
+<li>Обчислюється умова</li>
+<li>Якщо умова <code>істинна (true)</code>, обчислюється вираз після <code>?</code>, в іншому випадку
+значення після <code>:</code></li>
+<li>Результат обчисленого виразу повертається</li>
+</ul>
+<pre class="language-"><code class="lang-js"><span class="token keyword">let</span> type<span class="token punctuation">;</span>
+<span class="token keyword">const</span> age <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>age <span class="token operator">>=</span> <span class="token number">18</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  type <span class="token operator">=</span> <span class="token string">'adult'</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+  type <span class="token operator">=</span> <span class="token string">'child'</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Перепишемо приклад використовуючи тернарний оператор.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> age <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> type <span class="token operator">=</span> age <span class="token operator">>=</span> <span class="token number">18</span> <span class="token operator">?</span> <span class="token string">'adult'</span> <span class="token punctuation">:</span> <span class="token string">'child'</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Запишемо операцію пошуку більшого числа.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> num1 <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> num2 <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> biggerNumber<span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>num1 <span class="token operator">></span> num2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  biggerNumber <span class="token operator">=</span> num1<span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+  biggerNumber <span class="token operator">=</span> num2<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>biggerNumber<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 10</span>
+</code></pre>
+<p>Код працює вірно, отримуємо більше число з двох, але це рішення здається занадто
+громіздким, враховуючи, наскільки проста проблема. Що робити? Використовуємо
+тернарний оператор.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> num1 <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> num2 <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> biggerNumber <span class="token operator">=</span> num1 <span class="token operator">></span> num2 <span class="token operator">?</span> num1 <span class="token punctuation">:</span> num2<span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>biggerNumber<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 10</span>
+</code></pre>
+<p><div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Тернарний оператор повинен використовуватися в простих операціях привласнення або повернення. Його використання для опису складних
+розгалужень - погана практика (антипатерн).</p>
+</div></div></p>
+<h1 id="інструкція-switch">4. Інструкція switch</h1>
+<p>У деяких випадках складності читання логічних конструкцій можна уникнути,
+використовуючи оператор розгалуження <code>switch</code>. Синтаксис цього оператора
+розбиває умова на загальну частину <code>switch</code> і безліч окремих випадків <code>case</code>.
+Тобто застосовність цього оператора обмежена тільки завданнями з одним загальним
+питанням і безліччю варіантів відповідей.</p>
+<p><img src="images/switch.svg" alt="Оператор розгалуження switch"></p>
+<p>Значення виразу - рядок або число, яке порівнюється з усіма значеннями <code>case</code>.
+Якщо збігу не відбулося, управління передається <code>default</code>. Оператор <code>break</code> в
+завершенні кожного блоку <code>case</code> ставлять, щоб перервати подальші перевірки та
+одразу перейти до коду за інструкцією <code>switch</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">let</span> cost<span class="token punctuation">;</span>
+<span class="token keyword">const</span> subscription <span class="token operator">=</span> <span class="token string">'premium'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">switch</span> <span class="token punctuation">(</span>subscription<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">case</span> <span class="token string">'free'</span><span class="token punctuation">:</span>
+    cost <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">break</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">case</span> <span class="token string">'pro'</span><span class="token punctuation">:</span>
+    cost <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+    <span class="token keyword">break</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">case</span> <span class="token string">'premium'</span><span class="token punctuation">:</span>
+    cost <span class="token operator">=</span> <span class="token number">500</span><span class="token punctuation">;</span>
+    <span class="token keyword">break</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">default</span><span class="token punctuation">:</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Invalid subscription type'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>cost<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 500</span>
+</code></pre>
+<p>Якщо оператор <code>break</code> буде відсутній, то після того як виконається якась умова
+<code>case</code>, всі наступні за ним блоки коду будуть виконуватися один за іншим, що
+може призвести до небажаних наслідків при неправильному застосуванні.</p>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Події · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html" class="active">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="події">1. Події</h1>
+<p><strong>Подія</strong> – це сигнал від браузера про те, що щось сталося. Події
+використовуються для реакції на дії користувача і виконання коду. Події стають в
+чергу і обробляються в порядку надходження, асинхронно, незалежно.</p>
+<p>Існує багато видів подій, розглянемо деякі з них.</p>
+<ul>
+<li><code>click</code> - відбувається, коли клацнути на елемент лівою кнопкою миші</li>
+<li><code>submit</code> - відвідувач відправив форму</li>
+<li><code>focus</code> - відвідувач фокусується на елементі, наприклад натискає на <code>input</code></li>
+<li><code>keydown</code> - відвідувач натискає клавішу</li>
+</ul>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/Events" target="_blank">Список доступних подій</a></p>
+<h2 id="порядок-спрацьовування-подій">1.1. Порядок спрацьовування подій</h2>
+<p>Одна дія може викликати кілька подій. Наприклад, клік викликає спочатку
+<code>Mousedown</code>, а потім <code>mouseup</code> і <code>click</code>. У тих випадках, коли одна дія генерує
+кілька подій, їх порядок фіксований. Тобто, обробники викликаються в порядку
+<code>mousedown → mouseup → click</code>.</p>
+<p>Кожна подія обробляється незалежно. Наприклад, при кліці, події <code>mouseup</code> і
+<code>click</code> виникають одночасно, але обробляються послідовно. Спочатку повністю
+завершується опрацювання mouseup, потім запускається <code>click</code>.</p>
+<h1 id="слухачі-подій">2. Слухачі подій</h1>
+<p>Для того щоб елемент реагував на дії користувача, на нього необхідно повісити
+слухача (обробник) події. Тобто функцію, яка спрацює як тільки подія відбулася.
+Саме завдяки слухачам подій, скрипт може реагувати на дії користувача.</p>
+<p>Методи <code>elem.addEventListener ()</code> і <code>elem.removeEventListener ()</code> це сучасний
+спосіб призначити або видалити обробник, при цьому можна використовувати скільки
+завгодно оброблювачів на одному типі події.</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Overview_of_Events_and_Handlers" target="_blank">Overview of Events and Handlers</a></p>
+<h2 id="метод-elemaddeventlistener">2.1. Метод elem.addEventListener()</h2>
+<p>Додає слухача події на елемент.</p>
+<pre class="language-"><code class="lang-bash">element.addEventListener<span class="token punctuation">(</span>event, handler<span class="token punctuation">[</span>, phase<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<ul>
+<li><code>event</code> - ім'я події, рядок, наприклад <code>click</code></li>
+<li><code>handler</code> - посилання на функцію, яку треба поставити оброблювачем</li>
+<li><code>phase</code> - необов'язковий аргумент, фаза, на якій обробник повинен<br>спрацювати. Вказується вкрай рідко.</li>
+</ul>
+<p><a href="https://codepen.io/goit-fe-adv/pen/ayePLG/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<h3 id="addeventlistener-і-this">2.1.1. addEventListener і this</h3>
+<p>Якщо ми передаємо функцію яка використовує <code>this</code>, за замовчуванням <code>this</code>
+всередині неї буде посилатися на сам DOM-вузол на якому висить слухач. Не
+забувайте прив'язувати контекст використовуючи метод <code>bind</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> user <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Mango'</span><span class="token punctuation">,</span>
+  <span class="token function">showName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// this буде посилатися на button якщо використовувати showName як callback</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`My name is: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// тут undefined оскільки поля name у button немає</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * Уявімо що у нас є кнопка з класом js-btn
+ * Виберемо її і повісимо на неї слухач кліка
+ */</span>
+<span class="token keyword">const</span> btn <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'.js-btn'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+user<span class="token punctuation">.</span><span class="token function">showName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//працює</span>
+btn<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> user<span class="token punctuation">.</span>showName<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// не працює</span>
+btn<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> user<span class="token punctuation">.</span><span class="token function">showName</span><span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// працює</span>
+</code></pre>
+<h2 id="метод-elemremoveeventlistener">2.2. Метод elem.removeEventListener()</h2>
+<p>Видаляє слухача. Аргументи ті ж що у <code>addEventListener</code>.</p>
+<pre class="language-"><code class="lang-bash">element.removeEventListener<span class="token punctuation">(</span>event, handler<span class="token punctuation">[</span>, phase<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Для видалення потрібно передати посилання саме на ту функцію-обробник, яка була
+призначена в <code>addEventListener</code>. Тому для <code>callback</code> використовують окрему
+функцію і передають її на ім'я.</p>
+<p><a href="https://codepen.io/goit-fe-adv/pen/brXOOw/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<h1 id="обєкт-події">3. Об'єкт події</h1>
+<p>Щоб обробити подію, недостатньо знати про те, що це клік або натискання клавіші.
+Можуть знадобитися деталі: поточне значення текстового поля, елемент на якому
+відбулася подія, вбудовані методи і інше. Об'єкт події містить цінну інформацію
+про деталі події і автоматично передається першим аргументом в обробник події.</p>
+<p><a href="http://devdocs.io/dom/event" target="_blank">Документація об'єкта події</a></p>
+<p>Деякі властивості об'єкта події:</p>
+<ul>
+<li><code>event.type</code> - тип події</li>
+<li><code>event.target</code> - елемент, на якому відбулася подія</li>
+<li><code>event.currentTarget</code> - елемент, на якому спрацював обробник</li>
+</ul>
+<p><a href="https://codepen.io/goit-fe-adv/pen/LjwMva/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<h1 id="дії-браузера-за-замовчуванням">4. Дії браузера за замовчуванням</h1>
+<p>Деякі події автоматично викликають дію браузера вбудованого по замовчуванню як
+реакція на певний тип події: перехід по посиланню, відправка форми і т. п. Як
+правило їх можна, і часто потрібно, скасувати.</p>
+<p>Наприклад:</p>
+<ul>
+<li>Клік по посиланню ініціює перехід на новий URL вказаний в <code>href</code> посилання.</li>
+<li>Відправлення форми - перезавантаження сторінки.</li>
+</ul>
+<p>Для скасування дії браузера за замовчуванням, на об'єкті події є стандартний
+метод.</p>
+<pre class="language-"><code class="lang-bash">event.preventDefault<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<h2 id="подія-submit">4.1. Подія submit</h2>
+<p>Виникає при відправці форми. Його застосовують для валідації (перевірки) форми
+перед відправкою. Щоб відправити форму, у відвідувача є два способи:</p>
+<ul>
+<li>Натиснути кнопку з <code>type =" submit "</code></li>
+<li>Натиснути кнопку <code>Enter</code>, перебуваючи в якомусь полі форми</li>
+</ul>
+<p>Який би спосіб не вибрав відвідувач - буде згенеровано подія <code>submit</code>. В
+обробнику цієї події можна перевірити дані, і виконати дії по результатах
+перевірки.</p>
+<p><a href="https://codepen.io/goit-fe-adv/pen/YxmgPV/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<h1 id="події-клавіатури">5. Події клавіатури</h1>
+<p>Є три основних події клавіатури: <code>keydown</code>, <code>keypress</code> і <code>keyup</code>. при натисканні
+клавіші спочатку відбувається <code>keydown</code>, після чого <code>keypress</code>, і тільки потім
+<code>keyup</code>, коли клавішу віджали.</p>
+<p>Події <code>keydown</code> і <code>keyup</code> спрацьовують при натисканні будь-якої клавіші,
+включаючи службові. А ось <code>keypress</code> спрацьовує тільки якщо натиснута символьна
+клавіша, т. е. натискання призводить до появи символу. Клавіші, такі як <code>Ctrl</code>,
+<code>Shift</code>, <code>Alt</code> і інші, не генерують подію <code>keypress</code>.</p>
+<h2 id="keyboardeventkey-і-keyboardeventcode">5.1. KeyboardEvent.key і KeyboardEvent.code</h2>
+<p>Властивість <code>KeyboardEvent.key</code> доступно для читання і повертає значення
+клавіші, утримуючи користувачем, беручи до уваги стан клавіш модифікаторів,
+таких як <code>shiftKey</code>, а так само поточну мову і модель клавіатури.</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key" target="_blank">KeyboardEvent.key на MDN</a></p>
+<p>Властивість <code>KeyboardEvent.code</code> являє собою фізичну клавішу на клавіатурі (на
+відміну від символу, згенерованого натисканням клавіші). Іншими словами, це
+властивість повертає значення, яке не змінюється за допомогою розкладки
+клавіатури або стану клавіш-модифікаторів.</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code" target="_blank">KeyboardEvent.code на MDN</a></p>
+<p>Поставте фокус у вікно прикладу, клікнувши в нього мишкою, відстеження подій
+клавіатури стоїть на елементі <code>window</code>. Вводите символи на клавіатурі і
+результат буде відображатися в списку.</p>
+<p><a href="https://codepen.io/goit-fe-adv/pen/yxBdvr/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<h1 id="події-елементів-форм">6. Події елементів форм</h1>
+<h2 id="фокусування">6.1. Фокусування</h2>
+<p>Елемент отримує фокус при натисканні на ньому мишкою, клавіші 'Tab` або вибравши
+на планшеті. Момент отримання фокусу і втрати дуже важливий, при отриманні
+фокусу ми можемо довантажити дані для автодоповнення, почати відстежувати зміни.
+При втраті фокусу - перевірити введені дані.</p>
+<p>При фокусуванні на елемент відбувається подія <code>focus</code>, а коли фокус зникає,
+наприклад відвідувач клацає в іншому місці екрана, відбувається подія <code>blur</code>.</p>
+<p>За замовчуванням багато елементів не можуть отримати фокус. Наприклад, якщо
+клікнути по <code>Div</code>, то фокусування на ньому не відбудеться. До речі, фокус може
+бути тільки на одному елементі в одиницю часу, і поточний елемент, на якому
+фокус, доступний як <code>document.activeElement</code>.</p>
+<p>Активувати або скасувати фокус можна програмно, викликавши в коді однойменні
+методи <code>elem.focus ()</code> і <code>elem.blur ()</code> в елемента.</p>
+<h2 id="подія-change">6.2. Подія change</h2>
+<p>Відбувається після закінчення зміни елемента форми, коли зміна зафіксована. Для
+<code>input: text</code> або <code>textarea</code>, подія відбудеться не при кожному введенні, а при
+втраті фокусу, що не завжди зручно.</p>
+<p>Наприклад, поки ви набираєте щось у текстовому полі - події немає. Але як тільки
+фокус пропав, відбудеться подія <code>change</code>. Для інших же елементів, наприклад
+<code>Select</code>, <code>input: checkbox</code> і <code>input: radio</code>, воно спрацьовує відразу при виборі
+значення.</p>
+<h2 id="подія-input">6.3. Подія input</h2>
+<p>Спрацьовує тільки на текстових елементах, <code>input: text</code> і <code>textarea</code>, при зміні
+значення елемента. Чи не чекає втрати фокусу, на відміну від <code>change</code>.</p>
+<p>В сучасних браузерах <code>input</code> - найголовніша подія для роботи з текстовим
+елементом форми. Саме його, а не <code>keydown</code> або <code>keypress</code>, слід використовувати.</p>
+<h1 id="завантаження-документа">7. Завантаження документа</h1>
+<p>При відкритті веб-сторінки, процес завантаження HTML-документа умовно складається
+з трьох стадій. На кожну можна повісити обробник, щоб вчинити дії.</p>
+<ul>
+<li><code>DOMContentLoaded</code> - браузер повністю завантажив HTML і побудував DOM-дерево.</li>
+<li><code>load</code> - браузер завантажив всі ресурси.</li>
+<li><code>beforeunload</code> і <code>unload</code> - відхід зі сторінки.</li>
+</ul>
+<h2 id="domcontentloaded">7.1. DOMContentLoaded</h2>
+<p>Відбувається на <code>document</code> коли все DOM-елементи розмітки вже створені, можна їх
+шукати, вішати обробники, створювати інтерфейс, але при цьому, можливо, ще не
+довантажені якісь картинки або стилі.</p>
+<p><code>`Bash document.addEventListener ('DOMContentLoaded', callback)</code> `</p>
+<p>Якщо в документі є теги <code>script</code>, то браузер повинен їх виконати до того, як
+побудує DOM. Тому подія <code>DOMContentLoaded</code> чекає завантаження і виконання таких
+скриптів. Винятком є скрипти з атрибутами <code>async</code> і <code>defer</code>, які завантажуються
+асинхронно. Зовнішні файли стилів ніяк не впливають на подію <code>DOMContentLoaded</code>.</p>
+<p><a href="https://varvy.com/performance/domcontentloaded.html" target="_blank">Стаття о DomContentLoaded</a></p>
+<h2 id="load">7.2. load</h2>
+<p>Подія спрацьовує на <code>window</code>, коли завантажується вся сторінка, включаючи
+ресурси на ній - стилі, картинки й т.д. Його використовують рідко, оскільки
+зазвичай немає потреби чекати завантаження всіх ресурсів.</p>
+<h2 id="unload">7.3. unload</h2>
+<p>Коли людина йде зі сторінки або закриває вікно, на <code>window</code> спрацьовує подія
+<code>unload</code>. У ньому можна зробити щось, що не вимагає очікування, наприклад,
+закрити допоміжні popup-вікна, але скасувати сам перехід не можна. подія майже
+не використовується - мало що можна зробити, знаючи, що вкладка браузера Зараз
+закриється.</p>
+<h2 id="beforeunload">7.4. beforeunload</h2>
+<p>Подія спрацьовує на <code>window</code>. Це стандарт для того, щоб перевірити, зберіг
+відвідувач дані, чи дійсно він хоче покинути сторінку.</p>
+<p>Якщо відвідувач ініціював перехід на іншу сторінку або натиснув закрити вікно,
+то обробник <code>beforeunload</code> може призупинити процес і запитати підтвердження. Для
+цього йому потрібно повернути рядок, яку браузери покажуть відвідувачеві,
+запитуючи - чи потрібно переходити.</p>
+  </main>
+</div>
+</body>
+</html>

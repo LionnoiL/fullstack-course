@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Область видимості (функції) · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html" class="active">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="область-видимості">1. Область видимості</h1>
+<p><strong>Область видимості (scope)</strong> — це незалежна від мови концепція, яка описує доступність змінних у виконуваному коді.</p>
+<p><strong>Scope chain (ланцюжок областей видимості)</strong> - області видимості утворюють ієрархію, так що дочірні області мають доступ до змінних з батьківських областей, але не навпаки.</p>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p> Змінну видно для виконуваного коду, якщо вона є в поточній області видимості або в ланцюжку областей видимості функції.</p>
+</div></div></p>
+<p>Є три типи областей видимості:</p>
+<ul>
+<li>Змінні, оголошені на самому верхньому рівні, тобто поза будь-яких конструкцій
+на зразок <code>if</code>, <code>while</code>, <code>for</code> і функцій, знаходяться в <strong>глобальній</strong> області
+видимості.</li>
+<li>Змінні, оголошені всередині інструкцій <code>if</code>, циклів і інших блоків коду
+знаходяться в <strong>блочній</strong> області видимості.</li>
+<li>Змінні, оголошені всередині функцій, знаходяться в <strong>області видимості функції</strong>.</li>
+</ul>
+<p>Це можна уявити, як будинок з кімнатами. Будинок знаходиться в глобальному контексті. Кожна функція і блок створюють нову кімнату, вкладену всередину будинку. Змінні, оголошені всередині цих кімнат, доступні тільки тоді, коли ви знаходитесь усередині цієї кімнати. Поза кімнати ці змінні недоступні.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Global scope</span>
+
+<span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Local function scope of foo</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Local block scope</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// Local function scope of foo</span>
+
+  <span class="token keyword">function</span> <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Local function scope of bar</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// Local function scope of foo</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Global scope</span>
+</code></pre>
+<p>Інтерпретатор намагається спочатку знайти змінну в тій області видимості, в якій до неї звернулися. Якщо такої змінної в локальній області видимості немає, то він виходить назовні, на один рівень за спробу, поки не знайде значення або не дійде до самої верхньої області видимості (глобальної) і зрозуміє, що змінну з таким ідентифікатором неможливо знайти, оскільки її просто немає, тоді буде помилка про те, що змінна не оголошена.</p>
+<p>Функція <code>add</code> повертає суму <code>a</code> і <code>b</code>. Змінна <code>a</code> оголошена усередині функції, <code>b</code> ні.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> b <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">add</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> a <span class="token operator">+</span> b<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 15</span>
+</code></pre>
+<p>Намагаючись вирішити вираз <code>a + b</code>, інтерпретатор шукає значення <code>a</code> і <code>b</code>. Пошук починається всередині локальної області видимості - всередині функції <code>add</code>. Він знаходить значення <code>a</code> і переходить до <code>b</code>. Неможливо знайти значення <code>b</code> в локальній області видимості, тому пошук розширюється до зовнішньої області. Тут він знаходить <code>b</code> — це <code>10</code>. Вираз <code>a + b</code> перетворюється в <code>5 + 10</code>, в результаті отримуємо <code>15</code>.</p>
+<h1 id="область-видимості-функції">2. Область видимості функції</h1>
+<p>Як вже говорилося, функції створюють власну локальну область видимості. Змінні, створені всередині функції, включаючи параметри, локальні всередині цієї функції і не доступні коду із зовні. Локальні змінні будуть створюватися кожен раз при виконанні функції, і їх окремі інкарнації ніяк один з одним не пов'язані.</p>
+<p>Глобальний <code>value</code> оголошений поза тілом функції і його значення буде виведено в консоль. Локальний <code>value</code> всередині функції <code>add</code> як і раніше видно тільки всередині цієї функції. Ці два <code>value</code> не мають нічого спільного один з одним, вони знаходяться в різних областях видимості. Вони не об'єднуються в одне ціле, не дивлячись на те, що у них одне і те ж ім'я. Своєю чергою <code>innerValue</code> недоступна поза тілом функції.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> value <span class="token operator">=</span> <span class="token number">50</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">add</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">num</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> value <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> innerValue <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> num <span class="token operator">+</span> value <span class="token operator">+</span> innerValue<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// value оголошений глобально і тому доступний</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 50</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 35</span>
+
+<span class="token comment">// Помилка, змінна innerValue не оголошена в цій області</span>
+<span class="token comment">// видимості, вона доступна тільки всередині функції add</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>innerValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Така поведінка допомагає запобігти випадковій взаємодії між функціями. Якби всі змінні використовувалися в будь-якому місці програми, було б дуже важко переконатися, що одна змінна не використовується для різних операцій.</p>
+<p>Ставлячись до локальних для функцій змінних так, що вони існують тільки всередині функції, мова робить можливим роботу з функціями ніби з ізольованими контейнерами, що дозволяє не хвилюватися про весь код повністю.</p>
+<h1 id="hoisting">3. Hoisting</h1>
+<p>У мовах програмування, в тому числі в JavaScript, код виконується у дві фази.</p>
+<p><strong>Фаза компіляції, інтерпретації або оцінки (compile time, evaluation time)</strong> -
+підготовка перед виконанням коду, перевірка валідності синтаксису вихідного коду.</p>
+<p>Під час цієї фази компілятор або інтерпретатор знаходить синтаксичні помилки, помилки типізації та т. д. Тобто код ще не виконується, тільки оцінюється. Якщо ця фаза пройшла успішно, це як мінімум означає що в коді немає синтаксичних помилок і його можна запустити на виконання.</p>
+<p><strong>Фаза виконання (runtime)</strong> - скрипт починає виконуватися, виконуються інструкції викликів функцій і оцінки виразів, відбувається пошук необхідних ідентифікаторів у відповідних областях видимості тощо.</p>
+<p>Якщо ця фаза завершилася успішно, значить скрипт написаний без явних помилок і закінчив свою роботу. На цій фазі можуть бути помилки пов'язані з відсутніми властивостями і змінними, перетворенням типів і т. д., тобто щось, що відбувається тільки під час виконання коду.</p>
+<p>Спробуйте виконати наступний код. Оскільки ми зробили помилку і замість <code>const</code>
+намагаємося оголосити змінну <code>value</code> ключовим словом <code>cos</code>, на фазі компіляції буде виявлена ​​синтаксична помилка і фаза виконання навіть не запуститься. В консолі ми відразу побачимо повідомлення про помилку.</p>
+<pre class="language-"><code class="lang-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Цього повідомлення не буде в консолі.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+cos value <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Підняття змінних (hoisting)</strong> - це механізм інтерпретатора, який, до фази виконання коду, підіймає оголошення змінних в початок області видимості (блочної або функції) в якій вони були оголошені.</p>
+<p>Саме тому працює <code>function declaration</code> і так дивно поводяться змінні оголошені використовуючи <code>var</code> - їх оголошення підіймаються в початок області видимості функції в якій вони були оголошені.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Ось тому ми використовуємо let або const</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// undefined</span>
+value <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span>
+  <span class="token keyword">var</span> value <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 10</span>
+<span class="token punctuation">}</span>
+
+value <span class="token operator">=</span> <span class="token number">15</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 15</span>
+</code></pre>
+<p>Змінні оголошені використовуючи <code>let</code> або <code>const</code> так само підіймаються, але при цьому підкоряються блочні області видимості, нічим не ініціалізуются за замовчуванням і не доступні для звернення до того місця в коді де були оголошені в коді.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// У кожній області видимості буде створена своя, незалежна змінна value</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ReferenceError: value is not defined</span>
+<span class="token keyword">const</span> value <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ReferenceError: value is not defined</span>
+  <span class="token keyword">const</span> value <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 10</span>
+<span class="token punctuation">}</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span>
+</code></pre>
+<p>Більш детально про підняття ідентифікаторів і ключові слова <code>var</code>, <code>let</code> і
+<code>const</code> читайте
+<a href="https://codeburst.io/const-let-and-var-which-and-when-541a2721c18" target="_blank">в цій статті</a>.</p>
+  </main>
+</div>
+</body>
+</html>

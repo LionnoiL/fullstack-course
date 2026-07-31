@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promise API · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html" class="active">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p><strong>Promise (обіцянка, проміс)</strong> — об'єкт, який представляє поточний стан
+асинхронної операції. Зручний спосіб організації асинхронного коду.</p>
+<p>У проміса є 2 стани:</p>
+<ul>
+<li><strong>Pending</strong> — очікування, початковий стан при створенні проміса.</li>
+<li><strong>Settled</strong> — виконаний, який в свою чергу ділиться на дві категорії:
+<code>fullfilled</code> — виконано успішно і <code>rejected</code> — виконано з помилкою.</li>
+</ul>
+<p>Спочатку проміс знаходиться в стані очікування (<code>pending</code>), після чого він може
+виконатися успішно (<code>fulfilled</code>) або з помилкою (<code>rejected</code>). Коли проміс
+переходить в стан виконаний (<code>settled</code>), з результатом або помилкою - це
+назавжди. Грубо кажучи, проміс - це болванка для даних, значення яких ми не
+знаємо в момент його створення.</p>
+<p><img src="images/promise-intro.png" alt="promise intro"></p>
+<p>Спосіб використання:</p>
+<ul>
+<li>Код, якому треба зробити щось асинхронно, створює обіцянку і повертає його.</li>
+<li>Зовнішній код, отримавши обіцянку, навішує на нього обробники.</li>
+<li>По завершенні процесу асинхронний код переводить обіцянку в стан <code>fulfilled</code>
+або <code>rejected</code>. При цьому автоматично викликаються обробники у зовнішньому
+коді.</li>
+</ul>
+<p><img src="images/promise-states.png" alt="promise states"></p>
+<p>Відмінність проміса і callback-функції:</p>
+<ul>
+<li>Колбеки - це функції, обіцянки - це об'єкти.</li>
+<li>Колбеки передаються в якості аргументів з зовнішнього коду у внутрішній,<br>обіцянки повертаються з внутрішнього коду в зовнішній.</li>
+<li>Колбеки обробляють успішне або неуспішне завершення, обіцянки нічого не<br>обробляють.</li>
+<li>Колбеки можуть обробляти кілька подій, обіцянки пов'язані тільки з одною<br>подією.</li>
+</ul>
+<p>Обіцянки (крім читабельності, яка є побічним позитивним ефектом)
+використовуються в основному для композиції, ланцюжки викликів і обробки
+результату і помилок в окремих логічних гілках.</p>
+<h1 id="створення">2. Створення</h1>
+<p>Обіцянка створюється як екземпляр класу <code>Promise</code> з однією функцією в якості
+аргументу. Виклик конструктора негайно виконає функцію <code>fn</code>, передану в якості
+аргумента. Ціль цієї функції полягає в інформуванні примірника (проміса), коли
+подія, з якою він пов'язаний, буде завершено.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> promise <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">/*
+   * Ця функція буде викликана автоматично. У ній можна виконувати
+   * будь-які асинхронні операції. Коли вони завершаться - потрібно
+   * викликати одне з: resolve (результат) при успішному виконанні,
+   * або reject(помилка) при помилці.
+   */</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Параметри переданої функції:</p>
+<ul>
+<li><code>resolve(arg)</code> — функція, яку необхідно викликати при успішній операції.
+Переданий в неї аргумент буде значенням виконаного проміса.</li>
+<li><code>reject(arg)</code> — функція, яку необхідно викликати при помилці. Переданий в<br>неї аргумент буде значенням помилки, яке можна буде обробити.</li>
+</ul>
+<p><img src="images/creating-promises.png" alt="creating promise"></p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> promise <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token string">'success!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>У змінну <code>promise</code> буде записаний об'єкт обіцянки в стані <code>pending</code>, а через 2
+секунди, після того, як буде викликаний <code>resolve("success!")</code>, проміс перейде в
+стан <code>fullfilled</code>.</p>
+<h1 id="використання">3. Використання</h1>
+<p>Після того, як проміс створений, з ним можна працювати використовуючи методи
+<code>then</code> і <code>catch</code>, які доступні через його прототип. Код пишеться так, як ніби ми
+розмірковуємо про те, що може статися, якщо проміс виконається чи ні, не думаючи
+про часові рамки.</p>
+<h2 id="then">3.1. then</h2>
+<p>Дозволяє виконати код в якому можна отримати доступ і обробити результат
+проміса.</p>
+<pre class="language-"><code class="lang-bash">promise.then<span class="token punctuation">(</span>onResolve, onReject<span class="token punctuation">)</span>
+</code></pre>
+<p>В метод <code>then</code> передаються дві функції, які будуть викликані, коли проміс
+перейде в стан виконаний (settled).</p>
+<ul>
+<li><code>onResolve(arg)</code> — буде викликана при успішному виконанні проміса, і отримає
+результат проміса, як аргумент (те, що передаємо в виклик <code>resolve</code>).</li>
+<li><code>onReject(arg)</code> — буде викликана при виконанні проміса з помилкою, і отримає
+помилку, як аргумент (те, що передаємо у виклик <code>reject</code>).</li>
+</ul>
+<p><img src="images/then.png" alt="then"></p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> promise <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token comment">/*
+     * Якщо якась умова виконується, тобто все добре,
+     * викликаємо resolve і отримує дані. Умова залежить від завдання.
+     */</span>
+    <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token string">'Data passed into resolve function :)'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Якщо щось не так, викликаємо reject і передаємо помилку</span>
+    <span class="token comment">// reject("Error passed into reject function :(")</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Виконається миттєво</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'BEFORE promise.then'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">onResolve</span> <span class="token operator">=</span> <span class="token parameter">data</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'INSIDE promise.then - onResolve'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "Data passed into resolve function :)"</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">onReject</span> <span class="token operator">=</span> <span class="token parameter">error</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'INSIDE promise.then - onReject'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "Error passed into reject function :("</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+promise<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>
+  <span class="token comment">// буде викликана через 2 секунди, якщо обіцянка виконається успішно</span>
+  onResolve<span class="token punctuation">,</span>
+  <span class="token comment">// буде викликана через 2 секунди, якщо обіцянка виконається з помилкою</span>
+  onReject<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Виконається миттєво</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'AFTER promise.then'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Якщо <code>onResolve</code> і <code>onReject</code> не містять складної логіки, їх оголошують як
+інлайн функції в методі <code>then</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> promise <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token comment">// Якщо все ок, то викликається resolve і передаємо дані</span>
+    <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token string">'Data passed into resolve function :)'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Якщо щось не так, викликати reject і передаємо помилку</span>
+    <span class="token comment">// reject("Error passed into reject function :(")</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Виконається миттєво</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'BEFORE promise.then'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+promise<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>
+  <span class="token comment">// Буде викликана через 2 секунди, якщо обіцянка виконається успішно</span>
+  <span class="token parameter">data</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'INSIDE promise.then - onResolve'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "Data passed into resolve function :)"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">// Буде викликана через 2 секунди, якщо обіцянка виконається з помилкою</span>
+  <span class="token parameter">error</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'INSIDE promise.then - onReject'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "Error passed into reject function :("</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Виконається миттєво</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'AFTER promise.then'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="catch">3.2. catch</h2>
+<p>Трохи далі ми дізнаємося про ланцюжки промісах, а поки навчимося обробляти
+помилки не в колбеці <code>onReject</code> метода <code>then</code>, а в спеціальному методі <code>catch</code>.
+Обробляти помилки дуже зручно, використовуючи метод <code>catch</code> тільки один раз, в
+кінці ланцюжка.</p>
+<pre class="language-"><code class="lang-bash">promise.catch<span class="token punctuation">(</span>onReject<span class="token punctuation">)</span>
+</code></pre>
+<p>Хендлер для обробки стану <code>reject</code>, виповниться тільки якщо проміс виповниться з
+помилкою (rejected). <code>onReject(arg)</code> буде викликана при виконанні проміса з
+помилкою, і отримає помилку як аргумент (те, що передаємо в виклик reject).</p>
+<p>Створимо обіцянку, зробимо затримку на 2 секунди, викличемо <code>reject</code>, імітуючи
+виконання проміса з помилкою.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> promise <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token function">reject</span><span class="token punctuation">(</span><span class="token string">'There was an error :('</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * then не виконається оскільки в функції fn, всередині new Promise (fn),
+ * був викликаний reject (). А catch якраз виконається через 2 секунди
+ */</span>
+promise
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">data</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">error</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="finally">3.3. finally</h2>
+<p>Цей метод може бути корисний, якщо ви хочете виконати деяку обробку або очистку
+після того, як обіцянку буде виконано, незалежно від результату.</p>
+<p>Дозволяє виконати зазначену callback-функцію після того, як обіцянка буде
+дозволена (виконана або відхилена). Дозволяє уникнути дублювання коду в
+обробниках <code>then()</code> і <code>catch()</code>. Повертає обіцянку.</p>
+<pre class="language-"><code class="lang-js">promise<span class="token punctuation">.</span><span class="token function">finally</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// settled (fulfilled або rejected)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Функція зворотного виклику не отримає ніяких аргументів, оскільки не можна точно
+визначити чи виконано обіцянку або відхилено. Тут буде виконуватися код, який
+залежить тільки від часу його виконання, значення проміса не важливо.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> promise <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token string">'success!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+promise
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">data</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// "success"</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">error</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">finally</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'finished!'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "finished"</span>
+</code></pre>
+<h1 id="ланцюжки-промісів">4. Ланцюжки промісів</h1>
+<p><strong>Чейнінг (chaining)</strong> — можливість будувати асинхронні ланцюжка з промісів.
+Одна з основних причин існування та активного використання промісів.</p>
+<p>Кожен метод <code>then</code>, результатом свого виконання, повертає проміс. Його значенням
+буде те, що повертається з callback-функції <code>onResolve</code>.</p>
+<p><img src="images/chaining.png" alt="chaining"></p>
+<pre class="language-"><code class="lang-js"><span class="token function">asyncFn</span><span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Оскільки <code>then</code> повертає проміс, до його виконання може пройти деякий час, тому
+що та частина ланцюжка, яка залишилася, буде чекати.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> promise <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">resolve<span class="token punctuation">,</span> reject</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+promise
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">value</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span>
+    <span class="token keyword">return</span> value <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">value</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 10</span>
+    <span class="token keyword">return</span> value <span class="token operator">*</span> <span class="token number">3</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">value</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 30</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">error</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>При виникненні помилки в будь-якому місці ланцюжка, виконання всіх наступних
+<code>then</code> скасовується, а управління передається методу <code>catch</code>.</p>
+<h1 id="статичні-методи-класу-promise">5. Статичні методи класу Promise</h1>
+<p>Іноді бувають ситуації, коли нам необхідно дочекатися виконання не одного, а
+відразу набору промісів, і тільки тоді щось зробити. Бувають і такі ситуації,
+коли з набору промісів необхідно дочекатися виконання будь-якого одного,
+проігнорувавши інші.</p>
+<h2 id="promiseall">5.1. Promise.all()</h2>
+<p>Статичний метод, отримує масив промісів і чекає їх виконання, повертає проміс.</p>
+<pre class="language-"><code class="lang-bash">Promise.all<span class="token punctuation">(</span><span class="token punctuation">[</span>promise1, promise2, <span class="token punctuation">..</span>.<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<p>При успішному виконанні всіх промісів з масиву, проміс, який повертається з
+<code>Promise.all</code> перейде в стан <code>settled -> fullfilled</code>, а його значенням буде
+масив результатів виконання кожного проміса.</p>
+<p>Якщо в масиві промісів хоча б один виповнився з помилкою, то перейде в стан
+<code>settiled -> rejected</code>, а значенням проміса буде помилка.</p>
+<p>Напишімо функцію, яка буде приймати текст для <code>resolve</code>, і затримку в мс, а
+результатом свого виконання буде повертати проміс. Потім створимо 2 проміси з
+різним часом затримки.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">makePromise</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">text<span class="token punctuation">,</span> delay</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token parameter">resolve</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">resolve</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token punctuation">,</span> delay<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> promiseA <span class="token operator">=</span> <span class="token function">makePromise</span><span class="token punctuation">(</span><span class="token string">'promiseA'</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> promiseB <span class="token operator">=</span> <span class="token function">makePromise</span><span class="token punctuation">(</span><span class="token string">'promiseB'</span><span class="token punctuation">,</span> <span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * Виконається через 3 секунди, коли виконається другий проміс з затримкою в 3c.
+ * Перший виконається через секунду і просто буде готовий
+ */</span>
+Promise<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token punctuation">[</span>promiseA<span class="token punctuation">,</span> promiseB<span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">result</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">//["promiseA", "promiseB"]</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">err</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="promiserace">5.2. Promise.race()</h2>
+<pre class="language-"><code class="lang-bash">Promise.race<span class="token punctuation">(</span><span class="token punctuation">[</span>promise1, promise2, <span class="token punctuation">..</span>.<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Статичний метод, отримує масив промісів і повертає обіцянку. Коли хоча б одна
+обіцянка в масиві виповнилася, виповниться проміс, який повертається, а всі інші
+будуть відкинуті.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">makePromise</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">text<span class="token punctuation">,</span> delay</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token parameter">resolve</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">resolve</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token punctuation">,</span> delay<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> promiseA <span class="token operator">=</span> <span class="token function">makePromise</span><span class="token punctuation">(</span><span class="token string">'promiseA'</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> promiseB <span class="token operator">=</span> <span class="token function">makePromise</span><span class="token punctuation">(</span><span class="token string">'promiseB'</span><span class="token punctuation">,</span> <span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * Виконається через 1 секунду, коли виконається найшвидший promiseA
+ * з затримкою в 1c. Другий проміс promiseB буде проігнорований
+ */</span>
+Promise<span class="token punctuation">.</span><span class="token function">race</span><span class="token punctuation">(</span><span class="token punctuation">[</span>promiseA<span class="token punctuation">,</span> promiseB<span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">result</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// "promiseA"</span>
+  <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">err</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h1 id="promiseresolve-promisereject-і-promisefinally">6. Promise.resolve(), Promise.reject() і Promise.finally()</h1>
+<p>Виклик статичного методу <code>Promise.resolve(value)</code> створює успішно виконаний
+проміс з результатом <code>value</code>. Це аналогічно
+<code>new Promise((resolve) => resolve(value))</code>, тільки коротше. Цей метод
+використовують, коли хочуть побудувати асинхронний ланцюжок, і початковий
+результат вже є.</p>
+<p>Це можна використовувати для того, щоб замінити callback на ланцюжок промісів.
+Тобто замість того, щоб передавати callback в функцію і сподіватися на краще,
+отримуємо проміс і чейнимо <code>then</code>, в якому доступний результат роботи функції.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">getMessage</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> input <span class="token operator">=</span> <span class="token function">prompt</span><span class="token punctuation">(</span><span class="token string">'Введіть повідомлення'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">callback</span><span class="token punctuation">(</span>input<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">logger</span> <span class="token operator">=</span> <span class="token parameter">message</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">getMessage</span><span class="token punctuation">(</span>logger<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Перетворюється в наступне.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">getMessage</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> input <span class="token operator">=</span> <span class="token function">prompt</span><span class="token punctuation">(</span><span class="token string">'Введіть повідомлення'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>input<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">logger</span> <span class="token operator">=</span> <span class="token parameter">message</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">message</span> <span class="token operator">=></span> <span class="token function">logger</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Або ще коротше</span>
+<span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>logger<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Аналогічно <code>Promise.reject(error)</code> створює вже виконаний проміс, але не з
+успішним результатом, а з помилкою <code>error</code>. Він використовується вкрай рідко,
+тому що помилка виникає зазвичай не на початку ланцюжка, а в процесі його
+виконання.</p>
+<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://habr.com/ru/company/nix/blog/323066/" target="_blank">Проміси на прикладі бургер-вечірки (обов'язково до прочитання)</a></li>
+<li><a href="http://exploringjs.com/es6/ch_promises.html" target="_blank">Promises for asynchronous programming</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Зберігання інформації на клієнті · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html" class="active">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p><strong>Основна проблема веб-додатків</strong> — при використанні програми та закритті, її
+стан буде скинуто під час наступного відвідування. Якщо ви закриваєте додаток на
+робочому столі й знову відкриваєте його, останній стан відновлюється.</p>
+<p>Ось чому, як розробнику, вам потрібно десь зберегти стан свого інтерфейсу або
+дані, які необхідно запам'ятати між відвідинами сторінки. На допомогу приходить
+зберігання інформації про стан програми на комп'ютері користувача, в браузері.</p>
+<h1 id="cookies">2. Cookies</h1>
+<p>Класичний спосіб зберігання інформації на клієнті - це використовувати
+<code>кукі-файл</code> розміщений на комп'ютері користувача. Кукі - це текстові рядки
+списку пар <code>ключ=значення</code> розділені крапкою з комою. Зазвичай кукі приходять
+від сервера і дозволяють зберігати прості рядкові дані.</p>
+<p>Але у кукі є кілька обмежень.</p>
+<ul>
+<li>Вони додаються до кожного запиту на сервер, що може бути зайвим</li>
+<li>Кукі дозволяють зберігати всього до 4Кб даних, що досить мало</li>
+<li>Оскільки кукі використовуються для відстеження поведінки людей в серфінгу,<br>користувачі часто відключають їх, а сайти просять кожен раз потрібно їх<br>встановлювати</li>
+<li>Використовуючи кукі, досить проблематично відстежувати дві або більше
+транзакцій на    одному і тому ж сайті, що може відбуватися одночасно в різних
+вкладках</li>
+</ul>
+<h2 id="додаткові-матеріали">2.1. Додаткові матеріали</h2>
+<ul>
+<li><a href="https://youtu.be/I01XMRo2ESg" target="_blank">What is a cookie?</a></li>
+<li><a href="https://youtu.be/LHSSY8QNvew" target="_blank">Follow the Cookie Trail - Computerphile</a></li>
+</ul>
+<h1 id="web-storage-api">3. Web Storage API</h1>
+<p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API" target="_blank">Web Storage API</a></strong>
+— містить локальне сховище (localStorage) і сховище сеансів (SessionStorage), і
+надає спосіб зберігання пар <code>ключ:значення</code> більш інтуїтивно зрозумілим
+способом, ніж використання кукі. Дані в веб-сховище, на відміну від кукі,
+зберігаються навіть при закритті браузера або виключенні комп'ютера.</p>
+<p>Веб-сховище - це частина HTML5-специфікації. Існує два варіанти зберігання
+даних:</p>
+<ul>
+<li><strong>sessionStorage</strong> — використовується для додавання даних в сховищі сеансів, і
+дані цього сховища будуть доступні для будь-якої сторінки з того ж сайту,
+відкритого в цьому вікні, тобто сесії, і як тільки вікно буде закрито, сеанс
+буде завершено, а сховище сеансів очищено.</li>
+<li><strong>localStorage</strong> — сховище, яке охоплює кілька вікон і зберігається після
+поточного сеансу. Зокрема, веб-додатки можуть зберегти призначені для
+користувача дані, такі як налаштування профілю або вміст кошика товарів на
+стороні клієнта.</li>
+</ul>
+<h2 id="localstorage">3.1. localStorage</h2>
+<p><strong>localStorage (локальне сховище)</strong> — дозволяє зберігати дані без закінчення
+терміну дії в форматі пар <code>ключ:значення</code> на комп'ютері користувача і читати їх,
+коли користувач знову повернеться на сторінку. <div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>В
+<code>localStorage</code> не зберігають методи об'єктів або функції, тільки
+дані.</p>
+</div></div> Використання локального сховища в сучасних браузерах дуже
+просто і доступно через інтерфейс <code>window.localStorage</code>.</p>
+<h2 id="зберігання">3.2. Зберігання</h2>
+<pre class="language-"><code class="lang-bash">localStorage.setItem<span class="token punctuation">(</span>key, value<span class="token punctuation">)</span>
+</code></pre>
+<p>Використовуючи метод <code>setItem</code> можна записати пару <code>ключ:значення</code>.</p>
+<pre class="language-"><code class="lang-js">localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'theme'</span><span class="token punctuation">,</span> <span class="token string">'light'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Одним з неприємних недоліків локального сховища є те, що ви можете зберігати
+тільки рядки. Це означає, що коли є об'єкт, він не буде збережений правильно. Це
+можна обійти, використовуючи метод <code>JSON.stringify</code>, перетворивши об'єкт в
+рядок.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> settings <span class="token operator">=</span> <span class="token punctuation">{</span>
+  theme<span class="token punctuation">:</span> <span class="token string">'dark'</span><span class="token punctuation">,</span>
+  isAuthenticated<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  options<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'settings'</span><span class="token punctuation">,</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>settings<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="читання">3.3. Читання</h2>
+<p>Читання даних з локального сховища - це той же процес, що і збереження даних,
+але в зворотному порядку.</p>
+<pre class="language-"><code class="lang-bash">localStorage.getItem<span class="token punctuation">(</span>key<span class="token punctuation">)</span>
+</code></pre>
+<p>Якщо ви знаєте, що значення це звичайний рядок, ви можете просто прочитати її
+без необхідності парсити що-небудь.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> theme <span class="token operator">=</span> localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">'theme'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>В іншому випадку, необхідно розпарсити значення, щоб повернути вихідний
+JavaScript-об'єкт.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> settings <span class="token operator">=</span> <span class="token punctuation">{</span>
+  theme<span class="token punctuation">:</span> <span class="token string">'dark'</span><span class="token punctuation">,</span>
+  isAuthenticated<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  options<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'settings'</span><span class="token punctuation">,</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>settings<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> savedSettings <span class="token operator">=</span> localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">'settings'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> parsedSettings <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>settingsFromLS<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>parsedSettings<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="видалення">3.4. Видалення</h2>
+<pre class="language-"><code class="lang-bash">localStorage.removeItem<span class="token punctuation">(</span>key<span class="token punctuation">)</span>
+</code></pre>
+<p>Для того щоб видалити пару, необхідно викликати метод і передати йому ключ.</p>
+<pre class="language-"><code class="lang-js">localStorage<span class="token punctuation">.</span><span class="token function">removeItem</span><span class="token punctuation">(</span><span class="token string">'theme'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="очищення-сховища">3.5. Очищення сховища</h2>
+<p>Якщо ви хочете повністю очистити сховище, викличте метод <code>clear</code>.</p>
+<pre class="language-"><code class="lang-js">localStorage<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="приклад">3.6. Приклад</h2>
+<p>Створимо поле для виведення і кнопку для збереження введеного в <code>localStorage</code>.
+Спочатку такої пари в сховищі немає, тому буде виведений порожній рядок.</p>
+<p>Спробуйте позаповнювати <code>input</code> і натисніть <code>Save</code>. Текст в полі виведення
+зміниться на той що ввели. Перезагрузіть сторінку, все той же текст, хоча ви
+нічого ще не вводили. Ми беремо його з <code>localStorage</code>, останнє введене значення.</p>
+<p><a href="https://codepen.io/goit-fe-adv/pen/veORaG" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<p>Подивитися вміст <code>localStorage</code> можна в інструментах розробника на вкладці
+<code>Application</code>.</p>
+<p><img src="images/local-storage.png" alt="ls"></p>
+<h1 id="модуль-для-localstorage">4. Модуль для localStorage</h1>
+<p>Ми вже вміємо працювати з локальним сховищем, можемо записати, прочитати або
+видалити. Наступним кроком буде його правильне, осмислене використання.</p>
+<p>Напишемо модуль для безпечної роботи з <code>localStorage</code>, адже при читанні або
+парсі даних для запису може статися помилка. Пишемо дві функції для запису і
+читання, назвемо їх <code>load</code> і <code>save</code>.</p>
+<p>У разі, якщо дані є некоректними, <code>JSON.parse()</code> і <code>JSON.stringify()</code> генерують
+помилку, тобто скрипт «впаде», тому при роботі з JSON використовуємо
+<code>try..catch</code>, щоб обробити можливу помилку і виводимо <code>error</code> в консоль.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// storage.js</span>
+
+<span class="token comment">// Приймає ключ `key` по якому буде проведена вибірка.</span>
+<span class="token keyword">const</span> <span class="token function-variable function">load</span> <span class="token operator">=</span> <span class="token parameter">key</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> serializedState <span class="token operator">=</span> localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> serializedState <span class="token operator">===</span> <span class="token keyword">null</span> <span class="token operator">?</span> <span class="token keyword">undefined</span> <span class="token punctuation">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>serializedState<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">'Get state error: '</span><span class="token punctuation">,</span> err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Приймає ключ `key` і значення `value`.</span>
+<span class="token keyword">const</span> <span class="token function-variable function">save</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">key<span class="token punctuation">,</span> value</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> serializedState <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> serializedState<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">'Set state error: '</span><span class="token punctuation">,</span> err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span> load<span class="token punctuation">,</span> save <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Тепер ми можемо безпечно записувати і читати <code>localStorage</code>. Попробуйте самі
+дописати метод <code>remove</code>, аналогічно <code>load</code> і <code>save</code>.</p>
+<h1 id="indexeddb">5. IndexedDB</h1>
+<p><strong>IndexedDB</strong> — це сховище більше ніж локальне, і корисно для додатків, які
+потребують зберігання великої кількості даних, наприклад кешування списку
+статей. Завдяки цьому, додатки можуть працювати і завантажуватися швидше.</p>
+<ul>
+<li>Як і <code>localStorage</code> зберігає пари <code>ключ:значення</code></li>
+<li>На відміну від <code>localStorage</code> дозволяє зберігати складні типи даних</li>
+<li>Це <a href="http://sernam.ru/book_cbd.php?id=2" target="_blank">не реляційна</a> база даних</li>
+<li>Має, в основному, асинхронний API на промісах</li>
+</ul>
+<p>Нижче наведено набір корисних статей. Не поспішайте заглиблюватися в
+<code>IndexedDB</code>, дана технологія згадується для загального ознайомлення, немає сенсу
+використовувати це сховище для тривіальних завдань, для цього вистачить
+<code>localStorage</code>.</p>
+<ul>
+<li><a href="https://habrahabr.ru/post/213515/" target="_blank">Готовимо IndexedDB</a></li>
+<li><a href="https://developers.google.com/web/ilt/pwa/working-with-indexeddb" target="_blank">Working with IndexedDB</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API" target="_blank">IndexedDB API на MDN</a></li>
+</ul>
+<h1 id="додаткові-матеріали_1">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="http://prgssr.ru/development/obzor-sredstv-hraneniya-dannyh-na-klientskoj-storone.html" target="_blank">Огляд засобів зберігання даних на стороні клієнта</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

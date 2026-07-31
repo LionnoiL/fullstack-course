@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Клас Date · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html" class="active">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="клас-date">1. Клас Date</h1>
+<p>Робота з проміжками часу це одна з найбільш популярних завдань: годинник,
+календарі та інше. JavaScript надає клас <code>Date</code>, який абстрагує більшу частину
+роботи з датами безпосередньо. Це дозволяє нам представляти моменти в часі і
+маніпулювати ними лише кількома рядками коду.</p>
+<h1 id="створення-дати">2. Створення дати</h1>
+<p>Створення дати дуже просто. Просто створіть новий екземпляр вбудованого класу
+<code>Date</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>date<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Mon Mar 19 2018 16:51:32 GMT+0200 (FLE Standard Time)</span>
+</code></pre>
+<p>Оскільки не були передані аргументи, буде створена поточна дата і час. Однак,
+можна додатково передати рядок або число в <code>Date</code>, і результатом буде об'єкт, що
+описує зазначену дату і час.</p>
+<h2 id="datestring">2.1. Datestring</h2>
+<p>Якщо передати рядок, вона буде оброблена методом <code>Date.parse ()</code>, щоб повернути
+об'єкт <code>Date</code>.</p>
+<p>Припустимо, необхідно створити подію на дату <code>4 березня 2017 року</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token string">'March 4, 2017'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>date<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Sat Mar 04 2017 00:00:00 GMT+0200 (FLE Standard Time)</span>
+</code></pre>
+<h2 id="7-аргументів">2.2. 7 аргументів</h2>
+<p>Інший спосіб створення нових об'єктів <code>Date</code> - це передати 7 чисел. Ці числа
+описують рік, місяць, день, годину, хвилину, секунду і мілісекунду.</p>
+<pre class="language-"><code class="lang-bash">new Date<span class="token punctuation">(</span>year, month, date, hours, minutes, seconds, ms<span class="token punctuation">)</span>
+</code></pre>
+<p>Останні 4 аргументу необов'язкові.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Індекси місяців починаються з 0, тому 5-й місяць це липень.</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>date<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Thu Jun 08 2000 12:00:00 GMT+0300 (FLE Daylight Time)</span>
+</code></pre>
+<h1 id="unix-час">3. Unix час</h1>
+<p>В області інформатики існує концепція епохи Unix. Цей момент часу встановлений
+на північ 1 січня 1970 року в часовому поясі UTC.</p>
+<p>З урахуванням цієї системи відліку, якщо ви передаєте число об'єкту <code>Date</code>, це
+число являє собою кількість мілісекунд, що пройшли з того часу.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token number">1000000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>date<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Thu Jan 01 1970 02:16:40 GMT+0200 (FLE Standard Time)</span>
+</code></pre>
+<p>Щоб побачити число мілісекунд від цієї дати до поточного моменту,
+використовується статичний метод <code>Date.now()</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> date <span class="token operator">=</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>date<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1521471595501</span>
+</code></pre>
+<p>Зручність цього формату полягає в тому, що можна представляти точні моменти часу
+у вигляді одного числа і не турбуватися про дати, рядки і часові пояси, оскільки
+можна отримати всю необхідну інформацію коли необхідно.</p>
+<h1 id="методи-date">4. Методи Date</h1>
+<p>Примірник клас <code>Date</code> має безліч методів як для отримання значень дати і часу,
+так і для установки значень в об'єкт. Методи повертають або привласнюють рік,
+місяць, день місяця або тижня, годину, хвилину, секунду і мілісекунди для
+кожного екземпляра. Ці дані можуть бути представлені у вигляді рядка з
+урахуванням місцевого календаря або мови.</p>
+<h2 id="гетери">4.1. Гетери</h2>
+<p>Ось все методи отримання інформації з об'єкта <code>Date</code>:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Date: '</span> <span class="token operator">+</span> date<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// повертає день місяця від 1 до 31</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'getDate(): '</span> <span class="token operator">+</span> date<span class="token punctuation">.</span><span class="token function">getDate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// повертає день тижня від 0 до 6</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'getDay(): '</span> <span class="token operator">+</span> date<span class="token punctuation">.</span><span class="token function">getDay</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// повертає місяць від 0 до 11</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'getMonth(): '</span> <span class="token operator">+</span> date<span class="token punctuation">.</span><span class="token function">getMonth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// повертає рік з 4 цифр</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'getFullYear(): '</span> <span class="token operator">+</span> date<span class="token punctuation">.</span><span class="token function">getFullYear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// повертає годину</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'getHours(): '</span> <span class="token operator">+</span> date<span class="token punctuation">.</span><span class="token function">getHours</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// повертає хвилини</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'getMinutes(): '</span> <span class="token operator">+</span> date<span class="token punctuation">.</span><span class="token function">getMinutes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// повертає секунди</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'getSeconds(): '</span> <span class="token operator">+</span> date<span class="token punctuation">.</span><span class="token function">getSeconds</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// повертає мілісекунди</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'getMilliseconds(): '</span> <span class="token operator">+</span> date<span class="token punctuation">.</span><span class="token function">getMilliseconds</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// повертає кількість мілісекунд минулих зі старту епохи Unix</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'getTime(): '</span> <span class="token operator">+</span> date<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Поекспериментуймо:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// перевіримо кількість мс з з початку епохи Unix</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`Час в мс з початку епохи Unix: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>date<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// "Час в мс з початку епохи Unix: ....  значення будуть змінюватися :-)</span>
+<span class="token comment">// "Час в мс з початку епохи Unix: 1504721892483"</span>
+
+<span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token string">'Date: '</span><span class="token punctuation">;</span>
+result <span class="token operator">+=</span> date<span class="token punctuation">.</span><span class="token function">getFullYear</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'/'</span><span class="token punctuation">;</span> <span class="token comment">// рік</span>
+result <span class="token operator">+=</span> date<span class="token punctuation">.</span><span class="token function">getMonth</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'/'</span><span class="token punctuation">;</span> <span class="token comment">// місяць, починання з 0</span>
+result <span class="token operator">+=</span> date<span class="token punctuation">.</span><span class="token function">getDate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'. Day of week: '</span><span class="token punctuation">;</span> <span class="token comment">// день тижня, починаючи з 1</span>
+result <span class="token operator">+=</span> date<span class="token punctuation">.</span><span class="token function">getDay</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'.'</span><span class="token punctuation">;</span> <span class="token comment">// день , починаючи з 0</span>
+
+result <span class="token operator">+=</span> <span class="token string">' Time: '</span> <span class="token operator">+</span> date<span class="token punctuation">.</span><span class="token function">getHours</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">':'</span><span class="token punctuation">;</span> <span class="token comment">// години</span>
+result <span class="token operator">+=</span> date<span class="token punctuation">.</span><span class="token function">getMinutes</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">':'</span><span class="token punctuation">;</span> <span class="token comment">// хвилини</span>
+result <span class="token operator">+=</span> date<span class="token punctuation">.</span><span class="token function">getSeconds</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">':'</span><span class="token punctuation">;</span> <span class="token comment">// секунди</span>
+result <span class="token operator">+=</span> date<span class="token punctuation">.</span><span class="token function">getMilliseconds</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">''</span><span class="token punctuation">;</span> <span class="token comment">// мілісекунди</span>
+
+<span class="token comment">// рядок повинна показати поточний час і дату</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "Date: 2017/8/6. Day of week: 3. Time: 21:18:12:483"</span>
+<span class="token comment">// ...  значення будуть змінюватися :-)</span>
+</code></pre>
+<h2 id="сетери">4.2. Сетери</h2>
+<p>Все що можна прочитати можна записати, методи для запису починаються з <code>set*</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Щоб встановити дату існує 2 способи. Встановимо 1500000000000мс</span>
+<span class="token comment">// з початку ери Unix за допомогою конструктора</span>
+<span class="token keyword">const</span> date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token number">2017</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">40</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Перевіримо</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`2017, 6, 14, 5, 40 відповідає </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>date<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// "2017, 6, 14, 5, 40 відповідає 1500000000000"</span>
+
+<span class="token comment">/* За допомогою методів set */</span>
+<span class="token comment">// Створимо новий об'єкт з поточною датою</span>
+<span class="token keyword">const</span> secondDate <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Змінимо рік і в ньому ж місяць і день місяця</span>
+secondDate<span class="token punctuation">.</span><span class="token function">setFullYear</span><span class="token punctuation">(</span><span class="token number">2017</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Змінимо годину і в ньому ж хвилини, секунди і мілісекунди</span>
+secondDate<span class="token punctuation">.</span><span class="token function">setHours</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">40</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Перевіримо</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`2017, 6, 14, 5, 40 відповідає </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>secondDate<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// "2017, 6, 14, 5, 40 відповідає 1500000000000"</span>
+</code></pre>
+<h1 id="форматування-і-висновок-дат">5. Форматування і висновок дат</h1>
+<p>У всіх браузерах, крім <code>IE10-</code>, підтримується новий стандарт, який додає
+спеціальні методи для форматування дат.</p>
+<p>Це робиться викликом <code>date.toLocaleString (locale, opts)</code>, в якому можна задати
+багато налаштувань. Він дозволяє вказати, які параметри дати потрібно вивести, і
+ряд налаштувань виведення, після чого інтерпретатор сам сформує рядок.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">let</span> date <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// формат виведення</span>
+<span class="token keyword">const</span> options <span class="token operator">=</span> <span class="token punctuation">{</span>
+  weekday<span class="token punctuation">:</span> <span class="token string">'long'</span><span class="token punctuation">,</span>
+  year<span class="token punctuation">:</span> <span class="token string">'numeric'</span><span class="token punctuation">,</span>
+  month<span class="token punctuation">:</span> <span class="token string">'short'</span><span class="token punctuation">,</span>
+  day<span class="token punctuation">:</span> <span class="token string">'numeric'</span><span class="token punctuation">,</span>
+  hour<span class="token punctuation">:</span> <span class="token string">'2-digit'</span><span class="token punctuation">,</span>
+  minute<span class="token punctuation">:</span> <span class="token string">'2-digit'</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Україна</span>
+<span class="token keyword">const</span> localeUk <span class="token operator">=</span> date<span class="token punctuation">.</span><span class="token function">toLocaleString</span><span class="token punctuation">(</span><span class="token string">'Uk-uk'</span><span class="token punctuation">,</span> options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>localeUk<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// понеділок, 19 бер. 2018 р., 17:42</span>
+
+<span class="token comment">// USA</span>
+<span class="token keyword">const</span> localeUs <span class="token operator">=</span> date<span class="token punctuation">.</span><span class="token function">toLocaleString</span><span class="token punctuation">(</span><span class="token string">'en-US'</span><span class="token punctuation">,</span> options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>localeUs<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Monday, Mar 19, 2018, 5:43 PM</span>
+</code></pre>
+<h2 id="методи-виведення-без-локалізації">5.1. Методи виведення без локалізації</h2>
+<p><code>toString()</code>, <code>toDateString()</code>, <code>toTimeString()</code> повертають стандартне рядкове
+подання, не заданий жорстко в стандарті, а залежне від браузера. Єдина вимога до
+нього - читабельність людиною. Метод <code>toString ()</code> повертає дату цілком,
+<code>toDateString ()</code> і <code>toTimeString ()</code> - тільки дату і час відповідно.</p>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://canonium.com/articles/javascript-date-and-time" target="_blank">Дата і час в JavaScript</a></li>
+<li><a href="https://flaviocopes.com/javascript-dates/" target="_blank">The definitive guide to JavaScript dates</a></li>
+<li><a href="https://momentjs.com/" target="_blank">Moment.js — бібліотека роботи з часом</a></li>
+<li><a href="https://flaviocopes.com/momentjs/" target="_blank">A moment.js tutorial</a></li>
+<li><a href="https://github.com/iamkun/dayjs" target="_blank">dayjs - бібліотека роботи з часом</a></li>
+<li><a href="https://date-fns.org/" target="_blank">date-fns — бібліотека роботи з часом</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

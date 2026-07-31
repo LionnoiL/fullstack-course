@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NPM · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html" class="active">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p>Щоб використовувати все багатство інструментів (або пакетів) Node.js нам
+потрібна можливість встановлювати й управляти ними. Для цього створено <strong> NPM
+(node package manager) </strong> - пакетний менеджер Node.js. Він встановлює потрібний
+пакет і надає зручний інтерфейс для роботи з ними.</p>
+<p>NPM складається з трьох основних компонентів:</p>
+<ul>
+<li><strong>Сайт <a href="https://www.npmjs.com/" target="_blank">npmjs.com</a></strong> — використовується для пошуку і
+   ознайомлення з документацією пакетів.</li>
+<li><strong>Інтерфейс командного рядка (CLI)</strong> — запускається з терміналу і    надає
+набір команд для роботи з реєстром і пакетами. Дозволяє    створювати скрипти
+для запуску в терміналі.</li>
+<li><strong>Реєстр пакетів (registry)</strong> — велика загальнодоступна база даних
+інструментів    розробки (пакетів).</li>
+</ul>
+<p><strong>Пакет (package)</strong> — невелика JS-бібліотека, вирішує специфічне завдання.</p>
+<p>Пакети пишуть самі розробники і діляться з спільнотою. Такий підхід спрощує
+життя, тому що не потрібно винаходити колесо, всі колеса вже давно лежать на
+полицях реєстру і готові до використання.</p>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p> Пакети абстрагують реалізацію функціоналу, надаючи
+розробнику зручний інтерфейс. Це робить код чистішим, читабельнішим і дозволяє
+легше його підтримувати.</p>
+</div></div></p>
+<h1 id="команди-npm">2. Команди NPM</h1>
+<p>Відразу перерахуємо основні команди і будемо послідовно використовувати і
+розглядати в деталях.</p>
+<ul>
+<li><code>npm init</code> — ініціалізує <code>npm</code> і створює файл <code>package.json</code></li>
+<li><code>npm install</code> — встановлює всі залежності перераховані в <code>package.json</code></li>
+<li><code>npm list --depth=0</code> - виведе в терміналі список локально встановлених<br>пакетів з номерами їх версій, без залежностей</li>
+<li><code>npm install [package-name]</code> — встановить пакет локально в папку
+<code>node_modules</code></li>
+<li><code>npm uninstall [package-name]</code> — видалить пакет встановлений локально і
+оновить <code>package.json</code></li>
+<li><code>npm start</code> і <code>npm test</code> — запустить скрипт <code>start</code> або <code>test</code>, розташований в
+<code>package.json</code></li>
+<li><code>npm run [custom-script]</code> — запустить кастомний скрипт, розташований в
+<code>package.json</code></li>
+<li><code>npm outdated</code> — використовується для пошуку оновлень, виявить сумісні<br>версії програмно і виведе список доступних оновлень</li>
+<li><code>npm update</code> — оновить всі пакети до максимально дозволеної версії</li>
+</ul>
+<p><a href="https://docs.npmjs.com/" target="_blank">Документація NPM</a></p>
+<h1 id="ініціалізація-проєкта">3. Ініціалізація проєкта</h1>
+<p>Кожен проєкт починається зі створення файлу <code>package.json</code> - він відстежує
+залежності, містить службову інформацію, дозволяє писати npm-скрипти, і служить
+інструкцією при створенні нового проєкту на основі вже готових налаштувань.</p>
+<p>Створити файл <code>package.json</code> можна npm-командою <code>init</code>, тим самим Ініціалізувати
+проєкт в цій папці.</p>
+<pre class="language-"><code class="lang-bash"><span class="token function">npm</span> init
+</code></pre>
+<p>Вам буде запропоновано ввести назву проєкту, версію, опис і т. д. Можна просто
+натискати <code>Enter</code>, до тих пір, поки не буде створено <code>package.json</code> і розміщений
+в папці проєкту.</p>
+<p>Щоб не натискати <code>Enter</code>, пропускаючи порожні поля, використовується команда
+<code>init</code> з прапором <code>--yes</code>. Прапор - додаткове налаштування для команди.</p>
+<pre class="language-"><code class="lang-bash"><span class="token function">npm</span> init --yes
+</code></pre>
+<p>Буде створено <code>package.json</code> зі значеннями за замовчуванням. Щоб встановити ці
+значення, в терміналі виконайте таку послідовність команди, підставивши своє
+ім'я і пошту.</p>
+<pre class="language-"><code class="lang-bash"><span class="token function">npm</span> config <span class="token keyword">set</span> init.author.name <span class="token string">"YOUR_NAME"</span>
+<span class="token function">npm</span> config <span class="token keyword">set</span> init.author.email <span class="token string">"YOUR_EMAIL"</span>
+</code></pre>
+<p><img src="images/npm-init.png" alt="npm init"></p>
+<p>Можна редагувати файл <code>package.json</code> вручну або запустивши <code>npm init</code> ще раз.
+Якщо відкрити <code>package.json</code> в редакторі, він буде виглядати приблизно так. Це
+всього лише метадані про проєкт.</p>
+<pre class="language-"><code class="lang-json"><span class="token punctuation">{</span>
+  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"node-tut"</span><span class="token punctuation">,</span>
+  <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"1.0.0"</span><span class="token punctuation">,</span>
+  <span class="token property">"main"</span><span class="token operator">:</span> <span class="token string">"index.js"</span><span class="token punctuation">,</span>
+  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"test"</span><span class="token operator">:</span> <span class="token string">"echo \"Error: no test specified\" && exit 1"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"author"</span><span class="token operator">:</span> <span class="token string">"Alexander Repeta <<a href="https://goit.global/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="15786c767a7a797078747c795578747c793b767a78">[email protected]</a>>"</span><span class="token punctuation">,</span>
+  <span class="token property">"license"</span><span class="token operator">:</span> <span class="token string">"ISC"</span><span class="token punctuation">,</span>
+  <span class="token property">"keywords"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">""</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h1 id="npm-скрипти">4. NPM-скрипти</h1>
+<p>Скрипти дозволяють запускати на виконання встановлені пакети. Використовуючи
+npm-скрипти, можна створювати цілі системи збирання проєкту.</p>
+<p>Автоматизуємо запуск <code>index.js</code>. Для цього в файлі <code>package.json</code> в поле
+<code>Scripts</code> додамо скрипт запуску <code>start</code>.</p>
+<pre class="language-"><code class="lang-json"><span class="token punctuation">{</span>
+  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"start"</span><span class="token operator">:</span> <span class="token string">"node index.js"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Тепер ми можемо запустити його в терміналі командою <code>npm start</code>.</p>
+<p><img src="images/npm-start.png" alt="script"></p>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Якщо створити скрипт з будь-яким іншим ім'ям, крім
+<code>start</code> або <code>test</code>, він буде запускатися як <code>npm run ім'я-скрипта</code> - не забудьте
+<code>run</code>.</p>
+</div></div></p>
+<p><a href="https://docs.npmjs.com/misc/scripts" target="_blank">How npm handles the "scripts" field</a></p>
+<h1 id="установка-пакетів">5. Установка пакетів</h1>
+<p>Одна з можливостей які надає <code>npm</code> - установка пакетів, які витягуються з
+реєстру і розпаковуються в папку <code>node_modules</code> в корені проєкту.</p>
+<p>Після того як файл <code>package.json</code> створений, можна додати залежності в проєкт.
+Залежністю називають npm-пакет який використовується при розробці. Це всілякі
+утиліти і бібліотеки.</p>
+<p>Встановимо бібліотеку <a href="https://www.npmjs.com/package/validator" target="_blank">validator.js</a>
+для валідації рядків, наприклад введення користувача в поля форми.</p>
+<pre class="language-"><code class="lang-bash"><span class="token function">npm</span> <span class="token function">install</span> validator
+</code></pre>
+<p>NPM завантажив <code>validator</code> і помістив його в <code>node_modules</code> - папку, в якій
+знаходитимуться всі зовнішні залежності.</p>
+<p><div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Не додавайте папку <code>node_modules</code> в систему контролю
+версій, у всіх розробників вона буде своя. Якщо ви використовуєте <code>Git</code>, не
+забувайте додати папку <code>node_modules</code> в файл <code>.gitignore</code> </p>
+</div></div></p>
+<p>Зверніть увагу на створений файл <code>package-lock.json</code> - це журнал знімків дерева
+залежностей проєкту. Він гарантує що команда розробників використовує одні й ті
+ж версії залежностей. NPM автоматично оновлює його при додаванні, видаленні і
+оновленні пакетів.</p>
+<p>В <code>package.json</code> з'явилася нова залежність в поле <code>dependencies</code>. Це означає, що
+<code>validator</code> версії<code>11.1.0</code> був встановлений як залежність і готовий до роботи.
+Пакети постійно оновлюються, версія може відрізнятися.</p>
+<pre class="language-"><code class="lang-json"><span class="token punctuation">{</span>
+  <span class="token property">"dependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"validator"</span><span class="token operator">:</span> <span class="token string">"^11.1.0"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Для того щоб отримати інтерфейс пакета в коді, необхідно викликати функцію
+<code>Require ('ім'я-модуля')</code>, аргументом передавши їй ім'я модуля, без визначення
+шляху, це називається абсолютний імпорт. Шлях не потрібен, оскільки за
+замовчуванням пошук модуля буде відбуватися в папці <code>node_modules</code>. Результатом
+свого виконання функція поверне інтерфейс модуля - об'єкт з методами або просто
+функцію, залежить від пакета.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// index.js</span>
+<span class="token keyword">const</span> validator <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'validator'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">validateEmail</span> <span class="token operator">=</span> <span class="token parameter">email</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> validator<span class="token punctuation">.</span><span class="token function">isEmail</span><span class="token punctuation">(</span>email<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>
+  <span class="token string">'Is <a href="https://goit.global/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dab7bbb4bdb59ab7bbb3b6f4b9b5b7">[email protected]</a> a valid email?: '</span><span class="token punctuation">,</span>
+  <span class="token function">validateEmail</span><span class="token punctuation">(</span><span class="token string">'<a href="https://goit.global/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="eb868a858c84ab868a8287c5888486">[email protected]</a>'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>
+  <span class="token string">'Is Mangozedog.com a valid email?: '</span><span class="token punctuation">,</span>
+  <span class="token function">validateEmail</span><span class="token punctuation">(</span><span class="token string">'Mangozedog.com'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Виконавши в консолі <code>npm start</code> отримаємо.</p>
+<pre class="language-"><code class="lang-bash">Is <a href="https://goit.global/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c7aaa6a9a0a887aaa6aeabe9a4a8aa">[email protected]</a> a valid email?: <span class="token boolean">true</span>
+Is Mangozedog.com a valid email?: <span class="token boolean">false</span>
+</code></pre>
+<h1 id="видалення-пакетів">6. Видалення пакетів</h1>
+<p>Припустимо, що встановлена в попередньому прикладі версія <code>validator</code> викликає
+проблеми з сумісністю. Ми можемо видалити цей пакет і поставити старішу версію.</p>
+<pre class="language-"><code class="lang-bash"><span class="token function">npm</span> uninstall validator
+</code></pre>
+<h1 id="установка-певної-версії-пакета">7. Установка певної версії пакета</h1>
+<p>Тепер встановимо потрібну версію <code>validator</code>. У команді установки номер версії
+вказується після символу <code>@</code>.</p>
+<pre class="language-"><code class="lang-bash"><span class="token function">npm</span> <span class="token function">install</span> <a href="https://goit.global/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0177606d686560756e7341302f312f31">[email protected]</a>
+</code></pre>
+<p>Установка пакетів певний версії використовується в комерційних проєктах, для
+того щоб гарантувати роботу кодової бази і можливість довгострокової підтримки.</p>
+<h1 id="типи-залежностей">8. Типи залежностей</h1>
+<p>Уявіть торт, для його приготування шефу потрібні продукти, саме вони увійдуть в
+склад торта. Але для приготування знадобляться і інструменти на зразок мисок,
+ложок, лопаток і т. п. А ще на кухні є столи і печі, холодильники і т. д., то що
+використовується для приготування будь-якої страви, загальні інструменти які є
+на кухні.</p>
+<p>Те ж саме і з залежностями проєкту - деякі будуть використані в результуючому
+продукті, інші необхідні тільки на стадії розробки, а є такі що необхідно
+використовувати незалежно від проєкту.</p>
+<p>Саме для цього у команд <code>npm install</code> і <code>npm uninstall</code> існують 3 прапора.</p>
+<ul>
+<li><code>--save</code> — вказує що додається залежність яка увійде до фінального    продукт.
+Пакет буде встановлений локально, в папку <code>node_modules</code>, і буде    додано
+запис в поле <code>dependencies</code> в <code>package.json</code>.</li>
+<li><code>--save-dev</code> — вказує що додається залежність розробки. Пакет буде<br>встановлений локально, в папку <code>node_modules</code>, і буде додано запис в поле
+<code>devDependencies</code> в <code>package.json</code>.</li>
+<li><code>--global</code> — вказує що додається глобальна залежність, тобто інструмент який
+доступний для будь-якого проєкту. Пакет буде встановлений глобально (в
+систему).</li>
+</ul>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p> Якщо не вказувати прапор, за замовчуванням буде
+використаний <code>--Save</code>. </p>
+</div></div></p>
+<h1 id="управління-версіями-пакетів">9. Управління версіями пакетів</h1>
+<p>Пакети мають пов'язаний з ними номер версії. Номери версій відповідають
+стандарту <strong><a href="http://semver.org/" target="_blank">SemVer</a></strong>.</p>
+<ul>
+<li><code>npm outdated</code> — використовується для пошуку оновлень, виявить сумісні<br>версії програмно.</li>
+<li><code>npm update</code> — оновить всі пакети до максимально дозволеної версії.</li>
+<li><code>npm update [ім'я-пакету]</code> - оновить вказаний пакет</li>
+</ul>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p>Якщо ви не довіряєте машинам 🤖, можна відкрити
+<code>package.json</code>, і вручну поміняти версії пакетів, після чого виконати
+<code>npm install</code>.</p>
+</div></div></p>
+<h1 id="управління-кешем">10. Управління кешем</h1>
+<p>Після установки пакета, npm зберігає його копію в кеші, тому при наступній його
+установці вам не потрібно знову завантажити його з інтернету. Кеш зберігається в
+папці <code>.npm</code> вашого домашнього каталогу.</p>
+<p>Ця папка з часом засмічується старими пакетами і іноді її корисно очищати, не
+дуже часто (пару раз на рік), кешування корисно оскільки скорочує час установки
+вже використаних пакетів.</p>
+<pre class="language-"><code class="lang-bash"><span class="token function">npm</span> cache clean
+</code></pre>
+<h1 id="додаткові-матеріали">11. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://tproger.ru/translations/npm-tricks/" target="_blank">Спрощуємо роботу з npm: корисні скорочення і трюки</a></li>
+<li><a href="https://deliciousbrains.com/npm-build-script/" target="_blank">Using Npm Scripts As A Build Tool</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

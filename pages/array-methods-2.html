@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Перебираючі методи масиву · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html" class="active">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p>В JavaScript є методи масивів прийшли з функціональних мов. Вони отримують
+вихідний масив, створюють новий порожній масив і заповнюють його, застосовуючи
+до копії значення кожного елемента зазначену callback-функцію.</p>
+<p>Всі функціональні методи масивів мають схожий синтаксис. Вихідний масив <code>Array</code>,
+виклик методу <code>method</code> і callback-функція <code>callback</code> як аргументу методу.</p>
+<pre class="language-"><code class="lang-bash">array.method<span class="token punctuation">(</span>callback<span class="token punctuation">[</span>currentValue, index, array<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<p>У більшості методів, аргументами callback-функції є значення елемента
+<code>CurrentValue</code> (перший параметр), позиція елемента <code>index</code> (другий параметр) і
+сам вихідний масив <code>array</code> (третій параметр).</p>
+<pre class="language-"><code class="lang-js">array<span class="token punctuation">.</span><span class="token function">method</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">item<span class="token punctuation">,</span> idx<span class="token punctuation">,</span> arr</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// логіка яка буде застосовуватися на кожній ітерації</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Всі параметри крім значення елемента <code>item</code> необов'язкові. Назви параметрів
+можуть бути будь-які, але є неофіційні угоди.</p>
+<pre class="language-"><code class="lang-js">array<span class="token punctuation">.</span><span class="token function">method</span><span class="token punctuation">(</span><span class="token parameter">item</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// логіка яка буде застосовуватися на кожній ітерації</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h1 id="arrayprototypeforeach">2. Array.prototype.forEach()</h1>
+<p>Єдиний з функціональних методів який нічого не повертає, а просто перебирає
+колекцію. Використовується як заміна циклу <code>for</code>.</p>
+<pre class="language-"><code class="lang-bash">array.forEach<span class="token punctuation">(</span>callback<span class="token punctuation">[</span>currentValue, index, array<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<ul>
+<li>Перебирає</li>
+<li>Може змінювати</li>
+<li>Чи не повертає</li>
+</ul>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Класичний for</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator"><</span> numbers<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>numbers<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Функціональний forEach</span>
+numbers<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">num</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Вказуємо параметр idx якщо потрібен доступ до лічильника</span>
+numbers<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">num<span class="token punctuation">,</span> idx</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`index </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>idx<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, value </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>num<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Код більш декларативний, читабельний, підтримуваний. Тому надалі використання
+циклу <code>for</code> при виконанні домашніх робіт не рекомендується. Єдиним місцем де все
+ще необхідно використовувати цикл <code>for</code>, це завдання з перериванням виконання
+циклу, <code>forEach</code> перервати інструкцією <code>break</code> не можна.</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach" target="_blank">Array.forEach на MDN</a></li>
+<li><a href="https://thejsguy.com/2016/07/30/javascript-for-loop-vs-array-foreach.html" target="_blank">The for Loop vs. forEach in JavaScript</a></li>
+</ul>
+<h1 id="arrayprototypemap">3. Array.prototype.map()</h1>
+<p>Використовується для трансформації масиву. Застосовує callback-функцію до
+кожного елементу вихідного масиву, результат роботи callback-функції записує в
+новий масив, який і буде результатом виконання методу. Вихідний і новий масив
+завжди мають однакову довжину. Чи не мутує вихідний масив.</p>
+<pre class="language-"><code class="lang-bash">array.map<span class="token punctuation">(</span>callback<span class="token punctuation">[</span>currentValue, index, array<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<ul>
+<li>Використовується для трансформації масиву</li>
+<li>Перебирає</li>
+<li>Не змінює</li>
+<li>Повертає колекцію</li>
+</ul>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> doubledNumbers <span class="token operator">=</span> numbers<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">num</span> <span class="token operator">=></span> num <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>doubledNumbers<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [2, 4, 6]</span>
+</code></pre>
+<p>Використовуємо map, щоб пройти по базі даних users і отримати масив всіх імен
+користувачів.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> users <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Mango'</span><span class="token punctuation">,</span> isActive<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> isActive<span class="token punctuation">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Ajax'</span><span class="token punctuation">,</span> isActive<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Для кожного елемента колекції (user) повернемо значення поля name</span>
+<span class="token keyword">const</span> names <span class="token operator">=</span> users<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">user</span> <span class="token operator">=></span> user<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>names<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["Mango", "Poly", "Ajax"]</span>
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map" target="_blank">Array.map на MDN</a></p>
+<h1 id="arrayprototypefilter">4. Array.prototype.filter()</h1>
+<p>Застосовує callback-функцію до кожного елементу вихідного масиву і якщо
+результат її виконання має значення <code>true</code>, то копіює значення з вихідного
+масиву в новий масив. Вихідний і новий масив можуть мати різну довжину. Чи не
+мутує вихідний масив. Завжди повертає масив, навіть якщо в ньому всього 1
+елемент. Якщо нічого не знайдено, поверне порожній масив. Використовується коли
+необхідно знайти більше одного елемента в колекції.</p>
+<pre class="language-"><code class="lang-bash">array.filter<span class="token punctuation">(</span>callback<span class="token punctuation">[</span>currentValue, index, array<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<ul>
+<li>Використовується для фільтрації масиву</li>
+<li>Перебирає</li>
+<li>Не змінює</li>
+<li>Повертає колекцію</li>
+</ul>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>numbers<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">num</span> <span class="token operator">=></span> num <span class="token operator">></span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [6, 7, 8, 9]</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>numbers<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">num</span> <span class="token operator">=></span> num <span class="token operator"><</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [0, 1, 2, 3, 4]</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>numbers<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">num</span> <span class="token operator">=></span> num <span class="token operator">===</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [5]</span>
+</code></pre>
+<p>Використовуємо <code>filter</code> щоб пройти по базі даних <code>users</code> і вибрати активних і
+неактивних користувачів за значенням властивості <code>isActive</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> users <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Mango'</span><span class="token punctuation">,</span> isActive<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> isActive<span class="token punctuation">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Ajax'</span><span class="token punctuation">,</span> isActive<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Chelsey'</span><span class="token punctuation">,</span> isActive<span class="token punctuation">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Для кожного елемента колекції (user) перевіримо поле isActive.</span>
+<span class="token comment">// Якщо воно true, то поточний елемент (user) буде записаний в результуючий масив.</span>
+<span class="token keyword">const</span> activeUsers <span class="token operator">=</span> users<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">user</span> <span class="token operator">=></span> user<span class="token punctuation">.</span>isActive<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>activeUsers<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Для кожного елемента колекції (user) перевіримо поле isActive.</span>
+<span class="token comment">// Якщо воно false, то поточний елемент (user) буде записаний в результуючий масив.</span>
+<span class="token keyword">const</span> inactiveUsers <span class="token operator">=</span> users<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">user</span> <span class="token operator">=></span> <span class="token operator">!</span>user<span class="token punctuation">.</span>isActive<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>inactiveUsers<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter" target="_blank">Array.filter на MDN</a></p>
+<h1 id="arrayprototypefind">5. Array.prototype.find()</h1>
+<p>Що робити якщо нам потрібно знайти унікальний <code>id</code> користувача серед 30000
+об'єктів, а серед 300000?</p>
+<p>Перше, що ви хотіли б зробити, це викликати <code>filter</code>, пройти по колекції і
+повернути тільки того користувача, <code>id</code> якого співпаде. Це працює, але якою
+ціною? Уявіть що потрібний нам об'єкт користувача стоїть під індексом 2 в
+масиві. Який сенс фільтрувати все інше? Ми втрачаємо продуктивність через зайві
+операції.</p>
+<p>Для таких випадків є метод <code>find</code>, який буде шукати до першого збігу, після чого
+перерве своє виконання.</p>
+<p>Застосовує callback-функцію до кожного елементу вихідного масиву і якщо
+результат її виконання має значення <code>true</code>, то повертає цей елемент і завершує
+своє виконання. Якщо нічого не знайдено, поверне <code>undefined</code>.</p>
+<pre class="language-"><code class="lang-bash">array.find<span class="token punctuation">(</span>callback<span class="token punctuation">[</span>currentValue, index, array<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<ul>
+<li>Використовується для пошуку унікального елемента масиву</li>
+<li>Перебирає</li>
+<li>Не змінює</li>
+<li>Повертає елемент</li>
+</ul>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>numbers<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token parameter">num</span> <span class="token operator">=></span> num <span class="token operator">></span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 6</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>numbers<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token parameter">num</span> <span class="token operator">=></span> num <span class="token operator"><</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 0</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>numbers<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token parameter">num</span> <span class="token operator">=></span> num <span class="token operator">===</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span>
+</code></pre>
+<p>Використовуємо <code>find</code> щоб пройти по базі даних <code>users</code> і знайти користувача за
+ідентифікатором <code>id</code>. Ідентифікатори завжди унікальні.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> users <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'000'</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'Mango'</span><span class="token punctuation">,</span> isActive<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'001'</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> isActive<span class="token punctuation">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'002'</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'Ajax'</span><span class="token punctuation">,</span> isActive<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'003'</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'Chelsey'</span><span class="token punctuation">,</span> isActive<span class="token punctuation">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Для кожного елемента колекції (user) перевіримо поле id.</span>
+<span class="token comment">// Якщо воно збігається з шуканим ідентифікатором, то find припинить</span>
+<span class="token comment">// виконання і поверне поточний елемент (user) як результат виконання</span>
+<span class="token keyword">const</span> user <span class="token operator">=</span> users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token parameter">user</span> <span class="token operator">=></span> user<span class="token punctuation">.</span>id <span class="token operator">===</span> <span class="token string">'002'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Створимо функцію яка буде повертати нам користувача по id</span>
+<span class="token keyword">const</span> <span class="token function-variable function">getUserById</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">arr<span class="token punctuation">,</span> id</span><span class="token punctuation">)</span> <span class="token operator">=></span> arr<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token parameter">x</span> <span class="token operator">=></span> x<span class="token punctuation">.</span>id <span class="token operator">===</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">getUserById</span><span class="token punctuation">(</span>users<span class="token punctuation">,</span> <span class="token string">'001'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">getUserById</span><span class="token punctuation">(</span>users<span class="token punctuation">,</span> <span class="token string">'003'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find" target="_blank">Array.find на MDN</a></p>
+<h1 id="arrayprototypeevery-і-arrayprototypesome">6. Array.prototype.every() і Array.prototype.some()</h1>
+<p>Метод <code>every</code> перевіряє, чи пройшли всі елементи масиву тест, що надається
+callback-функцією. Повертає <code>true</code>, якщо виклик callback-функції поверне <code>true</code>
+для кожного елемента в <code>array</code>.</p>
+<pre class="language-"><code class="lang-bash">array.every<span class="token punctuation">(</span>callback<span class="token punctuation">[</span>currentValue, index, array<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Метод <code>some</code> перевіряє, чи проходить принаймні один елемент в масиві тест,
+надається callback-функцією. Повертає <code>true</code>, якщо виклик callback-функції
+поверне <code>true</code> хоча б для одного елемента в <code>array</code>.</p>
+<pre class="language-"><code class="lang-js">array<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span>callback<span class="token punctuation">[</span><span class="token punctuation">(</span>currentValue<span class="token punctuation">,</span> index<span class="token punctuation">,</span> array<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<ul>
+<li>Перебирає</li>
+<li>Не змінює</li>
+<li>Повертає true або false</li>
+</ul>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Функція яка перевіряє величину значення, повертає true або false.</span>
+<span class="token keyword">const</span> <span class="token function-variable function">isBigEnough</span> <span class="token operator">=</span> <span class="token parameter">val</span> <span class="token operator">=></span> val <span class="token operator">>=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Припустимо нам потрібно дізнатися чи достатньо великі ВСЕ числа в колекції.</span>
+<span class="token comment">// Все що нам потрібно це буль true / false. Метод every поверне true тільки тоді,</span>
+<span class="token comment">// коли всі елементи колекції будуть задовольняти умові в callback-функції.</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">130</span><span class="token punctuation">,</span> <span class="token number">44</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">every</span><span class="token punctuation">(</span>isBigEnough<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">54</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">,</span> <span class="token number">130</span><span class="token punctuation">,</span> <span class="token number">44</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">every</span><span class="token punctuation">(</span>isBigEnough<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+
+<span class="token comment">// Припустимо нам потрібно дізнатися ЧИ Є в колекції числа понад 10, хоча б одне</span>
+<span class="token comment">// або більше. Все що нам потрібно це буль true / false. Метод some поверне true</span>
+<span class="token comment">// тільки тоді, коли хоча б 1 або більше елементів колекції будуть</span>
+<span class="token comment">// задовольняти умові в callback-функції.</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span>isBigEnough<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span>isBigEnough<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+</code></pre>
+<p>Давайте ще приклад. Є масив об'єктів фруктів, необхідно дізнатися чи все фрукти
+є в наявності й чи є в наявності хоч якісь фрукти більше 0 штук.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> fruits <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'apples'</span><span class="token punctuation">,</span> amount<span class="token punctuation">:</span> <span class="token number">100</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'bananas'</span><span class="token punctuation">,</span> amount<span class="token punctuation">:</span> <span class="token number">0</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'grapes'</span><span class="token punctuation">,</span> amount<span class="token punctuation">:</span> <span class="token number">50</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// every поверне true тільки якщо всіх фруктів буде більше ніж 0 штук</span>
+<span class="token keyword">const</span> allAvailable <span class="token operator">=</span> fruits<span class="token punctuation">.</span><span class="token function">every</span><span class="token punctuation">(</span><span class="token parameter">fruit</span> <span class="token operator">=></span> fruit<span class="token punctuation">.</span>amount <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+
+<span class="token comment">// some поверне true якщо хоча б одного фрукта буде більше ніж 0 штук</span>
+<span class="token keyword">const</span> anyAvailable <span class="token operator">=</span> fruits<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span><span class="token parameter">fruits</span> <span class="token operator">=></span> fruits<span class="token punctuation">.</span>amount <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+</code></pre>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every" target="_blank">Array.every на MDN</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some" target="_blank">Array.some на MDN</a></li>
+</ul>
+<h1 id="arrayprototypereduce">7. Array.prototype.reduce()</h1>
+<p>Акумулює функція, використовується для послідовної обробки кожного елемента
+масиву зі збереженням проміжного результату. Швейцарський ніж функціональних
+методів масиву. Можливо трохи складна в засвоєнні, але результат варто того.</p>
+<ul>
+<li>Перебирає</li>
+<li>Не змінює</li>
+<li>Повертає що завгодно</li>
+</ul>
+<pre class="language-"><code class="lang-bash">array.reduce<span class="token punctuation">(</span>сallback<span class="token punctuation">[</span><span class="token punctuation">(</span>previousValue, currentItem, index, array<span class="token punctuation">)</span><span class="token punctuation">]</span>, initialValue<span class="token punctuation">)</span>
+</code></pre>
+<ul>
+<li><code>previousValue</code> - проміжний результат (акумулятор)</li>
+<li><code>currentItem</code> - поточний елемент масиву</li>
+<li><code>index</code> - індекс поточного елемента масиву</li>
+<li><code>array</code> - оригінальний масив</li>
+</ul>
+<p>Легко уявити її роботу на прикладі підрахунку суми значень масиву. Якщо в якості
+callback-функції задати складання, то reduce поверне суму всіх значень масиву.</p>
+<p>Працює це так:</p>
+<ul>
+<li>Функція <code>reduce</code> створить нову змінну, яка називається акумулятор. потім<br>присвоїть акумулятора значення поточного (першого) елемента масиву<br><code>CurrentItem</code>.</li>
+<li>Функція перевірить чи є у масиву наступний елемент і якщо він є, то    додасть
+значення до акумулятора. Коли наступного елемента не виявиться (кінець<br>масиву), функція поверне значення акумулятора.</li>
+<li>Другим аргументом <code>reduce</code> може бути початкове значення <code>initialValue</code>. Це<br>значення буде присвоєно акумулятору до застосування callback-функції до
+першого    елементу масиву.</li>
+</ul>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> summ <span class="token operator">=</span> numbers<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">acc<span class="token punctuation">,</span> value</span><span class="token punctuation">)</span> <span class="token operator">=></span> acc <span class="token operator">+</span> value<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>summ<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 15</span>
+</code></pre>
+<p>Припустимо у нас є наступна задача: з масиву постів твіттера окремого
+користувача необхідно порахувати суму всіх лайків. Можна перебрати циклом <code>For</code>
+або <code>forEach</code>, кожне з цих рішень потребують додаткового коду. А можна
+використовувати <code>reduce</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> tweets <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'000'</span><span class="token punctuation">,</span> likes<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span> tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'js'</span><span class="token punctuation">,</span> <span class="token string">'nodejs'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'001'</span><span class="token punctuation">,</span> likes<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span> tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'html'</span><span class="token punctuation">,</span> <span class="token string">'css'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'002'</span><span class="token punctuation">,</span> likes<span class="token punctuation">:</span> <span class="token number">17</span><span class="token punctuation">,</span> tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'html'</span><span class="token punctuation">,</span> <span class="token string">'js'</span><span class="token punctuation">,</span> <span class="token string">'nodejs'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'003'</span><span class="token punctuation">,</span> likes<span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">,</span> tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'css'</span><span class="token punctuation">,</span> <span class="token string">'react'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'004'</span><span class="token punctuation">,</span> likes<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'js'</span><span class="token punctuation">,</span> <span class="token string">'nodejs'</span><span class="token punctuation">,</span> <span class="token string">'react'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Пройдемо по всіх елементах колекції і додамо значення властивості likes</span>
+<span class="token comment">// до акумулятора, початкове значення якого вкажемо 0.</span>
+<span class="token keyword">const</span> likes <span class="token operator">=</span> tweets<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">totalLikes<span class="token punctuation">,</span> tweet</span><span class="token punctuation">)</span> <span class="token operator">=></span> totalLikes <span class="token operator">+</span> tweet<span class="token punctuation">.</span>likes<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>likes<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 32</span>
+
+<span class="token comment">// Напевно підрахунок лайків не поодинока операція, тому напишемо функцію</span>
+<span class="token comment">// для підрахунку лайків з колекції</span>
+<span class="token keyword">const</span> <span class="token function-variable function">countLikes</span> <span class="token operator">=</span> <span class="token parameter">tweets</span> <span class="token operator">=></span>
+  tweets<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">totalLikes<span class="token punctuation">,</span> tweet</span><span class="token punctuation">)</span> <span class="token operator">=></span> totalLikes <span class="token operator">+</span> tweet<span class="token punctuation">.</span>likes<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">countLikes</span><span class="token punctuation">(</span>tweets<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 32</span>
+</code></pre>
+<p>Помітили властивість <code>tags</code> у кожного поста? Продовжуючи тему <code>reduce</code> ми
+зберемо в масив всі теги які зустрічаються в постах.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> tweets <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'000'</span><span class="token punctuation">,</span> likes<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span> tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'js'</span><span class="token punctuation">,</span> <span class="token string">'nodejs'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'001'</span><span class="token punctuation">,</span> likes<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span> tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'html'</span><span class="token punctuation">,</span> <span class="token string">'css'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'002'</span><span class="token punctuation">,</span> likes<span class="token punctuation">:</span> <span class="token number">17</span><span class="token punctuation">,</span> tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'html'</span><span class="token punctuation">,</span> <span class="token string">'js'</span><span class="token punctuation">,</span> <span class="token string">'nodejs'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'003'</span><span class="token punctuation">,</span> likes<span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">,</span> tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'css'</span><span class="token punctuation">,</span> <span class="token string">'react'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'004'</span><span class="token punctuation">,</span> likes<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'js'</span><span class="token punctuation">,</span> <span class="token string">'nodejs'</span><span class="token punctuation">,</span> <span class="token string">'react'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Пройдемо по всіх елементах колекції і додамо значення властивості tags</span>
+<span class="token comment">// до акумулятора, початкове значення якого вкажемо порожнім масивом [].</span>
+<span class="token comment">// На кожній ітерації пушим в акумулятор всі елементи tweet.tags і повертаємо його.</span>
+<span class="token keyword">const</span> tags <span class="token operator">=</span> tweets<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">allTags<span class="token punctuation">,</span> tweet</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  allTags<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token operator">...</span>tweet<span class="token punctuation">.</span>tags<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> allTags<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>tags<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Напевно збір тегів не одиночна операція, тому напишемо функцію</span>
+<span class="token comment">// для збору тегів з колекції</span>
+<span class="token keyword">const</span> <span class="token function-variable function">getTags</span> <span class="token operator">=</span> <span class="token parameter">tweets</span> <span class="token operator">=></span>
+  tweets<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">allTags<span class="token punctuation">,</span> tweet</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    allTags<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token operator">...</span>tweet<span class="token punctuation">.</span>tags<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> allTags<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">getTags</span><span class="token punctuation">(</span>tweets<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Після того як ми зібрали всі теги з постів, добре б було порахувати кількість
+унікальних тегів в масиві. І знову <code>reduce</code> тут як тут.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> tweets <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'000'</span><span class="token punctuation">,</span> likes<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span> tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'js'</span><span class="token punctuation">,</span> <span class="token string">'nodejs'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'001'</span><span class="token punctuation">,</span> likes<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span> tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'html'</span><span class="token punctuation">,</span> <span class="token string">'css'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'002'</span><span class="token punctuation">,</span> likes<span class="token punctuation">:</span> <span class="token number">17</span><span class="token punctuation">,</span> tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'html'</span><span class="token punctuation">,</span> <span class="token string">'js'</span><span class="token punctuation">,</span> <span class="token string">'nodejs'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'003'</span><span class="token punctuation">,</span> likes<span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">,</span> tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'css'</span><span class="token punctuation">,</span> <span class="token string">'react'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> id<span class="token punctuation">:</span> <span class="token string">'004'</span><span class="token punctuation">,</span> likes<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> tags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'js'</span><span class="token punctuation">,</span> <span class="token string">'nodejs'</span><span class="token punctuation">,</span> <span class="token string">'react'</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">getTags</span> <span class="token operator">=</span> <span class="token parameter">tweets</span> <span class="token operator">=></span>
+  tweets<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">allTags<span class="token punctuation">,</span> tweet</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    allTags<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token operator">...</span>tweet<span class="token punctuation">.</span>tags<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> allTags<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> tags <span class="token operator">=</span> <span class="token function">getTags</span><span class="token punctuation">(</span>tweets<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Винесемо callback-функцію окремо, а в reducе передамо посилання на неї.</span>
+<span class="token comment">// Це стандартна практика якщо callback-функція досить велика.</span>
+
+<span class="token comment">// Якщо в об'єкті-акумуляторі acc немає свого властивості з ключем tag,</span>
+<span class="token comment">// то створюємо його і записує йому значення 0.</span>
+<span class="token comment">// В іншому випадку збільшуємо значення на 1.</span>
+<span class="token keyword">const</span> <span class="token function-variable function">getTagStats</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">acc<span class="token punctuation">,</span> tag</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>acc<span class="token punctuation">.</span><span class="token function">hasOwnProperty</span><span class="token punctuation">(</span>tag<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    acc<span class="token punctuation">[</span>tag<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  acc<span class="token punctuation">[</span>tag<span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> acc<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Початкове значення акумулятора це порожній об'єкт {}</span>
+<span class="token keyword">const</span> <span class="token function-variable function">countTags</span> <span class="token operator">=</span> <span class="token parameter">tags</span> <span class="token operator">=></span> tags<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span>getTagStats<span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> tagCount <span class="token operator">=</span> <span class="token function">countTags</span><span class="token punctuation">(</span>tags<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>tagCount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce" target="_blank">Array.reduce на MDN</a></li>
+<li><a href="https://hackernoon.com/reduce-your-fears-about-array-reduce-629b334ab945" target="_blank">Reduce your fears about Array.reduce()</a></li>
+</ul>
+<h1 id="arrayprototypesort">8. Array.prototype.sort()</h1>
+<p>Дозволяє сортувати елементи масиву <em>на місці</em>. Крім повернення відсортованого
+масиву метод <code>sort</code> також відсортує масив, на якому він був викликаний. За
+замовчуванням метод <code>sort</code> сортує, перетворюючи елементи до рядка.</p>
+<ul>
+<li>Перебирає</li>
+<li>Змінює</li>
+<li>Повертає колекцію</li>
+</ul>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token comment">// Відсортує по зростанню</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Before sort: '</span><span class="token punctuation">,</span> numbers<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [2, 1, 4, 3, 5]</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'After sort: '</span><span class="token punctuation">,</span> numbers<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [1, 2, 3, 4, 5]</span>
+
+<span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Chelsey'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Відсортує за алфавітом</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Before sort: '</span><span class="token punctuation">,</span> clients<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["Mango", "Ajax", "Poly", "Chelsey"]</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'After sort: '</span><span class="token punctuation">,</span> clients<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["Ajax", "Chelsey", "Mango", "Poly"]</span>
+</code></pre>
+<h2 id="свій-порядок-сортування">8.1. Свій порядок сортування</h2>
+<p>Для вказівки свого порядку сортування в метод <code>arr.sort (fn)</code> потрібно передати
+функцію <code>fn</code> з двома параметрами, яка порівнює їх. Внутрішній алгоритм функції
+сортування вміє сортувати будь-які масиви. Але для цього йому потрібно знати, як
+їх порівнювати. Цю роль і виконує <code>fn</code>.</p>
+<p>Алгоритм сортування, вбудований в JavaScript, буде передавати їй для порівняння
+елементи масиву. Вона повинна повертати:</p>
+<ul>
+<li>Позитивне значення, якщо <code>a> b</code></li>
+<li>Негативне значення, якщо <code>a <b</code></li>
+<li>Якщо рівні - можна <code>0</code>, але взагалі не важливо, що повертати, якщо їх взаємний
+  порядок не має значення.</li>
+</ul>
+<p>Відсортуємо масив наших користувачів по зростанню днів онлайн активності.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> users <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Mango'</span><span class="token punctuation">,</span> daysActive<span class="token punctuation">:</span> <span class="token number">15</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> daysActive<span class="token punctuation">:</span> <span class="token number">4</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Ajax'</span><span class="token punctuation">,</span> daysActive<span class="token punctuation">:</span> <span class="token number">27</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Chelsey'</span><span class="token punctuation">,</span> daysActive<span class="token punctuation">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">sortByActiveDays</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b</span><span class="token punctuation">)</span> <span class="token operator">=></span> a<span class="token punctuation">.</span>daysActive <span class="token operator">-</span> b<span class="token punctuation">.</span>daysActive<span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>users<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span>sortByActiveDays<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort" target="_blank">Array.sort на MDN</a></p>
+<h1 id="ланцюжки-методів-масиву">9. Ланцюжки методів масиву</h1>
+<p>Є масив чисел, з нього необхідно взяти всі парні й помножити на 2, після чого ще
+й розгорнути масив. Висловимо кодом рішення оскільки ми вже вміємо це робити.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> even <span class="token operator">=</span> numbers<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">x</span> <span class="token operator">=></span> x <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> doubled <span class="token operator">=</span> even<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">x</span> <span class="token operator">=></span> x <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> reversed <span class="token operator">=</span> doubled<span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>reversed<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Варіант рішення вище непоганий. Проблема в тому, що у нас з'являються проміжні
+змінні після кожної операції. Позбутися від них можна використовуючи ланцюжки
+викликів методів.</p>
+<p>Функціональні методи масиву можна групувати в ланцюжки. Кожен наступний метод
+буде виконуватися на результаті роботи попереднього.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * Фільтруємо парні числа. Далі, на результаті методу filter,
+ * Викликаємо map і множимо на 2. Після чого на результаті
+ * Методу map викликаємо reverse.
+ */</span>
+
+<span class="token keyword">const</span> result <span class="token operator">=</span> numbers
+  <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">x</span> <span class="token operator">=></span> x <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">y</span> <span class="token operator">=></span> y <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+  </main>
+</div>
+</body>
+</html>

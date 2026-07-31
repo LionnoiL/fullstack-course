@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Що таке JavaScript? · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html" class="active">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p>Коли ми говоримо про програмування, перше що приходить в голову це набір
+інструкцій у файлі - вихідний код.</p>
+<p><strong>Вихідний код (source code)</strong> — набір фраз, слів, спеціальних символів і т. д.,
+специфічних для мови програмування, що описують набір інструкцій для комп'ютера.</p>
+<p>Але символи, слова і фрази, які складають програму, насправді незрозумілі для
+машини. Є крок, що виконується після написання програми, який конвертує вихідний
+код в файлі в набір інструкцій зрозумілих комп'ютера. Цим займається спеціальна
+програма: <strong>компилятор</strong> або <strong>интерпретатор</strong>.</p>
+<p>Звідси можна зробити висновок - код пишеться не для машини, а для розробника.
+Вихідний код повинен не тільки вірно вирішувати завдання, а й мати сенс, бути
+зрозумілим і легко читаним. Це одна з найскладніших завдань для початківців (і
+не тільки), на її рішення піде багато часу і сил.</p>
+<h1 id="логічне-мислення">2. Логічне мислення</h1>
+<p>У світі існує багато (сотні) мов програмування. Насправді, вони не такі складні,
+як людські, тому що складаються з доволно маленького набору синтаксичних
+конструкцій, а їх принцип роботи та базові концепції схожі між різними мовами.</p>
+<p>Досвідчені розробники розглядають проблеми з точки зору алгоритмів - набору
+кроків, які потрібно виконати для досягнення певної мети, навіть якщо деталі
+міняються.</p>
+<p>Ми постійно використовуємо алгоритми в повсякденному житті. Наприклад процес
+приготування чаю це набір необхідних кроків (алгоритм) для досягнення
+результату. Коли ви звикнете вибудовувати рішення задачі у вигляді алгоритму,
+мова програмування буде всього лише інструментом.</p>
+<h1 id="javascript">3. JavaScript</h1>
+<p><strong>JavaScript</strong> — реалізація специфікації <code>EcmaScript</code>, високорівнева мова
+програмування, підтримуваний всіма сучасними веб-браузерами. Спочатку
+призначений для взаємодії з елементами веб-сторінок і додавання інтерактивності.</p>
+<p><div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p><code>JavaScript</code> не має ніякого відношення до мови
+програмування <code>Java</code>. Це дві незалежних мови програмування з різним синтаксисом
+і принципами роботи. Плутати їх в середовищі розробників буде верхом професійної
+неграмотності.</p>
+</div></div></p>
+<p>При Front-end розробці, JavaScript використовується з HTML і CSS для
+забезпечення функціональності веб-сторінки, такий як:</p>
+<ul>
+<li>нескладні обчислення</li>
+<li>перевірка і маніпуляція введеними користувачем даними</li>
+<li>зберігання інформації в браузері користувача</li>
+<li>динамічна зміна HTML-документа</li>
+<li>реакція на дії користувача</li>
+<li>створення інтерактивних елементів: галерей, графіків і т. д.</li>
+<li>взаємодія з сервером і базою даних</li>
+</ul>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Якщо JavaScript-код пишеться для виконання в браузері
+(Front-end), у розробника немає інструментів і доступу до файлової або
+операційній системі з міркувань безпеки.</p>
+</div></div></p>
+<p>На сьогоднішній день використовуючи JavaScript можна створювати:</p>
+<ul>
+<li>веб-додатки використовуючи фреймворки <code>React</code>, <code>Vue</code>, <code>Angular</code> та інші</li>
+<li>бекенд-додатки на <code>Node.js</code></li>
+<li>мобільні додатки використовуючи <code>React Native</code> або <code>Ionic</code></li>
+<li>десктоп-додатки за допомогою <code>Electron</code></li>
+<li>мікроконтролери з <code>Johnny-Five</code> і <code>Espruino</code></li>
+</ul>
+<p>Для реалізації всіх цих можливостей необхідно добре знати синтаксис мови, його
+особливості та механізми, а так само тренуватися мислити алгоритмічно і
+вирішувати якомога більше завдань.</p>
+  </main>
+</div>
+</body>
+</html>

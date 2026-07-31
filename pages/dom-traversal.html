@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Навігація по DOM · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html" class="active">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="навігація-по-dom">1. Навігація по DOM</h1>
+<p>DOM надає широкий спектр можливостей при роботі з HTML-елементом і його вмістом,
+але для цього спочатку потрібно отримати посилання на елемент. Доступ до DOM
+починається з об'єкта <code>document</code>, від нього можна дістатися до будь-яких вузлів.</p>
+<p>Вузли HTML-дерева мають ієрархічне ставлення один до одного. Терміни <strong> ancestor
+(предок) </strong>, <strong> descendant (нащадок) </strong>, <strong> parent (батько) </strong>, <strong> child
+(дитина) </strong> і <strong> sibling (сусід) </strong> використовуються для опису відносин.</p>
+<ul>
+<li>У дереві вузлів верхній вузол називається кореневим (root node).</li>
+<li>Кожен вузол, крім root node, має тільки одного з батьків.</li>
+<li>У вузла може бути скільки завгодно дітей.</li>
+<li>Сусіди - це вузли із загальним батьком.</li>
+<li>Дочірні елементи (діти) - елементи, які лежать безпосередньо всередині<br>даного.</li>
+<li>Нащадки - всі елементи, які лежать всередині даного, разом з їхніми дітьми,<br>дітьми їхніх дітей і так далі. Тобто все піддерево.</li>
+</ul>
+<p><img src="images/traversing.png" alt="Ілюстрація навігації по списку"></p>
+<p>Ви можете використовувати наступні властивості для навігації між вузлами.</p>
+<ul>
+<li><code>elem.parentNode</code> - вибере батька elem</li>
+<li><code>elem.childNodes</code> - псевдомасив зберігає всі дочірні елементи, включаючи<br>текстові.</li>
+<li><code>elem.children</code> - псевдомасив зберігає тільки дочірні вузли-елементи, тобто<br>відповідні тегам.</li>
+<li><code>elem.firstChild</code> - вибере перший дочірній елемент всередині elem, включаючи
+   текстові вузли.</li>
+<li><code>elem.firstElementChild</code> - вибере перший дочірній вузол-елемент всередині
+elem.</li>
+<li><code>elem.lastChild</code> - вибере останній дочірній елемент всередині elem, включаючи
+   текстові вузли.</li>
+<li><code>elem.lastElementChild</code> - вибере останній дочірній вузол-елемент всередині
+elem.</li>
+<li><code>elem.previousSibling</code> - вибере елемент "зліва" від elem (його попереднього<br>сусіда)</li>
+<li><code>elem.previousElementSibling</code> - вибере вузол-елемент "зліва" від elem (його<br>попереднього сусіда)</li>
+<li><code>elem.nextSibling</code> - вибере елемент "справа" від elem (його наступного сусіда)</li>
+<li><code>elem.nextElementSibling</code> - вибере вузол-елемент "справа" від elem (його<br>попереднього сусіда)</li>
+</ul>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>DOM-колекції, такі як <code>childNodes</code> і <code>children</code> —
+псевдомасиви, у них немає більшості методів масивів.</p>
+</div></div></p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction#Important_Data_Types" target="_blank">Типи даних вузлів і колекцій на MDN</a></p>
+<h1 id="пошук-dom-вузлів">2. Пошук DOM-вузлів</h1>
+<p>Отже, ми вже знаємо що DOM-вузол це об'єкт. У нього є методи і властивості. Саме
+час навчитися знаходити елемент за довільним CSS-селектору.</p>
+<p>Методи <code>elem.querySelector *</code> це сучасний стандарт для пошуку DOM-вузлів. Вони
+дозволяють знайти вузол або групу вузлів по CSS-селектору будь-якої складності.</p>
+<pre class="language-"><code class="lang-bash">elem.querySelector<span class="token punctuation">(</span>selector<span class="token punctuation">)</span>
+</code></pre>
+<p>Використовується коли ми свідомо знаємо, що відповідний елемент тільки один.</p>
+<ul>
+<li>Повертає перший знайдений елемент всередині <code>elem</code>, відповідний CSS-селектору
+<code>selector</code>.</li>
+<li>Якщо нічого не знайдено, поверне <code>null</code>.</li>
+</ul>
+<pre class="language-"><code class="lang-bash">elem.querySelectorAll<span class="token punctuation">(</span>selector<span class="token punctuation">)</span>
+</code></pre>
+<p>Використовується, коли ми свідомо знаємо, що підходячих елементів більше одного.</p>
+<ul>
+<li>Повертає псевдомасив всіх елементів всередині <code>elem</code>, що задовольняють<br>CSS-селектору <code>selector</code>.</li>
+<li>Якщо нічого не знайдено поверне порожній масив.</li>
+</ul>
+<p><a href="https://codepen.io/goit-fe-adv/pen/NvVpMw/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+  </main>
+</div>
+</body>
+</html>

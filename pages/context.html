@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ключове слово this · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html" class="active">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="контекст-виконання-this">1. Контекст виконання (this)</h1>
+<p>Можна з упевненістю сказати, що ключове слово <code>this</code> є однією з найбільш
+заплутаних частин JavaScript на старті вивчення. Новачки часто підставляють
+<code>This</code> методом наукового тику до тих пір поки скрипт не спрацює 😐.</p>
+<p>Контекст в JavaScript схожий на контекст в реченні:</p>
+<ul>
+<li><code>Петя</code> біжить швидко, тому що <code>Петя</code> намагається зловити поїзд.</li>
+<li><code>Петя</code> біжить швидко, тому що <code>він</code> намагається зловити поїзд.</li>
+</ul>
+<p>Друга пропозиція звучить лаконічніше. Предметом пропозиції є Петя, і ми можемо
+сказати, що контекст пропозиції - це Петя, тому що він в центрі уваги в це
+конкретний час в реченні. Навіть займенник <em>хто</em> відноситься до Петі.</p>
+<p>І точно так же об'єкт може бути поточним контекстом виконання функції.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Петя біжить швидко, тому що Петя намагається зловити поїзд.</span>
+<span class="token keyword">const</span> petya <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Petya'</span><span class="token punctuation">,</span>
+  <span class="token function">showName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>petya<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+petya<span class="token punctuation">.</span><span class="token function">showName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Звернення до властивостей об'єкта всередині методів, використовуючи ім'я самого
+об'єкта, аналогічно використанню <code>Петя</code> замість <code>він</code>.</p>
+<p>У всіх функцій є локальна змінна <code>this</code>. Під час виконання функції, в змінну
+<code>this</code> записується посилання на об'єкт, в контексті якого вона викликається.</p>
+<p><code>This</code> нам потрібен для доступу до методів і властивостей об'єкта, який викликає
+функцію, тим більше, що найчастіше ім'я викликає об'єкта не відомо.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Петя біжить швидко, тому що він (this) намагається зловити поїзд.</span>
+<span class="token keyword">const</span> petya <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Petya'</span><span class="token punctuation">,</span>
+  <span class="token function">showName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+petya<span class="token punctuation">.</span><span class="token function">showName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h1 id="правила-визначення-this">2. Правила визначення this</h1>
+<p>Необхідно засвоїти лише одне правило для визначення <code>this</code>.</p>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p> Значення контексту всередині функції визначаться не в
+момент її створення, а в момент виклику. Тобто значення <code>this</code> визначається тим,
+як викликається функція, а не де вона була оголошена. </p>
+</div></div></p>
+<h2 id="this-в-глобальному-контексті">2.1. this в глобальному контексті</h2>
+<p>У глобальному контексті, якщо скрипт виконується не в строгому режимі, <code>This</code>
+посилається на об'єкт <code>window</code>. У строгому режимі, значення <code>this</code>, в
+глобальному контексті, буде <code>undefined</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// window без "use strict" і udefined с "use strict"</span>
+</code></pre>
+<h2 id="this-в-методі-обєкту">2.2. this в методі об'єкту</h2>
+<p>Якщо функція була викликана як метод об'єкта, то контекст буде посилатися на
+об'єкт, частиною якого є метод.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> petya <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Petya'</span><span class="token punctuation">,</span>
+  <span class="token function">showThis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">showName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+petya<span class="token punctuation">.</span><span class="token function">showThis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {name: "Petya", showThis: ƒ, showName: ƒ}</span>
+petya<span class="token punctuation">.</span><span class="token function">showName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 'Petya'</span>
+</code></pre>
+<p>Більш складний приклад для кращого розуміння:</p>
+<ul>
+<li>Спочатку створимо функцію в глобальному контексті, і викличемо її.</li>
+<li>Після чого дамо її в властивість об'єкта і викличемо як метод цього об'єкта.</li>
+</ul>
+<pre class="language-"><code class="lang-js"><span class="token keyword">function</span> <span class="token function">showThis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'this in showThis: '</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Викликаємо в глобальному контексті</span>
+<span class="token function">showThis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// this in showThis: Window</span>
+
+<span class="token keyword">const</span> user <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Mango'</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * Записуємо посилання на функцію в властивість об'єкта
+ * Зверніть увагу, що це не виклик - немає ()
+ */</span>
+user<span class="token punctuation">.</span>showContext <span class="token operator">=</span> showThis<span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * Викликаємо функцію в контексті об'єкта
+ * This буде вказувати на поточний об'єкт, в контексті
+ * Якого здійснюється виклик, а не на глобальний об'єкт.
+ */</span>
+
+user<span class="token punctuation">.</span><span class="token function">showContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// this in showThis: {name: "Mango", showContext: ƒ}</span>
+</code></pre>
+<h2 id="this-у-функціях-зворотного-виклику">2.3. this у функціях зворотного виклику</h2>
+<p>Коли ми передаємо метод, який використовує <code>this</code>, як параметр, який буде
+використовуватися як функція зворотного виклику, буде проблема. Розв'язання цієї
+проблеми розглядається в наступній секції.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
+  <span class="token function">showThis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">fn</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">/*
+   * Під час виклику fn, callback буде посиланням
+   * На функцію showThis об'єкта hotel.
+   * Її виклик відбувається в глобальному контексті,
+   * Про hotel вона нічого не знає.
+   * Відповідно this НЕ буде посилатися на hotel
+   */</span>
+  <span class="token function">callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Передається посилання на функцію, а не її виклик</span>
+<span class="token function">fn</span><span class="token punctuation">(</span>hotel<span class="token punctuation">.</span>showThis<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// window або undefined</span>
+</code></pre>
+<h2 id="this-в-стрілкових-функціях">2.4. this в стрілкових функціях</h2>
+<p>Стрілкові функції не мають свого <code>this</code>. На відміну від звичайних функцій,
+змінити значення <code>this</code> всередині стрілки після її оголошення не можна.</p>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p> Контекст всередині стрілки визначається місцем її
+оголошення, а не виклику, і посилається на контекст батьківської функції.</p>
+</div></div></p>
+<p>Стрілкові функції також ігнорують наявність суворого режиму. якщо стрілка
+запам'ятала глобальний контекст, то <code>this</code> в ній буде містити посилання на
+<code>Window</code> незалежно чи виконується скрипт в строгому режимі чи ні.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">showThis</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'this in showThis: '</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token function">showThis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// this in showThis: window</span>
+
+<span class="token keyword">const</span> user <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Mango'</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+user<span class="token punctuation">.</span>showContext <span class="token operator">=</span> showThis<span class="token punctuation">;</span>
+
+user<span class="token punctuation">.</span><span class="token function">showContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// this in showThis: window</span>
+</code></pre>
+<p>Обмежуючи Стрілкові функції постійним контекстом, JavaScript-движки можуть краще
+їх оптимізувати, на відміну від звичайних функцій, значення <code>this</code> яких може
+бути змінено.</p>
+<p>Приклад не практичний, але відмінно показує як працює контекст для стрілок.
+Значення контексту береться з батьківської області видимості.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort hotel'</span><span class="token punctuation">,</span>
+  <span class="token function">showThis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token function-variable function">fn</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      <span class="token comment">/*
+       * Стрілки запам'ятовують контекст під час оголошення,
+       * З батьківської області видимості
+       */</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'this in fn: '</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'this in showThis: '</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+hotel<span class="token punctuation">.</span><span class="token function">showThis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// this in fn: {name: 'Resort hotel', showThis: ƒ}</span>
+<span class="token comment">// this in showThis: {name: 'Resort hotel',showThis: ƒ}</span>
+</code></pre>
+<p>Якщо привести цей код до ES5, вийде наступне.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort hotel'</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">showThis</span><span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token function">showThis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">/*
+     * Контекст для стрілки зберігається
+     * І передається з зовнішньої області видимості
+     */</span>
+    <span class="token keyword">const</span> context <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">const</span> <span class="token function-variable function">fn</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// А тут використовується</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'this in fn: '</span><span class="token punctuation">,</span> context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'this in showThis: '</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+hotel<span class="token punctuation">.</span><span class="token function">showThis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// this in fn: {name: 'Resort hotel', showThis: ƒ}</span>
+<span class="token comment">// this in showThis: {name: 'Resort hotel',showThis: ƒ}</span>
+</code></pre>
+<h1 id="методи-функцій-call-apply-bind">3. Методи функцій call, apply, bind</h1>
+<p>Присвоєння функції в якості методу об'єкта може здатися гарною ідеєю, але чи
+варто зберігати подібні методи? Дублювання вже існуючих функцій у вигляді
+методів об'єкта буде займати ресурси, не приносячи жодних помітних вигод.</p>
+<p>Тепер уявіть що у вас 150 готелів і для кожного необхідно виконати ту ж саму
+операцію при кожному привітанні гостя. Нам як мінімум хочеться відразу винести
+цей загальний код в функцію.</p>
+<p>Функція це насправді досить хитрий об'єкт, тому у неї теж є методи. За допомогою
+методів <code>call</code> і <code>apply</code> можна виконати функцію в контексті якогось об'єкта, не
+роблячи функцію його методом.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">greet</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token template-string"><span class="token string">`Wellcome to </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> hotel!`</span></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">greet</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>hotel<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "Wellcome to Resort Hotel!"</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">greet</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>hotel<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "Wellcome to Resort Hotel!"</span>
+</code></pre>
+<h2 id="call-і-аргументи">3.1. call і аргументи</h2>
+<pre class="language-"><code class="lang-bash">fn.call<span class="token punctuation">(</span>obj, arg1, arg2, <span class="token punctuation">..</span>.<span class="token punctuation">)</span>
+</code></pre>
+<p>Запам'ятати правило використання <code>call</code> досить легко: метод <code>call</code> викличе
+функцію <code>fn</code> передавши її <code>this</code> посилання на об'єкт <code>obj</code>, а також
+аргументи<code>arg1</code>, <code>Arg2</code> і т. Д.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">greet</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">guest<span class="token punctuation">,</span> stars</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>guest<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, welcome to </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>stars<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">-star </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">!`</span></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> motel <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Sunlight Motel'</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">greet</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>hotel<span class="token punctuation">,</span> <span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// "Mango, wellcome to 5-star Resort Hotel!"</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">greet</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>motel<span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// "Poly, wellcome to 4-star Sunlight Motel!"</span>
+</code></pre>
+<h2 id="apply-і-аргументи">3.2. apply і аргументи</h2>
+<pre class="language-"><code class="lang-bash">fn.apply<span class="token punctuation">(</span>obj, <span class="token punctuation">[</span>arg1, arg2, <span class="token punctuation">..</span>.<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Метод <code>apply</code> повний аналог методу <code>call</code> за винятком того, що синтаксис виклику
+аргументів вимагає неперерахування, а масив.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">greet</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">guest<span class="token punctuation">,</span> stars</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>guest<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, welcome to </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>stars<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">-star </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">!`</span></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> motel <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Sunlight Motel'</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">greet</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>hotel<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// "Mango, wellcome to 5-star Resort Hotel!"</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">greet</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>motel<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// "Poly, wellcome to 4-star Sunlight Motel!"</span>
+</code></pre>
+<h2 id="bind">3.3. bind</h2>
+<p>Ми розглянули випадки, коли необхідно миттєво викликати функцію з іншим
+контекстом, для цього використовуються методи <code>call</code> і <code>apply</code>. Але в разі
+функції зворотного виклику, коли необхідно не викликати функцію на місці, а
+передати посилання на цю функцію, причому з прив'язаним контекстом, <code>call</code> і
+<code>apply</code> НЕ підходять. Метод <code>bind</code> дозволяє розв'язати цю задачу.</p>
+<p><code>`Bash const boundFn = fn.bind (obj, arg1, arg2, ...)</code> `</p>
+<p>Метод <code>bind</code> створює копію функції <code>fn</code> з прив'язаним контекстом <code>obj</code> і
+аргументами <code>arg1</code>,<code>arg2</code> і так дале, після чого повертає її як результат своєї
+роботи. В результаті ми отримуємо копію функції з прив'язаним контекстом, яку
+можна передати куди завгодно і викликати коли завгодно.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">greet</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">guest</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>guest<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, welcome to </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">!`</span></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> hotelGreeter <span class="token operator">=</span> <span class="token function">greet</span><span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span>hotel<span class="token punctuation">,</span> <span class="token string">'Mango'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">hotelGreeter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "Mango, wellcome to Resort Hotel!"</span>
+</code></pre>
+<p>Найчастіше метод <code>bind</code> використовується для прив'язки контексту при передачі
+методів об'єкта як функцій зворотного виклику. Візьмемо проблемний приклад з
+попередньої секції. Завдання прив'язки контекста ми тепер можемо вирішити
+використовуючи метод <code>bind</code>, передавши функцією зворотного виклику копію методу
+з прив'язаним контекстом.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
+  <span class="token function">showThis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">fn</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Передаємо копію методу showThis з контекстом прив'язаним до hotel</span>
+<span class="token function">fn</span><span class="token punctuation">(</span>hotel<span class="token punctuation">.</span><span class="token function">showThis</span><span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span>hotel<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {name: "Resort Hotel", showThis: ƒ}</span>
+</code></pre>
+  </main>
+</div>
+</body>
+</html>

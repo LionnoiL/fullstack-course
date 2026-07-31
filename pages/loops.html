@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Цикли · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html" class="active">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p>Часте завдання програмування - виконання однотипної дії багато разів. Наприклад, вивести клієнтів зі списку один за іншим, або перебрати суми зарплат і для кожної виконати однаковий код. Саме для таких цілей, багаторазового повторення однієї ділянки коду, використовуються цикли.</p>
+<ul>
+<li><strong>Цикл</strong> — керуюча конструкція в високорівневих мовах програмування, призначена для організації багаторазового виконання набору інструкцій.</li>
+<li><strong>Тіло циклу</strong> — послідовність інструкцій, призначена для багаторазового виконання.</li>
+<li><strong>Ітерація</strong> — одиничне виконання тіла циклу.</li>
+<li><strong>Умова виходу</strong> — вираз, що визначає буде в черговий раз виконуватися ітерація, або цикл завершиться.</li>
+<li><strong>Лічильник</strong> — змінна, що зберігає поточний номер ітерації. Цикл не обов'язково містить лічильник, і він не зобов'язаний бути один, умова виходу з циклу може залежати від декількох змінних в циклі змінних.</li>
+</ul>
+<p>Виконання будь-якого циклу включає:</p>
+<ul>
+<li>первісну ініціалізацію змінних циклу</li>
+<li>перевірку умови виходу</li>
+<li>виконання тіла циклу</li>
+<li>оновлення змінної циклу на кожній ітерації</li>
+</ul>
+<p>Крім того, більшість мов програмування надають засоби керування циклом,
+наприклад, оператори завершення циклу, тобто виходу з циклу незалежно від
+істинності умови виходу.</p>
+<h1 id="цикл-while">2. Цикл while</h1>
+<p><strong>Цикл з передумовою</strong> — цикл, який виконується поки істинна деяка умова,
+вказана перед його початком. Ця умова перевіряється до виконання тіла циклу,
+тому тіло може бути не виконано жодного разу, якщо умова з самого початку
+помилкова.</p>
+<p>Інструкція <code>while</code> створює цикл, який виконує блок коду, поки умова перевірки
+оцінюється як <code>true</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">while</span> <span class="token punctuation">(</span>expression<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// код, тіло циклу (statement)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ul>
+<li>Оператор <code>while</code> вираховує <code>expression</code> перед кожною ітерацією циклу.</li>
+<li>Якщо <code>expression</code> оцінюється як <code>true</code>, оператор <code>while</code> виконує <code>statement</code>.</li>
+<li>Якщо <code>expression</code> оцінюється як <code>false</code>, виконання циклу переривається і
+скрипт продовжує виконувати інструкції після циклу <code>while</code>.</li>
+</ul>
+<p>Блок-схема ілюструє цикл <code>while</code>.</p>
+<p><img src="images/while.png" alt="while loop"></p>
+<p>Зробимо лічильник.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">let</span> counter <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token keyword">while</span> <span class="token punctuation">(</span>counter <span class="token operator"><</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'counter: '</span><span class="token punctuation">,</span> counter<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  counter <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Будемо заповнювати місця в готелі до тих пір поки поточна кількість клієнтів не
+дорівнюватиме максимально допустимому.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">let</span> clientCounter <span class="token operator">=</span> <span class="token number">18</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> maxClients <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span>
+
+<span class="token keyword">while</span> <span class="token punctuation">(</span>clientCounter <span class="token operator"><</span> maxClients<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clientCounter<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  clientCounter <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h1 id="цикл-dowhile">3. Цикл do...while</h1>
+<p><strong>Цикл з постумовою</strong> — цикл, в якому умова перевіряється після виконання тіла
+циклу. Звідси випливає, що тіло завжди виконується хоча б один раз.</p>
+<p>Оператор <code>do...while</code> створює цикл, який виконує блок коду до тих пір, поки
+<code>expression</code> не стане дорівнювати <code>false</code>.</p>
+<p>На відміну від циклу <code>while</code>, цикл <code>do...while</code> завжди виконує <code>statement</code> як
+мінімум один раз, перш ніж він оцінить <code>expression</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">do</span> <span class="token punctuation">{</span>
+  <span class="token comment">// statement</span>
+<span class="token punctuation">}</span> <span class="token keyword">while</span> <span class="token punctuation">(</span>expression<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Всередині циклу потрібно внести зміни в деяку змінну, щоб переконатися, що вираз
+дорівнює <code>false</code> після ітерацій. В іншому випадку буде нескінченний цикл.</p>
+<p>Блок-схема ілюструє цикл do-while</p>
+<p><img src="images/do-while.png" alt="do...while loop"></p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">let</span> password <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+
+<span class="token keyword">do</span> <span class="token punctuation">{</span>
+  password <span class="token operator">=</span> <span class="token function">prompt</span><span class="token punctuation">(</span><span class="token string">'Введіть пароль довше 4-х символів'</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">while</span> <span class="token punctuation">(</span>password<span class="token punctuation">.</span>length <span class="token operator"><</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Ввели пароль: '</span><span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h1 id="цикл-for">4. Цикл for</h1>
+<p><strong>Цикл з лічильником</strong> — цикл, в якому деяка змінна змінює своє значення від
+заданого початкового до кінцевого значення, з деяким кроком, і для кожного
+значення цієї змінної тіло циклу виконується один раз.</p>
+<p>У більшості процедурних мов програмування реалізується оператором <code>for</code>, в якому
+вказується лічильник, необхідну кількість ітерацій і крок, з яким змінюється
+лічильник.</p>
+<pre class="language-"><code class="lang-bash"><span class="token keyword">for</span> <span class="token punctuation">(</span>initialization<span class="token punctuation">;</span> condition<span class="token punctuation">;</span> post-expression<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  // statements
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Алгоритм виконання циклу <code>for</code>:</p>
+<ul>
+<li><p><strong>Ініціалізація (initialization)</strong> — вираз ініціалізації виконується один раз, коли починається цикл.Використовується для ініціалізації змінної-лічильника. Якщо використовується ключове слово <code>let</code>, змінна лічильника є локальною для
+циклу.</p>
+</li>
+<li><p><strong>Умова (condition, test)</strong> — вираз, що оцінюється перед кожною ітерацією циклу. Тіло циклу виконується тільки тоді, коли вираз умови приймає значення <code>true</code>. Цикл завершується, якщо значення буде <code>false</code>.</p>
+</li>
+<li><p><strong>Тіло (statements)</strong> — виконується в разі задоволення умови.</p>
+</li>
+<li><strong>Поствираз (post-expression)</strong> — виконується після тіла на кожній ітерації циклу, але перед перевіркою умови. Використовується для поновлення змінної-лічильника.</li>
+</ul>
+<p>Змінні-лічильники, за традицією, називаються буквами <code>i/j/k</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> max <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator"><</span> max<span class="token punctuation">;</span> i <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Порахуємо суму чисел до певного значення.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> target <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator"><=</span> target<span class="token punctuation">;</span> i <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  sum <span class="token operator">+=</span> i<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>sum<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Згадаймо про операцію <code>a % b</code> і виведемо залишок від ділення використовуючи
+цикл.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> max <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator"><</span> max<span class="token punctuation">;</span> i <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>max<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> % </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>i<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> = `</span></span><span class="token punctuation">,</span> max <span class="token operator">%</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h1 id="інструкції-break-і-continue">5. Інструкції break і continue</h1>
+<h2 id="break">5.1. break</h2>
+<p>Вийти з циклу можна не тільки під час перевірки умови, а й взагалі в будь-який
+момент. Цю можливість надає інструкція <code>break</code>. Вона повністю припиняє виконання
+циклу і передає управління на рядок за його тілом.</p>
+<p>Спеціально перервемо цикл на 5-й ітерації.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator"><</span> <span class="token number">10</span><span class="token punctuation">;</span> i <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">===</span> <span class="token number">5</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Дійшли до 5-ї ітерації, перериваємо цикл!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">break</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="continue">5.2. continue</h2>
+<p>Директива <code>continue</code> перериває не весь цикл, а лише виконання поточної ітерації.
+Її використовують, якщо зрозуміло, що на поточної ітерації циклу робити більше
+нічого або взагалі нічого робити не потрібно і пора переходити на наступну
+ітерацію.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">/*
+ * Використовуємо цикл для виведення тільки непарних чисел.
+ * Для парних i спрацьовує continue, виконання тіла припиняється
+ * і управління передається на наступну ітерацію.
+ */</span>
+<span class="token keyword">const</span> number <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator"><</span> number<span class="token punctuation">;</span> i <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">continue</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Непарне i: '</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1, 3, 5, 7, 9</span>
+<span class="token punctuation">}</span>
+</code></pre>
+  </main>
+</div>
+</body>
+</html>

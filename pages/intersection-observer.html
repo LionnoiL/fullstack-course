@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IntersectionObserver API · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html" class="active">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p>Сучасні веб-сторінки активно використовують подію скрол для виявлення елементів,
+видимих в межах поточної області перегляду (viewport). Скролінг може запускати
+відкладені завантаження зображень і даних, анімацію елементів, підтримувати
+нескінченні завантаження вмісту і багато іншого. На жаль, подія прокрутки й
+розрахунок геометрії елементів (виклики <code>Element.getBoundingClientRect()</code>) дуже
+ресурсомісткі операції виконуються в основному потоці. Це викликає проблеми в
+реалізації і часто призводить до зниження продуктивності браузера.</p>
+<p><code>Intersection Observer API</code> був створений як розв'язання цих проблем і новий
+спосіб обробки подій прокрутки. Цей інтерфейс надає можливість спостерігати за
+заданими елементами й спрощує реалізацію відстеження зміни в їх перетині з
+заданим елементом-предком або самим вікном перегляду (viewport), тобто стеження
+за видимістю елемента.</p>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>Intersection Observer</code> передає управління подіями
+перетину браузеру, який керує цими подіями більш ефективно, покращуючи
+продуктивність.</p>
+</div></div></p>
+<h1 id="концепція-intersection-observer">2. Концепція Intersection Observer</h1>
+<p>Розглянемо кілька ключових термінів, що використовуються для визначення
+будь-якого примірника Intersection Observer.</p>
+<p><strong>Observer (спостерігач, обзервер)</strong> - результат виклику класу
+<code>IntersectionObserver</code>, його екземпляр, об'єкт з методами.</p>
+<p><strong>Root (корінь, контекст)</strong> - це елемент, який очікує перетину елемента-мети.
+Основа спостерігача. За замовчуванням це вікно перегляду браузера (Viewport),
+але може використовувати будь-який інший елемент, якщо цього вимагає задача.</p>
+<p><strong>Target (ціль)</strong> - елемент, за яким стежить спостерігач і оповіщає про його
+входження в корінь. Метою може бути будь-який елемент. Один спостерігач може
+відстежувати безліч різних цілей.</p>
+<p><img src="images/io-concept.gif" alt="io concept"></p>
+<p>При розрахунку перетинів, Intesection Observer розглядає всі елементи як
+прямокутник, незалежно від їх зовнішнього вигляду. Ці прямокутники
+розраховуються як найменші з можливих, при цьому вони містять ввесь цільовий
+вміст</p>
+<p><img src="images/bounding-boxes.gif" alt="bounding boxes"></p>
+<p>Можна збільшити або зменшити розміри кордонів кореня для розрахунку перетинів.
+Для цього використовується <code>rootMargin</code>. При цьому геометрія кореня не
+змінюється, зміни стосуються тільки розрахунків кордонів перетину.</p>
+<p><img src="images/root-margin.gif" alt="root margin"></p>
+<h1 id="використання-intersection-observer">3. Використання Intersection Observer</h1>
+<p>Досить створити новий екземпляр класу <code>IntersectionObserver</code>, приймає два
+аргументи - callback-функцію й об'єкт налаштувань.</p>
+<pre class="language-"><code class="lang-bash">IntersectionObserver<span class="token punctuation">(</span>callback, options<span class="token punctuation">)</span>
+</code></pre>
+<p>За замовчуванням, колбек буде викликатися, коли елемент з'являється і зникає з
+області видимості. Першим аргументом колбек отримає масив об'єктів
+<code>IntersectionObserverEntry</code>, кожен з яких містить набір властивостей елемента,
+показуваного в області видимості: <code>boundingClientRect</code>, <code>intersectionRatio</code>,
+<code>intersectionRect</code>, <code>rootBounds</code>, <code>target</code> і <code>time</code>. Другим агументом в колбек
+передається посилання на сам екземпляр обзервер.</p>
+<p>Об'єкт налаштувань дозволяє задати опції, з якими буде створено обзервер. Можна,
+можливо змінити контекст (root), який за замовчуванням дорівнює <code>viewport</code>,
+задати відступи від кордонів контексту (rootMargin) - за замовчуванням <code>0px</code>. І
+поріг входження (Threshold) у вигляді масиву значень. Поріг означає, скільки
+відсотків елемента має потрапити в зону видимості для спрацьовування колбека.
+Значення можуть варіюватися від <code>0.01</code> до <code>1.0</code>.</p>
+<p><img src="images/intersect-ratio.jpg" alt="threshold"></p>
+<p>Примірник класу це спостерігач, об'єкт з набором методів, за допомогою яких
+можна стежити за DOM-елементами.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> options <span class="token operator">=</span> <span class="token punctuation">{</span>
+  rootMargin<span class="token punctuation">:</span> <span class="token string">'50px'</span><span class="token punctuation">,</span>
+  threshold<span class="token punctuation">:</span> <span class="token number">0.5</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">onEntry</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">entries<span class="token punctuation">,</span> observer</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  entries<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">entry</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token comment">// тут можна писати логіку для перевірки входження</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> observer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">IntersectionObserver</span><span class="token punctuation">(</span>onEntry<span class="token punctuation">,</span> options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Після того як екземпляр <code>IntersectionObserver</code> створений, необхідно надати один
+або кілька цільових елементів для спостереження. Для цього на примірників
+викликається метод <code>observe(elem)</code>, який приймає посилання на DOM-елемент за
+яким необхідно спостерігати. Коли елемент увійде (або вийде) в область видимості
+(root), буде викликана callback-функція передана при створенні примірника.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> options <span class="token operator">=</span> <span class="token punctuation">{</span>
+  rootMargin<span class="token punctuation">:</span> <span class="token string">'50px'</span><span class="token punctuation">,</span>
+  threshold<span class="token punctuation">:</span> <span class="token number">0.5</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">onEntry</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">entries<span class="token punctuation">,</span> observer</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  entries<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">entry</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token comment">// тут можна писати логіку для перевірки входження</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> observer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">IntersectionObserver</span><span class="token punctuation">(</span>onEntry<span class="token punctuation">,</span> options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+observer<span class="token punctuation">.</span><span class="token function">observe</span><span class="token punctuation">(</span>elem<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h1 id="поліфіл-intersection-observer">4. Поліфіл Intersection Observer</h1>
+<p>Хоча <code>Intersection Observer API</code> підтримується всіма останніми версіями сучасних
+браузерів, слід подбати про поліфілії, щоб він гарантовано працював у всіх
+актуальних версіях. Поліфем від WICG можна взяти з
+<a href="https://github.com/w3c/IntersectionObserver/tree/master/polyfill" target="_blank">цього GitHub-репозиторія</a>.</p>
+<p>Найпростіший спосіб додати Поліфем - це використати
+<a href="https://polyfill.io/v3/" target="_blank">polyfill.io</a>. Він завантажує тільки зазначені
+поліфілії, і тільки тоді, коли браузер вимагає цього. Це допомагає звести вагу
+сторінки до мінімуму, але дозволяє поліфілу працювати без подальшого
+налаштування.</p>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Єдиним недоліком поліфілла є те, що ви не отримаєте
+переваг в продуктивності в старих браузерах, але скрипт буде працювати і
+користувач зможе взаємодіяти з веб-сторінкою.</p>
+</div></div></p>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://www.smashingmagazine.com/2018/01/deferring-lazy-loading-intersection-observer-api/" target="_blank">Now You See Me: How To Defer, Lazy-Load And Act With IntersectionObserver</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

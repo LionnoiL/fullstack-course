@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Об&#x27;єктна модель документа · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html" class="active">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p>Коли ми працюємо з браузером, доступний функціонал складається з декількох
+частин, оскільки JavaScript сам по собі не має інструментів для роботи з
+браузером.</p>
+<p><img src="images/browser-js.png" alt="dom tree"></p>
+<p><strong>DOM (Document Object Model, Об'єктна модель документа)</strong> — міжплатформовий,
+незалежний від мови інтерфейс для роботи з HTML-документом. містить набір
+властивостей і методів дозволяють шукати, створювати і видаляти елементи,
+реагувати на дії користувача і інше.</p>
+<p><strong>BOM (Browser Object Model, Об'єктна модель браузера)</strong> — міжплатформовий,
+незалежний від мови інтерфейс для роботи з вікном браузера. Містить набір
+властивостей і методів дозволяють отримати доступ безпосередньо до поточної
+вкладки і ряду функцій браузера. Включає об'єкт роботи з історією, місцем
+розташування та інше.</p>
+<h1 id="обєктна-модель-документа">2. Об'єктна модель документа</h1>
+<p>DOM є відображенням HTML-документа. Це деревоподібна структура, в якій кожен
+вузол це JavaScript-об'єкт з властивостями і методами, що представляє частину
+HTML-документа. Об'єкти можуть керуватися програмно, і будь-які зміни
+відображаються в документі.</p>
+<p>DOM виконує дві ролі: є об'єктним поданням HTML-документа, і діє як інтерфейс,
+який з'єднує сторінку з мовою програмування, наприклад JavaScript.</p>
+<p>Кожен елемент в документі, весь документ в цілому, заголовок, посилання, абзац -
+це частини DOM цього документа, тому всі вони можуть змінюватися за допомогою
+JavaScript.</p>
+<h1 id="html-документ-і-dom">3. HTML-документ і DOM</h1>
+<p>Згідно DOM-моделі кожен тег утворює окремий <code>елемент-вузол</code>, кожен фрагмент
+тексту - <code>текстовий елемент</code>, таким чином HTML-документ це ієрархічне дерево. Це
+означає, що у кожного елемента (крім кореневого) є тільки один батько, тобто
+елемент, всередині якого він розташовується. це дерево утворюється за рахунок
+вкладеної структури тегів і текстових елементів.</p>
+<p>! [Dom tree] (images / dom-tree.png)</p>
+<p>Щоб відобразити HTML-документ, браузер спочатку перетворює його в формат який
+він розуміє - DOM. У движка браузера є спеціальний фрагмент коду -
+<code>HTML-парсер</code>, який використовується для перетворення HTML в DOM.</p>
+<p>В HTML, вкладеність визначає відносини <code>батько-дитина</code> між елементами. В DOM,
+об'єкти пов'язані в структурі дерева даних, фіксуючи ці відносини.</p>
+<p>Браузер будує DOM поступово, як тільки приходять перші фрагменти коду, він
+починає довільні HTML, додаючи вузли в деревоподібну структуру.</p>
+<p>! [Dom parsing] (images / dom-parse.gif)</p>
+<p>Після того як DOM-дерево побудовано, можна знайти в ньому елемент за допомогою
+JavaScript і виконувати з ним якісь дії, оскільки кожен вузол має інтерфейс з
+безліччю властивостей і методів.</p>
+<p><img src="images/js-eng.gif" alt="js engine and html parser"></p>
+<h1 id="dom-дерево">4. DOM-дерево</h1>
+<p>Складемо дерево HTML-документа використовуючи
+<a href="https://software.hixie.ch/utilities/js/live-dom-viewer/" target="_blank">генератор DOM-дерева</a>.</p>
+<pre class="language-"><code class="lang-html"><span class="token doctype"><!DOCTYPE html></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation"><</span>html</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation"><</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation"><</span>title</span><span class="token punctuation">></span></span>DOM<span class="token tag"><span class="token tag"><span class="token punctuation"></</span>title</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation"></</span>head</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation"><</span>body</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation"><</span>div</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation"><</span>h2</span><span class="token punctuation">></span></span>Title<span class="token tag"><span class="token tag"><span class="token punctuation"></</span>h2</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation"><</span>p</span><span class="token punctuation">></span></span>Some text<span class="token tag"><span class="token tag"><span class="token punctuation"></</span>p</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation"><</span>ul</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation"><</span>li</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation"><</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>#<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>link 1<span class="token tag"><span class="token tag"><span class="token punctuation"></</span>a</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation"></</span>li</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation"><</span>li</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation"><</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>#<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>link 2<span class="token tag"><span class="token tag"><span class="token punctuation"></</span>a</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation"></</span>li</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation"><</span>li</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation"><</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>#<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>link 3<span class="token tag"><span class="token tag"><span class="token punctuation"></</span>a</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation"></</span>li</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation"></</span>ul</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation"></</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation"></</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation"></</span>html</span><span class="token punctuation">></span></span>
+</code></pre>
+<p><img src="images/dom-tree-illustration.png" alt="Візуальне уявлення ієрархії дерева документа"></p>
+<p>У цьому дереві виділені два типи вузлів:</p>
+<ul>
+<li><strong>Вузли-елементи (element node)</strong> — утворюються тегами, природним чином<br>одні вузли вкладені в інші. Структура дерева утворена виключно за рахунок<br>них.</li>
+<li><strong>Текстові вузли (text node)</strong> — утворюються текстом всередині елементів.<br>Текстовий вузол містить тільки рядок тексту і не може мати нащадків,    тобто
+він завжди на самому нижньому рівні ієрархії. Прогалини і переноси рядків це
+   теж текстові вузли.</li>
+</ul>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p>З цього правила є винятки: прогалини до <code>head</code>
+ігноруються, а будь-який вміст після <code>body</code> НЕ створює вузла, браузер переносить
+його в кінець <code>body</code>.</p>
+</div></div></p>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Поширення. Спливання. Делегування · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html" class="active">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="поширення-подій">1. Поширення подій</h1>
+<p><strong>Поширення подій (event propagation)</strong> — важлива, але незрозуміла тема, коли
+мова йде про події. Це всеосяжний термін, який містить три різні етапи життя
+події: затоплення, таргетинг і спливання.</p>
+<p>Поширення події двонаправлено - воно починається на <code>window</code>, йде до цільового
+елементу і закінчується на <code>window</code>. Поширення часто неправильно
+використовується як синонім стадії спливання. Кожен раз, коли відбувається
+подія, відбувається його поширення.</p>
+<p>При настанні події, воно проходить через три обов'язкові фази:</p>
+<ul>
+<li><strong>Capture phase</strong> — подія починається на <code>window</code> і тоне (проходить через всі
+   вузли-предки) до найглибшого цільового елемента, де відбулася подія.</li>
+<li><strong>Target phase</strong> — подія дійшла до найглибшого цільового елемента. Цей    етап
+включає тільки повідомлення вузла, на якому відбулася подія.</li>
+<li><strong>Bubbling phase</strong> — заключна фаза, подія спливає від самого    глибокого,
+цільового елемента, через всі вузли-предки, до <code>window</code>.</li>
+</ul>
+<p><img src="images/phases.png" alt="phases"></p>
+<p>Ми розглянемо фазу спливання, оскільки вона найбільш часто використовувана і
+корисна. Для ознайомлення з іншими фазами й більш детальної інформації
+прочитайте
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/eventPhase" target="_blank">документацію на MDN</a>.</p>
+<h1 id="спливання-подій">2. Спливання подій</h1>
+<p><strong>Основний принцип спливання</strong> — при настанні події, обробники спочатку
+спрацьовують на самому вкладеному елементі, потім на його батьку, потім вище і
+так далі, вгору по ланцюжку вкладеності. Спливають <em>майже</em> всі події, наприклад
+події <code>focus</code> і <code>blur</code> не спливають.</p>
+<pre class="language-"><code class="lang-html"><span class="token tag"><span class="token tag"><span class="token punctuation"><</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>parent<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  PARENT
+  <span class="token tag"><span class="token tag"><span class="token punctuation"><</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>child<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    CHILD
+    <span class="token tag"><span class="token tag"><span class="token punctuation"><</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>inner-child<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>INNER-CHILD<span class="token tag"><span class="token tag"><span class="token punctuation"></</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation"></</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation"></</span>div</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>Розгляньмо приклад, так буде зрозуміліше. Є три вкладених <code>div</code>, з обробниками
+кліка на кожному. Спливання гарантує, що клік по внутрішньому <code>inner-child</code>
+викличе обробник кліка, якщо є, спочатку на самому <code>inner-child</code>, потім на
+елементі <code>child</code> далі на елементі <code>parent</code>, і так далі вгору по ланцюжку батьків
+до <code>window</code>. Тому якщо в прикладі клікнути на <code>inner-child</code>, то послідовно
+виведуться alert: <code>inner-child → child → parent</code>.</p>
+<p><img src="images/bubbling.png" alt="bubbling"></p>
+<p>Цей процес називається <strong>випливанням (event bubbling)</strong>, тому що події
+<em>випливають</em> від внутрішнього елемента вгору через предків, подібно до того, як
+спливає бульбашка повітря в воді.</p>
+<p><a href="https://codepen.io/goit-fe-adv/pen/ZJgwWj/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<h2 id="eventtarget">2.1. event.target</h2>
+<p><strong>Цільовий елемент</strong> — на якому б елементі ми не зловили подію, завжди можна
+дізнатися де саме воно сталося. Найглибший елемент, який викликає подія,
+називається цільовим або вихідним і доступний як <code>event.target</code>.</p>
+<p>Відмінності <code>event.target</code> і <code>event.currentTarget</code>:</p>
+<ul>
+<li><code>event.target</code> — це посилання на вихідний елемент, на якому відбулася подія,
+   в процесі спливання він незмінний.</li>
+<li><code>event.currentTarget</code> — це поточний елемент, до якого дійшло спливання, на<br>ньому зараз виконується оброблювач.</li>
+</ul>
+<p>Якщо стоїть тільки один обробник, на самому верхньому елементі, то він зловить
+всі кліки всередині батька. Де б не був клік всередині, він спливе до
+елемента-батька, на якому спрацює обробник.</p>
+<p><a href="https://codepen.io/goit-fe-adv/pen/xLvMLo/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<h2 id="припинення-спливання">2.2. Припинення спливання</h2>
+<p>Зазвичай подія буде спливати наверх, до елемента <code>window</code>, викликаючи всі
+обробники на своєму шляху. Але будь-який проміжний обробник може вирішити, що
+подію повністю оброблено, і зупинити спливання. Зупинити спливання можна
+викликавши метод на об'єкті події.</p>
+<pre class="language-"><code class="lang-bash">event.stopPropagation<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p><a href="https://codepen.io/goit-fe-adv/pen/YxmBYq/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<p>Якщо в елемента є кілька обробників на одну подію, то навіть при припиненні
+спливання всі вони будуть виконані. Тобто, <code>stopPropagation</code> перешкоджає
+просуванню події далі, але на поточному елементі всі обробники виконуються.</p>
+<pre class="language-"><code class="lang-bash">event.stopImmediatePropagation<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Використовується для того, щоб повністю зупинити обробку події. Він не тільки
+запобігає спливання, а й зупиняє обробку подій на поточному елементі.</p>
+<p><div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Не припиняйте спливання без необхідності, спливання -
+це зручно! Припинення спливання створює свої підводні камені, які потім
+доводиться обходити.</p>
+</div></div></p>
+<h1 id="делегування-подій">3. Делегування подій</h1>
+<p>Спливання подій дозволяє реалізувати один з найважливіших прийомів розробки —
+<strong>делегування подій</strong>. Він полягає в тому, що якщо є багато елементів, події
+яких потрібно обробляти схожим чином, то замість того щоб призначати обробник
+кожному, ми ставимо один обробник на їх загального предка. З нього можна
+отримати цільовий елемент <code>event.target</code>, зрозуміти на якому саме нащадку
+відбулася подія й обробити її.</p>
+<p><strong>Делегування (event delegation)</strong> — це засіб оптимізації інтерфейсу. Ми
+використовуємо один обробник для подібних дій на однотипних елементах.</p>
+<p>Розглянемо делегування на прикладі. Створюємо елемент <code>div</code>, додаємо в нього
+двісті параграфів і вішаємо слухачі подій з функцією <code>respondToTheClick</code> до
+кожного параграфу.</p>
+<p><img src="images/pre-delegation.png" alt="delegation"></p>
+<p>Проблема в тому, що у нас є двісті слухачів подій. Всі вони вказують на одну і
+ту ж функцію слухача, але самих слухачів 200! Що якщо ми перемістимо всіх
+слухачів на загального батька? 🤔</p>
+<p><img src="images/post-delegation.png" alt="delegation"></p>
+<p>Тепер є тільки один слухач і браузеру не потрібно зберігати в пам'яті двісті
+різних функцій. Це суттєва оптимізація. Тепер для доступу до елементу, на якому
+відбулася подія, використовуємо властивість <code>target</code> на об'єкті події, в якому
+зберігається посилання на цільовий елемент.</p>
+<p>При кліці в параграф відбувається приблизно наступне:</p>
+<ul>
+<li>Стався клік в елемент параграфа</li>
+<li>Подія проходить етап захоплення (capturing phase) і досягає мети</li>
+<li>Тепер настає фаза спливання, і подія підіймається по ієрархії DOM-дерева</li>
+<li>Коли подія спливає до <code>div</code>, спрацьовує слухач і викликається функція
+<code>respondToTheClick</code></li>
+<li>Усередині callback-функції, <code>event.target</code> — це елемент, на якому стався<br>клік. Таким чином, ми отримуємо прямий доступ до цільового елементу, абзацу, і
+   можемо працювати з ним.</li>
+</ul>
+<p>Такий підхід має ряд переваг.</p>
+<ul>
+<li><strong>Спрощує ініціалізацію і економить пам'ять</strong> — не потрібно вішати багато<br>обробників.</li>
+<li><strong>Менше коду</strong> — при додаванні і видаленні елементів не потрібно ставити або
+   знімати обробники.</li>
+<li><strong>Зручність змін</strong> — можна масово додавати або видаляти елементи    Зміни, при
+цьому на доданих елементах буде весь функціонал.</li>
+</ul>
+<h2 id="приклад">3.1. Приклад</h2>
+<p>Будемо робити підсвічування активного елементу навігації при кліці. Замість того
+щоб призначати обробник кожному елементу навігації, яких може бути багато,
+повісимо єдиний обробник на список. Використовуємо <code>event.target</code>, щоб отримати
+елемент, на якому відбулася подія, і підсвітити його.</p>
+<p><img src="images/delegation.png" alt="delegation"></p>
+<p>Обов'язково перевіряємо мету кліка, щоб це точно був елемент посилання, ми не
+хочемо підсвічувати весь список або його елементи, тільки посилання. Для
+перевірки типу вузла використовуємо властивість <code>nodeName</code>.</p>
+<p><a href="https://codepen.io/goit-fe-adv/pen/NvQoMy/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+  </main>
+</div>
+</body>
+</html>

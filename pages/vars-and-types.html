@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Змінні і типи даних · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html" class="active">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="змінні">1. Змінні</h1>
+<p>Змінні використовуються для зберігання даних і складаються з ідентифікатора
+(імені) і області в пам'яті, де зберігається їх значення. Змінну можна уявити як
+коробку з назвою, в якій щось лежить (значення).</p>
+<h2 id="імена-змінних">1.1. Імена змінних</h2>
+<p><strong>Ідентифікатор</strong> — це ім'я змінної, функції, параметра або класу. Складається з
+одного або декількох символів в наступному форматі:</p>
+<ul>
+<li>Першим символом повинна бути буква <code>a-z</code> або <code>A-Z</code>, символ підкреслення <code>_</code>
+або знак долара <code>$</code>.</li>
+<li>Інші символи можуть бути буквами <code>a-z</code>, <code>A-Z</code>, цифрами <code>0-9</code>, підкресленнями
+<code>_</code> і знаками долара <code>$</code>.</li>
+<li>Всі ідентифікатори чутливі до регістру. Це означає, що змінні <code>user</code>, <code>usEr</code> і
+<code>User</code> різні.</li>
+</ul>
+<p>Ім'я змінної має бути зрозумілим.</p>
+<pre class="language-"><code class="lang-bash">❌ Погано
+chislo korzina_tovarov profil_polzovatelya tekushiy_mesyaz
+
+✅ Добре
+number cart userProfile currentMonth
+</code></pre>
+<p>Використання camelCase-нотації для ідентифікаторів це стандарт. При такому
+підході, перше слово пишеться малими літерами, а кожне додаткове починається з
+великої літери. Наприклад: <code>user</code>, <code>greetUser</code>, <code>getUserData</code>, <code>isActive</code>,
+<code>activeGuestCount</code>, <code>totalWorkerSalary</code>.</p>
+<ul>
+<li><a href="https://bookflow.ru/kak-nazyvat-peremennye/" target="_blank">Як називати змінні</a></li>
+<li><a href="https://medium.freecodecamp.org/javascript-naming-conventions-dos-and-don-ts-99c0e2fdd78a" target="_blank">JavaScript naming conventions</a></li>
+</ul>
+<h2 id="ключові-слова">1.2. Ключові слова</h2>
+<p>Є список зарезервованих ключових слів, які мають спеціальне значення і використовуються для певних конструкцій. Не можна використовувати ключові слова
+як ідентифікатори.</p>
+<p><a href="https://www.w3schools.com/js/js_reserved.asp" target="_blank">Таблиця зарезервованих слів</a></p>
+<h2 id="оголошення-змінних">1.3. Оголошення змінних</h2>
+<p>У сучасному JavaScript є 2 ключових слова для оголошення змінних.</p>
+<ul>
+<li><code>let</code> — оголошує змінну, якій можна присвоїти нове значення після оголошення,
+тобто перевизначити.</li>
+<li><code>const</code> — так само оголошує змінну, але з однією відмінністю: оголошується
+змінна повинна бути негайно ініціалізована значенням, і цій змінній не може
+бути присвоєно інше значення після ініціалізації.</li>
+</ul>
+<p><div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p> Створення змінної без ключового слова <code>let</code> або
+<code>const</code> призведе до помилки. </p>
+</div></div></p>
+<pre class="language-"><code class="lang-js"><span class="token comment">/*
+ * Для оголошення змінної використовуються ключові слова let і const,
+ * за якими слідує ім'я змінної.
+ * Змінним оголошеним через let не обов'язково відразу привласнювати значення.
+ */</span>
+<span class="token keyword">let</span> age<span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * Змінні оголошені як const обов'язково повинні бути ініційовані
+ * значенням під час оголошення, інакше нічого не вийде.
+ */</span>
+<span class="token keyword">const</span> yearOfBirth <span class="token operator">=</span> <span class="token number">2006</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * Значення змінної можна отримати звернувшись до неї по імені.
+ * console.log() використовується для виведення даних в консоль розробника,
+ * з цим методом більш детально познайомимося пізніше.
+ */</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>yearOfBirth<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 15</span>
+
+<span class="token comment">/*
+ * Якщо змінної оголошеної як let, з самого початку не присвоєно значення,
+ * вона ініціюється спеціальним значенням undefined (не визначене).
+ */</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>age<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// undefined</span>
+
+<span class="token comment">/*
+ * Якщо змінна оголошена як let, її значення можна перезаписати.
+ */</span>
+age <span class="token operator">=</span> <span class="token number">14</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>age<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 14</span>
+
+<span class="token comment">/*
+ * Якщо змінна оголошена як const, перезаписати її значення не можна.
+ * При спробі привласнити нове значення буде помилка виконання скрипта.
+ */</span>
+yearOfBirth <span class="token operator">=</span> <span class="token number">2020</span><span class="token punctuation">;</span> <span class="token comment">// буде помилка</span>
+</code></pre>
+<h2 id="коли-використовувати-const-і-let">1.4. Коли використовувати const і let</h2>
+<p>Єдина відмінність <code>const</code> і <code>let</code> полягає в тому, що <code>const</code> забороняє повторне присвоювання змінної будь-якого значення. Оголошення <code>const</code> робить код більш читабельним, оскільки змінна завжди посилається на одне і те ж значення. У випадку з <code>let</code> такої впевненості немає.</p>
+<p>Буде розумно використовувати <code>let</code> і <code>const</code> так:</p>
+<ul>
+<li>Використовуйте <code>const</code> за замовчуванням, більшість змінних будуть оголошені
+саме так.</li>
+<li>Використовуйте <code>let</code>, якщо буде потрібно присвоїти змінної інше значення під
+час виконання скрипта.</li>
+</ul>
+<h2 id="константи-і-константи">1.5. константи і КОНСТАНТИ</h2>
+<p>Імена КОНСТАНТ -змінних, значення яких не змінюється ніколи протягом роботи
+всього скрипта, зазвичай записуються в форматі <code>UPPER_SNAKE_CASE</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Константа зберігає значення кольору</span>
+<span class="token keyword">const</span> <span class="token constant">COLOR_TEAL</span> <span class="token operator">=</span> <span class="token string">'#009688'</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Константа зберігає повідомлення про авторизацію</span>
+<span class="token keyword">const</span> <span class="token constant">MESSAGE_LOGIN_SUCCESS</span> <span class="token operator">=</span> <span class="token string">'Ласкаво просимо!'</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Абсолютна більшість змінних - константи в іншому сенсі, вони просто не змінюють
+значення після присвоєння. Але при різних запусках скрипта, це значення може
+бути різним. Імена таких змінних записують використовуючи формат <code>camelCase</code>.</p>
+<h2 id="звернення-до-змінної">1.6. Звернення до змінної</h2>
+<p>Важливо розрізняти невизначені та неоголошені змінні.</p>
+<ul>
+<li><strong>Невизначена (undefined)</strong> — це змінна, яка була оголошена, але не ініціалізована значенням, за замовчуванням їй присвоюється значення
+<code>undefined</code> як початкове.</li>
+<li><strong>Неоголошена (undeclared або not defined)</strong> — це змінна, яка не була
+оголошена в доступній області видимості.</li>
+</ul>
+<pre class="language-"><code class="lang-js"><span class="token keyword">let</span> name<span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * Змінна name оголошена, але не ініціалізована, тому
+ * Її значення undefined (не визначене), тоді як змінна age
+ * Не була визнана, тому доступ до неї викликає помилку
+ ReferenceError
+ */</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// undefined</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>age<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ReferenceError: age is not defined</span>
+</code></pre>
+<p>Спроба звернутися до змінної до її оголошення викличе помилку.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// console.log(a); // ReferenceError: a is not defined</span>
+<span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 10</span>
+
+<span class="token comment">// console.log(b); // ReferenceError: b is not defined</span>
+<span class="token keyword">const</span> b <span class="token operator">=</span> <span class="token number">15</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//15</span>
+</code></pre>
+<h1 id="типи-примітивів">2. Типи примітивів</h1>
+<p>JavaScript - це динамічна, слабо типізована мова, тому змінна не асоціюється з
+будь-яким типом даних, тип є у значення змінної. Тобто змінна може зберігати
+значення різних типів.</p>
+<h2 id="number">2.1. Number</h2>
+<p>Цілі числа і числа з плаваючою комою. Після оголошення змінної, можна
+ініціалізувати її числовим значенням.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> age <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> number <span class="token operator">=</span> <span class="token number">5.8</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="string">2.2. String</h2>
+<p>Рядки - це просто текст, послідовність з нуля або більше символів. Рядок
+починається і закінчується одиночною <code>'</code>, або подвійними лапками <code>"</code>.
+Відкриваючі та закриваючі лапки повинні бути однакові.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'Mango'</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="boolean">2.3. Boolean</h2>
+<p>Логічний тип даних, прапори стану. Має тільки два значення: <code>true</code> і <code>false</code>, в
+нижньому регістрі. Наприклад, на питання включено світло в кімнаті можна
+відповісти так (<code>true</code>) або ні (<code>false</code>).</p>
+<ul>
+<li><code>true</code> — так, правильно, істина, 1</li>
+<li><code>false</code> — ні, не так, брехня, 0</li>
+</ul>
+<p>Зверніть увагу на імена змінних, які містять буль. Вони ставлять питання, і відповідають
+на нього - так чи ні.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> isAuthenticated <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> canMerge <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> hasChildren <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> isModalOpen <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="null">2.4. null</h2>
+<p>Особливе значення, яке по суті означає <code>нічого</code>. Використовується в тих
+ситуаціях, коли необхідно явно вказати відсутність значення. Наприклад, якщо в
+базі даних не знайшли користувача, то можна сказати що значення <code>null</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Мінлива guest порожня і позбавлена значення</span>
+<span class="token keyword">const</span> guest <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="undefined">2.5. undefined</h2>
+<p>Ще одне спеціальне значення. За замовчуванням, коли змінна оголошується, але не
+ініціалізується, її значення не визначено, їй присвоюється <code>undefined</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">let</span> name<span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// undefined</span>
+</code></pre>
+<h2 id="оператор-typeof">2.6. Оператор typeof</h2>
+<p>Для отримання типу значення змінної, використовується оператор <code>typeof</code>, який
+повертає на місце свого виклику тип значення змінної вказаного після нього.
+Значення, що повертається це просто рядок в якій вказано тип.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// undefined</span>
+<span class="token keyword">let</span> a<span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "undefined"</span>
+
+<span class="token comment">// null</span>
+<span class="token keyword">const</span> b <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "object"</span>
+
+<span class="token comment">// Number</span>
+<span class="token keyword">const</span> c <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> c<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "number"</span>
+
+<span class="token comment">// String</span>
+<span class="token keyword">const</span> d <span class="token operator">=</span> <span class="token string">'JavaScript is awesome!'</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> d<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "string"</span>
+
+<span class="token comment">// Boolean</span>
+<span class="token keyword">const</span> e <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "boolean"</span>
+</code></pre>
+  </main>
+</div>
+</body>
+</html>

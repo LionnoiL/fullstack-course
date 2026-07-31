@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Синтаксис мови · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html" class="active">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p>При написанні коду, важливо не просто знати який символ або конструкцію можна
+використовувати, але в першу чергу необхідно розуміти термінологію і складові
+вихідного коду. У цій секції нам не важливо розуміння як що працює, ми лише
+познайомимося з термінологією і синтаксисом мови.</p>
+<h1 id="інструкція">2. Інструкція</h1>
+<p><strong>Інструкція (statement)</strong> — це пов'язаний набір слів і символів з синтаксису
+мови, які об'єднуються, щоб висловити одну ідею, одну інструкцію для машини.</p>
+<pre class="language-"><code class="lang-js">a <span class="token operator">=</span> b <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Це приклад інструкції. В JavaScript можна розрізнити інструкцію по крапці з комою в кінці. Крапку з комою в такому випадку можна порівняти з крапкою в кінці
+речення вашого рідної мови, вона символізує про кінець пропозиції.</p>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p>Завершення інструкції крапкою з комою не потрібно, однак
+рекомендується завжди її ставити. Це просте правило зробить код зрозумілішим і
+допоможе уникнути багатьох помилок.</p>
+</div></div></p>
+<ul>
+<li><code>a</code> і <code>b</code> — змінні (як в алгебраїчному рівнянні), це сховища даних які
+використовує програма. Мінлива складається з ідентифікатора (імені) і
+пов'язаного з ним значення.</li>
+<li><code>2</code> — просто число. Це називається значенням літерала (literal value), оскільки
+воно не зберігається в змінній.</li>
+<li><code>=</code> і <code>*</code> — оператори, виконують дії над значеннями і змінними.</li>
+</ul>
+<p>Уявімо що змінна <code>b</code> вже зберігає число <code>10</code>. Тоді ця інструкція говорить
+машині:</p>
+<ul>
+<li>Піди знайди змінну з ідентифікатором <code>b</code> і запитай яке у неї зараз значення</li>
+<li>Підстав значення змінної <code>b</code> у твердження на місце <code>b</code></li>
+<li>Помнож <code>10</code> на <code>2</code></li>
+<li>Після чого, запиши результат обчислення виразу правої частини в змінну <code>a</code>.</li>
+</ul>
+<h1 id="вираз">3. Вираз</h1>
+<p>Інструкції складаються з частин, як в будь-якій мові речення складаються з
+фраз, і ці фрази називаються виразами.</p>
+<p><strong>Вираз (expression)</strong> — посилання на змінну або значення, або на набір змінних
+і значень в поєднанні з операторами.</p>
+<pre class="language-"><code class="lang-bash"><span class="token punctuation">[</span> <span class="token punctuation">[</span>a<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span> <span class="token punctuation">[</span>b<span class="token punctuation">]</span> * <span class="token punctuation">[</span>2<span class="token punctuation">]</span> <span class="token punctuation">]</span> <span class="token punctuation">]</span>
+</code></pre>
+<p>Інструкція з прикладу вище містить 5 виразів, для візуалізації виділені
+квадратними дужками (<em>це не синтаксис мови</em>):</p>
+<ul>
+<li><code>[2]</code> — вираз значення літералу.</li>
+<li><code>[b]</code>і<code>[a]</code> — вираз змінної, означають необхідність підставити значення
+змінної, але тільки в тому випадку, якщо змінна стоїть в правій частині виразу
+присвоювання.</li>
+<li><code>[b * 2]</code> — арифметичний вираз множення.</li>
+<li><code>[a = b * 2]</code> — вираз присвоювання. У нашому випадку вказує на необхідність
+обчислення правої частини виразу і присвоювання результату змінної <code>a</code> в лівій
+частині виразу.</li>
+</ul>
+<p>Так само є вираз виклику, вираз порівняння і т. д. Ми не будемо зараз
+розглядати їх всіх, нам важливо розуміти з яких частин складається вихідний код і
+як правильно його читати.</p>
+<h1 id="інтерфейс">4. Інтерфейс</h1>
+<p>Коли ми підходимо до автомата з кавою або сідаємо за кермо автомобіля, існує
+певний набір елементів управління, з яким можна взаємодіяти. У програмуванні це
+називається інтерфейс.</p>
+<p><strong>Інтерфейс</strong> — це набір властивостей і методів сутності, доступних для
+використання.</p>
+<p>Зараз важливий саме синтаксис і термінологія, оскільки вони ідентичні для
+будь-яких даних.</p>
+<h2 id="властивість">4.1. Властивість</h2>
+<p>У нас з вами є властивості: зріст, вага, колір очей, тобто якісь описові
+характеристики. Так само й у даних є властивості, наприклад у рядка є
+властивість її довжини. Синтаксис звернення до властивості дуже простий.</p>
+<pre class="language-"><code class="lang-bash">сутність.імя_властивості
+</code></pre>
+<p>Для наочності, звернемося до властивості рядка length, яка містить кількість
+символів рядка.</p>
+<pre class="language-"><code class="lang-js"><span class="token string">'JavaScript is awesome'</span><span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+</code></pre>
+<h2 id="метод">4.2. Метод</h2>
+<p>Метод це виклик дії, наприклад <code>присісти</code> або <code>плавати</code>, то є якась активна
+операція. Так само і у даних є свої методи, наприклад можна додати або видалити
+елементи з колекції, перевести рядок в різний регістр і т. д. Синтаксис виклику
+методу дуже схожий на звернення до властивості, але в кінці додається пара
+дужок.</p>
+<pre class="language-"><code class="lang-bash">сутність.імя_метода<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Для прикладу звернемося до методу рядка <code>toUpperCase()</code>, який зробить всі букви
+великими.</p>
+<pre class="language-"><code class="lang-js"><span class="token string">'JavaScript is awesome'</span><span class="token punctuation">.</span><span class="token function">toUpperCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h1 id="суворий-режим">5. Суворий режим</h1>
+<p><strong>Суворий режим</strong> — нова можливість в специфікації ECMAScript 5, яка дозволяє
+переводити скрипт в режим повної відповідності сучасним стандартом. Це запобігає
+певних помилок, такі як використання небезпечних конструкцій.</p>
+<p>Для того щоб перевести скрипт в строгий режим, досить вказати директиву на
+початку js-файлу. Завжди пишіть код в строгому режимі.</p>
+<pre class="language-"><code class="lang-js"><span class="token string">'use strict'</span><span class="token punctuation">;</span>
+<span class="token comment">// далі йде весь код файлу</span>
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode" target="_blank">Strict mode на MDN</a></p>
+  </main>
+</div>
+</body>
+</html>

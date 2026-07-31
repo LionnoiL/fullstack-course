@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Протоколи передачі даних · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html" class="active">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="протоколи-передачі-даних">1. Протоколи передачі даних</h1>
+<p><strong>Протокол</strong> — набір правил і угод, що використовуються при передачі даних в
+мережі.</p>
+<p>Перед тим, як користувач побачить вміст сайту на екрані, браузер робить запит на
+сервер, щоб отримати цей самий вміст. HTML-файл, зображення, стилі, скрипти -
+кожен елемент приходить з сервера.</p>
+<h1 id="tcpip">2. TCP/IP</h1>
+<p>Основний протокол мережі <code>Internet</code>. Це два протоколи тісно пов'язаних між
+собою.</p>
+<ul>
+<li><strong>TCP (Transmission Control Protocol)</strong> — протокол управління передачею.<br>Визначає, яким чином інформація повинна бути розбита на пакети і<br>відправлена по каналах зв'язку. TCP має пакети в потрібному порядку, а також
+перевіряє кожен пакет на наявність помилок при передачі.</li>
+<li><strong>IP (Internet Protocol)</strong> — кожен інформаційний пакет містить IP-адреси<br>комп'ютера-відправника і комп'ютера-одержувача. Спеціальні комп'ютери,<br>звані маршрутизаторами, використовуючи IP-адреси, направляють інформаційні<br>пакети в потрібну сторону, тобто до зазначеного в них одержувачу.</li>
+</ul>
+<h1 id="hypertext-transfer-protocol-http">3. HyperText Transfer Protocol (HTTP)</h1>
+<p>Браузер запитує і отримує дані через HTTP-протокол, тому браузер ще називають
+HTTP-клієнтом.</p>
+<p><strong>Протокол передачі гіпертексту (HTTP)</strong> — спеціально розроблений протокол як
+основа World Wide Web, використовується для передачі всіх необхідних типів
+даних: html, зображень, аудіо та відео, css, javascript і т. д. Дефолтний
+TCP-порт - <code>80</code>.</p>
+<p>HTTP заснований на моделі <strong>клієнт-сервер</strong> і протоколі <strong>запит-відповідь</strong>,
+який працює шляхом обміну повідомленнями через надійне TCP/IP з'єднання.</p>
+<p><img src="images/req-res-cycle.jpg" alt="req res cycle"></p>
+<p>Є клієнт, який ініціює з'єднання і посилає запит, і сервер, який очікує
+з'єднання для отримання запиту, проводить необхідні дії і повертає назад
+повідомлення з результатом. Зв'язок між нею здійснюється за допомогою низки
+перемежовуючих HTTP-запитів і HTTP-відповідей.</p>
+<h2 id="hypertext-transfer-protocol-secure-https">3.1. HyperText Transfer Protocol Secure (HTTPS)</h2>
+<p><strong>HTTPS</strong> — це надбудова над HTTP-протоколом, в якій всі сполучення між клієнтом
+і сервером шифруються з метою підвищення безпеки. забезпечує захист від атак,
+заснованих на прослуховуванні з'єднання. Дані передаються поверх криптографічних
+протоколів SSL або TLS. Дефолтний TCP-порт — <code>443</code>.</p>
+<p><img src="images/ssl.jpg" alt="ssl"></p>
+<p>При спілкуванні через звичайне HTTP-з'єднання всі дані передаються у вигляді
+тексту і можуть бути прочитані всіма, хто отримав доступ до з'єднання між
+клієнтом і сервером. Якщо користувач робить покупки онлайн і заповнює форму
+замовлення, що містить інформацію про кредитну картку, їх фінансові дані
+набагато легше вкрасти, якщо вони передаються у вигляді тексту. З HTTPS дані
+будуть зашифровані, і хакер не зможе їх розшифрувати, тому що для розшифровки
+необхідний доступ до закритого ключа, який зберігається на сервері.</p>
+<p><img src="images/http-https.png" alt="http https protocols"></p>
+<ul>
+<li>Інформація про клієнта, наприклад номери кредитних карт, зашифрована і не може
+бути перехоплена в розшифрованому вигляді.</li>
+<li>Відвідувачі можуть підтвердити, що сайт безпечний, подивившись на іконку зліва
+від адресного рядка, захищені з'єднання позначаються та іконкою замку.</li>
+<li>Клієнти з більшою ймовірністю будуть довіряти і здійснювати покупки з сайтів,
+які використовують HTTPS.</li>
+</ul>
+<h2 id="на-що-витрачає-час-http-запит">3.2. На що витрачає час HTTP-запит</h2>
+<p>Запит відбувається в кілька етапів:</p>
+<ul>
+<li><strong><a href="https://youtu.be/72snZctFFtA" target="_blank">DNS-запит</a></strong> — пошук найближчого DNS-сервера,
+щоб перетворити адресу (наприклад google.com) в його числове уявлення,
+IP-адрес (74.125.87.99).</li>
+<li><strong>З'єднання</strong> — установка з'єднання з сервером за отриманим IP-адресом.</li>
+<li><strong>Відправка даних</strong> — пересилання пакетів з клієнта на сервер.</li>
+<li><strong>Очікування відповіді</strong> — чекаємо поки пакети даних дійдуть до сервера, він
+їх обробить і відповідь повернеться назад.</li>
+<li><strong>Отримання даних</strong> — пакети прийшли, можна отримувати з них дані.</li>
+</ul>
+<h1 id="http11-і-http2">4. HTTP/1.1 і HTTP/2</h1>
+<p><img src="images/http-versions.png" alt="http versions"></p>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://www.youtube.com/playlist?list=PLzdnOPI1iJNfMRZm5DDxco3UdsFegvuB7" target="_blank">Плейлист - How The Internet Works</a></li>
+<li><a href="https://youtu.be/AEaKrq3SpW8?list=PL8dPuuaLjXtNlUrzyH5r6jN9ulIgZBpdo" target="_blank">The Internet: Crash Course Computer Science #29</a></li>
+<li><a href="https://youtu.be/guvsH5OFizE?list=PL8dPuuaLjXtNlUrzyH5r6jN9ulIgZBpdo" target="_blank">The World Wide Web: Crash Course Computer Science #30</a></li>
+<li><a href="http://infocisco.ru/network_model_osi.html" target="_blank">Мережева модель</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

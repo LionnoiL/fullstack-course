@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Рядки · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html" class="active">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p><strong>Рядок</strong> — це індексований набір з нуля або більше символів, укладених в одинарні або подвійні лапки.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'Mango'</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Важливо пам'ятати що індексація елементів рядка починається з нуля. Наприклад, в рядку <code>'JavaScript'</code> буква <code>'J'</code> стоїть на позиції з індексом <code>0</code>, а <code>'t'</code> йде під індексом <code>9</code>.</p>
+<p><img src="images/string-idx.png" alt="string indexing"></p>
+<p>Вміст рядка можна змінити. Не можна взяти символ посередині та замінити його. Як тільки рядок створений - він такий назавжди. Можна лише створити цілком новий рядок і привласнити в змінну замість старого.</p>
+<h1 id="конкатенація-рядків">2. Конкатенація рядків</h1>
+<p>Якщо застосувати оператор <code>+</code> до рядка і будь-якого іншого типу даних,
+результатом операції «складання» буде рядок. Ця операція називається
+конкатенація, або складання рядків.</p>
+<p>Під час конкатенації, будь-який тип даних приводиться до рядка і зшивається з
+рядком, але є особливість - послідовність запису операндів.</p>
+<p>Послідовність операцій має значення, перетворення типів відбувається тільки в
+момент операції додавання з рядком, до цього моменту діють звичайні правила
+математики.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> message <span class="token operator">=</span> <span class="token string">'Mango '</span> <span class="token operator">+</span> <span class="token string">'is'</span> <span class="token operator">+</span> <span class="token string">' happy'</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Mango is happy</span>
+
+<span class="token comment">// Тепер подивимося на порядок операндів</span>
+<span class="token keyword">let</span> result<span class="token punctuation">;</span>
+
+result <span class="token operator">=</span> <span class="token number">5</span> <span class="token operator">+</span> <span class="token string">'5'</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// '55'</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// string</span>
+
+result <span class="token operator">=</span> <span class="token number">5</span> <span class="token operator">+</span> <span class="token string">'5'</span> <span class="token operator">+</span> <span class="token number">5</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// '555'</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// string</span>
+
+<span class="token comment">/*
+ * Зверніть увагу, сталася математична операція
+ * складання для перших двох п'ятірок, після чого 10 було
+ * перетворено в рядок '10' і зшито з '5'
+ */</span>
+result <span class="token operator">=</span> <span class="token number">5</span> <span class="token operator">+</span> <span class="token number">5</span> <span class="token operator">+</span> <span class="token string">'5'</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// '105'</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// string</span>
+</code></pre>
+<h1 id="властивості-та-методи-рядків">3. Властивості та методи рядків</h1>
+<p>У кожного рядка є вбудовані властивості і методи, розглянемо деякі з них.</p>
+<ul>
+<li><code>length</code> - властивість, зберігає довжину рядка</li>
+<li><code>toLowerCase()</code> і <code>toUpperCase()</code> - повернуть новий рядок у відповідному регістрі, не змінюють оригінальний рядок</li>
+<li><code>indexOf()</code> - поверне позицію (індекс) на якій знаходиться перший збіг підрядка або <code>-1</code>, якщо нічого не знайдено</li>
+<li><code>includes()</code> - один з найбільш часто використовуваних методів, в більшості випадків замінює <code>indexOf</code>, перевіряє чи входить підрядок в рядок, повертає <code>true</code> або <code>false</code></li>
+</ul>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> message <span class="token operator">=</span> <span class="token string">'Welcome to Bahamas!'</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 19</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'There is nothing impossible to him who will try'</span><span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 47</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// welcome to bahamas!</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span><span class="token function">toUpperCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// WELCOME TO BAHAMAS!</span>
+
+<span class="token comment">// При цьому вихідний рядок не змінюється</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Welcome to Bahamas!</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'to'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 8</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'hello'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// -1</span>
+
+<span class="token comment">// Всі методи рядків чутливі до регістру</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span><span class="token string">'welcome'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span><span class="token string">'Welcome'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#Methods_2" target="_blank">Повний список методів на MDN</a></p>
+<h1 id="шаблонні-рядки-та-інтерполяція">4. Шаблонні рядки та інтерполяція</h1>
+<p>Шаблонні рядки це альтернатива конкатенації з більш зручним синтаксисом. Вони поміщенні у зворотні лапки замість подвійних або одинарних і можуть містити місце заповнювачі, які позначаються знаком долара і фігурними дужками.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Використовуючи змінні необхідно скласти рядок підперті значеннями</span>
+<span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'Mango'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> age <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> mood <span class="token operator">=</span> <span class="token string">'happy'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> message <span class="token operator">=</span>
+  <span class="token string">'My name is '</span> <span class="token operator">+</span> name <span class="token operator">+</span> <span class="token string">", I'm "</span> <span class="token operator">+</span> age <span class="token operator">+</span> <span class="token string">' years old and '</span> <span class="token operator">+</span> mood <span class="token operator">+</span> <span class="token string">'.'</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// My name is Mango, I'm 2 years old and happy.</span>
+
+<span class="token comment">/*
+ * Складати рядки зі значеннями, які підставляються
+ * використовуючи конкатенацію дуже незручно.
+ * На допомогу приходять шаблонні рядки та інтерполяція.
+ */</span>
+<span class="token keyword">const</span> sameMessage <span class="token operator">=</span> <span class="token template-string"><span class="token string">`My name is </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, I'm </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>age<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> years old and </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>mood<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.`</span></span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>sameMessage<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// My name is Mango, I'm 2 years old and happy.</span>
+
+<span class="token comment">// В інтерполяції можна використовувати будь-який валідності вираз</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`Результат додавання дорівнює </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token number">2</span> <span class="token operator">+</span> <span class="token number">2</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Результат додавання дорівнює 4.</span>
+</code></pre>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Крос-доменні запити · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html" class="active">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="cross-origin-resource-sharing-cors">1. Cross-Origin Resource Sharing (CORS)</h1>
+<p>Зазвичай HTTP-запит можна робити тільки в рамках поточного сайту. При спробі
+використовувати інший домен/порт/протокол - браузер видає помилку. Це зроблено з
+міркувань безпеки і налаштовується на стороні сервера.</p>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Якщо бекенд не підтримує CORS-запити, то
+фронтенд-розробник нічого не зможе з цим зробити в своєму коді.</p>
+</div></div></p>
+<p>Загальна ідея полягає в наступних кроках:</p>
+<ul>
+<li>Перед самим запитом, браузер робить <strong>preflight-запит</strong>, інформуючи сервер про
+те, що він (бразуер) хоче зробити HTTP-запит з такої-то адреси.</li>
+<li>Сервер повертає <strong>preflight-відповідь</strong> в якому дозволяє або забороняє робити
+запит, залежить від налаштувань сервера.</li>
+<li>Якщо сервер дозволив робити запит, браузер робить оригінальний запит і отримує
+відповідь сервера.</li>
+<li>Якщо сервер заборонив запит, в консолі браузера можна буде бачити інформацію
+про CORS-помилку під час спроби запиту.</li>
+</ul>
+<p><img src="images/cors.png" alt="cors"></p>
+<p>Розберемо POST-запит. Під час запиту, браузер може додавати заголовок <code>Origin</code>,
+вказуючи на те, звідки було взято оригінальний HTML-файл.</p>
+<pre class="language-"><code class="lang-bash">POST HTTP/1.1
+Origin: https://webiste.api.com
+Host: webiste.api.com
+</code></pre>
+<p>Тоді сервер у відповідь поверне заголовок <code>Access-Control-Allow-Origin</code>, в
+котрому буде вказані адреси з правами доступу до API. Значеннями можуть бути
+певні адреси, або <code>*</code> — доступ дозволений з будь-якої адреси.</p>
+<pre class="language-"><code class="lang-bash">// Якщо API приватний, то будуть вказані доступні адреси
+Access-Control-Allow-Origin: https://webiste.api.com
+
+// Якщо API публічний, доступ буде відкритий усім
+Access-Control-Allow-Origin: *
+</code></pre>
+<h1 id="додаткові-матеріали">2. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://youtu.be/stvCHJZq5MI" target="_blank">Відмінне відео про CORS (рекомендовано)</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" target="_blank">CORS на MDN</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Взаємодія з користувачем · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html" class="active">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="вступ">1. Вступ</h1>
+<p>Розберемо базові операції введення/виводу, достатні для отримання і відображення
+даних від користувача, до того як навчимося працювати з HTML-документом.</p>
+<h1 id="висновок-даних">2. Висновок даних</h1>
+<p>Для виведення даних будемо використовувати 2 методи: <code>console.log()</code> і
+<code>alert()</code>. <div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p><code>console</code> і <code>alert</code> є частиною інтерфейсу
+<code>window</code> - глобального об'єкта, доступного при виконанні скрипта на
+веб-сторінці. Запис <code>window.alert()</code> надлишкова, пишемо просто <code>alert()</code> або
+<code>console.log()</code>. Детальніше про це будемо говорити далі в курсі.</p>
+</div></div></p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> message <span class="token operator">=</span> <span class="token string">'JavaScript is awesome!'</span><span class="token punctuation">;</span>
+<span class="token comment">/*
+ * В круглих дужках вказуємо ім'я змінної,
+ * Значення якої необхідно вивести в консоль
+ */</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// JavaScript is awesome!</span>
+
+<span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'Mango'</span><span class="token punctuation">;</span>
+<span class="token comment">/*
+ * Можна спочатку вказати якийсь довільний рядок,
+ * наприклад описує змінну або доповнює її, після чого
+ * поставити кому і вказати ім'я змінної
+ */</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'My name is: '</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// My name is: Mango</span>
+
+<span class="token comment">/*
+ * alert виводить модальне вікно, текст якого відповідає значенням
+ * змінної (або літерала) яку ми вкажемо в дужках.
+ */</span>
+<span class="token function">alert</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><a href="https://medium.com/free-code-camp/how-to-use-the-javascript-console-going-beyond-console-log-5128af9d573b" target="_blank">How to use the JavaScript console: going beyond console.log()</a></p>
+<h1 id="отримання-даних">3. Отримання даних</h1>
+<p>Для отримання даних від користувача використовуватимемо <code>prompt()</code> і
+<code>confirm()</code>, це теж методи з інтерфейсу <code>window</code>. Їх особливість в тому, що
+результатом свого виконання вони повертають те, що було введено користувачем.
+Результат їхньої роботи можна записати в змінну для подальшого використання.</p>
+<p><code>confirm()</code> — виводить модальне вікно з повідомленням, і 2 кнопки, <code>Ok</code> і
+<code>Cancel</code>. При натисканні на <code>Ok</code>, на місце виклику функції повертається <code>true</code>,
+при натисканні на <code>Cancel</code> повертається <code>false</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">/*
+ * Просимо клієнта підтвердити бронь на готель
+ * і зберігаємо в змінну результат роботи confirm
+ */</span>
+<span class="token keyword">const</span> isComing <span class="token operator">=</span> <span class="token function">confirm</span><span class="token punctuation">(</span><span class="token string">'Please confirm hotel reservation'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>isComing<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><code>prompt()</code> — виводить модальне вікно з полем введення і кнопками <code>Ok</code> і
+<code>Cancel</code>. При <code>Ok</code> повертає те, що було введено в поле введення, при <code>Cancel</code>
+повертає <code>null</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">/*
+ * Запитуємо ім'я готелю в якому хотів би зупиниться клієнт
+ * і зберігаємо в змінну результат виклику prompt
+ */</span>
+<span class="token keyword">const</span> hotelName <span class="token operator">=</span> <span class="token function">prompt</span><span class="token punctuation">(</span><span class="token string">'Please enter desired hotel name:'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hotelName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * Важлива особливість prompt в тому, що не залежно що ввів користувач,
+ * завжди повернеться рядок. Тобто якщо користувач ввів 5, то повернеться
+ * не число 5, а рядок "5". Про це необхідно завжди пам'ятати.
+ */</span>
+<span class="token keyword">const</span> value <span class="token operator">=</span> <span class="token function">prompt</span><span class="token punctuation">(</span><span class="token string">'Please enter a number!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 'string'</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// '5'</span>
+</code></pre>
+  </main>
+</div>
+</body>
+</html>

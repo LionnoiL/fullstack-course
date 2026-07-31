@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REST API · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html" class="active">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="rest-api">1. REST API</h1>
+<p><strong>Сервер</strong> — комп'ютер зі спеціальним програмним забезпеченням. Контролем за
+роботою сервера займається системний адміністратор.</p>
+<p><strong>Дата-центр</strong> - спеціально обладнаний майданчик з цілодобовою технічною
+підтримкою для розміщених серверів. Забезпечує їх безперебійну роботу.</p>
+<p><strong>Бекенд</strong> - програма, розташована на сервері і здатна обробити вхідні
+HTTP-запити і має набір готових дій на певні запити.</p>
+<p><strong>API (інтерфейс прикладного програмування)</strong> — набір чітко визначених правил
+зв'язку між різними програмними компонентами. Інтерфейс описує, що можна
+попросити програму зробити і що вийде в результаті.</p>
+<p><strong>REST (representational state transfer)</strong> — стиль бекенд-архітектури,
+заснований на наборі принципів, які описують як мережеві ресурси визначаються і
+адресуються.</p>
+<p><strong>REST API</strong> — бекенд побудований за принципом <code>REST</code>. Служить прошарком між
+веб-додатком і базою даних. Має стандартний інтерфейс для звернення до ресурсів.
+Працює як веб-сайт, ми посилаємо HTTP-запит з клієнта на сервер, а у відповідь,
+замість HTML-сторінки отримуємо дані в JSON-форматі.</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?time_continue=10&v=llpr5924N7E" target="_blank">Intro to REST (aka. What Is REST Anyway?)</a></li>
+<li><a href="https://www.sitepoint.com/developers-rest-api/" target="_blank">Do you know what a REST API is?</a></li>
+</ul>
+<h1 id="формат-запиту">2. Формат запиту</h1>
+<p>REST-сервіс вимагає, щоб клієнт робив запит на додавання, вилучення або зміну
+даних. Запит зазвичай складається з:</p>
+<ul>
+<li><strong>HTTP-метод</strong> — визначає, яку операцію виконувати.</li>
+<li><strong>Заголовок</strong> — дозволяє клієнту передавати інформацію про запит.</li>
+<li><strong>Шлях</strong> — шлях до ресурсу. Доступні шляху описуються в документації бекенда.</li>
+<li><strong>Тіло</strong> — додатковий блок запиту, що містить дані.</li>
+</ul>
+<h2 id="http-методи">2.1. HTTP-методи</h2>
+<p>Виділяють 4 основні методи для роботи з REST-сервісом.</p>
+<ul>
+<li><code>POST</code> — створити новий ресурс.</li>
+<li><code>GET</code> — отримати набір ресурсів або певний ресурс за ідентифікатором.</li>
+<li><code>PUT</code> або <code>PATCH</code> — оновлення певного ресурсу за ідентифікатором.</li>
+<li><code>DELETE</code> — видалення певного ресурсу за ідентифікатором.</li>
+</ul>
+<p><a href="https://developer.mozilla.org/ru/docs/Web/HTTP/Methods" target="_blank">HTTP-методи на MDN</a></p>
+<h2 id="заголовки">2.2. Заголовки</h2>
+<p>Заголовки містять службову інформацію, що відноситься до користувача або
+контенту запиту, і як клієнт збирається обробляти надану йому інформацію.</p>
+<p>Наприклад, тип контенту, який клієнт може обробити у відповіді від сервера
+(заголовок <code>Accept</code>) або який описує тип ресурсу, який клієнт відправляє серверу
+або сервер відправляє клієнту (заголовок <code>Content-Type</code>).</p>
+<p><strong>MIME-типи</strong> — варіанти типів контенту. Використовується для вказівки вмісту
+запиту і відповіді, складаються з типу і підтипу, які розділені косою рискою
+<code>/</code>.</p>
+<p>Наприклад, текстовий файл, що містить HTML, буде описаний типом <code>text/html</code>.
+Якщо файл містить CSS, він буде описаний як <code>text/css</code>. Дані в форматі JSON
+будуть описані як <code>application/json</code>. Якщо клієнт очікує <code>text/css</code>, а отримує
+<code>application/json</code>, він не зможе розпізнати й обробити контент.</p>
+<h2 id="шляхи">2.3. Шляхи</h2>
+<p>Запити повинні містити шлях до ресурсу, над яким виконується операція. Доступні
+шляху (ендпоінти, ресурси) описуються в документації бекенда.</p>
+<pre class="language-"><code class="lang-bash">https://bookstore.com/api/orders/289
+</code></pre>
+<p>Такий шлях явно вказує ресурс, навіть якщо ви його ніколи раніше не бачили, тому
+що він є ієрархічним і описовим. Ми звертаємося до замовлення з ідентифікатором
+<code>289</code>.</p>
+<h2 id="коди-відповідей">2.4. Коди відповідей</h2>
+<p>На запит клієнта, сервер відправляє відповідь. Відповідь містить код стану, щоб
+інформувати клієнта про результат операції. Коди діляться на групи.</p>
+<ul>
+<li><code>1XX</code> — несуть інформаційне призначення</li>
+<li><code>2XX</code> — коди успішного проведення операції</li>
+<li><code>3XX</code> — описують все, що пов'язано з перенаправленням</li>
+<li><code>4XX</code> — вказують на помилки клієнта</li>
+<li><code>5XX</code> — вказують на помилки на стороні сервера</li>
+</ul>
+<p>Не потрібно пам'ятати кожен код стану (їх багато), але необхідно знати найбільш
+поширені і їх значення.</p>
+<ul>
+<li><code>200 (OK)</code> - стандартна відповідь для успішних HTTP-запитів</li>
+<li><code>201 (Created)</code> - стандартна відповідь для HTTP-запиту, який привів до
+  успішному створенню ресурсу</li>
+<li><code>400 (Bad Request)</code> - запит не може бути опрацьований через невірний<br>синтаксис запиту або іншої помилки клієнта.</li>
+<li><code>401 (Unauthorized)</code> - для доступу до ресурсу необхідно ввійти в систему.</li>
+<li><code>403 (Forbidden)</code> - у клієнта немає дозволу на доступ до цього ресурсу.</li>
+<li><code>404 (Not Found)</code> - в даний час ресурс не знайдений. Можливо, він був<br>знищений або ще не існує.</li>
+<li><code>500 (Internal Server Error)</code> - загальна відповідь на непередбачений збій,
+сервера, якщо немає більш конкретної інформації.</li>
+</ul>
+<p><a href="https://httpstatuses.com/" target="_blank">Довідник HTTP-кодів</a></p>
+<h1 id="запит-відповідь">3. Запит-Відповідь</h1>
+<p>Припустимо, у нас є програма, яка дозволяє переглядати, створювати, редагувати і
+видаляти клієнтів і замовлення невеликого книжкового магазину, бекенд якого
+розміщений на <code>bookstore.com/api</code>. Використовуючи отримані знання ми можемо,
+псевдокодом, описати процес запит-відповідь до бекенду.</p>
+<p>Якби ми хотіли подивитися всіх клієнтів, запит буде виглядати так.</p>
+<pre class="language-"><code class="lang-bash">GET bookstore.com/api/customers
+Accept: application/json
+</code></pre>
+<p>Відповідь сервера.</p>
+<pre class="language-"><code class="lang-bash">Status: 200 OK
+Content-Type: application/json
+Body: JSON-дані про всіх клієнтів
+</code></pre>
+<p>Для перегляду одного клієнта ми вказуємо його ідентифікатор.</p>
+<pre class="language-"><code class="lang-bash">GET bookstore.com/api/customers/289
+Accept: application/json
+</code></pre>
+<p>Відповідь сервера.</p>
+<pre class="language-"><code class="lang-bash">Status: 200 OK
+Content-Type: application/json
+Body: JSON-дані про клієнта
+</code></pre>
+<p>Створення нового клієнта.</p>
+<pre class="language-"><code class="lang-bash">POST bookstore.com/api/customers
+Content-Type: application/json
+Body: <span class="token punctuation">{</span> <span class="token string">"name"</span><span class="token keyword">:</span> <span class="token string">"Mango"</span>, <span class="token string">"email"</span><span class="token keyword">:</span> <span class="token string">"<a href="https://goit.global/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5f323e3138301f38323e3633713c3032">[email protected]</a>"</span> <span class="token punctuation">}</span>
+</code></pre>
+<p>Сервер додає унікальний ідентифікатор для цього об'єкта і повертає його назад
+клієнту.</p>
+<pre class="language-"><code class="lang-bash">Status: 201 Created
+Content-type: application/json
+Body: <span class="token punctuation">{</span> <span class="token string">"id"</span><span class="token keyword">:</span> 18674, <span class="token string">"name"</span><span class="token keyword">:</span> <span class="token string">"Mango"</span>, <span class="token string">"email"</span><span class="token keyword">:</span> <span class="token string">"<a href="https://goit.global/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0c616d626b634c6b616d6560226f6361">[email protected]</a>"</span> <span class="token punctuation">}</span>
+</code></pre>
+  </main>
+</div>
+</body>
+</html>

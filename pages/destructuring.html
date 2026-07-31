@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Деструктуризація · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <ul>
+<li><a href="intro.html">Що таке JavaScript?</a></li>
+<li><a href="adding-script.html">Підключення скрипта</a></li>
+<li><a href="devtools.html">Вкладка Console в Chrome DevTools</a></li>
+<li><a href="syntax.html">Синтаксис мови</a></li>
+<li><a href="vars-and-types.html">Змінні і типи даних</a></li>
+<li><a href="input-output.html">Взаємодія з користувачем</a></li>
+<li><a href="operators.html">Основні оператори</a></li>
+<li><a href="numbers.html">Числа</a></li>
+<li><a href="strings.html">Рядки</a></li>
+<li><a href="logic-gates.html">Логічні оператори</a></li>
+<li><a href="branching.html">Розгалуження</a></li>
+<li><a href="variable-scope.html">Область видимості</a></li>
+<li><a href="loops.html">Цикли</a></li>
+<li><a href="arrays.html">Масиви</a></li>
+<li><a href="val-and-ref.html">Присвоєння за посиланням і за значенням</a></li>
+<li><a href="array-methods.html">Методи масиву</a></li>
+<li><a href="array-methods-2.html">Перебираючі методи масиву</a></li>
+<li><a href="functions.html">Функції</a></li>
+<li><a href="pure-functions.html">Чисті функції</a></li>
+<li><a href="imperative-vs-declarative.html">Імперативний і декларативний код</a></li>
+<li><a href="scope.html">Область видимості (функції)</a></li>
+<li><a href="arrow-fns.html">Стрілкові функції</a></li>
+<li><a href="objects.html">Об&#x27;єкти</a></li>
+<li><a href="object-iteration.html">Перебір об&#x27;єкта</a></li>
+<li><a href="spread-rest.html">Операції spread і rest</a></li>
+<li><a href="destructuring.html" class="active">Деструктуризація</a></li>
+<li><a href="callbacks.html">Функції зворотного виклику</a></li>
+<li><a href="js-internals.html">Стек викликів і лексичне оточення</a></li>
+<li><a href="closures.html">Замикання</a></li>
+<li><a href="context.html">Ключове слово this</a></li>
+<li><a href="oop.html">ООП</a></li>
+<li><a href="prototypes.html">Прототипи</a></li>
+<li><a href="constructors.html">Конструктори</a></li>
+<li><a href="classes.html">ES6 класи</a></li>
+<li><a href="dom-basics.html">Об&#x27;єктна модель документа</a></li>
+<li><a href="dom-traversal.html">Навігація по DOM</a></li>
+<li><a href="dom-manipulation.html">Створення та видалення вузлів</a></li>
+<li><a href="dom-construction.html">Процес побудови веб-сторінки</a></li>
+<li><a href="props-attrs.html">DOM-властивості і атрибути</a></li>
+<li><a href="events.html">Події</a></li>
+<li><a href="events-2.html">Поширення. Спливання. Делегування</a></li>
+<li><a href="chatty-events.html">Throttle і Debounce</a></li>
+<li><a href="intersection-observer.html">IntersectionObserver API</a></li>
+<li><a href="npm.html">NPM</a></li>
+<li><a href="modules.html">Модульність коду</a></li>
+<li><a href="webpack.html">Webpack</a></li>
+<li><a href="libs.html">Плагіни і бібліотеки</a></li>
+<li><a href="templating.html">Шаблонізація</a></li>
+<li><a href="json.html">JSON</a></li>
+<li><a href="clientside-storage.html">Зберігання інформації на клієнті</a></li>
+<li><a href="async-code.html">Асинхронний JavaScript</a></li>
+<li><a href="date.html">Клас Date</a></li>
+<li><a href="promise-api.html">Promise API</a></li>
+<li><a href="event-loop.html">Цикл подій</a></li>
+<li><a href="protocols.html">Протоколи передачі даних</a></li>
+<li><a href="rest-api.html">REST API</a></li>
+<li><a href="fetch.html">AJAX і Fetch API</a></li>
+<li><a href="cors.html">Крос-доменні запити</a></li>
+<li><a href="node.html">Node.js</a></li>
+    </ul>
+  </aside>
+  <main class="content">
+<h1 id="деструктуризація-обєктів">1. Деструктуризація об'єктів</h1>
+<p>При розробці програм дані приходять, як правило, у вигляді масивів і об'єктів. А
+логіка обробки даних написана за допомогою локальних змінних. Тому необхідно
+присвоювати значення властивостей об'єктів змінним і робити це бажано
+максимально просто.</p>
+<p>Для цього в ES6 введений новий синтаксис - змінним всередині фігурних дужок
+присвоюються значення об'єкта. Якщо ім'я змінної і ключ об'єкта збігаються, то
+відбувається присвоювання. Якщо для змінної не знайшлося відповідного ключа то
+буде присвоєно <code>undefined</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
+  stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Оголосимо змінні і дамо їм значення з об'єкта</span>
+<span class="token keyword">const</span> <span class="token punctuation">{</span> name<span class="token punctuation">,</span> stars<span class="token punctuation">,</span> status <span class="token punctuation">}</span> <span class="token operator">=</span> hotel<span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> stars<span class="token punctuation">,</span> status<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "Resort Hotel", 5, undefined</span>
+</code></pre>
+<p>Присвоєння <code>undefined</code> можна уникнути, задавши змінним значення за
+замовчуванням, у випадку якщо такої властивості в об'єкті немає.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
+  stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">{</span> name <span class="token operator">=</span> <span class="token string">'hotel'</span><span class="token punctuation">,</span> stars <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">,</span> status <span class="token operator">=</span> <span class="token string">'empty'</span> <span class="token punctuation">}</span> <span class="token operator">=</span> hotel<span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> stars<span class="token punctuation">,</span> status<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "Resort Hotel", 5, "empty"</span>
+</code></pre>
+<p>Не завжди зручно створювати імена змінних по ключах, тому можна перевизначити
+імена в процесі присвоєння. Спочатку пишемо ім'я властивості з якого ми хочемо
+отримати значення, після чого ставимо двокрапку і пишемо ім'я змінної в яку
+хочемо помістити значення цієї властивості.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
+  stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> hotelName<span class="token punctuation">,</span> stars<span class="token punctuation">,</span> status<span class="token punctuation">:</span> hotelStatus <span class="token operator">=</span> <span class="token string">'empty'</span> <span class="token punctuation">}</span> <span class="token operator">=</span> hotel<span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hotelName<span class="token punctuation">,</span> stars<span class="token punctuation">,</span> hotelStatus<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// "Resort Hotel", 5, "empty"</span>
+</code></pre>
+<p>Використовуючи операцію <code>...</code> (rest) можна робити часткову деструктуризацію,
+взявши з об'єкта необхідні поля, а решту зібрати в змінну під ім'ям <code>rest</code> (Ім'я
+змінної довільне), це буде об'єкт з тими полями, які ми явно НЕ
+деструктуризували в змінні.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
+  stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">{</span> name<span class="token punctuation">,</span> <span class="token operator">...</span>rest <span class="token punctuation">}</span> <span class="token operator">=</span> hotel<span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "Resort Hotel"</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>rest<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// {stars: 5, capacity: 100}</span>
+</code></pre>
+<h1 id="деструктуризація-масивів">2. Деструктуризація масивів</h1>
+<p>Аналогічно робиться деструктуризація масивів, але з деякими особливостями:</p>
+<ul>
+<li>Замість <code>{}</code> використовуються <code>[]</code></li>
+<li>Змінним зазначеним в <code>[]</code> будуть послідовно присвоюватися значення<br>елементів масиву</li>
+</ul>
+<p>Уявіть що є масив квітів, з якого потрібно в окремі змінні отримати значення
+кожної складової кольору. Після ключового слова <code>const</code> або <code>Let</code> ставимо
+відкриваючі та закриваючі квадратні дужки, як при оголошенні масиву. Усередині
+дужок, через кому, вказуємо імена змінних в які будуть поміщені значення масиву.</p>
+<p>В результаті такого запису будуть створені 3 змінні та в них будуть поміщені
+елементи в нумерування порядку, від 0 до кінця масиву.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> rgb <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">[</span>red<span class="token punctuation">,</span> green<span class="token punctuation">,</span> blue<span class="token punctuation">]</span> <span class="token operator">=</span> rgb<span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`Red: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>red<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, Green: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>green<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, Blue: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>blue<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Red: 200, Green: 255, Blue: 100</span>
+</code></pre>
+<p>При деструктуризації масивів змінної може бути присвоєно значення окремо від її
+оголошення.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> rgb <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> red<span class="token punctuation">,</span> green<span class="token punctuation">,</span> blue<span class="token punctuation">;</span>
+
+<span class="token punctuation">[</span>red<span class="token punctuation">,</span> green<span class="token punctuation">,</span> blue<span class="token punctuation">]</span> <span class="token operator">=</span> rgb<span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`Red: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>red<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, Green: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>green<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, Blue: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>blue<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Red: 200, Green: 255, Blue: 100</span>
+</code></pre>
+<p>Якщо змінних більше ніж елементів масиву, їм буде присвоєно <code>undefined</code>, тому
+можна вказувати значення за замовчуванням.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> rgb <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">[</span>red<span class="token punctuation">,</span> green<span class="token punctuation">,</span> blue<span class="token punctuation">,</span> alfa <span class="token operator">=</span> <span class="token number">0.3</span><span class="token punctuation">]</span> <span class="token operator">=</span> rgb<span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`Red: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>red<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, Green: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>green<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, Blue: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>blue<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, Alfa: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>alfa<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Red: 200, Green: 100, Blue: 255, Alfa: 0.3</span>
+</code></pre>
+<p>Іноді з масиву необхідно деструктуризувати тільки перші <code>n</code> елементів, а інші
+зберегти в одну змінну у вигляді масиву. При деструкції масиву можна розпакувати
+і привласнити частину елементів масиву змінної, використовуючи операцію <code>...</code>
+(rest).</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> rgb <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">[</span>red<span class="token punctuation">,</span> <span class="token operator">...</span>colors<span class="token punctuation">]</span> <span class="token operator">=</span> rgb<span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`Red: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>red<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">, Colors: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>colors<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Red: 200, Colors: [255, 100]</span>
+</code></pre>
+<p>Елементи можна пропускати. Припустимо з масиву <code>rgb</code> необхідно взяти тільки
+останнє значення. Використовується це вкрай рідко.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> rgb <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token punctuation">[</span><span class="token punctuation">,</span> <span class="token punctuation">,</span> blue<span class="token punctuation">]</span> <span class="token operator">=</span> rgb<span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`Blue: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>blue<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Blue: 255</span>
+</code></pre>
+<h1 id="додаткові-матеріали">3. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://codeguida.com/post/1480" target="_blank">ES6 деструктуризація. Детальна інструкція від Codeguida</a></li>
+<li><a href="http://exploringjs.com/es6/ch_destructuring.html" target="_blank">exploring.js - Destructuring</a></li>
+</ul>
+  </main>
+</div>
+</body>
+</html>
