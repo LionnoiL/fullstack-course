@@ -12,6 +12,8 @@
         ["html-intro.html", "Основи HTML"],
         ["html-text.html", "Текст і списки"],
         ["html-links-images.html", "Посилання та зображення"],
+        ["html-responsive-images.html", "Адаптивні зображення"],
+        ["html-svg.html", "Робота з SVG"],
         ["html-semantics.html", "Семантична розмітка"],
         ["html-forms.html", "Форми"],
         ["html-tables.html", "Таблиці"],
@@ -271,6 +273,12 @@
         ["project-weather.html", "Проєкт: погода з API"],
         ["project-fullstack.html", "Проєкт: fullstack-нотатник"],
         ["project-bank.html", "🗂️ Банк проєктів (ідеї)"],
+      ],
+    },
+    {
+      title: "Ресурси",
+      lessons: [
+        ["resources.html", "🔗 Корисні посилання"],
       ],
     },
   ];
