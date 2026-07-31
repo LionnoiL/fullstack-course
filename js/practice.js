@@ -1,6 +1,7 @@
 // Рушій інтерактивних практичних завдань.
-// Сторінка реєструє завдання через Practice.register(id, config), а цей скрипт
-// підключає редактор коду, кнопку "Запустити" й проганяє код через авто-тести.
+// Два способи задати завдання:
+//   1) Practice.load(mountId, tasks) — будує список завдань із масиву даних;
+//   2) Practice.register(id, config) — прив'язка до вже наявної розмітки .runner.
 // Код користувача виконується у його ж браузері й зберігається в localStorage.
 (function () {
   "use strict";
@@ -11,6 +12,13 @@
       this._tasks[id] = config;
     },
   };
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
 
   function renderError(output, message) {
     output.innerHTML = "";
@@ -34,9 +42,8 @@
     }
 
     const starter = textarea.value;
-    const KEY = "jscourse.practice." + id;
+    const KEY = "jscourse.practice." + location.pathname.split("/").pop() + "." + id;
 
-    // Відновлюємо збережений код
     try {
       const saved = localStorage.getItem(KEY);
       if (saved !== null) {
@@ -66,7 +73,6 @@
       });
     }
 
-    // Дозволяємо Tab у полі коду замість втрати фокуса
     textarea.addEventListener("keydown", function (e) {
       if (e.key === "Tab") {
         e.preventDefault();
@@ -148,6 +154,89 @@
       output.appendChild(list);
     });
   }
+
+  // Будує список завдань із масиву даних.
+  window.Practice.load = function (mountId, tasks) {
+    const mount = document.getElementById(mountId);
+    if (!mount) {
+      return;
+    }
+    tasks.forEach(function (task, idx) {
+      const key = task.entry
+        ? Array.isArray(task.entry)
+          ? task.entry[0]
+          : task.entry
+        : "t" + idx;
+      const id = mountId + "-" + key;
+
+      const wrap = document.createElement("div");
+      wrap.className = "task";
+
+      const h = document.createElement("h2");
+      h.textContent = idx + 1 + ". " + task.title;
+      wrap.appendChild(h);
+
+      if (task.desc) {
+        const p = document.createElement("p");
+        p.className = "task-goal";
+        p.innerHTML = task.desc;
+        wrap.appendChild(p);
+      }
+
+      const runner = document.createElement("div");
+      runner.className = "runner";
+      runner.id = id;
+
+      const ta = document.createElement("textarea");
+      ta.className = "runner-code";
+      ta.spellcheck = false;
+      ta.value = task.starter || "";
+      runner.appendChild(ta);
+
+      const actions = document.createElement("div");
+      actions.className = "runner-actions";
+      const runBtn = document.createElement("button");
+      runBtn.type = "button";
+      runBtn.className = "runner-run";
+      runBtn.textContent = "Запустити";
+      const resetBtn = document.createElement("button");
+      resetBtn.type = "button";
+      resetBtn.className = "runner-reset";
+      resetBtn.textContent = "Скинути";
+      actions.appendChild(runBtn);
+      actions.appendChild(resetBtn);
+      runner.appendChild(actions);
+
+      const out = document.createElement("div");
+      out.className = "runner-output";
+      runner.appendChild(out);
+
+      wrap.appendChild(runner);
+
+      if (task.hint) {
+        const d = document.createElement("details");
+        d.className = "hint";
+        d.innerHTML = "<summary>Підказка</summary><p>" + task.hint + "</p>";
+        wrap.appendChild(d);
+      }
+      if (task.solution) {
+        const d = document.createElement("details");
+        d.className = "solution";
+        d.innerHTML =
+          "<summary>Рішення</summary><pre class=\"language-js\"><code class=\"language-js\">" +
+          escapeHtml(task.solution) +
+          "</code></pre>";
+        wrap.appendChild(d);
+      }
+
+      mount.appendChild(wrap);
+      runTask(id, { entry: task.entry, tests: task.tests });
+    });
+
+    if (window.Prism && typeof window.Prism.highlightAllUnder === "function") {
+      window.Prism.highlightAllUnder(mount);
+    }
+  };
 
   function init() {
     const tasks = window.Practice._tasks;

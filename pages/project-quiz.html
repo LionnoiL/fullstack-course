@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Проєкт: вікторина · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="проєкт">Проєкт: вікторина (Quiz)</h1>
+<p><strong>Рівень:</strong> початковий-середній. <strong>Етап:</strong> після масивів, об'єктів, DOM і
+подій. Тренує рендер зі структури даних і керування станом кроків.</p>
+
+<h1 id="що-зробити">Що зробити</h1>
+<p>Гра-вікторина: показує питання з варіантами, рахує правильні відповіді й у кінці
+виводить результат.</p>
+
+<h1 id="вимоги">Вимоги</h1>
+<ul>
+<li>питання зберігаються масивом об'єктів;</li>
+<li>показ по одному питанню з кнопками-варіантами;</li>
+<li>підсвічування правильної/неправильної відповіді;</li>
+<li>лічильник балів і прогрес (питання X з N);</li>
+<li>фінальний екран із результатом і кнопкою «Пройти ще раз».</li>
+</ul>
+
+<pre class="language-js"><code class="language-js">const questions = [
+  {
+    question: 'Яка мова додає інтерактивність вебсторінкам?',
+    options: ['HTML', 'CSS', 'JavaScript', 'SQL'],
+    correct: 2,
+  },
+  // ...
+];
+
+let current = 0;
+let score = 0;
+
+function renderQuestion() { /* показати questions[current] */ }
+function selectAnswer(index) { /* перевірити, оновити score, далі */ }</code></pre>
+
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Тримай усе питання й прогрес у стані (<code>current</code>, <code>score</code>), а UI завжди
+перемальовуй із цього стану. Дані питань легко винести в окремий JSON-файл.</p></div></div>
+
+<h1 id="далі">Розвиток</h1>
+<p>Таймер на питання, категорії, завантаження питань з
+<a href="https://opentdb.com/" target="_blank">Open Trivia DB</a> через <code>fetch</code>,
+таблиця рекордів у <code>localStorage</code>.</p>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

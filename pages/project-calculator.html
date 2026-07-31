@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Проєкт: калькулятор · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="проєкт">Проєкт: калькулятор</h1>
+<p><strong>Рівень:</strong> початковий. <strong>Етап:</strong> після HTML, CSS, DOM і подій. Класичний
+проєкт, що тренує роботу з інтерфейсом і станом.</p>
+
+<h1 id="що-зробити">Що зробити</h1>
+<p>Калькулятор із кнопками цифр і операцій, який рахує вирази й показує результат
+на «екрані».</p>
+
+<h1 id="вимоги">Вимоги</h1>
+<ul>
+<li>кнопки 0–9, <code>+ − × ÷</code>, <code>=</code>, <code>C</code> (скидання) і <code>.</code>;</li>
+<li>дисплей показує поточне введення й результат;</li>
+<li>ланцюжкові обчислення (<code>2 + 3 × 4</code>);</li>
+<li>обробка ділення на нуль;</li>
+<li>розкладка кнопок через CSS Grid;</li>
+<li>підтримка клавіатури (бонус).</li>
+</ul>
+
+<h1 id="підказки">Підказки</h1>
+<ul>
+<li>тримай стан у змінних: поточне число, попереднє, обрана операція;</li>
+<li>використай <strong>делегування</strong> — один обробник на контейнер кнопок, читай <code>data-*</code> атрибути;</li>
+<li>не використовуй <code>eval</code> для обчислень — став окрему функцію на кожну операцію.</li>
+</ul>
+
+<pre class="language-js"><code class="language-js">const buttons = document.querySelector('.keys');
+
+buttons.addEventListener('click', (e) =&gt; {
+  const key = e.target.closest('button');
+  if (!key) return;
+  const { value, action } = key.dataset;
+  // action: 'digit' | 'operator' | 'equals' | 'clear'
+});</code></pre>
+
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Розбий логіку на дрібні функції: <code>inputDigit</code>, <code>chooseOperator</code>,
+<code>calculate</code>, <code>reset</code>. Так її легше тестувати й розширювати.</p></div></div>
+
+<h1 id="далі">Розвиток</h1>
+<p>Історія обчислень, пам'ять (M+, MR), відсотки, наукові функції, темна тема.</p>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

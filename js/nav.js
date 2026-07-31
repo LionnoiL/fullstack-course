@@ -248,12 +248,16 @@
       ],
     },
     {
-      title: "Проєкти (мілстоуни)",
+      title: "Проєкти",
       lessons: [
         ["project-landing.html", "Проєкт: лендинг (HTML/CSS)"],
+        ["project-calculator.html", "Проєкт: калькулятор"],
         ["project-todo.html", "Проєкт: To-Do на JS"],
+        ["project-quiz.html", "Проєкт: вікторина"],
+        ["project-gallery.html", "Проєкт: галерея"],
         ["project-weather.html", "Проєкт: погода з API"],
         ["project-fullstack.html", "Проєкт: fullstack-нотатник"],
+        ["project-bank.html", "🗂️ Банк проєктів (ідеї)"],
       ],
     },
   ];

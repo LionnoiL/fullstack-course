@@ -13,174 +13,119 @@
   <aside class="sidebar" id="sidebar"></aside>
   <main class="content">
 <h1 id="практика">Практика: масиви</h1>
-<p>Тренуємо методи масивів: <code>map</code>, <code>filter</code>, <code>reduce</code>. Пиши код і тисни
-<strong>«Запустити»</strong>.</p>
-
-<div class="task">
-<h2>Завдання 1. Сума додатних</h2>
-<p class="task-goal">Реалізуй <code>sumPositive(arr)</code>, що повертає суму лише додатних
-чисел масиву.</p>
-<div class="runner" id="t-sumpos">
-<textarea class="runner-code">function sumPositive(arr) {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="hint"><summary>Підказка</summary><p>Спочатку <code>filter</code> залиши додатні, потім <code>reduce</code> просумуй.</p></details>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">function sumPositive(arr) {
-  return arr.filter((n) =&gt; n &gt; 0).reduce((acc, n) =&gt; acc + n, 0);
-}</code></pre>
-</details>
-</div>
+<p>Методи масивів: <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>slice</code> та інші. Пиши код і
+тисни <strong>«Запустити»</strong>.</p>
+<div id="tasks"></div>
 <script>
-Practice.register('t-sumpos', {
-  entry: 'sumPositive',
-  tests: [
-    { name: 'sumPositive([1,-2,3,-4,5]) === 9', test: (e) => e.sumPositive([1,-2,3,-4,5]) === 9 },
-    { name: 'sumPositive([-1,-2]) === 0', test: (e) => e.sumPositive([-1,-2]) === 0 },
-    { name: 'sumPositive([]) === 0', test: (e) => e.sumPositive([]) === 0 },
-  ],
-});
+Practice.load('tasks', [
+  {
+    title: 'Сума додатних',
+    desc: '<code>sumPositive(arr)</code> → сума лише додатних чисел.',
+    entry: 'sumPositive',
+    starter: 'function sumPositive(arr) {\n  \n}',
+    solution: 'function sumPositive(arr) {\n  return arr.filter((n) => n > 0).reduce((acc, n) => acc + n, 0);\n}',
+    tests: [
+      { name: 'sumPositive([1,-2,3,-4,5]) === 9', test: (e) => e.sumPositive([1,-2,3,-4,5]) === 9 },
+      { name: 'sumPositive([-1,-2]) === 0', test: (e) => e.sumPositive([-1,-2]) === 0 },
+    ],
+  },
+  {
+    title: 'Унікальні значення',
+    desc: '<code>unique(arr)</code> → масив без дублікатів, порядок збережено.',
+    entry: 'unique',
+    starter: 'function unique(arr) {\n  \n}',
+    hint: '[...new Set(arr)].',
+    solution: 'function unique(arr) {\n  return [...new Set(arr)];\n}',
+    tests: [
+      { name: 'unique([1,2,2,3,3,3]) === [1,2,3]', test: (e) => JSON.stringify(e.unique([1,2,2,3,3,3])) === JSON.stringify([1,2,3]) },
+    ],
+  },
+  {
+    title: 'Групування',
+    desc: '<code>groupBy(arr, key)</code> → об’єкт: групи об’єктів за значенням поля key.',
+    entry: 'groupBy',
+    starter: 'function groupBy(arr, key) {\n  \n}',
+    solution: 'function groupBy(arr, key) {\n  return arr.reduce((acc, item) => {\n    const k = item[key];\n    (acc[k] = acc[k] || []).push(item);\n    return acc;\n  }, {});\n}',
+    tests: [
+      { name: "групує за 'type'", test: (e) => { const r = e.groupBy([{type:'a',v:1},{type:'b',v:2},{type:'a',v:3}], 'type'); return r.a.length === 2 && r.b.length === 1; } },
+    ],
+  },
+  {
+    title: 'Розбити на частини',
+    desc: '<code>chunk(arr, size)</code> → підмасиви завдовжки size.',
+    entry: 'chunk',
+    starter: 'function chunk(arr, size) {\n  \n}',
+    solution: 'function chunk(arr, size) {\n  const result = [];\n  for (let i = 0; i < arr.length; i += size) {\n    result.push(arr.slice(i, i + size));\n  }\n  return result;\n}',
+    tests: [
+      { name: 'chunk([1,2,3,4,5],2)', test: (e) => JSON.stringify(e.chunk([1,2,3,4,5],2)) === JSON.stringify([[1,2],[3,4],[5]]) },
+    ],
+  },
+  {
+    title: 'Розгортання (1 рівень)',
+    desc: '<code>flatten(arr)</code> → розгортає вкладені масиви на один рівень.',
+    entry: 'flatten',
+    starter: 'function flatten(arr) {\n  \n}',
+    solution: 'function flatten(arr) {\n  return arr.reduce((acc, item) => acc.concat(item), []);\n}',
+    tests: [
+      { name: 'flatten([1,[2,3],[4]]) === [1,2,3,4]', test: (e) => JSON.stringify(e.flatten([1,[2,3],[4]])) === JSON.stringify([1,2,3,4]) },
+    ],
+  },
+  {
+    title: 'Середнє арифметичне',
+    desc: '<code>average(arr)</code> → середнє значення (порожній масив → 0).',
+    entry: 'average',
+    starter: 'function average(arr) {\n  \n}',
+    solution: 'function average(arr) {\n  if (arr.length === 0) return 0;\n  return arr.reduce((a, n) => a + n, 0) / arr.length;\n}',
+    tests: [
+      { name: 'average([2,4]) === 3', test: (e) => e.average([2,4]) === 3 },
+      { name: 'average([1,2,3,4]) === 2.5', test: (e) => e.average([1,2,3,4]) === 2.5 },
+      { name: 'average([]) === 0', test: (e) => e.average([]) === 0 },
+    ],
+  },
+  {
+    title: 'Максимум масиву',
+    desc: '<code>maxValue(arr)</code> → найбільше число масиву.',
+    entry: 'maxValue',
+    starter: 'function maxValue(arr) {\n  \n}',
+    solution: 'function maxValue(arr) {\n  return Math.max(...arr);\n}',
+    tests: [
+      { name: 'maxValue([1,5,2]) === 5', test: (e) => e.maxValue([1,5,2]) === 5 },
+      { name: 'maxValue([-3,-1,-2]) === -1', test: (e) => e.maxValue([-3,-1,-2]) === -1 },
+    ],
+  },
+  {
+    title: 'Перетин масивів',
+    desc: '<code>intersection(a, b)</code> → елементи, що є в обох (унікальні, порядок з a).',
+    entry: 'intersection',
+    starter: 'function intersection(a, b) {\n  \n}',
+    solution: 'function intersection(a, b) {\n  return [...new Set(a)].filter((x) => b.includes(x));\n}',
+    tests: [
+      { name: 'intersection([1,2,3],[2,3,4]) === [2,3]', test: (e) => JSON.stringify(e.intersection([1,2,3],[2,3,4])) === JSON.stringify([2,3]) },
+    ],
+  },
+  {
+    title: 'Різниця масивів',
+    desc: '<code>difference(a, b)</code> → елементи з a, яких немає в b.',
+    entry: 'difference',
+    starter: 'function difference(a, b) {\n  \n}',
+    solution: 'function difference(a, b) {\n  return a.filter((x) => !b.includes(x));\n}',
+    tests: [
+      { name: 'difference([1,2,3],[2]) === [1,3]', test: (e) => JSON.stringify(e.difference([1,2,3],[2])) === JSON.stringify([1,3]) },
+    ],
+  },
+  {
+    title: 'Перші N елементів',
+    desc: '<code>take(arr, n)</code> → перші n елементів масиву.',
+    entry: 'take',
+    starter: 'function take(arr, n) {\n  \n}',
+    solution: 'function take(arr, n) {\n  return arr.slice(0, n);\n}',
+    tests: [
+      { name: 'take([1,2,3,4],2) === [1,2]', test: (e) => JSON.stringify(e.take([1,2,3,4],2)) === JSON.stringify([1,2]) },
+      { name: 'take([1],5) === [1]', test: (e) => JSON.stringify(e.take([1],5)) === JSON.stringify([1]) },
+    ],
+  },
+]);
 </script>
-
-<div class="task">
-<h2>Завдання 2. Унікальні значення</h2>
-<p class="task-goal">Реалізуй <code>unique(arr)</code>, що повертає новий масив без
-дублікатів, зберігаючи порядок.</p>
-<div class="runner" id="t-uniq">
-<textarea class="runner-code">function unique(arr) {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="hint"><summary>Підказка</summary><p>Найкоротше — через <code>Set</code>: <code>[...new Set(arr)]</code>.</p></details>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">function unique(arr) {
-  return [...new Set(arr)];
-}</code></pre>
-</details>
-</div>
-<script>
-Practice.register('t-uniq', {
-  entry: 'unique',
-  tests: [
-    { name: 'unique([1,2,2,3,3,3]) === [1,2,3]', test: (e) => JSON.stringify(e.unique([1,2,2,3,3,3])) === JSON.stringify([1,2,3]) },
-    { name: "unique(['a','a','b']) === ['a','b']", test: (e) => JSON.stringify(e.unique(['a','a','b'])) === JSON.stringify(['a','b']) },
-  ],
-});
-</script>
-
-<div class="task">
-<h2>Завдання 3. Групування за властивістю</h2>
-<p class="task-goal">Реалізуй <code>groupBy(arr, key)</code>, що групує масив об'єктів у
-об'єкт за значенням поля <code>key</code>.</p>
-<div class="runner" id="t-group">
-<textarea class="runner-code">function groupBy(arr, key) {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">function groupBy(arr, key) {
-  return arr.reduce((acc, item) =&gt; {
-    const k = item[key];
-    (acc[k] = acc[k] || []).push(item);
-    return acc;
-  }, {});
-}</code></pre>
-</details>
-</div>
-<script>
-Practice.register('t-group', {
-  entry: 'groupBy',
-  tests: [
-    { name: "групує за 'type'", test: (e) => {
-      const data = [{type:'a',v:1},{type:'b',v:2},{type:'a',v:3}];
-      const r = e.groupBy(data, 'type');
-      return r.a.length === 2 && r.b.length === 1 && r.a[1].v === 3;
-    } },
-  ],
-});
-</script>
-
-<div class="task">
-<h2>Завдання 4. Розбити на частини</h2>
-<p class="task-goal">Реалізуй <code>chunk(arr, size)</code>, що ділить масив на підмасиви
-завдовжки <code>size</code> (останній може бути коротшим).</p>
-<div class="runner" id="t-chunk">
-<textarea class="runner-code">function chunk(arr, size) {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="hint"><summary>Підказка</summary><p>Іди по масиву кроком <code>size</code> і бери <code>arr.slice(i, i + size)</code>.</p></details>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">function chunk(arr, size) {
-  const result = [];
-  for (let i = 0; i &lt; arr.length; i += size) {
-    result.push(arr.slice(i, i + size));
-  }
-  return result;
-}</code></pre>
-</details>
-</div>
-<script>
-Practice.register('t-chunk', {
-  entry: 'chunk',
-  tests: [
-    { name: 'chunk([1,2,3,4,5], 2)', test: (e) => JSON.stringify(e.chunk([1,2,3,4,5], 2)) === JSON.stringify([[1,2],[3,4],[5]]) },
-    { name: 'chunk([1,2,3,4], 2)', test: (e) => JSON.stringify(e.chunk([1,2,3,4], 2)) === JSON.stringify([[1,2],[3,4]]) },
-  ],
-});
-</script>
-
-<div class="task">
-<h2>Завдання 5. Розгортання на один рівень</h2>
-<p class="task-goal">Реалізуй <code>flatten(arr)</code>, що «розгортає» вкладені масиви на
-один рівень.</p>
-<div class="runner" id="t-flatten">
-<textarea class="runner-code">function flatten(arr) {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">function flatten(arr) {
-  return arr.reduce((acc, item) =&gt; acc.concat(item), []);
-}</code></pre>
-</details>
-</div>
-<script>
-Practice.register('t-flatten', {
-  entry: 'flatten',
-  tests: [
-    { name: 'flatten([1,[2,3],[4]]) === [1,2,3,4]', test: (e) => JSON.stringify(e.flatten([1,[2,3],[4]])) === JSON.stringify([1,2,3,4]) },
-    { name: 'flatten([[1],[2],[3]]) === [1,2,3]', test: (e) => JSON.stringify(e.flatten([[1],[2],[3]])) === JSON.stringify([1,2,3]) },
-  ],
-});
-</script>
-
   </main>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

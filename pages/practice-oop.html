@@ -13,166 +13,101 @@
   <aside class="sidebar" id="sidebar"></aside>
   <main class="content">
 <h1 id="практика">Практика: ООП</h1>
-<p>Класи, методи, успадкування. Пиши код і тисни <strong>«Запустити»</strong>.</p>
-
-<div class="task">
-<h2>Завдання 1. Клас Stack</h2>
-<p class="task-goal">Реалізуй клас <code>Stack</code> із методами <code>push(item)</code>,
-<code>pop()</code>, <code>peek()</code> та <code>size()</code>.</p>
-<div class="runner" id="t-stack">
-<textarea class="runner-code">class Stack {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="hint"><summary>Підказка</summary><p>Зберігай елементи у внутрішньому масиві; <code>push</code>/<code>pop</code> масиву майже готові.</p></details>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">class Stack {
-  constructor() {
-    this.items = [];
-  }
-  push(item) { this.items.push(item); }
-  pop() { return this.items.pop(); }
-  peek() { return this.items[this.items.length - 1]; }
-  size() { return this.items.length; }
-}</code></pre>
-</details>
-</div>
+<p>Класи, методи, гетери/сетери, успадкування. Пиши код і тисни <strong>«Запустити»</strong>.</p>
+<div id="tasks"></div>
 <script>
-Practice.register('t-stack', {
-  entry: 'Stack',
-  tests: [
-    { name: 'push/pop у LIFO-порядку', test: (e) => { const s = new e.Stack(); s.push(1); s.push(2); return s.pop() === 2; } },
-    { name: 'size рахує елементи', test: (e) => { const s = new e.Stack(); s.push('a'); s.push('b'); return s.size() === 2; } },
-    { name: 'peek не видаляє', test: (e) => { const s = new e.Stack(); s.push(9); return s.peek() === 9 && s.size() === 1; } },
-  ],
-});
+Practice.load('tasks', [
+  {
+    title: 'Клас Stack',
+    desc: '<code>Stack</code> з методами <code>push</code>, <code>pop</code>, <code>peek</code>, <code>size</code>.',
+    entry: 'Stack',
+    starter: 'class Stack {\n  \n}',
+    solution: 'class Stack {\n  constructor() {\n    this.items = [];\n  }\n  push(item) { this.items.push(item); }\n  pop() { return this.items.pop(); }\n  peek() { return this.items[this.items.length - 1]; }\n  size() { return this.items.length; }\n}',
+    tests: [
+      { name: 'push/pop у LIFO', test: (e) => { const s = new e.Stack(); s.push(1); s.push(2); return s.pop() === 2; } },
+      { name: 'peek не видаляє', test: (e) => { const s = new e.Stack(); s.push(9); return s.peek() === 9 && s.size() === 1; } },
+    ],
+  },
+  {
+    title: 'Черга (Queue)',
+    desc: '<code>Queue</code> з <code>enqueue</code>, <code>dequeue</code> (FIFO), <code>size</code>.',
+    entry: 'Queue',
+    starter: 'class Queue {\n  \n}',
+    solution: 'class Queue {\n  constructor() {\n    this.items = [];\n  }\n  enqueue(x) { this.items.push(x); }\n  dequeue() { return this.items.shift(); }\n  size() { return this.items.length; }\n}',
+    tests: [
+      { name: 'FIFO: dequeue === 1', test: (e) => { const q = new e.Queue(); q.enqueue(1); q.enqueue(2); return q.dequeue() === 1 && q.size() === 1; } },
+    ],
+  },
+  {
+    title: 'Успадкування',
+    desc: '<code>Animal</code> (name, speak()="...") і <code>Dog extends Animal</code> (speak()="Гав").',
+    entry: ['Animal', 'Dog'],
+    starter: 'class Animal {\n  \n}\n\nclass Dog extends Animal {\n  \n}',
+    solution: "class Animal {\n  constructor(name) { this.name = name; }\n  speak() { return '...'; }\n}\n\nclass Dog extends Animal {\n  speak() { return 'Гав'; }\n}",
+    tests: [
+      { name: "new Dog('Рекс').name === 'Рекс'", test: (e) => new e.Dog('Рекс').name === 'Рекс' },
+      { name: "Dog.speak() === 'Гав'", test: (e) => new e.Dog('x').speak() === 'Гав' },
+      { name: 'Dog є Animal', test: (e) => new e.Dog('x') instanceof e.Animal },
+    ],
+  },
+  {
+    title: 'Rectangle зі статичним методом',
+    desc: '<code>Rectangle</code> (width, height): <code>area()</code> і статичний <code>fromSquare(side)</code>.',
+    entry: 'Rectangle',
+    starter: 'class Rectangle {\n  \n}',
+    solution: 'class Rectangle {\n  constructor(width, height) {\n    this.width = width;\n    this.height = height;\n  }\n  area() {\n    return this.width * this.height;\n  }\n  static fromSquare(side) {\n    return new Rectangle(side, side);\n  }\n}',
+    tests: [
+      { name: 'area() === 12', test: (e) => new e.Rectangle(3,4).area() === 12 },
+      { name: 'fromSquare(5).area() === 25', test: (e) => e.Rectangle.fromSquare(5).area() === 25 },
+    ],
+  },
+  {
+    title: 'Банківський рахунок',
+    desc: '<code>BankAccount</code>: <code>deposit</code>, <code>withdraw</code> (не в мінус, повертає boolean), <code>getBalance</code>.',
+    entry: 'BankAccount',
+    starter: 'class BankAccount {\n  \n}',
+    solution: 'class BankAccount {\n  constructor(initial = 0) {\n    this.balance = initial;\n  }\n  deposit(amount) {\n    this.balance += amount;\n  }\n  withdraw(amount) {\n    if (amount > this.balance) return false;\n    this.balance -= amount;\n    return true;\n  }\n  getBalance() {\n    return this.balance;\n  }\n}',
+    tests: [
+      { name: 'deposit збільшує баланс', test: (e) => { const a = new e.BankAccount(100); a.deposit(50); return a.getBalance() === 150; } },
+      { name: 'не можна зняти більше балансу', test: (e) => { const a = new e.BankAccount(100); return a.withdraw(200) === false && a.getBalance() === 100; } },
+      { name: 'успішне зняття', test: (e) => { const a = new e.BankAccount(100); return a.withdraw(40) === true && a.getBalance() === 60; } },
+    ],
+  },
+  {
+    title: 'Температура (get/set)',
+    desc: '<code>Temperature</code>: поле <code>celsius</code> і геттер/сеттер <code>fahrenheit</code>.',
+    entry: 'Temperature',
+    starter: 'class Temperature {\n  \n}',
+    solution: 'class Temperature {\n  constructor() {\n    this.celsius = 0;\n  }\n  get fahrenheit() {\n    return this.celsius * 9 / 5 + 32;\n  }\n  set fahrenheit(value) {\n    this.celsius = (value - 32) * 5 / 9;\n  }\n}',
+    tests: [
+      { name: '100°C → 212°F', test: (e) => { const t = new e.Temperature(); t.celsius = 100; return t.fahrenheit === 212; } },
+      { name: 'set 32°F → 0°C', test: (e) => { const t = new e.Temperature(); t.fahrenheit = 32; return Math.abs(t.celsius) < 1e-9; } },
+    ],
+  },
+  {
+    title: 'EventEmitter',
+    desc: '<code>EventEmitter</code>: <code>on(event, cb)</code> та <code>emit(event, ...args)</code>.',
+    entry: 'EventEmitter',
+    starter: 'class EventEmitter {\n  \n}',
+    solution: 'class EventEmitter {\n  constructor() {\n    this.listeners = {};\n  }\n  on(event, cb) {\n    (this.listeners[event] = this.listeners[event] || []).push(cb);\n  }\n  emit(event, ...args) {\n    (this.listeners[event] || []).forEach((cb) => cb(...args));\n  }\n}',
+    tests: [
+      { name: 'on/emit передає аргумент', test: (e) => { let got = 0; const em = new e.EventEmitter(); em.on('x', (v) => { got = v; }); em.emit('x', 5); return got === 5; } },
+      { name: 'кілька слухачів', test: (e) => { let n = 0; const em = new e.EventEmitter(); em.on('a', () => { n += 1; }); em.on('a', () => { n += 1; }); em.emit('a'); return n === 2; } },
+    ],
+  },
+  {
+    title: 'Коло',
+    desc: '<code>Circle</code> (radius): метод <code>area()</code> = π·r².',
+    entry: 'Circle',
+    starter: 'class Circle {\n  \n}',
+    solution: 'class Circle {\n  constructor(radius) {\n    this.radius = radius;\n  }\n  area() {\n    return Math.PI * this.radius ** 2;\n  }\n}',
+    tests: [
+      { name: 'Circle(1).area() ≈ π', test: (e) => Math.abs(new e.Circle(1).area() - Math.PI) < 1e-9 },
+      { name: 'Circle(2).area() ≈ 4π', test: (e) => Math.abs(new e.Circle(2).area() - Math.PI * 4) < 1e-9 },
+    ],
+  },
+]);
 </script>
-
-<div class="task">
-<h2>Завдання 2. Успадкування</h2>
-<p class="task-goal">Реалізуй клас <code>Animal</code> з методом <code>speak()</code>, що повертає
-<code>"..."</code>, і клас <code>Dog extends Animal</code>, чий <code>speak()</code> повертає <code>"Гав"</code>.
-Обидва мають властивість <code>name</code>.</p>
-<div class="runner" id="t-inherit">
-<textarea class="runner-code">class Animal {
-  // constructor(name) ...
-}
-
-class Dog extends Animal {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">class Animal {
-  constructor(name) { this.name = name; }
-  speak() { return '...'; }
-}
-
-class Dog extends Animal {
-  speak() { return 'Гав'; }
-}</code></pre>
-</details>
-</div>
-<script>
-Practice.register('t-inherit', {
-  entry: ['Animal', 'Dog'],
-  tests: [
-    { name: "new Dog('Рекс').name === 'Рекс'", test: (e) => new e.Dog('Рекс').name === 'Рекс' },
-    { name: "Dog.speak() === 'Гав'", test: (e) => new e.Dog('x').speak() === 'Гав' },
-    { name: 'Dog є Animal', test: (e) => new e.Dog('x') instanceof e.Animal },
-  ],
-});
-</script>
-
-<div class="task">
-<h2>Завдання 3. Клас Rectangle зі статичним методом</h2>
-<p class="task-goal">Реалізуй клас <code>Rectangle</code> (<code>width</code>, <code>height</code>) з методом
-<code>area()</code> та <strong>статичним</strong> методом <code>fromSquare(side)</code>, що створює квадрат.</p>
-<div class="runner" id="t-rect">
-<textarea class="runner-code">class Rectangle {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">class Rectangle {
-  constructor(width, height) {
-    this.width = width;
-    this.height = height;
-  }
-  area() {
-    return this.width * this.height;
-  }
-  static fromSquare(side) {
-    return new Rectangle(side, side);
-  }
-}</code></pre>
-</details>
-</div>
-<script>
-Practice.register('t-rect', {
-  entry: 'Rectangle',
-  tests: [
-    { name: 'new Rectangle(3,4).area() === 12', test: (e) => new e.Rectangle(3, 4).area() === 12 },
-    { name: 'fromSquare(5).area() === 25', test: (e) => e.Rectangle.fromSquare(5).area() === 25 },
-  ],
-});
-</script>
-
-<div class="task">
-<h2>Завдання 4. EventEmitter</h2>
-<p class="task-goal">Реалізуй клас <code>EventEmitter</code> з методами <code>on(event, cb)</code> та
-<code>emit(event, ...args)</code>, що викликає всіх підписників події з переданими
-аргументами.</p>
-<div class="runner" id="t-emitter">
-<textarea class="runner-code">class EventEmitter {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="hint"><summary>Підказка</summary><p>Зберігай слухачів у об'єкті <code>{ подія: [колбеки] }</code>.</p></details>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">class EventEmitter {
-  constructor() {
-    this.listeners = {};
-  }
-  on(event, cb) {
-    (this.listeners[event] = this.listeners[event] || []).push(cb);
-  }
-  emit(event, ...args) {
-    (this.listeners[event] || []).forEach((cb) =&gt; cb(...args));
-  }
-}</code></pre>
-</details>
-</div>
-<script>
-Practice.register('t-emitter', {
-  entry: 'EventEmitter',
-  tests: [
-    { name: 'on/emit передає аргумент', test: (e) => { let got = 0; const em = new e.EventEmitter(); em.on('x', (v) => { got = v; }); em.emit('x', 5); return got === 5; } },
-    { name: 'кілька слухачів однієї події', test: (e) => { let n = 0; const em = new e.EventEmitter(); em.on('a', () => { n += 1; }); em.on('a', () => { n += 1; }); em.emit('a'); return n === 2; } },
-  ],
-});
-</script>
-
   </main>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

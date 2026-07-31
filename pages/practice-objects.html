@@ -13,169 +13,116 @@
   <aside class="sidebar" id="sidebar"></aside>
   <main class="content">
 <h1 id="практика">Практика: об'єкти та колекції</h1>
-<p>Робота з об'єктами, деструктуризацією, <code>Map</code>/<code>Set</code>. Пиши код і тисни
-<strong>«Запустити»</strong>.</p>
-
-<div class="task">
-<h2>Завдання 1. pick — вибрати поля</h2>
-<p class="task-goal">Реалізуй <code>pick(obj, keys)</code>, що повертає новий об'єкт лише з
-переліченими в масиві <code>keys</code> полями.</p>
-<div class="runner" id="t-pick">
-<textarea class="runner-code">function pick(obj, keys) {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="hint"><summary>Підказка</summary><p><code>keys.reduce(...)</code>, додаючи поле лише якщо воно є в <code>obj</code>.</p></details>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">function pick(obj, keys) {
-  return keys.reduce((acc, key) =&gt; {
-    if (key in obj) acc[key] = obj[key];
-    return acc;
-  }, {});
-}</code></pre>
-</details>
-</div>
+<p>Об'єкти, <code>Object.entries</code>, <code>Map</code>/<code>Set</code>, деструктуризація. Пиши код і
+тисни <strong>«Запустити»</strong>.</p>
+<div id="tasks"></div>
 <script>
-Practice.register('t-pick', {
-  entry: 'pick',
-  tests: [
-    { name: "pick({a:1,b:2,c:3}, ['a','c'])", test: (e) => JSON.stringify(e.pick({a:1,b:2,c:3}, ['a','c'])) === JSON.stringify({a:1,c:3}) },
-    { name: 'ігнорує відсутні ключі', test: (e) => JSON.stringify(e.pick({a:1}, ['a','x'])) === JSON.stringify({a:1}) },
-  ],
-});
+Practice.load('tasks', [
+  {
+    title: 'pick — вибрати поля',
+    desc: '<code>pick(obj, keys)</code> → новий об’єкт лише з переліченими полями.',
+    entry: 'pick',
+    starter: 'function pick(obj, keys) {\n  \n}',
+    solution: 'function pick(obj, keys) {\n  return keys.reduce((acc, key) => {\n    if (key in obj) acc[key] = obj[key];\n    return acc;\n  }, {});\n}',
+    tests: [
+      { name: "pick({a:1,b:2,c:3}, ['a','c'])", test: (e) => JSON.stringify(e.pick({a:1,b:2,c:3}, ['a','c'])) === JSON.stringify({a:1,c:3}) },
+      { name: 'ігнорує відсутні ключі', test: (e) => JSON.stringify(e.pick({a:1}, ['a','x'])) === JSON.stringify({a:1}) },
+    ],
+  },
+  {
+    title: 'omit — прибрати поля',
+    desc: '<code>omit(obj, keys)</code> → об’єкт без перелічених полів.',
+    entry: 'omit',
+    starter: 'function omit(obj, keys) {\n  \n}',
+    solution: 'function omit(obj, keys) {\n  return Object.fromEntries(\n    Object.entries(obj).filter(([k]) => !keys.includes(k)),\n  );\n}',
+    tests: [
+      { name: "omit({a:1,b:2,c:3}, ['b'])", test: (e) => JSON.stringify(e.omit({a:1,b:2,c:3}, ['b'])) === JSON.stringify({a:1,c:3}) },
+    ],
+  },
+  {
+    title: 'Підрахунок слів',
+    desc: '<code>wordCount(str)</code> → об’єкт з кількістю кожного слова (розділені пробілом).',
+    entry: 'wordCount',
+    starter: 'function wordCount(str) {\n  \n}',
+    solution: "function wordCount(str) {\n  return str.split(' ').reduce((acc, word) => {\n    acc[word] = (acc[word] || 0) + 1;\n    return acc;\n  }, {});\n}",
+    tests: [
+      { name: "wordCount('a b a') → {a:2,b:1}", test: (e) => { const r = e.wordCount('a b a'); return r.a === 2 && r.b === 1; } },
+    ],
+  },
+  {
+    title: 'Інвертувати об’єкт',
+    desc: '<code>invert(obj)</code> → поміняти місцями ключі й значення.',
+    entry: 'invert',
+    starter: 'function invert(obj) {\n  \n}',
+    solution: 'function invert(obj) {\n  const result = {};\n  for (const [key, value] of Object.entries(obj)) {\n    result[value] = key;\n  }\n  return result;\n}',
+    tests: [
+      { name: "invert({a:'x',b:'y'})", test: (e) => { const r = e.invert({a:'x',b:'y'}); return r.x === 'a' && r.y === 'b'; } },
+    ],
+  },
+  {
+    title: 'mapValues',
+    desc: '<code>mapValues(obj, fn)</code> → об’єкт із тими ж ключами, значення пропущені через fn.',
+    entry: 'mapValues',
+    starter: 'function mapValues(obj, fn) {\n  \n}',
+    solution: 'function mapValues(obj, fn) {\n  return Object.fromEntries(\n    Object.entries(obj).map(([k, v]) => [k, fn(v)]),\n  );\n}',
+    tests: [
+      { name: 'mapValues({a:1,b:2}, x=>x*2)', test: (e) => JSON.stringify(e.mapValues({a:1,b:2}, (x) => x * 2)) === JSON.stringify({a:2,b:4}) },
+    ],
+  },
+  {
+    title: 'fromPairs',
+    desc: '<code>fromPairs(pairs)</code> → об’єкт із масиву пар [ключ, значення].',
+    entry: 'fromPairs',
+    starter: 'function fromPairs(pairs) {\n  \n}',
+    solution: 'function fromPairs(pairs) {\n  return Object.fromEntries(pairs);\n}',
+    tests: [
+      { name: "fromPairs([['a',1],['b',2]])", test: (e) => JSON.stringify(e.fromPairs([['a',1],['b',2]])) === JSON.stringify({a:1,b:2}) },
+    ],
+  },
+  {
+    title: 'Глибоке копіювання',
+    desc: '<code>deepClone(obj)</code> → незалежна глибока копія (без функцій).',
+    entry: 'deepClone',
+    starter: 'function deepClone(obj) {\n  \n}',
+    hint: 'JSON.parse(JSON.stringify(obj)).',
+    solution: 'function deepClone(obj) {\n  return JSON.parse(JSON.stringify(obj));\n}',
+    tests: [
+      { name: 'зміна копії не чіпає оригінал', test: (e) => { const o = {a:{b:1}}; const c = e.deepClone(o); c.a.b = 9; return o.a.b === 1; } },
+    ],
+  },
+  {
+    title: 'Значення за замовчуванням',
+    desc: '<code>mergeDefaults(obj, defaults)</code> → відсутні поля беруться з defaults.',
+    entry: 'mergeDefaults',
+    starter: 'function mergeDefaults(obj, defaults) {\n  \n}',
+    solution: 'function mergeDefaults(obj, defaults) {\n  return { ...defaults, ...obj };\n}',
+    tests: [
+      { name: 'додає відсутні', test: (e) => { const r = e.mergeDefaults({a:1}, {a:9,b:2}); return r.a === 1 && r.b === 2; } },
+    ],
+  },
+  {
+    title: 'countBy',
+    desc: '<code>countBy(arr, fn)</code> → об’єкт: скільки елементів дає кожен ключ fn(item).',
+    entry: 'countBy',
+    starter: 'function countBy(arr, fn) {\n  \n}',
+    solution: 'function countBy(arr, fn) {\n  return arr.reduce((acc, item) => {\n    const k = fn(item);\n    acc[k] = (acc[k] || 0) + 1;\n    return acc;\n  }, {});\n}',
+    tests: [
+      { name: 'парні/непарні', test: (e) => { const r = e.countBy([1,2,3,4], (x) => x % 2 === 0 ? 'even' : 'odd'); return r.odd === 2 && r.even === 2; } },
+    ],
+  },
+  {
+    title: 'isEmpty',
+    desc: '<code>isEmpty(obj)</code> → true, якщо в об’єкті немає власних полів.',
+    entry: 'isEmpty',
+    starter: 'function isEmpty(obj) {\n  \n}',
+    solution: 'function isEmpty(obj) {\n  return Object.keys(obj).length === 0;\n}',
+    tests: [
+      { name: 'isEmpty({}) === true', test: (e) => e.isEmpty({}) === true },
+      { name: 'isEmpty({a:1}) === false', test: (e) => e.isEmpty({a:1}) === false },
+    ],
+  },
+]);
 </script>
-
-<div class="task">
-<h2>Завдання 2. Підрахунок слів</h2>
-<p class="task-goal">Реалізуй <code>wordCount(str)</code>, що повертає об'єкт із кількістю
-кожного слова (слова розділені пробілами).</p>
-<div class="runner" id="t-wc">
-<textarea class="runner-code">function wordCount(str) {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">function wordCount(str) {
-  return str.split(' ').reduce((acc, word) =&gt; {
-    acc[word] = (acc[word] || 0) + 1;
-    return acc;
-  }, {});
-}</code></pre>
-</details>
-</div>
-<script>
-Practice.register('t-wc', {
-  entry: 'wordCount',
-  tests: [
-    { name: "wordCount('a b a') → {a:2,b:1}", test: (e) => { const r = e.wordCount('a b a'); return r.a === 2 && r.b === 1; } },
-    { name: "wordCount('hi') → {hi:1}", test: (e) => e.wordCount('hi').hi === 1 },
-  ],
-});
-</script>
-
-<div class="task">
-<h2>Завдання 3. Інвертувати об'єкт</h2>
-<p class="task-goal">Реалізуй <code>invert(obj)</code>: поміняй місцями ключі й значення.</p>
-<div class="runner" id="t-invert">
-<textarea class="runner-code">function invert(obj) {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">function invert(obj) {
-  const result = {};
-  for (const [key, value] of Object.entries(obj)) {
-    result[value] = key;
-  }
-  return result;
-}</code></pre>
-</details>
-</div>
-<script>
-Practice.register('t-invert', {
-  entry: 'invert',
-  tests: [
-    { name: "invert({a:'x',b:'y'}) → {x:'a',y:'b'}", test: (e) => { const r = e.invert({a:'x',b:'y'}); return r.x === 'a' && r.y === 'b'; } },
-  ],
-});
-</script>
-
-<div class="task">
-<h2>Завдання 4. Глибоке копіювання</h2>
-<p class="task-goal">Реалізуй <code>deepClone(obj)</code>, що повертає незалежну глибоку
-копію об'єкта (без вкладених функцій).</p>
-<div class="runner" id="t-clone">
-<textarea class="runner-code">function deepClone(obj) {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="hint"><summary>Підказка</summary><p>Найпростіше — <code>JSON.parse(JSON.stringify(obj))</code>.</p></details>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">function deepClone(obj) {
-  return JSON.parse(JSON.stringify(obj));
-}</code></pre>
-</details>
-</div>
-<script>
-Practice.register('t-clone', {
-  entry: 'deepClone',
-  tests: [
-    { name: 'копія рівна оригіналу', test: (e) => { const o = { a: { b: 1 } }; return JSON.stringify(e.deepClone(o)) === JSON.stringify(o); } },
-    { name: 'зміна копії не чіпає оригінал', test: (e) => { const o = { a: { b: 1 } }; const c = e.deepClone(o); c.a.b = 9; return o.a.b === 1; } },
-  ],
-});
-</script>
-
-<div class="task">
-<h2>Завдання 5. Значення за замовчуванням</h2>
-<p class="task-goal">Реалізуй <code>mergeDefaults(obj, defaults)</code>, що повертає новий
-об'єкт, де відсутні поля беруться з <code>defaults</code>, а наявні лишаються з <code>obj</code>.</p>
-<div class="runner" id="t-defaults">
-<textarea class="runner-code">function mergeDefaults(obj, defaults) {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">function mergeDefaults(obj, defaults) {
-  return { ...defaults, ...obj };
-}</code></pre>
-</details>
-</div>
-<script>
-Practice.register('t-defaults', {
-  entry: 'mergeDefaults',
-  tests: [
-    { name: 'додає відсутні поля', test: (e) => { const r = e.mergeDefaults({ a: 1 }, { a: 9, b: 2 }); return r.a === 1 && r.b === 2; } },
-    { name: 'не змінює наявні', test: (e) => e.mergeDefaults({ x: 'keep' }, { x: 'no' }).x === 'keep' },
-  ],
-});
-</script>
-
   </main>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

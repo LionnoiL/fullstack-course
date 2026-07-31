@@ -13,146 +13,98 @@
   <aside class="sidebar" id="sidebar"></aside>
   <main class="content">
 <h1 id="практика">Практика: замикання і this</h1>
-<p>Замикання, приватний стан, мемоізація. Пиши код і тисни <strong>«Запустити»</strong>.</p>
-
-<div class="task">
-<h2>Завдання 1. Лічильник з приватним станом</h2>
-<p class="task-goal">Реалізуй <code>createCounter()</code>, що повертає об'єкт із методами
-<code>increment()</code>, <code>decrement()</code> та <code>get()</code>. Значення має бути недоступним ззовні
-напряму.</p>
-<div class="runner" id="t-counter">
-<textarea class="runner-code">function createCounter() {
-  // приватна змінна + повернути об'єкт з методами
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="hint"><summary>Підказка</summary><p>Оголоси <code>let count = 0;</code> усередині функції — методи бачитимуть її через замикання.</p></details>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">function createCounter() {
-  let count = 0;
-  return {
-    increment: () =&gt; { count += 1; },
-    decrement: () =&gt; { count -= 1; },
-    get: () =&gt; count,
-  };
-}</code></pre>
-</details>
-</div>
+<p>Приватний стан, мемоізація, рекурсія. Пиши код і тисни <strong>«Запустити»</strong>.</p>
+<div id="tasks"></div>
 <script>
-Practice.register('t-counter', {
-  entry: 'createCounter',
-  tests: [
-    { name: 'дві інкрементації → 2', test: (e) => { const c = e.createCounter(); c.increment(); c.increment(); return c.get() === 2; } },
-    { name: 'decrement працює', test: (e) => { const c = e.createCounter(); c.increment(); c.decrement(); return c.get() === 0; } },
-    { name: 'лічильники незалежні', test: (e) => { const a = e.createCounter(); const b = e.createCounter(); a.increment(); return a.get() === 1 && b.get() === 0; } },
-  ],
-});
+Practice.load('tasks', [
+  {
+    title: 'Лічильник із приватним станом',
+    desc: '<code>createCounter()</code> → об’єкт із <code>increment()</code>, <code>decrement()</code>, <code>get()</code>.',
+    entry: 'createCounter',
+    starter: 'function createCounter() {\n  \n}',
+    hint: 'Оголоси let count = 0 усередині — методи бачитимуть її через замикання.',
+    solution: 'function createCounter() {\n  let count = 0;\n  return {\n    increment: () => { count += 1; },\n    decrement: () => { count -= 1; },\n    get: () => count,\n  };\n}',
+    tests: [
+      { name: 'дві інкрементації → 2', test: (e) => { const c = e.createCounter(); c.increment(); c.increment(); return c.get() === 2; } },
+      { name: 'лічильники незалежні', test: (e) => { const a = e.createCounter(); const b = e.createCounter(); a.increment(); return a.get() === 1 && b.get() === 0; } },
+    ],
+  },
+  {
+    title: 'Мемоізація',
+    desc: '<code>memoize(fn)</code> → кешує результати для однакового аргументу.',
+    entry: 'memoize',
+    starter: 'function memoize(fn) {\n  \n}',
+    solution: 'function memoize(fn) {\n  const cache = new Map();\n  return (arg) => {\n    if (cache.has(arg)) return cache.get(arg);\n    const result = fn(arg);\n    cache.set(arg, result);\n    return result;\n  };\n}',
+    tests: [
+      { name: 'правильний результат', test: (e) => { const f = e.memoize((x) => x * 2); return f(5) === 10; } },
+      { name: 'fn викликається раз на аргумент', test: (e) => { let calls = 0; const f = e.memoize((x) => { calls += 1; return x; }); f(3); f(3); return calls === 1; } },
+    ],
+  },
+  {
+    title: 'Стек через замикання',
+    desc: '<code>createStack()</code> → об’єкт із <code>push</code>, <code>pop</code>, <code>size</code> без класу.',
+    entry: 'createStack',
+    starter: 'function createStack() {\n  \n}',
+    solution: 'function createStack() {\n  const items = [];\n  return {\n    push: (x) => items.push(x),\n    pop: () => items.pop(),\n    size: () => items.length,\n  };\n}',
+    tests: [
+      { name: 'push/pop/size', test: (e) => { const s = e.createStack(); s.push(1); s.push(2); return s.pop() === 2 && s.size() === 1; } },
+    ],
+  },
+  {
+    title: 'Глибоке розгортання (рекурсія)',
+    desc: '<code>deepFlatten(arr)</code> → плаский масив із вкладень будь-якої глибини.',
+    entry: 'deepFlatten',
+    starter: 'function deepFlatten(arr) {\n  \n}',
+    solution: 'function deepFlatten(arr) {\n  return arr.reduce(\n    (acc, item) => acc.concat(Array.isArray(item) ? deepFlatten(item) : item),\n    [],\n  );\n}',
+    tests: [
+      { name: 'deepFlatten([1,[2,[3,[4]]]]) === [1,2,3,4]', test: (e) => JSON.stringify(e.deepFlatten([1,[2,[3,[4]]]])) === JSON.stringify([1,2,3,4]) },
+    ],
+  },
+  {
+    title: 'Часткове застосування',
+    desc: '<code>partial(fn, ...preset)</code> → «фіксує» перші аргументи.',
+    entry: 'partial',
+    starter: 'function partial(fn, ...preset) {\n  \n}',
+    solution: 'function partial(fn, ...preset) {\n  return (...rest) => fn(...preset, ...rest);\n}',
+    tests: [
+      { name: 'partial(add,1,2)(3) === 6', test: (e) => e.partial((a, b, c) => a + b + c, 1, 2)(3) === 6 },
+    ],
+  },
+  {
+    title: 'Числа Фібоначчі (рекурсія)',
+    desc: '<code>fibonacci(n)</code>: 0,1,1,2,3,5,8… (fib(0)=0, fib(1)=1).',
+    entry: 'fibonacci',
+    starter: 'function fibonacci(n) {\n  \n}',
+    solution: 'function fibonacci(n) {\n  if (n < 2) return n;\n  return fibonacci(n - 1) + fibonacci(n - 2);\n}',
+    tests: [
+      { name: 'fibonacci(7) === 13', test: (e) => e.fibonacci(7) === 13 },
+      { name: 'fibonacci(10) === 55', test: (e) => e.fibonacci(10) === 55 },
+    ],
+  },
+  {
+    title: 'Піднесення до степеня (рекурсія)',
+    desc: '<code>power(base, exp)</code> через рекурсію.',
+    entry: 'power',
+    starter: 'function power(base, exp) {\n  \n}',
+    solution: 'function power(base, exp) {\n  if (exp === 0) return 1;\n  return base * power(base, exp - 1);\n}',
+    tests: [
+      { name: 'power(2,10) === 1024', test: (e) => e.power(2,10) === 1024 },
+      { name: 'power(5,0) === 1', test: (e) => e.power(5,0) === 1 },
+    ],
+  },
+  {
+    title: 'Зворотний відлік (рекурсія)',
+    desc: '<code>countdown(n)</code> → масив [n, n-1, …, 1].',
+    entry: 'countdown',
+    starter: 'function countdown(n) {\n  \n}',
+    solution: 'function countdown(n) {\n  if (n <= 0) return [];\n  return [n, ...countdown(n - 1)];\n}',
+    tests: [
+      { name: 'countdown(3) === [3,2,1]', test: (e) => JSON.stringify(e.countdown(3)) === JSON.stringify([3,2,1]) },
+      { name: 'countdown(0) === []', test: (e) => JSON.stringify(e.countdown(0)) === JSON.stringify([]) },
+    ],
+  },
+]);
 </script>
-
-<div class="task">
-<h2>Завдання 2. Мемоізація</h2>
-<p class="task-goal">Реалізуй <code>memoize(fn)</code>, що кешує результати для однакових
-аргументів (для функцій одного числового аргументу).</p>
-<div class="runner" id="t-memo">
-<textarea class="runner-code">function memoize(fn) {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">function memoize(fn) {
-  const cache = new Map();
-  return (arg) =&gt; {
-    if (cache.has(arg)) return cache.get(arg);
-    const result = fn(arg);
-    cache.set(arg, result);
-    return result;
-  };
-}</code></pre>
-</details>
-</div>
-<script>
-Practice.register('t-memo', {
-  entry: 'memoize',
-  tests: [
-    { name: 'повертає правильний результат', test: (e) => { const f = e.memoize((x) => x * 2); return f(5) === 10; } },
-    { name: 'кешує (fn викликається раз на аргумент)', test: (e) => { let calls = 0; const f = e.memoize((x) => { calls += 1; return x; }); f(3); f(3); f(3); return calls === 1; } },
-  ],
-});
-</script>
-
-<div class="task">
-<h2>Завдання 3. Глибоке розгортання (рекурсія)</h2>
-<p class="task-goal">Реалізуй <code>deepFlatten(arr)</code>, що розгортає вкладені масиви
-<strong>будь-якої глибини</strong> в один плаский масив.</p>
-<div class="runner" id="t-deepflat">
-<textarea class="runner-code">function deepFlatten(arr) {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="hint"><summary>Підказка</summary><p>Для кожного елемента: якщо це масив — рекурсивно розгорни, інакше додай.</p></details>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">function deepFlatten(arr) {
-  return arr.reduce(
-    (acc, item) =&gt; acc.concat(Array.isArray(item) ? deepFlatten(item) : item),
-    [],
-  );
-}</code></pre>
-</details>
-</div>
-<script>
-Practice.register('t-deepflat', {
-  entry: 'deepFlatten',
-  tests: [
-    { name: 'deepFlatten([1,[2,[3,[4]]]]) === [1,2,3,4]', test: (e) => JSON.stringify(e.deepFlatten([1,[2,[3,[4]]]])) === JSON.stringify([1,2,3,4]) },
-    { name: 'deepFlatten([1,2,3]) === [1,2,3]', test: (e) => JSON.stringify(e.deepFlatten([1,2,3])) === JSON.stringify([1,2,3]) },
-  ],
-});
-</script>
-
-<div class="task">
-<h2>Завдання 4. Часткове застосування (partial)</h2>
-<p class="task-goal">Реалізуй <code>partial(fn, ...preset)</code>, що «фіксує» перші
-аргументи функції й повертає нову функцію для решти.</p>
-<div class="runner" id="t-partial">
-<textarea class="runner-code">function partial(fn, ...preset) {
-  // ваш код тут
-}</textarea>
-<div class="runner-actions">
-<button class="runner-run">Запустити</button>
-<button class="runner-reset">Скинути</button>
-</div>
-<div class="runner-output"></div>
-</div>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">function partial(fn, ...preset) {
-  return (...rest) =&gt; fn(...preset, ...rest);
-}</code></pre>
-</details>
-</div>
-<script>
-Practice.register('t-partial', {
-  entry: 'partial',
-  tests: [
-    { name: 'partial(add, 1, 2)(3) === 6', test: (e) => e.partial((a, b, c) => a + b + c, 1, 2)(3) === 6 },
-    { name: 'partial(greet, "Привіт")("Ada")', test: (e) => e.partial((g, n) => g + ', ' + n, 'Привіт')('Ada') === 'Привіт, Ada' },
-  ],
-});
-</script>
-
   </main>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
