@@ -28,6 +28,295 @@
     output.appendChild(div);
   }
 
+  // Словник підказок: ключові слова + поширені вбудовані сутності й методи.
+  const AC_WORDS = [
+    "const", "let", "var", "function", "return", "if", "else", "for", "while",
+    "do", "switch", "case", "break", "continue", "class", "extends", "new",
+    "this", "super", "typeof", "instanceof", "in", "of", "try", "catch",
+    "finally", "throw", "async", "await", "yield", "true", "false", "null",
+    "undefined", "console", "log", "error", "warn", "Math", "JSON", "Object",
+    "Array", "String", "Number", "Boolean", "Symbol", "Map", "Set", "WeakMap",
+    "Promise", "Date", "RegExp", "parseInt", "parseFloat", "isNaN", "Infinity",
+    "NaN", "setTimeout", "setInterval", "length", "push", "pop", "shift",
+    "unshift", "slice", "splice", "map", "filter", "reduce", "forEach", "find",
+    "findIndex", "indexOf", "includes", "join", "split", "concat", "reverse",
+    "sort", "some", "every", "flat", "keys", "values", "entries", "fromEntries",
+    "assign", "freeze", "stringify", "parse", "toFixed", "toString",
+    "toLowerCase", "toUpperCase", "trim", "replace", "repeat", "padStart",
+    "startsWith", "endsWith", "charAt", "abs", "floor", "ceil", "round", "max",
+    "min", "random", "pow", "sqrt", "then", "catch", "all", "resolve", "reject",
+    "has", "get", "set", "add", "delete", "clear", "size",
+  ];
+
+  const AC_PAIRS = { "(": ")", "{": "}", "[": "]", "'": "'", '"': '"', "`": "`" };
+  const AC_CLOSERS = [")", "}", "]", "'", '"', "`"];
+
+  function insertAtCursor(ta, text) {
+    ta.focus();
+    let ok = false;
+    try {
+      ok = document.execCommand("insertText", false, text);
+    } catch (e) {
+      ok = false;
+    }
+    if (!ok) {
+      const s = ta.selectionStart;
+      const e = ta.selectionEnd;
+      ta.value = ta.value.slice(0, s) + text + ta.value.slice(e);
+      ta.selectionStart = ta.selectionEnd = s + text.length;
+      ta.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+  }
+
+  // Координати каретки в textarea (техніка "дзеркального div")
+  function caretCoords(el, position) {
+    const div = document.createElement("div");
+    const cs = getComputedStyle(el);
+    [
+      "boxSizing", "width", "paddingTop", "paddingRight", "paddingBottom",
+      "paddingLeft", "borderTopWidth", "borderRightWidth", "borderBottomWidth",
+      "borderLeftWidth", "fontFamily", "fontSize", "fontWeight", "fontStyle",
+      "letterSpacing", "lineHeight", "tabSize", "textIndent",
+    ].forEach(function (p) {
+      div.style[p] = cs[p];
+    });
+    div.style.position = "absolute";
+    div.style.visibility = "hidden";
+    div.style.whiteSpace = "pre-wrap";
+    div.style.wordWrap = "break-word";
+    div.style.overflow = "hidden";
+    div.style.top = "0";
+    div.style.left = "0";
+    div.textContent = el.value.slice(0, position);
+    const span = document.createElement("span");
+    span.textContent = el.value.slice(position) || ".";
+    div.appendChild(span);
+    el.parentNode.appendChild(div);
+    const coords = { top: span.offsetTop, left: span.offsetLeft };
+    el.parentNode.removeChild(div);
+    return coords;
+  }
+
+  function enhanceEditor(ta) {
+    if (ta.parentNode && getComputedStyle(ta.parentNode).position === "static") {
+      ta.parentNode.style.position = "relative";
+    }
+    const popup = document.createElement("div");
+    popup.className = "ac-popup";
+    ta.parentNode.appendChild(popup);
+
+    let items = [];
+    let active = 0;
+    let wordStart = 0;
+    let wordEnd = 0;
+
+    function hide() {
+      popup.style.display = "none";
+      items = [];
+    }
+    function isOpen() {
+      return popup.style.display === "block";
+    }
+    function renderActive() {
+      const nodes = popup.querySelectorAll(".ac-item");
+      nodes.forEach(function (n, i) {
+        n.classList.toggle("active", i === active);
+      });
+      if (nodes[active]) nodes[active].scrollIntoView({ block: "nearest" });
+    }
+    function accept() {
+      const chosen = items[active];
+      if (chosen == null) return;
+      ta.selectionStart = wordStart;
+      ta.selectionEnd = wordEnd;
+      insertAtCursor(ta, chosen);
+      hide();
+    }
+    function show(matches) {
+      items = matches;
+      active = 0;
+      popup.innerHTML = matches
+        .map(function (w, i) {
+          return (
+            '<div class="ac-item' +
+            (i === 0 ? " active" : "") +
+            '" data-i="' +
+            i +
+            '">' +
+            w +
+            "</div>"
+          );
+        })
+        .join("");
+      const cs = getComputedStyle(ta);
+      const lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.4;
+      const c = caretCoords(ta, wordStart);
+      popup.style.left = ta.offsetLeft + c.left - ta.scrollLeft + "px";
+      popup.style.top = ta.offsetTop + c.top - ta.scrollTop + lh + "px";
+      popup.style.display = "block";
+    }
+    function update() {
+      if (ta.selectionStart !== ta.selectionEnd) {
+        hide();
+        return;
+      }
+      const pos = ta.selectionStart;
+      const m = ta.value.slice(0, pos).match(/[A-Za-z_$][\w$]*$/);
+      if (!m) {
+        hide();
+        return;
+      }
+      const word = m[0];
+      const ids = new Set(AC_WORDS);
+      let mm;
+      const re = /[A-Za-z_$][\w$]*/g;
+      while ((mm = re.exec(ta.value))) ids.add(mm[0]);
+      const low = word.toLowerCase();
+      const matches = Array.prototype.slice
+        .call(ids)
+        .filter(function (w) {
+          return w !== word && w.toLowerCase().indexOf(low) === 0;
+        })
+        .sort(function (a, b) {
+          return (
+            (a.indexOf(word) === 0 ? 0 : 1) - (b.indexOf(word) === 0 ? 0 : 1) ||
+            a.length - b.length ||
+            a.localeCompare(b)
+          );
+        })
+        .slice(0, 8);
+      if (!matches.length) {
+        hide();
+        return;
+      }
+      wordStart = pos - word.length;
+      wordEnd = pos;
+      show(matches);
+    }
+
+    popup.addEventListener("mousedown", function (e) {
+      const item = e.target.closest(".ac-item");
+      if (!item) return;
+      e.preventDefault();
+      active = Number(item.dataset.i);
+      accept();
+    });
+
+    ta.addEventListener("keydown", function (e) {
+      if (isOpen()) {
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          active = (active + 1) % items.length;
+          renderActive();
+          return;
+        }
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          active = (active - 1 + items.length) % items.length;
+          renderActive();
+          return;
+        }
+        if (e.key === "Enter" || e.key === "Tab") {
+          e.preventDefault();
+          accept();
+          return;
+        }
+        if (e.key === "Escape") {
+          e.preventDefault();
+          e.stopPropagation();
+          hide();
+          return;
+        }
+      }
+
+      const val = ta.value;
+      const s = ta.selectionStart;
+      const en = ta.selectionEnd;
+
+      if (e.key === "Tab") {
+        e.preventDefault();
+        insertAtCursor(ta, "  ");
+        return;
+      }
+
+      if (e.key === "Enter") {
+        const lineStart = val.lastIndexOf("\n", s - 1) + 1;
+        const indent = (val.slice(lineStart, s).match(/^[ \t]*/) || [""])[0];
+        const before = val[s - 1];
+        const after = val[en];
+        if (before && "{[(".indexOf(before) !== -1) {
+          e.preventDefault();
+          const extra = indent + "  ";
+          if (after && "}])".indexOf(after) !== -1) {
+            insertAtCursor(ta, "\n" + extra + "\n" + indent);
+            ta.selectionStart = ta.selectionEnd = s + 1 + extra.length;
+          } else {
+            insertAtCursor(ta, "\n" + extra);
+          }
+          hide();
+          return;
+        }
+        if (indent) {
+          e.preventDefault();
+          insertAtCursor(ta, "\n" + indent);
+          hide();
+          return;
+        }
+        return;
+      }
+
+      if (AC_PAIRS[e.key]) {
+        const ch = e.key;
+        const close = AC_PAIRS[ch];
+        if (ch === close && val[s] === ch && s === en) {
+          e.preventDefault();
+          ta.selectionStart = ta.selectionEnd = s + 1;
+          return;
+        }
+        e.preventDefault();
+        if (s !== en) {
+          insertAtCursor(ta, ch + val.slice(s, en) + close);
+          ta.selectionStart = s + 1;
+          ta.selectionEnd = en + 1;
+        } else {
+          insertAtCursor(ta, ch + close);
+          ta.selectionStart = ta.selectionEnd = s + 1;
+        }
+        return;
+      }
+
+      if (AC_CLOSERS.indexOf(e.key) !== -1 && val[s] === e.key && s === en) {
+        e.preventDefault();
+        ta.selectionStart = ta.selectionEnd = s + 1;
+        return;
+      }
+
+      if (e.key === "Backspace" && s === en && s > 0) {
+        const b = val[s - 1];
+        if (AC_PAIRS[b] && AC_PAIRS[b] === val[s]) {
+          e.preventDefault();
+          ta.selectionStart = s - 1;
+          ta.selectionEnd = s + 1;
+          try {
+            document.execCommand("delete");
+          } catch (err) {
+            ta.value = val.slice(0, s - 1) + val.slice(s + 1);
+            ta.selectionStart = ta.selectionEnd = s - 1;
+            ta.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+          hide();
+          return;
+        }
+      }
+    });
+
+    ta.addEventListener("input", update);
+    ta.addEventListener("click", hide);
+    ta.addEventListener("blur", function () {
+      setTimeout(hide, 150);
+    });
+  }
+
   function runTask(id, config) {
     const root = document.getElementById(id);
     if (!root) {
@@ -73,16 +362,8 @@
       });
     }
 
-    textarea.addEventListener("keydown", function (e) {
-      if (e.key === "Tab") {
-        e.preventDefault();
-        const start = textarea.selectionStart;
-        const end = textarea.selectionEnd;
-        textarea.value =
-          textarea.value.slice(0, start) + "  " + textarea.value.slice(end);
-        textarea.selectionStart = textarea.selectionEnd = start + 2;
-      }
-    });
+    // Розумне редагування + автодоповнення
+    enhanceEditor(textarea);
 
     runBtn.addEventListener("click", function () {
       output.innerHTML = "";
