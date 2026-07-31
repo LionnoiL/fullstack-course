@@ -211,6 +211,19 @@
       ],
     },
     {
+      title: "Next.js",
+      lessons: [
+        ["next-intro.html", "Що таке Next.js"],
+        ["next-routing.html", "Роутинг (App Router)"],
+        ["next-layouts.html", "Сторінки та лейаути"],
+        ["next-components.html", "Server і Client компоненти"],
+        ["next-data.html", "Отримання даних"],
+        ["next-api.html", "Route Handlers (API)"],
+        ["next-navigation.html", "Навігація"],
+        ["next-optimization.html", "Оптимізація та деплой"],
+      ],
+    },
+    {
       title: "Супровідні теми",
       lessons: [
         ["git-basics.html", "Git і командний рядок"],

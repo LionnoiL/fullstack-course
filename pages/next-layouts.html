@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сторінки та лейаути · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="лейаути">1. Що таке лейаут</h1>
+<p><strong>Лейаут (layout)</strong> — це спільна оболонка, що обгортає сторінки й <em>не</em>
+перемальовується під час навігації між ними. Ідеально для шапки, меню, підвалу.</p>
+<h1 id="кореневий">2. Кореневий лейаут</h1>
+<p>Файл <code>app/layout.jsx</code> обовʼязковий — він містить теги <code>&lt;html&gt;</code> і <code>&lt;body&gt;</code> та
+обгортає весь застосунок. Проп <code>children</code> — це поточна сторінка.</p>
+<pre class="language-js"><code class="language-js">// app/layout.jsx
+export const metadata = {
+  title: 'Мій сайт',
+  description: 'Опис для SEO',
+};
+
+export default function RootLayout({ children }) {
+  return (
+    &lt;html lang="uk"&gt;
+      &lt;body&gt;
+        &lt;header&gt;Шапка&lt;/header&gt;
+        &lt;main&gt;{children}&lt;/main&gt;
+        &lt;footer&gt;Підвал&lt;/footer&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;
+  );
+}</code></pre>
+<h1 id="вкладені">3. Вкладені лейаути</h1>
+<p>Кожен сегмент може мати власний <code>layout.jsx</code> — вони вкладаються один в одного.
+Це дозволяє, наприклад, додати бічне меню лише для розділу <code>/dashboard</code>.</p>
+<pre class="language-js"><code class="language-js">// app/dashboard/layout.jsx
+export default function DashboardLayout({ children }) {
+  return (
+    &lt;div className="dashboard"&gt;
+      &lt;aside&gt;Меню кабінету&lt;/aside&gt;
+      &lt;section&gt;{children}&lt;/section&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<h1 id="метадані">4. Метадані та SEO</h1>
+<p>Next.js генерує теги <code>&lt;head&gt;</code> з експортованого обʼєкта <code>metadata</code> — окремо для
+кожної сторінки чи лейаута.</p>
+<pre class="language-js"><code class="language-js">// у будь-якому page.jsx або layout.jsx
+export const metadata = {
+  title: 'Про нас',
+  description: 'Сторінка про компанію',
+};</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Оскільки лейаут не перемальовується при переходах, стан у ньому (напр.,
+відкрите меню) зберігається між сторінками — на відміну від самих сторінок.</p></div></div>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates" target="_blank">Layouts and Templates — Next.js docs</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

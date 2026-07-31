@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Server і Client компоненти · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="server-components">1. Серверні компоненти</h1>
+<p>В App Router компоненти <strong>за замовчуванням серверні</strong>. Вони виконуються лише
+на сервері: їхній JavaScript не потрапляє в браузер, а результат приходить як
+готовий HTML. Це зменшує обсяг коду й прискорює завантаження.</p>
+<pre class="language-js"><code class="language-js">// серверний компонент (за замовчуванням)
+// може напряму звертатися до БД чи файлів
+export default async function Page() {
+  const posts = await db.post.findMany(); // прямо на сервері!
+  return (
+    &lt;ul&gt;
+      {posts.map((p) =&gt; &lt;li key={p.id}&gt;{p.title}&lt;/li&gt;)}
+    &lt;/ul&gt;
+  );
+}</code></pre>
+<h1 id="client-components">2. Клієнтські компоненти</h1>
+<p>Коли потрібні інтерактивність, стан або хуки (<code>useState</code>, <code>useEffect</code>) чи події
+браузера — компонент має бути <strong>клієнтським</strong>. Його позначають директивою
+<code>'use client'</code> на початку файлу.</p>
+<pre class="language-js"><code class="language-js">'use client';
+
+import { useState } from 'react';
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+  return &lt;button onClick={() =&gt; setCount(count + 1)}&gt;{count}&lt;/button&gt;;
+}</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Хуки стану, обробники подій та браузерні API (<code>window</code>, <code>localStorage</code>)
+працюють <strong>лише</strong> в клієнтських компонентах. Забутий <code>'use client'</code> —
+найчастіша помилка при переході на App Router.</p></div></div>
+<h1 id="коли-що">3. Що коли використовувати</h1>
+<ul>
+<li><strong>Серверні</strong> — отримання даних, доступ до БД/секретів, статичний вміст;</li>
+<li><strong>Клієнтські</strong> — інтерактивність, стан, події, хуки, браузерні API.</li>
+</ul>
+<h1 id="композиція">4. Композиція</h1>
+<p>Серверний компонент може <em>вкладати</em> клієнтський. Гарний підхід — тримати
+інтерактивні «острівці» клієнтськими, а решту лишати серверною.</p>
+<pre class="language-js"><code class="language-js">// серверна сторінка, що використовує клієнтський Counter
+import Counter from './Counter';
+
+export default async function Page() {
+  const data = await getData();
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;{data.title}&lt;/h1&gt;
+      &lt;Counter /&gt; {/* інтерактивний острівець */}
+    &lt;/div&gt;
+  );
+}</code></pre>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://nextjs.org/docs/app/building-your-application/rendering/server-components" target="_blank">Server Components — Next.js docs</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

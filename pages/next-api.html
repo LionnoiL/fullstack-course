@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Route Handlers (API) · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="route-handlers">1. Бекенд у тому ж проєкті</h1>
+<p>Next.js — фулстек-фреймворк: у ньому можна писати не лише сторінки, а й
+<strong>API-ендпоінти</strong>. Для цього створюють файл <code>route.js</code> у теці <code>app/api/...</code>.</p>
+<pre class="language-js"><code class="language-js">// app/api/hello/route.js  →  /api/hello
+export function GET() {
+  return Response.json({ message: 'Привіт із API' });
+}</code></pre>
+<h1 id="методи">2. HTTP-методи</h1>
+<p>Кожен метод — це окрема експортована функція.</p>
+<pre class="language-js"><code class="language-js">// app/api/users/route.js
+export async function GET() {
+  const users = await db.user.findMany();
+  return Response.json(users);
+}
+
+export async function POST(request) {
+  const body = await request.json();
+  const user = await db.user.create({ data: body });
+  return Response.json(user, { status: 201 });
+}</code></pre>
+<h1 id="параметри">3. Параметри та запити</h1>
+<pre class="language-js"><code class="language-js">// app/api/users/[id]/route.js
+export async function GET(request, { params }) {
+  const user = await db.user.findUnique({
+    where: { id: Number(params.id) },
+  });
+  if (!user) {
+    return Response.json({ error: 'Не знайдено' }, { status: 404 });
+  }
+  return Response.json(user);
+}
+
+// query-параметри
+export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+  const q = searchParams.get('q');
+  // ...
+}</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Route Handlers використовують стандартні вебобʼєкти <code>Request</code> і
+<code>Response</code> — ті самі, що й <code>fetch</code>. Знання Fetch API з попередніх розділів
+переноситься сюди напряму.</p></div></div>
+<h1 id="коли">4. Route Handler чи Server Action?</h1>
+<ul>
+<li><strong>Server Action</strong> — для мутацій із власних форм застосунку;</li>
+<li><strong>Route Handler</strong> — коли потрібен публічний API (для мобільних клієнтів,
+вебхуків, сторонніх сервісів).</li>
+</ul>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://nextjs.org/docs/app/building-your-application/routing/route-handlers" target="_blank">Route Handlers — Next.js docs</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

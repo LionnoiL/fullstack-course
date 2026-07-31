@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Оптимізація та деплой · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="оптимізація">1. Вбудована оптимізація</h1>
+<p>Next.js бере на себе багато оптимізацій «з коробки»: розбиття коду по сторінках,
+оптимізацію зображень і шрифтів, префетчинг. Розробнику лишається користуватися
+вбудованими компонентами.</p>
+<h1 id="зображення">2. Компонент Image</h1>
+<p><code>next/image</code> автоматично змінює розмір, стискає, конвертує у сучасні формати й
+ліниво завантажує зображення.</p>
+<pre class="language-js"><code class="language-js">import Image from 'next/image';
+
+export default function Avatar() {
+  return (
+    &lt;Image
+      src="/avatar.png"
+      alt="Аватар"
+      width={64}
+      height={64}
+    /&gt;
+  );
+}</code></pre>
+<h1 id="шрифти">3. Компонент Font</h1>
+<pre class="language-js"><code class="language-js">import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin', 'cyrillic'] });
+
+export default function RootLayout({ children }) {
+  return (
+    &lt;html lang="uk" className={inter.className}&gt;
+      &lt;body&gt;{children}&lt;/body&gt;
+    &lt;/html&gt;
+  );
+}</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>next/font</code> завантажує шрифти локально під час збірки — без запиту до
+Google на боці користувача. Це швидше й краще для приватності.</p></div></div>
+<h1 id="збірка">4. Збірка</h1>
+<pre class="language-js"><code class="language-js">npm run build   // продакшн-збірка
+npm run start   // запуск зібраного застосунку</code></pre>
+<h1 id="деплой">5. Деплой</h1>
+<p>Найпростіший шлях — <strong>Vercel</strong> (творці Next.js): підключаєш Git-репозиторій, і
+кожен пуш автоматично збирається й публікується. Next.js також працює на інших
+платформах і в Docker (див. розділ «Деплой»).</p>
+<pre class="language-js"><code class="language-js">npm i -g vercel
+vercel        // деплой у кілька команд</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://nextjs.org/docs/app/building-your-application/optimizing" target="_blank">Optimizing — Next.js docs</a></li>
+<li><a href="https://nextjs.org/docs/app/building-your-application/deploying" target="_blank">Deploying — Next.js docs</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

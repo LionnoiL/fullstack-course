@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Отримання даних · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="дані">1. Отримання даних на сервері</h1>
+<p>У серверних компонентах дані отримують просто через <code>async/await</code> — без
+<code>useEffect</code> і станів завантаження. Код виконується на сервері, тож можна
+звертатися напряму до API чи бази.</p>
+<pre class="language-js"><code class="language-js">export default async function Page() {
+  const res = await fetch('https://api.example.com/posts');
+  const posts = await res.json();
+
+  return (
+    &lt;ul&gt;
+      {posts.map((p) =&gt; &lt;li key={p.id}&gt;{p.title}&lt;/li&gt;)}
+    &lt;/ul&gt;
+  );
+}</code></pre>
+<h1 id="стратегії">2. Стратегії рендерингу</h1>
+<p>Next.js керує тим, <em>коли</em> генерується HTML, через опції кешування <code>fetch</code>:</p>
+<ul>
+<li><strong>SSG</strong> (статична генерація) — HTML будується під час збірки;</li>
+<li><strong>SSR</strong> — HTML будується на кожен запит;</li>
+<li><strong>ISR</strong> — статика, що періодично оновлюється.</li>
+</ul>
+<pre class="language-js"><code class="language-js">// SSG — кешується назавжди (за замовчуванням)
+fetch(url, { cache: 'force-cache' });
+
+// SSR — свіжі дані на кожен запит
+fetch(url, { cache: 'no-store' });
+
+// ISR — оновлювати не частіше ніж раз на 60 секунд
+fetch(url, { next: { revalidate: 60 } });</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Next.js розширює стандартний <code>fetch</code> кешуванням і дедуплікацією: два
+однакові запити на одній сторінці виконаються лише раз.</p></div></div>
+<h1 id="паралельно">3. Паралельне завантаження</h1>
+<pre class="language-js"><code class="language-js">export default async function Page() {
+  // обидва запити стартують одночасно
+  const [user, posts] = await Promise.all([
+    getUser(),
+    getPosts(),
+  ]);
+  // ...
+}</code></pre>
+<h1 id="мутації">4. Server Actions (мутації)</h1>
+<p>Для зміни даних (форми, створення записів) використовують <strong>Server Actions</strong> —
+серверні функції, що викликаються прямо з форми.</p>
+<pre class="language-js"><code class="language-js">export default function Page() {
+  async function createPost(formData) {
+    'use server';
+    await db.post.create({ data: { title: formData.get('title') } });
+  }
+
+  return (
+    &lt;form action={createPost}&gt;
+      &lt;input name="title" /&gt;
+      &lt;button&gt;Створити&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://nextjs.org/docs/app/building-your-application/data-fetching" target="_blank">Data Fetching — Next.js docs</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>
