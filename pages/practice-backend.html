@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практика: бекенд · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="практика">Практика: бекенд</h1>
+<p>Ці завдання виконуються локально (Node.js) або на
+<a href="https://stackblitz.com/" target="_blank">StackBlitz</a> із шаблоном Node/Express.
+Перевіряй ендпоінти через <code>curl</code> чи Postman.</p>
+
+<div class="task">
+<h2>Завдання 1. CRUD для нотаток</h2>
+<p class="task-goal">Побудуй Express-сервер із маршрутами для нотаток: список,
+отримати одну, створити, видалити (поки що зберігай у масиві в пам'яті).</p>
+<details class="hint"><summary>Вимоги</summary>
+<ul>
+<li><code>GET /notes</code>, <code>GET /notes/:id</code>, <code>POST /notes</code>, <code>DELETE /notes/:id</code>;</li>
+<li>правильні коди статусів (201, 404, 204);</li>
+<li>підключений <code>express.json()</code>.</li>
+</ul>
+</details>
+<details class="solution"><summary>Рішення (фрагмент)</summary>
+<pre class="language-js"><code class="language-js">const express = require('express');
+const app = express();
+app.use(express.json());
+
+let notes = [];
+
+app.get('/notes', (req, res) =&gt; res.json(notes));
+
+app.post('/notes', (req, res) =&gt; {
+  const note = { id: Date.now(), text: req.body.text };
+  notes.push(note);
+  res.status(201).json(note);
+});
+
+app.delete('/notes/:id', (req, res) =&gt; {
+  notes = notes.filter((n) =&gt; n.id !== Number(req.params.id));
+  res.status(204).end();
+});
+
+app.listen(3000);</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 2. Валідація та middleware</h2>
+<p class="task-goal">Додай middleware логування запитів і перевірку: якщо в
+<code>POST /notes</code> немає поля <code>text</code> — поверни <code>400</code>.</p>
+<details class="solution"><summary>Рішення (фрагмент)</summary>
+<pre class="language-js"><code class="language-js">app.use((req, res, next) =&gt; {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
+app.post('/notes', (req, res) =&gt; {
+  if (!req.body.text) {
+    return res.status(400).json({ error: 'Поле text обовʼязкове' });
+  }
+  // ...створення
+});</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 3. Автентифікація (виклик)</h2>
+<p class="task-goal">Додай реєстрацію/вхід із хешуванням пароля (bcrypt) і видачею
+JWT, а маршрути нотаток захисти middleware. Це підготовка до fullstack-проєкту.</p>
+</div>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

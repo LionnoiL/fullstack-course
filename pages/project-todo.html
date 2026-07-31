@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Проєкт: To-Do на JS · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="проєкт">Мілстоун 2: застосунок задач (To-Do)</h1>
+<p><strong>Етап:</strong> після розділів «Масиви», «DOM», «Події та браузер», «Дані». Мета —
+інтерактивний застосунок на чистому JavaScript, що зберігає дані в браузері.</p>
+
+<h1 id="функції">Функціонал</h1>
+<ul>
+<li>додавання задачі з поля вводу;</li>
+<li>позначення задачі виконаною (закреслення);</li>
+<li>видалення задачі;</li>
+<li>фільтри: усі / активні / виконані;</li>
+<li>лічильник активних задач;</li>
+<li>збереження в <code>localStorage</code> (дані не зникають після перезавантаження).</li>
+</ul>
+
+<h1 id="вимоги">Вимоги</h1>
+<ul>
+<li>дані задач — у масиві об'єктів (<code>{ id, text, done }</code>);</li>
+<li>рендер списку з масиву; оновлення DOM після кожної зміни;</li>
+<li><strong>делегування подій</strong> замість обробника на кожній кнопці;</li>
+<li>збереження/відновлення стану через <code>JSON</code> + <code>localStorage</code>;</li>
+<li>чиста структура: окремо дані, окремо рендер, окремо обробники.</li>
+</ul>
+
+<h1 id="структура">Орієнтовна структура коду</h1>
+<pre class="language-js"><code class="language-js">let todos = load();               // з localStorage
+
+function save() { localStorage.setItem('todos', JSON.stringify(todos)); }
+function load() { return JSON.parse(localStorage.getItem('todos')) || []; }
+
+function render() { /* перемалювати список за поточним фільтром */ }
+
+function addTodo(text) {
+  todos.push({ id: Date.now(), text, done: false });
+  save();
+  render();
+}
+
+// делегування: один обробник на список
+list.addEventListener('click', (e) =&gt; { /* toggle / remove за data-id */ });</code></pre>
+
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Тримай «джерело істини» в масиві <code>todos</code>, а DOM завжди перемальовуй з
+нього. Не намагайся точково правити і DOM, і масив — це швидко розсинхронізується.</p></div></div>
+
+<h1 id="далі">Розвиток проєкту</h1>
+<p>Додай редагування задачі подвійним кліком, перетягування для сортування
+(drag-and-drop), темну тему. Пізніше перепиши цей самий застосунок на React —
+відчуєш різницю підходів.</p>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

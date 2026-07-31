@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практика: HTML · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="практика">Практика: HTML</h1>
+<p>Створи файл <code>.html</code> у редакторі й розв'яжи завдання. Перевіряй результат у
+браузері, а тоді звір із рішенням.</p>
+
+<div class="task">
+<h2>Завдання 1. Семантична структура сторінки</h2>
+<p class="task-goal">Збери каркас статті блогу з семантичних тегів: шапка з
+навігацією, основний вміст зі статтею та заголовком, бічна панель і підвал.</p>
+<details class="hint"><summary>Вимоги</summary>
+<ul>
+<li>використати <code>header</code>, <code>nav</code>, <code>main</code>, <code>article</code>, <code>aside</code>, <code>footer</code>;</li>
+<li>один <code>h1</code> на сторінку;</li>
+<li>у навігації — список посилань.</li>
+</ul>
+</details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-markup"><code class="language-markup">&lt;body&gt;
+  &lt;header&gt;
+    &lt;nav&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href="/"&gt;Головна&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="/blog"&gt;Блог&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+  &lt;main&gt;
+    &lt;article&gt;
+      &lt;h1&gt;Заголовок статті&lt;/h1&gt;
+      &lt;p&gt;Текст статті...&lt;/p&gt;
+    &lt;/article&gt;
+    &lt;aside&gt;Схожі статті&lt;/aside&gt;
+  &lt;/main&gt;
+  &lt;footer&gt;© 2026&lt;/footer&gt;
+&lt;/body&gt;</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 2. Форма реєстрації</h2>
+<p class="task-goal">Зроби форму з полями «ім'я», «email», «пароль», згодою з
+умовами (checkbox) і кнопкою. Використай <code>label</code> та вбудовану валідацію.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-markup"><code class="language-markup">&lt;form action="/register" method="post"&gt;
+  &lt;label for="name"&gt;Ім'я&lt;/label&gt;
+  &lt;input id="name" name="name" required&gt;
+
+  &lt;label for="email"&gt;Email&lt;/label&gt;
+  &lt;input id="email" name="email" type="email" required&gt;
+
+  &lt;label for="pass"&gt;Пароль&lt;/label&gt;
+  &lt;input id="pass" name="password" type="password" minlength="8" required&gt;
+
+  &lt;label&gt;
+    &lt;input type="checkbox" name="agree" required&gt; Приймаю умови
+  &lt;/label&gt;
+
+  &lt;button type="submit"&gt;Зареєструватися&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+</details>
+</div>
+
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Наступний крок — оживи цю форму стилями з практики CSS, а потім
+обробкою submit із розділу «Форми та валідація».</p></div></div>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

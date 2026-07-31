@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практика: замикання і this · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<script src="../js/practice.js"></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="практика">Практика: замикання і this</h1>
+<p>Замикання, приватний стан, мемоізація. Пиши код і тисни <strong>«Запустити»</strong>.</p>
+
+<div class="task">
+<h2>Завдання 1. Лічильник з приватним станом</h2>
+<p class="task-goal">Реалізуй <code>createCounter()</code>, що повертає об'єкт із методами
+<code>increment()</code>, <code>decrement()</code> та <code>get()</code>. Значення має бути недоступним ззовні
+напряму.</p>
+<div class="runner" id="t-counter">
+<textarea class="runner-code">function createCounter() {
+  // приватна змінна + повернути об'єкт з методами
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="hint"><summary>Підказка</summary><p>Оголоси <code>let count = 0;</code> усередині функції — методи бачитимуть її через замикання.</p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function createCounter() {
+  let count = 0;
+  return {
+    increment: () =&gt; { count += 1; },
+    decrement: () =&gt; { count -= 1; },
+    get: () =&gt; count,
+  };
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-counter', {
+  entry: 'createCounter',
+  tests: [
+    { name: 'дві інкрементації → 2', test: (e) => { const c = e.createCounter(); c.increment(); c.increment(); return c.get() === 2; } },
+    { name: 'decrement працює', test: (e) => { const c = e.createCounter(); c.increment(); c.decrement(); return c.get() === 0; } },
+    { name: 'лічильники незалежні', test: (e) => { const a = e.createCounter(); const b = e.createCounter(); a.increment(); return a.get() === 1 && b.get() === 0; } },
+  ],
+});
+</script>
+
+<div class="task">
+<h2>Завдання 2. Мемоізація</h2>
+<p class="task-goal">Реалізуй <code>memoize(fn)</code>, що кешує результати для однакових
+аргументів (для функцій одного числового аргументу).</p>
+<div class="runner" id="t-memo">
+<textarea class="runner-code">function memoize(fn) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function memoize(fn) {
+  const cache = new Map();
+  return (arg) =&gt; {
+    if (cache.has(arg)) return cache.get(arg);
+    const result = fn(arg);
+    cache.set(arg, result);
+    return result;
+  };
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-memo', {
+  entry: 'memoize',
+  tests: [
+    { name: 'повертає правильний результат', test: (e) => { const f = e.memoize((x) => x * 2); return f(5) === 10; } },
+    { name: 'кешує (fn викликається раз на аргумент)', test: (e) => { let calls = 0; const f = e.memoize((x) => { calls += 1; return x; }); f(3); f(3); f(3); return calls === 1; } },
+  ],
+});
+</script>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

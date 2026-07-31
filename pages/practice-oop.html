@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практика: ООП · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<script src="../js/practice.js"></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="практика">Практика: ООП</h1>
+<p>Класи, методи, успадкування. Пиши код і тисни <strong>«Запустити»</strong>.</p>
+
+<div class="task">
+<h2>Завдання 1. Клас Stack</h2>
+<p class="task-goal">Реалізуй клас <code>Stack</code> із методами <code>push(item)</code>,
+<code>pop()</code>, <code>peek()</code> та <code>size()</code>.</p>
+<div class="runner" id="t-stack">
+<textarea class="runner-code">class Stack {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="hint"><summary>Підказка</summary><p>Зберігай елементи у внутрішньому масиві; <code>push</code>/<code>pop</code> масиву майже готові.</p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">class Stack {
+  constructor() {
+    this.items = [];
+  }
+  push(item) { this.items.push(item); }
+  pop() { return this.items.pop(); }
+  peek() { return this.items[this.items.length - 1]; }
+  size() { return this.items.length; }
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-stack', {
+  entry: 'Stack',
+  tests: [
+    { name: 'push/pop у LIFO-порядку', test: (e) => { const s = new e.Stack(); s.push(1); s.push(2); return s.pop() === 2; } },
+    { name: 'size рахує елементи', test: (e) => { const s = new e.Stack(); s.push('a'); s.push('b'); return s.size() === 2; } },
+    { name: 'peek не видаляє', test: (e) => { const s = new e.Stack(); s.push(9); return s.peek() === 9 && s.size() === 1; } },
+  ],
+});
+</script>
+
+<div class="task">
+<h2>Завдання 2. Успадкування</h2>
+<p class="task-goal">Реалізуй клас <code>Animal</code> з методом <code>speak()</code>, що повертає
+<code>"..."</code>, і клас <code>Dog extends Animal</code>, чий <code>speak()</code> повертає <code>"Гав"</code>.
+Обидва мають властивість <code>name</code>.</p>
+<div class="runner" id="t-inherit">
+<textarea class="runner-code">class Animal {
+  // constructor(name) ...
+}
+
+class Dog extends Animal {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">class Animal {
+  constructor(name) { this.name = name; }
+  speak() { return '...'; }
+}
+
+class Dog extends Animal {
+  speak() { return 'Гав'; }
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-inherit', {
+  entry: ['Animal', 'Dog'],
+  tests: [
+    { name: "new Dog('Рекс').name === 'Рекс'", test: (e) => new e.Dog('Рекс').name === 'Рекс' },
+    { name: "Dog.speak() === 'Гав'", test: (e) => new e.Dog('x').speak() === 'Гав' },
+    { name: 'Dog є Animal', test: (e) => new e.Dog('x') instanceof e.Animal },
+  ],
+});
+</script>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

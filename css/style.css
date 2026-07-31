@@ -513,3 +513,139 @@ body.notes-open .course-toolbar {
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
+
+/* ============ Практичні завдання ============ */
+.task {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  margin: 1.5rem 0;
+  background: var(--soft);
+}
+
+.task h2 {
+  margin-top: 0;
+}
+
+.task-goal {
+  font-weight: 600;
+}
+
+details.hint,
+details.solution {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.5rem 0.9rem;
+  margin: 0.7rem 0;
+  background: #fff;
+}
+
+details.hint summary,
+details.solution summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+details[open].hint summary,
+details[open].solution summary {
+  margin-bottom: 0.5rem;
+}
+
+/* Інтерактивний редактор */
+.runner {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin: 1rem 0;
+  overflow: hidden;
+}
+
+.runner-code {
+  display: block;
+  width: 100%;
+  min-height: 170px;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  padding: 1rem;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+  background: #f8f8f6;
+  color: #111827;
+  tab-size: 2;
+}
+
+.runner-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  background: #fff;
+}
+
+.runner-run,
+.runner-reset {
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid var(--line);
+}
+
+.runner-run {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #fff;
+}
+
+.runner-reset {
+  background: #fff;
+  color: var(--muted);
+}
+
+.runner-output:not(:empty) {
+  padding: 0.8rem 1rem;
+  border-top: 1px solid var(--line);
+  background: #fff;
+}
+
+.runner-results {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+}
+
+.runner-results li {
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.84rem;
+  padding: 0.1rem 0;
+}
+
+.runner-results li.pass {
+  color: #16a34a;
+}
+
+.runner-results li.fail {
+  color: #dc2626;
+}
+
+.runner-summary {
+  font-weight: 700;
+}
+
+.runner-summary.all-pass {
+  color: #16a34a;
+}
+
+.runner-summary.some-fail {
+  color: #dc2626;
+}
+
+.runner-error {
+  color: #dc2626;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.84rem;
+}

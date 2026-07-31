@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практика: основи JS · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<script src="../js/practice.js"></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="практика">Практика: основи JavaScript</h1>
+<p>Закріпимо змінні, оператори, розгалуження й цикли. Напиши код прямо в редакторі
+й натисни <strong>«Запустити»</strong> — тести перевірять рішення. Код зберігається в
+браузері автоматично.</p>
+
+<div class="task">
+<h2>Завдання 1. Конвертер температури</h2>
+<p class="task-goal">Реалізуй функцію <code>celsiusToFahrenheit(c)</code>, яка переводить
+градуси Цельсія у Фаренгейти за формулою <code>c × 9/5 + 32</code>.</p>
+<div class="runner" id="t-c2f">
+<textarea class="runner-code">function celsiusToFahrenheit(c) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="hint"><summary>Підказка</summary><p>Просто повернути результат виразу: <code>return c * 9 / 5 + 32;</code></p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function celsiusToFahrenheit(c) {
+  return c * 9 / 5 + 32;
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-c2f', {
+  entry: 'celsiusToFahrenheit',
+  tests: [
+    { name: 'celsiusToFahrenheit(0) === 32', test: (e) => e.celsiusToFahrenheit(0) === 32 },
+    { name: 'celsiusToFahrenheit(100) === 212', test: (e) => e.celsiusToFahrenheit(100) === 212 },
+    { name: 'celsiusToFahrenheit(-40) === -40', test: (e) => e.celsiusToFahrenheit(-40) === -40 },
+  ],
+});
+</script>
+
+<div class="task">
+<h2>Завдання 2. FizzBuzz</h2>
+<p class="task-goal">Реалізуй функцію <code>fizzBuzz(n)</code>, яка повертає масив від
+<code>1</code> до <code>n</code>: числа, кратні 3 — заміни на <code>'Fizz'</code>, кратні 5 — на
+<code>'Buzz'</code>, кратні 15 — на <code>'FizzBuzz'</code>.</p>
+<div class="runner" id="t-fizz">
+<textarea class="runner-code">function fizzBuzz(n) {
+  const result = [];
+  // ваш код тут
+  return result;
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="hint"><summary>Підказка</summary><p>Перебирай <code>i</code> від 1 до n. Перевіряй <code>i % 15</code> першим, потім <code>i % 3</code>, потім <code>i % 5</code>, інакше — саме число.</p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function fizzBuzz(n) {
+  const result = [];
+  for (let i = 1; i &lt;= n; i += 1) {
+    if (i % 15 === 0) result.push('FizzBuzz');
+    else if (i % 3 === 0) result.push('Fizz');
+    else if (i % 5 === 0) result.push('Buzz');
+    else result.push(i);
+  }
+  return result;
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-fizz', {
+  entry: 'fizzBuzz',
+  tests: [
+    { name: "fizzBuzz(5) === [1,2,'Fizz',4,'Buzz']", test: (e) => JSON.stringify(e.fizzBuzz(5)) === JSON.stringify([1,2,'Fizz',4,'Buzz']) },
+    { name: "fizzBuzz(3)[2] === 'Fizz'", test: (e) => e.fizzBuzz(3)[2] === 'Fizz' },
+    { name: "fizzBuzz(15)[14] === 'FizzBuzz'", test: (e) => e.fizzBuzz(15)[14] === 'FizzBuzz' },
+  ],
+});
+</script>
+
+<div class="task">
+<h2>Завдання 3. Валідація пароля (самостійно)</h2>
+<p class="task-goal">Реалізуй функцію <code>isStrongPassword(str)</code>, яка повертає
+<code>true</code>, якщо пароль має щонайменше 8 символів, містить хоча б одну цифру й
+одну велику літеру.</p>
+<div class="runner" id="t-pass">
+<textarea class="runner-code">function isStrongPassword(str) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function isStrongPassword(str) {
+  return str.length &gt;= 8 &amp;&amp; /[0-9]/.test(str) &amp;&amp; /[A-Z]/.test(str);
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-pass', {
+  entry: 'isStrongPassword',
+  tests: [
+    { name: "'Abcdefg1' → true", test: (e) => e.isStrongPassword('Abcdefg1') === true },
+    { name: "'short1A' → false (закоротко)", test: (e) => e.isStrongPassword('short1A') === false },
+    { name: "'alllowercase1' → false (немає великої)", test: (e) => e.isStrongPassword('alllowercase1') === false },
+    { name: "'NoDigitsHere' → false (немає цифри)", test: (e) => e.isStrongPassword('NoDigitsHere') === false },
+  ],
+});
+</script>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

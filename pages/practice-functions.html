@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практика: функції · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<script src="../js/practice.js"></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="практика">Практика: функції</h1>
+<p>Замикання, рекурсія, функції вищого порядку. Пиши код і тисни <strong>«Запустити»</strong>.</p>
+
+<div class="task">
+<h2>Завдання 1. Фабрика множників (замикання)</h2>
+<p class="task-goal">Реалізуй <code>makeMultiplier(factor)</code>, що повертає функцію, яка
+множить свій аргумент на <code>factor</code>.</p>
+<div class="runner" id="t-mult">
+<textarea class="runner-code">function makeMultiplier(factor) {
+  // поверни функцію
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="hint"><summary>Підказка</summary><p>Поверни стрілкову функцію, що використовує <code>factor</code> із зовнішньої області.</p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function makeMultiplier(factor) {
+  return (n) =&gt; n * factor;
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-mult', {
+  entry: 'makeMultiplier',
+  tests: [
+    { name: 'makeMultiplier(3)(5) === 15', test: (e) => e.makeMultiplier(3)(5) === 15 },
+    { name: 'makeMultiplier(0)(99) === 0', test: (e) => e.makeMultiplier(0)(99) === 0 },
+    { name: 'double = makeMultiplier(2); double(8) === 16', test: (e) => { const d = e.makeMultiplier(2); return d(8) === 16; } },
+  ],
+});
+</script>
+
+<div class="task">
+<h2>Завдання 2. Факторіал (рекурсія)</h2>
+<p class="task-goal">Реалізуй <code>factorial(n)</code> через рекурсію.</p>
+<div class="runner" id="t-fact">
+<textarea class="runner-code">function factorial(n) {
+  // базовий випадок + рекурсивний крок
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function factorial(n) {
+  if (n &lt;= 1) return 1;
+  return n * factorial(n - 1);
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-fact', {
+  entry: 'factorial',
+  tests: [
+    { name: 'factorial(0) === 1', test: (e) => e.factorial(0) === 1 },
+    { name: 'factorial(5) === 120', test: (e) => e.factorial(5) === 120 },
+    { name: 'factorial(1) === 1', test: (e) => e.factorial(1) === 1 },
+  ],
+});
+</script>
+
+<div class="task">
+<h2>Завдання 3. once — виклик лише раз</h2>
+<p class="task-goal">Реалізуй <code>once(fn)</code>: повертає функцію, яка викликає <code>fn</code>
+лише при першому виклику, а далі повертає перший результат.</p>
+<div class="runner" id="t-once">
+<textarea class="runner-code">function once(fn) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function once(fn) {
+  let called = false;
+  let result;
+  return (...args) =&gt; {
+    if (!called) {
+      called = true;
+      result = fn(...args);
+    }
+    return result;
+  };
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-once', {
+  entry: 'once',
+  tests: [
+    { name: 'fn викликається лише раз', test: (e) => {
+      let calls = 0;
+      const f = e.once(() => { calls += 1; return 42; });
+      f(); f(); f();
+      return calls === 1;
+    } },
+    { name: 'повертає перший результат', test: (e) => {
+      let x = 1;
+      const f = e.once(() => x++);
+      return f() === 1 && f() === 1;
+    } },
+  ],
+});
+</script>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

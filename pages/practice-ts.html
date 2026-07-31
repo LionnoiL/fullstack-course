@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практика: TypeScript · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="практика">Практика: TypeScript</h1>
+<p>TypeScript компілюється, тож рішення зручно перевіряти в
+<a href="https://www.typescriptlang.org/play" target="_blank">TypeScript Playground</a> —
+він одразу показує помилки типів. Спробуй розв'язати, а потім звір із рішенням.</p>
+
+<div class="task">
+<h2>Завдання 1. Типізуй функцію</h2>
+<p class="task-goal">Додай типи до функції, яка приймає масив чисел і повертає їх
+суму. Некоректний виклик має підсвічуватись помилкою.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function sum(numbers: number[]): number {
+  return numbers.reduce((acc, n) =&gt; acc + n, 0);
+}
+
+sum([1, 2, 3]); // 6
+sum(['a', 'b']); // ❌ помилка типу</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 2. Інтерфейс і дженерик</h2>
+<p class="task-goal">Опиши інтерфейс <code>User</code> (<code>id</code>, <code>name</code>, необов'язковий
+<code>email</code>) і узагальнену функцію <code>wrap&lt;T&gt;(value: T)</code>, що повертає
+<code>{ data: T }</code>.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">interface User {
+  id: number;
+  name: string;
+  email?: string;
+}
+
+function wrap&lt;T&gt;(value: T): { data: T } {
+  return { data: value };
+}
+
+const r = wrap&lt;User&gt;({ id: 1, name: 'Ada' }); // r.data: User</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 3. Звуження типів</h2>
+<p class="task-goal">Напиши функцію <code>format(value: string | number)</code>: для числа
+повертай його з двома знаками після коми, для рядка — у верхньому регістрі.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function format(value: string | number): string {
+  if (typeof value === 'number') {
+    return value.toFixed(2);
+  }
+  return value.toUpperCase();
+}</code></pre>
+</details>
+</div>
+
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Більший виклик: візьми будь-який свій JS-проєкт із розділу практики й
+типізуй його — це найкращий спосіб відчути користь TypeScript.</p></div></div>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

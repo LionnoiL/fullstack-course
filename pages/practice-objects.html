@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практика: об'єкти · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<script src="../js/practice.js"></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="практика">Практика: об'єкти та колекції</h1>
+<p>Робота з об'єктами, деструктуризацією, <code>Map</code>/<code>Set</code>. Пиши код і тисни
+<strong>«Запустити»</strong>.</p>
+
+<div class="task">
+<h2>Завдання 1. pick — вибрати поля</h2>
+<p class="task-goal">Реалізуй <code>pick(obj, keys)</code>, що повертає новий об'єкт лише з
+переліченими в масиві <code>keys</code> полями.</p>
+<div class="runner" id="t-pick">
+<textarea class="runner-code">function pick(obj, keys) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="hint"><summary>Підказка</summary><p><code>keys.reduce(...)</code>, додаючи поле лише якщо воно є в <code>obj</code>.</p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function pick(obj, keys) {
+  return keys.reduce((acc, key) =&gt; {
+    if (key in obj) acc[key] = obj[key];
+    return acc;
+  }, {});
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-pick', {
+  entry: 'pick',
+  tests: [
+    { name: "pick({a:1,b:2,c:3}, ['a','c'])", test: (e) => JSON.stringify(e.pick({a:1,b:2,c:3}, ['a','c'])) === JSON.stringify({a:1,c:3}) },
+    { name: 'ігнорує відсутні ключі', test: (e) => JSON.stringify(e.pick({a:1}, ['a','x'])) === JSON.stringify({a:1}) },
+  ],
+});
+</script>
+
+<div class="task">
+<h2>Завдання 2. Підрахунок слів</h2>
+<p class="task-goal">Реалізуй <code>wordCount(str)</code>, що повертає об'єкт із кількістю
+кожного слова (слова розділені пробілами).</p>
+<div class="runner" id="t-wc">
+<textarea class="runner-code">function wordCount(str) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function wordCount(str) {
+  return str.split(' ').reduce((acc, word) =&gt; {
+    acc[word] = (acc[word] || 0) + 1;
+    return acc;
+  }, {});
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-wc', {
+  entry: 'wordCount',
+  tests: [
+    { name: "wordCount('a b a') → {a:2,b:1}", test: (e) => { const r = e.wordCount('a b a'); return r.a === 2 && r.b === 1; } },
+    { name: "wordCount('hi') → {hi:1}", test: (e) => e.wordCount('hi').hi === 1 },
+  ],
+});
+</script>
+
+<div class="task">
+<h2>Завдання 3. Інвертувати об'єкт</h2>
+<p class="task-goal">Реалізуй <code>invert(obj)</code>: поміняй місцями ключі й значення.</p>
+<div class="runner" id="t-invert">
+<textarea class="runner-code">function invert(obj) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function invert(obj) {
+  const result = {};
+  for (const [key, value] of Object.entries(obj)) {
+    result[value] = key;
+  }
+  return result;
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-invert', {
+  entry: 'invert',
+  tests: [
+    { name: "invert({a:'x',b:'y'}) → {x:'a',y:'b'}", test: (e) => { const r = e.invert({a:'x',b:'y'}); return r.x === 'a' && r.y === 'b'; } },
+  ],
+});
+</script>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практика: DOM · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="практика">Практика: DOM</h1>
+<p>Ці завдання зручно робити у зв'язці HTML + JS на
+<a href="https://codepen.io/pen/" target="_blank">CodePen</a> або в локальному файлі.</p>
+
+<div class="task">
+<h2>Завдання 1. Динамічний список</h2>
+<p class="task-goal">З масиву даних згенеруй <code>&lt;ul&gt;</code> зі <code>&lt;li&gt;</code> і встав у
+сторінку.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">const items = ['Кава', 'Чай', 'Какао'];
+const ul = document.createElement('ul');
+
+items.forEach((text) =&gt; {
+  const li = document.createElement('li');
+  li.textContent = text;
+  ul.appendChild(li);
+});
+
+document.body.appendChild(ul);</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 2. Перемикач теми</h2>
+<p class="task-goal">Додай кнопку, яка перемикає клас <code>dark</code> на <code>&lt;body&gt;</code> і
+запам'ятовує вибір у <code>localStorage</code>.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">const btn = document.querySelector('#theme');
+
+// відновити збережену тему
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+}
+
+btn.addEventListener('click', () =&gt; {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 3. Лічильник кліків (виклик)</h2>
+<p class="task-goal">Зроби кнопку, що показує, скільки разів її натиснули, і кнопку
+скидання. Оновлюй лише потрібний вузол DOM.</p>
+</div>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

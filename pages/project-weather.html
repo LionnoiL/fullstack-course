@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Проєкт: погода з API · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="проєкт">Мілстоун 3: погодний застосунок</h1>
+<p><strong>Етап:</strong> після розділів «Асинхронність» і «Мережа та сервер». Мета —
+застосунок, що завантажує дані з реального API та обробляє стани завантаження
+й помилок.</p>
+
+<h1 id="функції">Функціонал</h1>
+<ul>
+<li>поле вводу назви міста й кнопка пошуку;</li>
+<li>завантаження поточної погоди з відкритого API;</li>
+<li>показ температури, опису, вологості, вітру, іконки;</li>
+<li>індикатор завантаження, поки триває запит;</li>
+<li>зрозуміле повідомлення, якщо місто не знайдено або немає мережі;</li>
+<li>(бонус) збереження останнього міста в <code>localStorage</code>.</li>
+</ul>
+
+<h1 id="вимоги">Вимоги</h1>
+<ul>
+<li>запити через <code>fetch</code> + <code>async/await</code>;</li>
+<li>обробка помилок через <code>try...catch</code> і перевірку <code>res.ok</code>;</li>
+<li>три стани UI: завантаження / успіх / помилка;</li>
+<li>API-ключ у конфізі, а не «зашитий» по всьому коду.</li>
+</ul>
+
+<h1 id="api">Публічні API</h1>
+<ul>
+<li><a href="https://open-meteo.com/" target="_blank">Open-Meteo</a> — без ключа, найпростіший старт;</li>
+<li><a href="https://openweathermap.org/api" target="_blank">OpenWeatherMap</a> — потрібен безкоштовний ключ.</li>
+</ul>
+
+<pre class="language-js"><code class="language-js">async function getWeather(city) {
+  setLoading(true);
+  try {
+    const res = await fetch(`https://api.example.com/weather?q=${city}`);
+    if (!res.ok) throw new Error('Місто не знайдено');
+    const data = await res.json();
+    renderWeather(data);
+  } catch (e) {
+    renderError(e.message);
+  } finally {
+    setLoading(false);
+  }
+}</code></pre>
+
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Спершу подивись у консолі/Network, яку саме структуру повертає API, і лише
+потім «діставай» потрібні поля. Це типовий робочий процес з будь-яким API.</p></div></div>
+
+<h1 id="далі">Розвиток проєкту</h1>
+<p>Додай прогноз на 5 днів, геолокацію (<code>navigator.geolocation</code>), debounce на поле
+пошуку, перемикання °C/°F.</p>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

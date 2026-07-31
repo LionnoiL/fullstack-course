@@ -17,6 +17,7 @@
         ["html-tables.html", "Таблиці"],
         ["html-meta-seo.html", "Метадані та SEO"],
         ["html-a11y.html", "Доступність (a11y)"],
+        ["practice-html.html", "🎯 Практика: HTML"],
       ],
     },
     {
@@ -31,10 +32,11 @@
         ["css-grid.html", "Grid"],
         ["css-responsive.html", "Адаптивність"],
         ["css-transitions.html", "Переходи та анімації"],
+        ["practice-css.html", "🎯 Практика: CSS"],
       ],
     },
     {
-      title: "Основи",
+      title: "Основи JavaScript",
       lessons: [
         ["intro.html", "Що таке JavaScript?"],
         ["adding-script.html", "Підключення скрипта"],
@@ -50,6 +52,7 @@
         ["branching.html", "Розгалуження"],
         ["variable-scope.html", "Область видимості"],
         ["loops.html", "Цикли"],
+        ["practice-js-basics.html", "🎯 Практика: основи JS"],
       ],
     },
     {
@@ -59,6 +62,7 @@
         ["val-and-ref.html", "Присвоєння за посиланням і за значенням"],
         ["array-methods.html", "Методи масиву"],
         ["array-methods-2.html", "Перебираючі методи масиву"],
+        ["practice-arrays.html", "🎯 Практика: масиви"],
       ],
     },
     {
@@ -70,6 +74,7 @@
         ["scope.html", "Область видимості (функції)"],
         ["arrow-fns.html", "Стрілкові функції"],
         ["recursion.html", "Рекурсія"],
+        ["practice-functions.html", "🎯 Практика: функції"],
       ],
     },
     {
@@ -83,6 +88,7 @@
         ["map-set.html", "Map, Set, WeakMap"],
         ["symbols.html", "Symbol"],
         ["iterators-generators.html", "Ітератори та генератори"],
+        ["practice-objects.html", "🎯 Практика: об'єкти"],
       ],
     },
     {
@@ -93,6 +99,7 @@
         ["closures.html", "Замикання"],
         ["context.html", "Ключове слово this"],
         ["error-handling.html", "Обробка помилок"],
+        ["practice-advanced.html", "🎯 Практика: замикання і this"],
       ],
     },
     {
@@ -102,6 +109,7 @@
         ["prototypes.html", "Прототипи"],
         ["constructors.html", "Конструктори"],
         ["classes.html", "ES6 класи"],
+        ["practice-oop.html", "🎯 Практика: ООП"],
       ],
     },
     {
@@ -112,6 +120,7 @@
         ["dom-manipulation.html", "Створення та видалення вузлів"],
         ["dom-construction.html", "Процес побудови веб-сторінки"],
         ["props-attrs.html", "DOM-властивості і атрибути"],
+        ["practice-dom.html", "🎯 Практика: DOM"],
       ],
     },
     {
@@ -123,6 +132,7 @@
         ["chatty-events.html", "Throttle і Debounce"],
         ["intersection-observer.html", "IntersectionObserver API"],
         ["bom.html", "Об'єктна модель браузера (BOM)"],
+        ["practice-events.html", "🎯 Практика: події"],
       ],
     },
     {
@@ -151,6 +161,7 @@
         ["promise-api.html", "Promise API"],
         ["async-await.html", "async / await"],
         ["event-loop.html", "Цикл подій"],
+        ["practice-async.html", "🎯 Практика: асинхронність"],
       ],
     },
     {
@@ -174,6 +185,7 @@
         ["backend-orm.html", "ORM (Prisma)"],
         ["backend-auth.html", "Автентифікація"],
         ["backend-env.html", "Конфігурація та оточення"],
+        ["practice-backend.html", "🎯 Практика: бекенд"],
       ],
     },
     {
@@ -190,6 +202,7 @@
         ["ts-utility-types.html", "Utility Types"],
         ["ts-advanced-types.html", "Просунуті типи"],
         ["ts-decorators.html", "Декоратори"],
+        ["practice-ts.html", "🎯 Практика: TypeScript"],
       ],
     },
     {
@@ -208,6 +221,7 @@
         ["react-custom-hooks.html", "Кастомні хуки"],
         ["react-router.html", "Роутинг"],
         ["react-performance.html", "Оптимізація"],
+        ["practice-react.html", "🎯 Практика: React"],
       ],
     },
     {
@@ -221,6 +235,7 @@
         ["next-api.html", "Route Handlers (API)"],
         ["next-navigation.html", "Навігація"],
         ["next-optimization.html", "Оптимізація та деплой"],
+        ["practice-next.html", "🎯 Практика: Next.js"],
       ],
     },
     {
@@ -230,6 +245,15 @@
         ["testing.html", "Тестування"],
         ["web-security.html", "Веббезпека"],
         ["deployment.html", "Деплой"],
+      ],
+    },
+    {
+      title: "Проєкти (мілстоуни)",
+      lessons: [
+        ["project-landing.html", "Проєкт: лендинг (HTML/CSS)"],
+        ["project-todo.html", "Проєкт: To-Do на JS"],
+        ["project-weather.html", "Проєкт: погода з API"],
+        ["project-fullstack.html", "Проєкт: fullstack-нотатник"],
       ],
     },
   ];
@@ -262,8 +286,8 @@
     }
   }
 
-  const sidebar = document.getElementById("sidebar") ||
-    document.querySelector(".sidebar");
+  const sidebar =
+    document.getElementById("sidebar") || document.querySelector(".sidebar");
   if (!sidebar) {
     return;
   }

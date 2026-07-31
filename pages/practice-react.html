@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практика: React · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="практика">Практика: React</h1>
+<p>Найшвидше — створити пісочницю на
+<a href="https://stackblitz.com/fork/react" target="_blank">StackBlitz (шаблон React)</a>.
+Спробуй сам, потім звір із рішенням.</p>
+
+<div class="task">
+<h2>Завдання 1. Лічильник</h2>
+<p class="task-goal">Зроби компонент з кнопками «+» і «−» та скиданням, що керує
+станом через <code>useState</code>.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">import { useState } from 'react';
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() =&gt; setCount((c) =&gt; c - 1)}&gt;−&lt;/button&gt;
+      &lt;span&gt;{count}&lt;/span&gt;
+      &lt;button onClick={() =&gt; setCount((c) =&gt; c + 1)}&gt;+&lt;/button&gt;
+      &lt;button onClick={() =&gt; setCount(0)}&gt;Скинути&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 2. Список задач (To-Do)</h2>
+<p class="task-goal">Поле вводу + кнопка додають задачу до списку; кожну задачу можна
+видалити. Використай <code>key</code> та імутабельне оновлення стану.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">import { useState } from 'react';
+
+export default function Todo() {
+  const [items, setItems] = useState([]);
+  const [text, setText] = useState('');
+
+  function add() {
+    if (!text.trim()) return;
+    setItems((prev) =&gt; [...prev, { id: Date.now(), text }]);
+    setText('');
+  }
+
+  return (
+    &lt;div&gt;
+      &lt;input value={text} onChange={(e) =&gt; setText(e.target.value)} /&gt;
+      &lt;button onClick={add}&gt;Додати&lt;/button&gt;
+      &lt;ul&gt;
+        {items.map((item) =&gt; (
+          &lt;li key={item.id}&gt;
+            {item.text}
+            &lt;button onClick={() =&gt; setItems((p) =&gt; p.filter((i) =&gt; i.id !== item.id))}&gt;×&lt;/button&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 3. Завантаження даних (виклик)</h2>
+<p class="task-goal">У <code>useEffect</code> завантаж список постів з API й покажи стан
+завантаження та можливу помилку. Винеси логіку в кастомний хук <code>useFetch</code>.</p>
+</div>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>
