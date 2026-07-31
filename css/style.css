@@ -324,6 +324,87 @@ pre[class*="lang-"] {
   }
 }
 
+/* ============ Пошук ============ */
+.search-box {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg);
+  padding: 0.7rem 0.8rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: var(--accent);
+}
+
+.search-results {
+  margin-top: 0.5rem;
+  max-height: 65vh;
+  overflow-y: auto;
+}
+
+.search-result {
+  display: block;
+  padding: 0.45rem 0.55rem;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.search-result:hover,
+.search-result.active {
+  background: var(--panel);
+}
+
+.sr-section {
+  display: block;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.sr-title {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.sr-snippet {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.15rem;
+  line-height: 1.4;
+}
+
+.search-result mark {
+  background: #fde68a;
+  color: inherit;
+  padding: 0 1px;
+  border-radius: 2px;
+}
+
+.search-empty {
+  padding: 0.5rem 0.55rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
 /* ============ Прогрес у меню ============ */
 .nav-progress {
   padding: 0.8rem 1.1rem 0.6rem;
