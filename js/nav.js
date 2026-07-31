@@ -173,6 +173,7 @@
   ];
 
   const STORAGE_KEY = "jscourse.nav.sections";
+  const PROGRESS_KEY = "jscourse.progress";
   const current = location.pathname.split("/").pop() || "intro.html";
 
   // Збережений стан розділів: { "Назва розділу": "open" | "closed" }
@@ -191,74 +192,136 @@
     }
   }
 
+  function getProgress() {
+    try {
+      return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
   const sidebar = document.getElementById("sidebar") ||
     document.querySelector(".sidebar");
   if (!sidebar) {
     return;
   }
-  sidebar.innerHTML = "";
 
-  const nav = document.createElement("nav");
-  nav.className = "nav-sections";
+  function build() {
+    const progress = getProgress();
+    sidebar.innerHTML = "";
 
-  let activeLink = null;
-
-  for (const section of sections) {
-    const hasActive = section.lessons.some(([href]) => href === current);
-
-    const wrap = document.createElement("div");
-    wrap.className = "nav-section";
-
-    const header = document.createElement("button");
-    header.type = "button";
-    header.className = "nav-section-title";
-
-    const arrow = document.createElement("span");
-    arrow.className = "nav-arrow";
-    arrow.setAttribute("aria-hidden", "true");
-
-    const label = document.createElement("span");
-    label.textContent = section.title;
-
-    header.appendChild(arrow);
-    header.appendChild(label);
-
-    const ul = document.createElement("ul");
-    for (const [href, title] of section.lessons) {
-      const li = document.createElement("li");
-      const a = document.createElement("a");
-      a.href = href;
-      a.textContent = title;
-      if (href === current) {
-        a.className = "active";
-        activeLink = a;
+    // Загальний прогрес курсу
+    let total = 0;
+    let done = 0;
+    for (const s of sections) {
+      for (const [href] of s.lessons) {
+        total += 1;
+        if (progress[href]) {
+          done += 1;
+        }
       }
-      li.appendChild(a);
-      ul.appendChild(li);
+    }
+    const pct = total ? Math.round((done / total) * 100) : 0;
+
+    const prog = document.createElement("div");
+    prog.className = "nav-progress";
+    const plabel = document.createElement("div");
+    plabel.className = "nav-progress-label";
+    plabel.textContent = "Вивчено " + done + " / " + total;
+    const pbar = document.createElement("div");
+    pbar.className = "nav-progress-bar";
+    const pfill = document.createElement("span");
+    pfill.style.width = pct + "%";
+    pbar.appendChild(pfill);
+    prog.appendChild(plabel);
+    prog.appendChild(pbar);
+    sidebar.appendChild(prog);
+
+    const nav = document.createElement("nav");
+    nav.className = "nav-sections";
+
+    let activeLink = null;
+
+    for (const section of sections) {
+      const hasActive = section.lessons.some(([href]) => href === current);
+      let sectionDone = 0;
+      for (const [href] of section.lessons) {
+        if (progress[href]) {
+          sectionDone += 1;
+        }
+      }
+      const allDone = sectionDone === section.lessons.length;
+
+      const wrap = document.createElement("div");
+      wrap.className = "nav-section";
+      if (allDone) {
+        wrap.classList.add("section-done");
+      }
+
+      const header = document.createElement("button");
+      header.type = "button";
+      header.className = "nav-section-title";
+
+      const arrow = document.createElement("span");
+      arrow.className = "nav-arrow";
+      arrow.setAttribute("aria-hidden", "true");
+
+      const label = document.createElement("span");
+      label.className = "nav-section-label";
+      label.textContent = section.title;
+
+      const count = document.createElement("span");
+      count.className = "nav-section-count";
+      count.textContent = sectionDone + "/" + section.lessons.length;
+
+      header.appendChild(arrow);
+      header.appendChild(label);
+      header.appendChild(count);
+
+      const ul = document.createElement("ul");
+      for (const [href, title] of section.lessons) {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = href;
+        a.textContent = title;
+        if (progress[href]) {
+          a.classList.add("done");
+        }
+        if (href === current) {
+          a.classList.add("active");
+          activeLink = a;
+        }
+        li.appendChild(a);
+        ul.appendChild(li);
+      }
+
+      // Активний розділ завжди розгорнутий; інші — за збереженим станом.
+      const expanded = hasActive || saved[section.title] === "open";
+      if (expanded) {
+        wrap.classList.add("open");
+      }
+      header.setAttribute("aria-expanded", String(expanded));
+
+      header.addEventListener("click", () => {
+        const nowOpen = wrap.classList.toggle("open");
+        header.setAttribute("aria-expanded", String(nowOpen));
+        saved[section.title] = nowOpen ? "open" : "closed";
+        persist();
+      });
+
+      wrap.appendChild(header);
+      wrap.appendChild(ul);
+      nav.appendChild(wrap);
     }
 
-    // Активний розділ завжди розгорнутий; інші — за збереженим станом.
-    const expanded = hasActive || saved[section.title] === "open";
-    if (expanded) {
-      wrap.classList.add("open");
+    sidebar.appendChild(nav);
+
+    if (activeLink && typeof activeLink.scrollIntoView === "function") {
+      activeLink.scrollIntoView({ block: "nearest" });
     }
-    header.setAttribute("aria-expanded", String(expanded));
-
-    header.addEventListener("click", () => {
-      const nowOpen = wrap.classList.toggle("open");
-      header.setAttribute("aria-expanded", String(nowOpen));
-      saved[section.title] = nowOpen ? "open" : "closed";
-      persist();
-    });
-
-    wrap.appendChild(header);
-    wrap.appendChild(ul);
-    nav.appendChild(wrap);
   }
 
-  sidebar.appendChild(nav);
-
-  if (activeLink && typeof activeLink.scrollIntoView === "function") {
-    activeLink.scrollIntoView({ block: "nearest" });
-  }
+  build();
+  // Перемальовуємо меню, коли змінюється прогрес (позначка "вивчено").
+  window.addEventListener("jscourse:progresschange", build);
 })();
