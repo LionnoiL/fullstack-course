@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сітка Bootstrap · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="сітка">1. Сітка з 12 колонок</h1>
+<p>Основа Bootstrap — <strong>адаптивна сітка</strong> на 12 колонок, побудована на Flexbox.
+Три рівні: <code>container</code> (обгортка) → <code>row</code> (рядок) → <code>col</code> (колонка).</p>
+<pre class="language-markup"><code class="language-markup">&lt;div class="container"&gt;
+  &lt;div class="row"&gt;
+    &lt;div class="col"&gt;Колонка 1&lt;/div&gt;
+    &lt;div class="col"&gt;Колонка 2&lt;/div&gt;
+    &lt;div class="col"&gt;Колонка 3&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<h1 id="ширина">2. Ширина колонок</h1>
+<p>Число після <code>col-</code> — скільки з 12 колонок займає елемент. У сумі рядок = 12.</p>
+<pre class="language-markup"><code class="language-markup">&lt;div class="row"&gt;
+  &lt;div class="col-4"&gt;⅓ ширини&lt;/div&gt;
+  &lt;div class="col-8"&gt;⅔ ширини&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="row"&gt;
+  &lt;div class="col-6"&gt;половина&lt;/div&gt;
+  &lt;div class="col-6"&gt;половина&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<h1 id="брейкпоінти">3. Адаптивні брейкпоінти</h1>
+<p>Літера в класі задає, з якого розміру екрана діє ширина: <code>sm</code>, <code>md</code>, <code>lg</code>,
+<code>xl</code>, <code>xxl</code>. Так один блок може мати різну кількість колонок на різних
+пристроях.</p>
+<pre class="language-markup"><code class="language-markup">&lt;div class="row"&gt;
+  &lt;!-- на телефоні на всю ширину, на планшеті — половина, на десктопі — третина --&gt;
+  &lt;div class="col-12 col-md-6 col-lg-4"&gt;Картка&lt;/div&gt;
+  &lt;div class="col-12 col-md-6 col-lg-4"&gt;Картка&lt;/div&gt;
+  &lt;div class="col-12 col-md-6 col-lg-4"&gt;Картка&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Bootstrap — <strong>mobile-first</strong>: <code>col-12</code> задає базову поведінку для
+найменших екранів, а <code>col-md-6</code>, <code>col-lg-4</code> — ускладнення для більших.</p></div></div>
+<h1 id="проміжки">4. Проміжки (gutters)</h1>
+<pre class="language-markup"><code class="language-markup">&lt;div class="row g-3"&gt;   &lt;!-- відступ між колонками (0–5) --&gt;
+  &lt;div class="col"&gt;...&lt;/div&gt;
+  &lt;div class="col"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<h1 id="автосітка">5. Авто-колонки й вирівнювання</h1>
+<pre class="language-markup"><code class="language-markup">&lt;div class="row"&gt;
+  &lt;div class="col"&gt;авто&lt;/div&gt;
+  &lt;div class="col-auto"&gt;за вмістом&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="row justify-content-center align-items-center"&gt;
+  &lt;div class="col-4"&gt;по центру&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://getbootstrap.com/docs/5.3/layout/grid/" target="_blank">Grid — Bootstrap docs</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

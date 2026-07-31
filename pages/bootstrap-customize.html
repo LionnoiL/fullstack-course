@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кастомізація Bootstrap (Sass) · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="кастомізація">1. Навіщо кастомізувати</h1>
+<p>Сайти «зі стандартним Bootstrap» легко впізнати. Щоб надати проєкту власного
+вигляду, фреймворк налаштовують: змінюють кольори, шрифти, заокруглення тощо.
+Найпотужніший спосіб — через <strong>Sass</strong>.</p>
+<h1 id="css-змінні">2. Швидкий шлях: CSS-змінні</h1>
+<p>Bootstrap 5 використовує CSS-змінні, які можна перевизначити у власному файлі
+<em>після</em> підключення фреймворку.</p>
+<pre class="language-css"><code class="language-css">:root {
+  --bs-primary: #7c3aed;
+  --bs-border-radius: 0.75rem;
+  --bs-body-font-family: "Inter", sans-serif;
+}</code></pre>
+<h1 id="sass">3. Правильний шлях: Sass</h1>
+<p>Встановіть Bootstrap і компілятор Sass, тоді перевизначте змінні <strong>перед</strong>
+імпортом фреймворку — так зміняться всі похідні стилі.</p>
+<pre class="language-js"><code class="language-js">npm install bootstrap sass</code></pre>
+<pre class="language-css"><code class="language-css">// custom.scss
+
+// 1. власні значення змінних (до імпорту!)
+$primary: #7c3aed;
+$border-radius: 0.75rem;
+$font-family-base: "Inter", sans-serif;
+
+// 2. імпорт Bootstrap
+@import "bootstrap/scss/bootstrap";</code></pre>
+<pre class="language-js"><code class="language-js">npx sass custom.scss custom.css</code></pre>
+<h1 id="частковий-імпорт">4. Імпорт лише потрібного</h1>
+<p>Щоб зменшити розмір, підключайте тільки використані частини замість усього
+фреймворку.</p>
+<pre class="language-css"><code class="language-css">@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/buttons";
+// ...лише те, що потрібно</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Змінні Sass треба перевизначати <strong>до</strong> <code>@import</code> Bootstrap — інакше
+фреймворк уже скомпілюється зі своїми значеннями за замовчуванням.</p></div></div>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://getbootstrap.com/docs/5.3/customize/sass/" target="_blank">Customize with Sass — Bootstrap docs</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

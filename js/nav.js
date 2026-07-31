@@ -36,6 +36,19 @@
       ],
     },
     {
+      title: "Bootstrap",
+      lessons: [
+        ["bootstrap-intro.html", "Знайомство з Bootstrap"],
+        ["bootstrap-grid.html", "Сітка (Grid)"],
+        ["bootstrap-utilities.html", "Утиліти та типографіка"],
+        ["bootstrap-components.html", "Компоненти"],
+        ["bootstrap-forms.html", "Форми"],
+        ["bootstrap-js.html", "JS-компоненти"],
+        ["bootstrap-customize.html", "Кастомізація (Sass)"],
+        ["practice-bootstrap.html", "🎯 Практика: Bootstrap"],
+      ],
+    },
+    {
       title: "Основи JavaScript",
       lessons: [
         ["intro.html", "Що таке JavaScript?"],
