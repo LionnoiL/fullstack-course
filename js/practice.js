@@ -103,7 +103,7 @@
     }
     const popup = document.createElement("div");
     popup.className = "ac-popup";
-    ta.parentNode.appendChild(popup);
+    document.body.appendChild(popup);
 
     let items = [];
     let active = 0;
@@ -151,8 +151,9 @@
       const cs = getComputedStyle(ta);
       const lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.4;
       const c = caretCoords(ta, wordStart);
-      popup.style.left = ta.offsetLeft + c.left - ta.scrollLeft + "px";
-      popup.style.top = ta.offsetTop + c.top - ta.scrollTop + lh + "px";
+      const rect = ta.getBoundingClientRect();
+      popup.style.left = rect.left + c.left - ta.scrollLeft + "px";
+      popup.style.top = rect.top + c.top - ta.scrollTop + lh + "px";
       popup.style.display = "block";
     }
     function update() {
@@ -172,8 +173,7 @@
       const re = /[A-Za-z_$][\w$]*/g;
       while ((mm = re.exec(ta.value))) ids.add(mm[0]);
       const low = word.toLowerCase();
-      const matches = Array.prototype.slice
-        .call(ids)
+      const matches = Array.from(ids)
         .filter(function (w) {
           return w !== word && w.toLowerCase().indexOf(low) === 0;
         })
@@ -312,6 +312,7 @@
 
     ta.addEventListener("input", update);
     ta.addEventListener("click", hide);
+    ta.addEventListener("scroll", hide);
     ta.addEventListener("blur", function () {
       setTimeout(hide, 150);
     });

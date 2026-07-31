@@ -827,8 +827,8 @@ details[open].solution summary {
 
 /* Попап автодоповнення коду */
 .ac-popup {
-  position: absolute;
-  z-index: 50;
+  position: fixed;
+  z-index: 1200;
   display: none;
   min-width: 140px;
   max-width: 240px;
