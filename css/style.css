@@ -230,41 +230,67 @@ pre[class*="lang-"] {
   border-radius: 8px;
 }
 
+/* Світла тема підсвітки коду для блоків .language-* */
 .token.comment,
 .token.prolog,
 .token.doctype,
-.token.cdata,
-.token.punctuation,
+.token.cdata {
+  color: #6a737d !important;
+  font-style: italic;
+}
+
+.token.punctuation {
+  color: #6e7781 !important;
+}
+
 .token.operator,
+.token.entity {
+  color: #57534e !important;
+}
+
 .token.keyword,
-.token.tag,
+.token.boolean,
+.token.atrule,
+.token.rule,
+.token.important,
+.token.selector {
+  color: #cf222e !important;
+}
+
 .token.string,
-.token.attr-name,
+.token.char,
 .token.attr-value,
+.token.regex,
+.token.url,
+.token.inserted {
+  color: #0a7d33 !important;
+}
+
 .token.number,
-.token.boolean,
-.token.function,
-.token.class-name,
-.token.property,
-.token.variable,
-.token.builtin,
 .token.constant,
-.token.selector,
-.token.important {
-  color: #111827 !important;
+.token.symbol {
+  color: #0550ae !important;
 }
 
-.token.comment {
-  color: #6b7280 !important;
+.token.function,
+.token.function-variable {
+  color: #8250df !important;
 }
 
-.token.string {
-  color: #0f766e !important;
+.token.class-name,
+.token.builtin,
+.token.tag,
+.token.variable {
+  color: #953800 !important;
 }
 
-.token.boolean,
-.token.number {
-  color: #7c2d12 !important;
+.token.property,
+.token.attr-name {
+  color: #0550ae !important;
+}
+
+.token.deleted {
+  color: #cf222e !important;
 }
 
 .alert {
