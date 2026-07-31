@@ -427,4 +427,77 @@
   build();
   // Перемальовуємо меню, коли змінюється прогрес (позначка "вивчено").
   window.addEventListener("jscourse:progresschange", build);
+
+  // Хлібні крихти (розділ › урок) і кнопки Назад/Далі — додаються один раз.
+  (function decorateContent() {
+    const content = document.querySelector(".content");
+    if (!content || content.querySelector(".breadcrumb")) {
+      return;
+    }
+
+    const flat = [];
+    let sectionOf = null;
+    let titleOf = null;
+    for (const section of sections) {
+      for (const [href, title] of section.lessons) {
+        flat.push({ href: href, title: title, section: section.title });
+        if (href === current) {
+          sectionOf = section.title;
+          titleOf = title;
+        }
+      }
+    }
+    const idx = flat.findIndex((l) => l.href === current);
+    if (idx === -1) {
+      return;
+    }
+
+    // Хлібні крихти
+    const crumb = document.createElement("nav");
+    crumb.className = "breadcrumb";
+    const cs = document.createElement("span");
+    cs.className = "crumb-section";
+    cs.textContent = sectionOf;
+    const sep = document.createElement("span");
+    sep.className = "crumb-sep";
+    sep.textContent = "›";
+    const cl = document.createElement("span");
+    cl.className = "crumb-lesson";
+    cl.textContent = titleOf;
+    crumb.appendChild(cs);
+    crumb.appendChild(sep);
+    crumb.appendChild(cl);
+    content.insertBefore(crumb, content.firstChild);
+
+    // Навігація Назад / Далі
+    const prev = flat[idx - 1];
+    const next = flat[idx + 1];
+
+    function makeLink(item, dir) {
+      const a = document.createElement("a");
+      a.className = "page-nav-link page-nav-" + dir;
+      a.href = item.href;
+      const label = document.createElement("span");
+      label.className = "page-nav-label";
+      label.textContent = dir === "prev" ? "← Назад" : "Далі →";
+      const title = document.createElement("span");
+      title.className = "page-nav-title";
+      title.textContent = item.title;
+      a.appendChild(label);
+      a.appendChild(title);
+      return a;
+    }
+
+    const footer = document.createElement("nav");
+    footer.className = "page-nav";
+    if (prev) {
+      footer.appendChild(makeLink(prev, "prev"));
+    } else {
+      footer.appendChild(document.createElement("span"));
+    }
+    if (next) {
+      footer.appendChild(makeLink(next, "next"));
+    }
+    content.appendChild(footer);
+  })();
 })();

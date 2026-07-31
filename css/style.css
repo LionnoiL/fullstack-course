@@ -324,6 +324,74 @@ pre[class*="lang-"] {
   }
 }
 
+/* ============ Хлібні крихти та навігація сторінки ============ */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1.3rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.crumb-section {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.crumb-sep {
+  opacity: 0.5;
+}
+
+.crumb-lesson {
+  color: var(--text);
+}
+
+.page-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.page-nav-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  max-width: 46%;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.page-nav-link:hover {
+  border-color: var(--accent);
+  background: var(--soft);
+}
+
+.page-nav-next {
+  margin-left: auto;
+  text-align: right;
+  align-items: flex-end;
+}
+
+.page-nav-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.page-nav-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
 /* ============ Пошук ============ */
 .search-box {
   position: sticky;
