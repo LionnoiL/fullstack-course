@@ -94,6 +94,85 @@ Practice.register('t-inherit', {
 });
 </script>
 
+<div class="task">
+<h2>Завдання 3. Клас Rectangle зі статичним методом</h2>
+<p class="task-goal">Реалізуй клас <code>Rectangle</code> (<code>width</code>, <code>height</code>) з методом
+<code>area()</code> та <strong>статичним</strong> методом <code>fromSquare(side)</code>, що створює квадрат.</p>
+<div class="runner" id="t-rect">
+<textarea class="runner-code">class Rectangle {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">class Rectangle {
+  constructor(width, height) {
+    this.width = width;
+    this.height = height;
+  }
+  area() {
+    return this.width * this.height;
+  }
+  static fromSquare(side) {
+    return new Rectangle(side, side);
+  }
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-rect', {
+  entry: 'Rectangle',
+  tests: [
+    { name: 'new Rectangle(3,4).area() === 12', test: (e) => new e.Rectangle(3, 4).area() === 12 },
+    { name: 'fromSquare(5).area() === 25', test: (e) => e.Rectangle.fromSquare(5).area() === 25 },
+  ],
+});
+</script>
+
+<div class="task">
+<h2>Завдання 4. EventEmitter</h2>
+<p class="task-goal">Реалізуй клас <code>EventEmitter</code> з методами <code>on(event, cb)</code> та
+<code>emit(event, ...args)</code>, що викликає всіх підписників події з переданими
+аргументами.</p>
+<div class="runner" id="t-emitter">
+<textarea class="runner-code">class EventEmitter {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="hint"><summary>Підказка</summary><p>Зберігай слухачів у об'єкті <code>{ подія: [колбеки] }</code>.</p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">class EventEmitter {
+  constructor() {
+    this.listeners = {};
+  }
+  on(event, cb) {
+    (this.listeners[event] = this.listeners[event] || []).push(cb);
+  }
+  emit(event, ...args) {
+    (this.listeners[event] || []).forEach((cb) =&gt; cb(...args));
+  }
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-emitter', {
+  entry: 'EventEmitter',
+  tests: [
+    { name: 'on/emit передає аргумент', test: (e) => { let got = 0; const em = new e.EventEmitter(); em.on('x', (v) => { got = v; }); em.emit('x', 5); return got === 5; } },
+    { name: 'кілька слухачів однієї події', test: (e) => { let n = 0; const em = new e.EventEmitter(); em.on('a', () => { n += 1; }); em.on('a', () => { n += 1; }); em.emit('a'); return n === 2; } },
+  ],
+});
+</script>
+
   </main>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

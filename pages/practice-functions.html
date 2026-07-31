@@ -125,6 +125,69 @@ Practice.register('t-once', {
 });
 </script>
 
+<div class="task">
+<h2>Завдання 4. Композиція функцій (pipe)</h2>
+<p class="task-goal">Реалізуй <code>pipe(...fns)</code>, що повертає функцію, яка пропускає
+аргумент через усі функції <strong>зліва направо</strong>.</p>
+<div class="runner" id="t-pipe">
+<textarea class="runner-code">function pipe(...fns) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="hint"><summary>Підказка</summary><p><code>return (x) =&gt; fns.reduce((acc, fn) =&gt; fn(acc), x);</code></p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function pipe(...fns) {
+  return (x) =&gt; fns.reduce((acc, fn) =&gt; fn(acc), x);
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-pipe', {
+  entry: 'pipe',
+  tests: [
+    { name: 'pipe(inc, dbl)(3) === 8', test: (e) => e.pipe((x) => x + 1, (x) => x * 2)(3) === 8 },
+    { name: 'pipe(dbl, inc)(3) === 7', test: (e) => e.pipe((x) => x * 2, (x) => x + 1)(3) === 7 },
+  ],
+});
+</script>
+
+<div class="task">
+<h2>Завдання 5. Повторити N разів</h2>
+<p class="task-goal">Реалізуй <code>times(n, fn)</code>, що викликає <code>fn(i)</code> для
+<code>i</code> від 0 до <code>n-1</code> і повертає масив результатів.</p>
+<div class="runner" id="t-times">
+<textarea class="runner-code">function times(n, fn) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function times(n, fn) {
+  const result = [];
+  for (let i = 0; i &lt; n; i += 1) result.push(fn(i));
+  return result;
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-times', {
+  entry: 'times',
+  tests: [
+    { name: 'times(3, i => i * 2) === [0,2,4]', test: (e) => JSON.stringify(e.times(3, (i) => i * 2)) === JSON.stringify([0,2,4]) },
+    { name: 'times(0, ...) === []', test: (e) => JSON.stringify(e.times(0, (i) => i)) === JSON.stringify([]) },
+  ],
+});
+</script>
+
   </main>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

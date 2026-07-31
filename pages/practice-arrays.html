@@ -116,6 +116,71 @@ Practice.register('t-group', {
 });
 </script>
 
+<div class="task">
+<h2>Завдання 4. Розбити на частини</h2>
+<p class="task-goal">Реалізуй <code>chunk(arr, size)</code>, що ділить масив на підмасиви
+завдовжки <code>size</code> (останній може бути коротшим).</p>
+<div class="runner" id="t-chunk">
+<textarea class="runner-code">function chunk(arr, size) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="hint"><summary>Підказка</summary><p>Іди по масиву кроком <code>size</code> і бери <code>arr.slice(i, i + size)</code>.</p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function chunk(arr, size) {
+  const result = [];
+  for (let i = 0; i &lt; arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
+  }
+  return result;
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-chunk', {
+  entry: 'chunk',
+  tests: [
+    { name: 'chunk([1,2,3,4,5], 2)', test: (e) => JSON.stringify(e.chunk([1,2,3,4,5], 2)) === JSON.stringify([[1,2],[3,4],[5]]) },
+    { name: 'chunk([1,2,3,4], 2)', test: (e) => JSON.stringify(e.chunk([1,2,3,4], 2)) === JSON.stringify([[1,2],[3,4]]) },
+  ],
+});
+</script>
+
+<div class="task">
+<h2>Завдання 5. Розгортання на один рівень</h2>
+<p class="task-goal">Реалізуй <code>flatten(arr)</code>, що «розгортає» вкладені масиви на
+один рівень.</p>
+<div class="runner" id="t-flatten">
+<textarea class="runner-code">function flatten(arr) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function flatten(arr) {
+  return arr.reduce((acc, item) =&gt; acc.concat(item), []);
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-flatten', {
+  entry: 'flatten',
+  tests: [
+    { name: 'flatten([1,[2,3],[4]]) === [1,2,3,4]', test: (e) => JSON.stringify(e.flatten([1,[2,3],[4]])) === JSON.stringify([1,2,3,4]) },
+    { name: 'flatten([[1],[2],[3]]) === [1,2,3]', test: (e) => JSON.stringify(e.flatten([[1],[2],[3]])) === JSON.stringify([1,2,3]) },
+  ],
+});
+</script>
+
   </main>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

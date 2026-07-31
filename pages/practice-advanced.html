@@ -89,6 +89,70 @@ Practice.register('t-memo', {
 });
 </script>
 
+<div class="task">
+<h2>Завдання 3. Глибоке розгортання (рекурсія)</h2>
+<p class="task-goal">Реалізуй <code>deepFlatten(arr)</code>, що розгортає вкладені масиви
+<strong>будь-якої глибини</strong> в один плаский масив.</p>
+<div class="runner" id="t-deepflat">
+<textarea class="runner-code">function deepFlatten(arr) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="hint"><summary>Підказка</summary><p>Для кожного елемента: якщо це масив — рекурсивно розгорни, інакше додай.</p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function deepFlatten(arr) {
+  return arr.reduce(
+    (acc, item) =&gt; acc.concat(Array.isArray(item) ? deepFlatten(item) : item),
+    [],
+  );
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-deepflat', {
+  entry: 'deepFlatten',
+  tests: [
+    { name: 'deepFlatten([1,[2,[3,[4]]]]) === [1,2,3,4]', test: (e) => JSON.stringify(e.deepFlatten([1,[2,[3,[4]]]])) === JSON.stringify([1,2,3,4]) },
+    { name: 'deepFlatten([1,2,3]) === [1,2,3]', test: (e) => JSON.stringify(e.deepFlatten([1,2,3])) === JSON.stringify([1,2,3]) },
+  ],
+});
+</script>
+
+<div class="task">
+<h2>Завдання 4. Часткове застосування (partial)</h2>
+<p class="task-goal">Реалізуй <code>partial(fn, ...preset)</code>, що «фіксує» перші
+аргументи функції й повертає нову функцію для решти.</p>
+<div class="runner" id="t-partial">
+<textarea class="runner-code">function partial(fn, ...preset) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function partial(fn, ...preset) {
+  return (...rest) =&gt; fn(...preset, ...rest);
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-partial', {
+  entry: 'partial',
+  tests: [
+    { name: 'partial(add, 1, 2)(3) === 6', test: (e) => e.partial((a, b, c) => a + b + c, 1, 2)(3) === 6 },
+    { name: 'partial(greet, "Привіт")("Ada")', test: (e) => e.partial((g, n) => g + ', ' + n, 'Привіт')('Ada') === 'Привіт, Ada' },
+  ],
+});
+</script>
+
   </main>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

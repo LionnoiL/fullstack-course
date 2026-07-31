@@ -124,6 +124,71 @@ Practice.register('t-pass', {
 });
 </script>
 
+<div class="task">
+<h2>Завдання 4. Діапазон чисел</h2>
+<p class="task-goal">Реалізуй <code>range(start, end)</code>, що повертає масив цілих від
+<code>start</code> до <code>end</code> включно.</p>
+<div class="runner" id="t-range">
+<textarea class="runner-code">function range(start, end) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function range(start, end) {
+  const result = [];
+  for (let i = start; i &lt;= end; i += 1) result.push(i);
+  return result;
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-range', {
+  entry: 'range',
+  tests: [
+    { name: 'range(1, 5) === [1,2,3,4,5]', test: (e) => JSON.stringify(e.range(1, 5)) === JSON.stringify([1,2,3,4,5]) },
+    { name: 'range(0, 0) === [0]', test: (e) => JSON.stringify(e.range(0, 0)) === JSON.stringify([0]) },
+  ],
+});
+</script>
+
+<div class="task">
+<h2>Завдання 5. Паліндром</h2>
+<p class="task-goal">Реалізуй <code>isPalindrome(str)</code>, що повертає <code>true</code>, якщо
+рядок читається однаково в обидва боки (без урахування регістру).</p>
+<div class="runner" id="t-palin">
+<textarea class="runner-code">function isPalindrome(str) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="hint"><summary>Підказка</summary><p>Приведи до нижнього регістру, розверни через <code>[...s].reverse().join('')</code> і порівняй.</p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function isPalindrome(str) {
+  const s = str.toLowerCase();
+  return s === [...s].reverse().join('');
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-palin', {
+  entry: 'isPalindrome',
+  tests: [
+    { name: "'Level' → true", test: (e) => e.isPalindrome('Level') === true },
+    { name: "'hello' → false", test: (e) => e.isPalindrome('hello') === false },
+    { name: "'ABBA' → true", test: (e) => e.isPalindrome('ABBA') === true },
+  ],
+});
+</script>
+
   </main>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

@@ -115,6 +115,67 @@ Practice.register('t-invert', {
 });
 </script>
 
+<div class="task">
+<h2>Завдання 4. Глибоке копіювання</h2>
+<p class="task-goal">Реалізуй <code>deepClone(obj)</code>, що повертає незалежну глибоку
+копію об'єкта (без вкладених функцій).</p>
+<div class="runner" id="t-clone">
+<textarea class="runner-code">function deepClone(obj) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="hint"><summary>Підказка</summary><p>Найпростіше — <code>JSON.parse(JSON.stringify(obj))</code>.</p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function deepClone(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-clone', {
+  entry: 'deepClone',
+  tests: [
+    { name: 'копія рівна оригіналу', test: (e) => { const o = { a: { b: 1 } }; return JSON.stringify(e.deepClone(o)) === JSON.stringify(o); } },
+    { name: 'зміна копії не чіпає оригінал', test: (e) => { const o = { a: { b: 1 } }; const c = e.deepClone(o); c.a.b = 9; return o.a.b === 1; } },
+  ],
+});
+</script>
+
+<div class="task">
+<h2>Завдання 5. Значення за замовчуванням</h2>
+<p class="task-goal">Реалізуй <code>mergeDefaults(obj, defaults)</code>, що повертає новий
+об'єкт, де відсутні поля беруться з <code>defaults</code>, а наявні лишаються з <code>obj</code>.</p>
+<div class="runner" id="t-defaults">
+<textarea class="runner-code">function mergeDefaults(obj, defaults) {
+  // ваш код тут
+}</textarea>
+<div class="runner-actions">
+<button class="runner-run">Запустити</button>
+<button class="runner-reset">Скинути</button>
+</div>
+<div class="runner-output"></div>
+</div>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">function mergeDefaults(obj, defaults) {
+  return { ...defaults, ...obj };
+}</code></pre>
+</details>
+</div>
+<script>
+Practice.register('t-defaults', {
+  entry: 'mergeDefaults',
+  tests: [
+    { name: 'додає відсутні поля', test: (e) => { const r = e.mergeDefaults({ a: 1 }, { a: 9, b: 2 }); return r.a === 1 && r.b === 2; } },
+    { name: 'не змінює наявні', test: (e) => e.mergeDefaults({ x: 'keep' }, { x: 'no' }).x === 'keep' },
+  ],
+});
+</script>
+
   </main>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
