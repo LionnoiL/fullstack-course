@@ -5,8 +5,7 @@
 }
 
 body {
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   color: #1f2937;
   line-height: 1.6;
 }
@@ -61,8 +60,7 @@ body {
 .content {
   flex: 1;
   padding: 2.5rem 3rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 860px;
 }
 
 .content h1 {
@@ -86,8 +84,7 @@ body {
   margin-bottom: 1rem;
 }
 
-.content ul,
-.content ol {
+.content ul, .content ol {
   margin: 0 0 1rem 1.5rem;
 }
 
@@ -126,8 +123,7 @@ body {
   margin: 1rem 0;
 }
 
-.content th,
-.content td {
+.content th, .content td {
   border: 1px solid #e5e7eb;
   padding: 0.5rem 0.75rem;
   text-align: left;
