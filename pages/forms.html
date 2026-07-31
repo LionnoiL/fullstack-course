@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Форми та валідація · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="форми">1. Робота з формами</h1>
+<p>Форми — головний спосіб отримати дані від користувача. JavaScript дозволяє
+перехопити відправлення форми, зчитати значення полів, перевірити їх і
+надіслати на сервер без перезавантаження сторінки.</p>
+<h1 id="submit">2. Подія submit</h1>
+<p>Слухати треба саме подію <code>submit</code> самої форми (а не <code>click</code> кнопки) —
+вона спрацьовує і на Enter у полі. Метод <code>preventDefault()</code> скасовує
+стандартне перезавантаження сторінки.</p>
+<pre class="language-js"><code class="language-js">const form = document.querySelector('#login');
+
+form.addEventListener('submit', (event) =&gt; {
+  event.preventDefault(); // не перезавантажувати сторінку
+
+  console.log('Форму відправлено');
+});</code></pre>
+<h1 id="зчитування">3. Зчитування значень</h1>
+<p>До полів можна звертатися через <code>form.elements</code> за атрибутом <code>name</code>, а зручно
+зібрати всі дані одразу допомагає обʼєкт <code>FormData</code>.</p>
+<pre class="language-js"><code class="language-js">form.addEventListener('submit', (event) =&gt; {
+  event.preventDefault();
+
+  // Доступ до окремого поля за name
+  const email = form.elements.email.value;
+
+  // Або всі поля одразу
+  const data = new FormData(form);
+  const values = Object.fromEntries(data); // { email: '...', password: '...' }
+
+  console.log(values);
+});</code></pre>
+<h1 id="події-полів">4. Події полів вводу</h1>
+<ul>
+<li><code>input</code> — спрацьовує на кожну зміну символу (миттєва реакція);</li>
+<li><code>change</code> — після втрати фокусу, якщо значення змінилось;</li>
+<li><code>focus</code> / <code>blur</code> — отримання / втрата фокусу.</li>
+</ul>
+<pre class="language-js"><code class="language-js">const search = document.querySelector('#search');
+
+search.addEventListener('input', (event) =&gt; {
+  console.log('Поточний текст:', event.target.value);
+});</code></pre>
+<h1 id="валідація">5. Валідація</h1>
+<p>У браузера є вбудована валідація (атрибути <code>required</code>, <code>type="email"</code>,
+<code>minlength</code>, <code>pattern</code>). Її стан доступний з JS через <code>checkValidity()</code> і
+<code>validity</code>.</p>
+<pre class="language-js"><code class="language-js">form.addEventListener('submit', (event) =&gt; {
+  event.preventDefault();
+
+  if (!form.checkValidity()) {
+    form.reportValidity(); // показати стандартні підказки браузера
+    return;
+  }
+
+  // Власна перевірка
+  const password = form.elements.password.value;
+  if (password.length &lt; 8) {
+    alert('Пароль має містити щонайменше 8 символів');
+    return;
+  }
+
+  console.log('Дані валідні, відправляємо');
+});</code></pre>
+<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Клієнтська валідація — це зручність для користувача, а не безпека.
+Її легко обійти. Усі дані обовʼязково перевіряйте ще раз на сервері.</p></div></div>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation" target="_blank">Client-side form validation — MDN</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

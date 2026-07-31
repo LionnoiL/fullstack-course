@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Опціональний ланцюжок і ?? · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="сучасні-оператори">1. Сучасні оператори доступу</h1>
+<p>У реальних даних (особливо з сервера) частина полів може бути відсутня. Спроба
+звернутися до властивості <code>undefined</code> або <code>null</code> викидає помилку. Сучасний
+JavaScript (ES2020) дає два оператори, які роблять такий код коротшим і
+безпечнішим: <strong>опціональний ланцюжок</strong> <code>?.</code> та <strong>нульове злиття</strong> <code>??</code>.</p>
+<h1 id="опціональний-ланцюжок">2. Опціональний ланцюжок ?.</h1>
+<p>Оператор <code>?.</code> зупиняє обчислення і повертає <code>undefined</code>, якщо ліва частина
+дорівнює <code>null</code> або <code>undefined</code> — замість того, щоб кинути помилку.</p>
+<pre class="language-js"><code class="language-js">const user = { name: 'Ada' };
+
+// Старий спосіб — багатослівна перевірка
+const city1 = user.address &amp;&amp; user.address.city;
+
+// Опціональний ланцюжок
+const city2 = user.address?.city; // undefined, без помилки</code></pre>
+<p>Працює також для методів і елементів масиву:</p>
+<pre class="language-js"><code class="language-js">user.getName?.();       // викличе метод, лише якщо він існує
+user.friends?.[0];      // безпечний доступ до елемента
+data?.items?.length;    // ланцюжок будь-якої глибини</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Не зловживайте <code>?.</code>. Якщо значення <em>завжди</em> має існувати, краще нехай
+код впаде з помилкою — так ви раніше помітите баг, ніж отримаєте прихований
+<code>undefined</code>, що «протече» далі по програмі.</p></div></div>
+<h1 id="нульове-злиття">3. Нульове злиття ??</h1>
+<p>Оператор <code>??</code> повертає праву частину, лише якщо ліва — <code>null</code> або <code>undefined</code>.
+На відміну від <code>||</code>, він <strong>не</strong> спрацьовує на «хибних, але валідних» значеннях:
+<code>0</code>, <code>''</code>, <code>false</code>.</p>
+<pre class="language-js"><code class="language-js">const count = 0;
+
+count || 10;  // 10  — бо 0 хибний (часто небажано!)
+count ?? 10;  // 0   — 0 є валідним значенням
+
+const name = '' ?? 'Гість';   // '' — порожній рядок валідний
+const nick = null ?? 'Гість'; // 'Гість'</code></pre>
+<h1 id="разом">4. Разом: значення за замовчуванням</h1>
+<p>Найпоширеніший приклад — дістати вкладене поле і підставити дефолт:</p>
+<pre class="language-js"><code class="language-js">function getTheme(settings) {
+  // якщо settings або theme відсутні — беремо 'light'
+  return settings?.appearance?.theme ?? 'light';
+}
+
+getTheme({ appearance: { theme: 'dark' } }); // 'dark'
+getTheme({});                                // 'light'
+getTheme(undefined);                         // 'light'</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Комбінувати <code>??</code> з <code>||</code> або <code>&amp;&amp;</code> без дужок заборонено синтаксично —
+це змушує явно вказати пріоритет: <code>(a ?? b) || c</code>.</p></div></div>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining" target="_blank">Optional chaining — MDN</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing" target="_blank">Nullish coalescing — MDN</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

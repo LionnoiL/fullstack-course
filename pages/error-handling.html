@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Обробка помилок · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="помилки">1. Помилки під час виконання</h1>
+<p>Навіть синтаксично правильний код може «впасти» під час виконання: неіснуюча
+властивість, некоректний JSON, недоступна мережа. Такі ситуації називають
+<strong>винятками (exceptions)</strong>. Якщо виняток не перехопити, він зупиняє виконання
+поточного коду. Механізм <code>try...catch</code> дозволяє опрацювати помилку і
+продовжити роботу.</p>
+<h1 id="try-catch">2. try / catch / finally</h1>
+<pre class="language-js"><code class="language-js">try {
+  const data = JSON.parse('{ поганий json }');
+  console.log(data);
+} catch (error) {
+  // сюди потрапляємо, якщо в try сталася помилка
+  console.error('Не вдалося розібрати:', error.message);
+} finally {
+  // виконається ЗАВЖДИ — і при помилці, і без неї
+  console.log('Готово');
+}</code></pre>
+<p>Блок <code>catch</code> отримує обʼєкт помилки. Найкорисніші його поля:</p>
+<ul>
+<li><code>error.name</code> — тип помилки (<code>TypeError</code>, <code>SyntaxError</code>...);</li>
+<li><code>error.message</code> — текстовий опис;</li>
+<li><code>error.stack</code> — стек викликів на момент помилки.</li>
+</ul>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Не «ковтайте» помилки порожнім <code>catch {}</code>. Мовчазне ігнорування
+приховує баги. Мінімум — залогуйте помилку; краще — обробіть її свідомо
+або киньте далі.</p></div></div>
+<h1 id="throw">3. Генерація власних помилок</h1>
+<p>Оператор <code>throw</code> кидає виняток самостійно. Кидати варто саме обʼєкт <code>Error</code>
+(а не рядок) — тоді буде коректний стек.</p>
+<pre class="language-js"><code class="language-js">function divide(a, b) {
+  if (b === 0) {
+    throw new Error('Ділення на нуль заборонено');
+  }
+  return a / b;
+}
+
+try {
+  divide(10, 0);
+} catch (e) {
+  console.log(e.message); // 'Ділення на нуль заборонено'
+}</code></pre>
+<h1 id="типи-помилок">4. Вбудовані типи помилок</h1>
+<p>JavaScript має кілька стандартних класів помилок, що успадковуються від
+<code>Error</code>:</p>
+<ul>
+<li><code>TypeError</code> — значення не того типу (виклик не-функції тощо);</li>
+<li><code>ReferenceError</code> — звернення до неоголошеної змінної;</li>
+<li><code>SyntaxError</code> — некоректний синтаксис (напр., у <code>JSON.parse</code>);</li>
+<li><code>RangeError</code> — значення поза допустимим діапазоном.</li>
+</ul>
+<h1 id="власні-класи">5. Власні класи помилок</h1>
+<p>Для доменної логіки зручно створювати власні типи помилок — тоді в <code>catch</code>
+можна відрізняти їх через <code>instanceof</code>.</p>
+<pre class="language-js"><code class="language-js">class ValidationError extends Error {
+  constructor(message, field) {
+    super(message);
+    this.name = 'ValidationError';
+    this.field = field;
+  }
+}
+
+try {
+  throw new ValidationError('Порожнє поле', 'email');
+} catch (e) {
+  if (e instanceof ValidationError) {
+    console.log(`Помилка поля ${e.field}: ${e.message}`);
+  } else {
+    throw e; // не наша помилка — прокидаємо далі
+  }
+}</code></pre>
+<h1 id="асинхронні">6. Помилки в асинхронному коді</h1>
+<p><code>try...catch</code> не «бачить» помилок з колбеків <code>setTimeout</code> чи з проміса без
+<code>await</code>. Для промісів використовують <code>.catch()</code>, а в <code>async</code>-функціях —
+звичайний <code>try...catch</code> (детальніше в уроці про <code>async / await</code>).</p>
+<pre class="language-js"><code class="language-js">async function load() {
+  try {
+    const res = await fetch('/api/data');
+    return await res.json();
+  } catch (e) {
+    console.error('Запит не вдався:', e.message);
+  }
+}</code></pre>
+<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://uk.javascript.info/try-catch" target="_blank">Обробка помилок, try...catch — javascript.info</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

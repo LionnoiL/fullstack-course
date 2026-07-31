@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Рекурсія · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="рекурсія">1. Рекурсія</h1>
+<p><strong>Рекурсія</strong> — це прийом, коли функція викликає саму себе для розвʼязання
+задачі, зводячи її до простішого варіанту тієї ж задачі. Рекурсія особливо
+зручна там, де дані мають вкладену структуру: дерева, каталоги файлів, DOM,
+JSON.</p>
+<p>Будь-яка рекурсивна функція складається з двох частин:</p>
+<ul>
+<li><strong>базовий випадок (base case)</strong> — умова, за якої рекурсія зупиняється;</li>
+<li><strong>рекурсивний крок</strong> — виклик себе з «меншими» даними.</li>
+</ul>
+<pre class="language-js"><code class="language-js">function factorial(n) {
+  if (n &lt;= 1) {
+    return 1;          // базовий випадок — виходимо без нового виклику
+  }
+  return n * factorial(n - 1); // рекурсивний крок
+}
+
+factorial(5); // 5 * 4 * 3 * 2 * 1 = 120</code></pre>
+<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Якщо забути базовий випадок, функція викликатиме себе нескінченно,
+переповнить стек викликів і призведе до помилки
+<code>RangeError: Maximum call stack size exceeded</code>.</p></div></div>
+<h1 id="як-працює-стек">2. Як це працює у стеку викликів</h1>
+<p>Кожен виклик функції додає новий кадр (frame) у стек викликів. Рекурсія
+«занурюється» до базового випадку, а потім «розкручується» назад, повертаючи
+значення з найглибшого виклику до найпершого.</p>
+<pre class="language-js"><code class="language-js">factorial(3)
+ -&gt; 3 * factorial(2)
+      -&gt; 2 * factorial(1)
+           -&gt; 1            // базовий випадок
+      -&gt; 2 * 1 = 2
+ -&gt; 3 * 2 = 6</code></pre>
+<h1 id="обхід-дерева">3. Обхід вкладених структур</h1>
+<p>Саме тут рекурсія сяє. Порахуємо суму всіх чисел у вкладеному масиві:</p>
+<pre class="language-js"><code class="language-js">function deepSum(arr) {
+  let total = 0;
+  for (const item of arr) {
+    if (Array.isArray(item)) {
+      total += deepSum(item); // елемент — масив, занурюємось глибше
+    } else {
+      total += item;
+    }
+  }
+  return total;
+}
+
+deepSum([1, [2, 3, [4, 5]], 6]); // 21</code></pre>
+<p>Аналогічно обходять дерево коментарів, структуру папок або DOM-вузли.</p>
+<h1 id="рекурсія-проти-циклу">4. Рекурсія проти циклу</h1>
+<p>Будь-яку рекурсію можна переписати циклом, і навпаки. Рекурсія читабельніша
+для деревоподібних даних, але цикл економніший за памʼяттю (не росте стек).</p>
+<pre class="language-js"><code class="language-js">// Те саме факторіал, але ітеративно
+function factorialLoop(n) {
+  let result = 1;
+  for (let i = 2; i &lt;= n; i += 1) {
+    result *= i;
+  }
+  return result;
+}</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Глибина стека в браузерах обмежена (кілька тисяч викликів). Для дуже
+глибокої рекурсії обирайте цикл або перетворюйте алгоритм на ітеративний
+з власним стеком у масиві.</p></div></div>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://uk.javascript.info/recursion" target="_blank">Рекурсія та стек — javascript.info</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

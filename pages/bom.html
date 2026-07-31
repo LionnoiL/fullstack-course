@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Об'єктна модель браузера (BOM) · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="bom">1. Об'єктна модель браузера</h1>
+<p><strong>BOM (Browser Object Model)</strong> — це набір обʼєктів, які браузер надає для
+взаємодії з самим вікном, а не з вмістом сторінки. Якщо DOM описує документ,
+то BOM описує вікно, адресний рядок, історію та інформацію про браузер.</p>
+<p>Кореневий обʼєкт — <code>window</code>. Він же є глобальним обʼєктом: усі глобальні
+змінні й функції насправді є його властивостями.</p>
+<pre class="language-js"><code class="language-js">window.innerWidth;   // ширина видимої області, px
+window.innerHeight;  // висота видимої області
+window.alert('Привіт');   // те саме, що просто alert(...)
+window.scrollTo(0, 0);    // прокрутити на початок сторінки</code></pre>
+<h1 id="location">2. window.location — адреса сторінки</h1>
+<p>Обʼєкт <code>location</code> містить частини поточного URL і дозволяє керувати
+переходами.</p>
+<pre class="language-js"><code class="language-js">location.href;      // повний URL, напр. 'https://site.com/page?id=5#top'
+location.protocol;  // 'https:'
+location.host;      // 'site.com'
+location.pathname;  // '/page'
+location.search;    // '?id=5'
+location.hash;      // '#top'
+
+location.href = 'https://example.com'; // перейти на іншу сторінку
+location.reload();                     // перезавантажити</code></pre>
+<p>Розібрати параметри запиту зручно через <code>URLSearchParams</code>:</p>
+<pre class="language-js"><code class="language-js">const params = new URLSearchParams(location.search);
+params.get('id'); // '5'</code></pre>
+<h1 id="history">3. window.history — історія переходів</h1>
+<pre class="language-js"><code class="language-js">history.back();     // назад (як кнопка «Назад»)
+history.forward();  // вперед
+history.go(-2);     // на 2 кроки назад
+
+// Змінити URL без перезавантаження (основа SPA-роутингу)
+history.pushState({ page: 2 }, '', '/page/2');</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>history.pushState</code> — це те, на чому побудований роутинг у React Router,
+Vue Router тощо: URL змінюється, а сторінка не перезавантажується.</p></div></div>
+<h1 id="navigator">4. window.navigator — про браузер і пристрій</h1>
+<pre class="language-js"><code class="language-js">navigator.userAgent;   // рядок з інформацією про браузер
+navigator.language;    // 'uk-UA'
+navigator.onLine;      // true / false — чи є зʼєднання
+
+// Сучасні Web API також живуть у navigator:
+navigator.clipboard.writeText('скопійовано');
+navigator.geolocation.getCurrentPosition((pos) =&gt; {
+  console.log(pos.coords.latitude, pos.coords.longitude);
+});</code></pre>
+<h1 id="screen">5. window.screen та розміри</h1>
+<pre class="language-js"><code class="language-js">screen.width;         // ширина екрана монітора
+screen.height;        // висота екрана
+window.devicePixelRatio; // щільність пікселів (Retina = 2)</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Не варто визначати браузер за <code>userAgent</code> для вибору логіки — цей
+рядок легко підробити і він часто бреше. Перевіряйте наявність конкретної
+можливості (feature detection), а не назву браузера.</p></div></div>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window" target="_blank">Window — MDN</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Symbol · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="symbol">1. Тип Symbol</h1>
+<p><strong>Symbol</strong> — це примітивний тип даних (ES6), кожне значення якого <strong>унікальне</strong>
+і незмінне. Символи створюють, щоб робити «приховані» або гарантовано
+неконфліктні ключі властивостей обʼєкта.</p>
+<pre class="language-js"><code class="language-js">const id = Symbol('id'); // 'id' — лише опис для дебагу
+const id2 = Symbol('id');
+
+id === id2; // false — кожен символ унікальний</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Опис у дужках жодним чином не впливає на унікальність — два символи
+з однаковим описом усе одно різні. Опис потрібен лише для зручного
+відображення в консолі.</p></div></div>
+<h1 id="символи-як-ключі">2. Символи як ключі властивостей</h1>
+<p>Символьний ключ не перетинається з жодним рядковим ключем і не потрапляє у
+звичайні перебори (<code>for...in</code>, <code>Object.keys</code>). Це зручно для «службових»
+даних.</p>
+<pre class="language-js"><code class="language-js">const id = Symbol('id');
+
+const user = {
+  name: 'Ada',
+  [id]: 42,        // символьний ключ у квадратних дужках
+};
+
+user[id];               // 42
+Object.keys(user);      // ['name'] — символ прихований
+JSON.stringify(user);   // '{"name":"Ada"}' — символ ігнорується</code></pre>
+<h1 id="глобальні-символи">3. Глобальний реєстр символів</h1>
+<p><code>Symbol.for(key)</code> повертає символ із глобального реєстру, створюючи його лише
+за потреби. Такі символи спільні для всього застосунку.</p>
+<pre class="language-js"><code class="language-js">const a = Symbol.for('app.id');
+const b = Symbol.for('app.id');
+
+a === b;              // true — той самий символ із реєстру
+Symbol.keyFor(a);     // 'app.id'</code></pre>
+<h1 id="системні-символи">4. Системні (well-known) символи</h1>
+<p>Рушій використовує вбудовані символи, щоб налаштовувати поведінку обʼєктів.
+Найвідоміший — <code>Symbol.iterator</code>, який робить обʼєкт перебиральним (див. урок
+про ітератори).</p>
+<pre class="language-js"><code class="language-js">const range = {
+  from: 1,
+  to: 3,
+  [Symbol.iterator]() {
+    let current = this.from;
+    const last = this.to;
+    return {
+      next() {
+        return current &lt;= last
+          ? { value: current++, done: false }
+          : { value: undefined, done: true };
+      },
+    };
+  },
+};
+
+[...range]; // [1, 2, 3]</code></pre>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://uk.javascript.info/symbol" target="_blank">Тип даних Symbol — javascript.info</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

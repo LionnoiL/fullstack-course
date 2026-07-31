@@ -212,6 +212,44 @@ pre[class*="lang-"] {
   color: #7c2d12 !important;
 }
 
+.alert {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  margin: 1rem 0;
+  border: 1px solid var(--line);
+  border-left-width: 3px;
+  border-radius: 6px;
+}
+
+.alert p {
+  margin: 0;
+}
+
+.alert p + p {
+  margin-top: 0.5rem;
+}
+
+.alert-info {
+  border-left-color: #2563eb;
+  background: #eff6ff;
+}
+
+.alert-danger {
+  border-left-color: #dc2626;
+  background: #fef2f2;
+}
+
+.alert-warning {
+  border-left-color: #d97706;
+  background: #fffbeb;
+}
+
+/* FontAwesome не підключено — прибираємо порожню іконку. */
+.hints-icon {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .layout {
     flex-direction: column;
