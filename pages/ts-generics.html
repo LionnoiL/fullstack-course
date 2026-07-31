@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дженерики · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="дженерики">1. Навіщо дженерики</h1>
+<p><strong>Дженерики (generics)</strong> — це «типи-параметри». Вони дозволяють написати
+універсальний код, який працює з різними типами, <em>зберігаючи</em> інформацію про
+конкретний тип, а не втрачаючи її через <code>any</code>.</p>
+<pre class="language-js"><code class="language-js">// Погано: втрачаємо тип
+function firstAny(arr: any[]): any {
+  return arr[0];
+}
+
+// Добре: T «запамʼятовує» тип масиву
+function first&lt;T&gt;(arr: T[]): T {
+  return arr[0];
+}
+
+const n = first([1, 2, 3]);      // n: number
+const s = first(['a', 'b']);     // s: string</code></pre>
+<h1 id="кілька-параметрів">2. Кілька типів-параметрів</h1>
+<pre class="language-js"><code class="language-js">function pair&lt;K, V&gt;(key: K, value: V): [K, V] {
+  return [key, value];
+}
+
+const p = pair('age', 30); // [string, number]</code></pre>
+<h1 id="обмеження">3. Обмеження (constraints)</h1>
+<p>Через <code>extends</code> можна вимагати, щоб тип-параметр мав певні властивості.</p>
+<pre class="language-js"><code class="language-js">function longest&lt;T extends { length: number }&gt;(a: T, b: T): T {
+  return a.length &gt;= b.length ? a : b;
+}
+
+longest('aaa', 'bb');       // ✅ рядки мають length
+longest([1, 2], [1]);       // ✅ масиви теж
+longest(10, 20);            // ❌ у числа немає length</code></pre>
+<h1 id="дженерик-інтерфейси">4. Дженерик-інтерфейси та класи</h1>
+<pre class="language-js"><code class="language-js">interface ApiResponse&lt;T&gt; {
+  data: T;
+  status: number;
+}
+
+const userResp: ApiResponse&lt;{ name: string }&gt; = {
+  data: { name: 'Ada' },
+  status: 200,
+};
+
+class Box&lt;T&gt; {
+  constructor(public value: T) {}
+  get(): T {
+    return this.value;
+  }
+}
+
+const box = new Box&lt;number&gt;(42);</code></pre>
+<h1 id="значення-за-замовчуванням">5. Типи за замовчуванням</h1>
+<pre class="language-js"><code class="language-js">interface Container&lt;T = string&gt; {
+  items: T[];
+}
+
+const c: Container = { items: ['a', 'b'] }; // T = string за замовчуванням</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Дженерики всюди в стандартній бібліотеці: <code>Array&lt;T&gt;</code>, <code>Promise&lt;T&gt;</code>,
+<code>Map&lt;K, V&gt;</code>. Розуміння дженериків — ключ до читання типів у реальних проєктах.</p></div></div>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://www.typescriptlang.org/docs/handbook/2/generics.html" target="_blank">Generics — TypeScript Handbook</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

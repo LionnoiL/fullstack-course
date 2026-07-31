@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Просунуті типи · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="просунуті-типи">1. Типи, що обчислюються</h1>
+<p>TypeScript дозволяє не лише описувати типи, а й <strong>обчислювати</strong> нові типи з
+наявних. Саме на цих механізмах побудовані utility types.</p>
+<h1 id="keyof-typeof">2. keyof і typeof</h1>
+<p><code>keyof</code> дає обʼєднання ключів типу, <code>typeof</code> — тип наявного значення.</p>
+<pre class="language-js"><code class="language-js">interface User {
+  id: number;
+  name: string;
+}
+
+type UserKeys = keyof User; // 'id' | 'name'
+
+const config = { host: 'localhost', port: 3000 };
+type Config = typeof config; // { host: string; port: number }
+
+// Безпечний доступ до поля за ключем
+function getProp&lt;T, K extends keyof T&gt;(obj: T, key: K): T[K] {
+  return obj[key];
+}</code></pre>
+<h1 id="mapped">3. Відображені типи (mapped types)</h1>
+<p>Дозволяють створити новий тип, «пройшовшись» по ключах наявного.</p>
+<pre class="language-js"><code class="language-js">type Optional&lt;T&gt; = {
+  [K in keyof T]?: T[K];
+};
+
+type ReadonlyAll&lt;T&gt; = {
+  readonly [K in keyof T]: T[K];
+};
+
+type UserOptional = Optional&lt;User&gt;; // усі поля необовʼязкові</code></pre>
+<h1 id="conditional">4. Умовні типи (conditional types)</h1>
+<p>Синтаксис <code>T extends U ? X : Y</code> обирає тип залежно від умови.</p>
+<pre class="language-js"><code class="language-js">type IsString&lt;T&gt; = T extends string ? true : false;
+
+type A = IsString&lt;'hi'&gt;; // true
+type B = IsString&lt;42&gt;;   // false
+
+// infer «витягує» тип із іншого
+type ElementType&lt;T&gt; = T extends (infer U)[] ? U : T;
+type E = ElementType&lt;number[]&gt;; // number</code></pre>
+<h1 id="template-literal">5. Шаблонні літеральні типи</h1>
+<pre class="language-js"><code class="language-js">type Event = 'click' | 'focus';
+type Handler = `on${Capitalize&lt;Event&gt;}`;
+// 'onClick' | 'onFocus'</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Просунуті типи потужні, але легко перестаратися. Якщо тип став
+нечитабельним — часто простіше описати його явно. Складна типова «магія»
+доречна в бібліотеках, а не в звичайному прикладному коді.</p></div></div>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://www.typescriptlang.org/docs/handbook/2/types-from-types.html" target="_blank">Creating Types from Types — TypeScript Handbook</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

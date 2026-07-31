@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Стан і useState · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="стан">1. Що таке стан</h1>
+<p><strong>Стан (state)</strong> — це дані компонента, які змінюються з часом і впливають на те,
+що відображається. Коли стан змінюється, React <strong>перерендерює</strong> компонент.</p>
+<p>Звичайна змінна для цього не підходить: її зміна не викликає перерендер, а після
+рендеру вона обнуляється. Тому стан зберігають через хук <code>useState</code>.</p>
+<h1 id="usestate">2. Хук useState</h1>
+<p><code>useState</code> повертає масив із двох елементів: поточне значення і функцію для його
+оновлення.</p>
+<pre class="language-js"><code class="language-js">import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0); // 0 — початкове значення
+
+  return (
+    &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+      Натиснуто {count} разів
+    &lt;/button&gt;
+  );
+}</code></pre>
+<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Ніколи не змінюйте стан напряму (<code>count++</code> або <code>state.x = 1</code>). Тільки
+через функцію-сеттер — інакше React не побачить зміни й не перерендерить UI.</p></div></div>
+<h1 id="оновлення">3. Оновлення на основі попереднього</h1>
+<p>Якщо нове значення залежить від попереднього, передавайте у сеттер функцію — це
+надійно за кількох оновлень поспіль.</p>
+<pre class="language-js"><code class="language-js">setCount((prev) =&gt; prev + 1); // безпечно
+setCount((prev) =&gt; prev + 1); // спрацюють обидва</code></pre>
+<h1 id="обєкти-масиви">4. Стан-обʼєкти та масиви</h1>
+<p>Стан треба оновлювати <strong>імутабельно</strong> — створювати нову копію, а не мутувати
+наявну. Тут стають у пригоді spread-оператори.</p>
+<pre class="language-js"><code class="language-js">const [user, setUser] = useState({ name: 'Ada', age: 30 });
+setUser((prev) =&gt; ({ ...prev, age: 31 })); // копія з новим age
+
+const [items, setItems] = useState([]);
+setItems((prev) =&gt; [...prev, 'новий']);    // додати елемент</code></pre>
+<h1 id="кілька-станів">5. Кілька незалежних станів</h1>
+<pre class="language-js"><code class="language-js">function Form() {
+  const [name, setName] = useState('');
+  const [agree, setAgree] = useState(false);
+  // ... кожен стан керується окремо
+}</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://react.dev/learn/state-a-components-memory" target="_blank">State: A Component's Memory — react.dev</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

@@ -136,6 +136,40 @@
         ["node.html", "Node.js"],
       ],
     },
+    {
+      title: "TypeScript",
+      lessons: [
+        ["ts-intro.html", "Знайомство з TypeScript"],
+        ["ts-setup.html", "Встановлення і tsconfig"],
+        ["ts-basic-types.html", "Базові типи"],
+        ["ts-functions.html", "Типізація функцій"],
+        ["ts-interfaces.html", "Інтерфейси та type"],
+        ["ts-narrowing.html", "Об'єднання і звуження типів"],
+        ["ts-generics.html", "Дженерики"],
+        ["ts-classes.html", "Класи в TypeScript"],
+        ["ts-utility-types.html", "Utility Types"],
+        ["ts-advanced-types.html", "Просунуті типи"],
+        ["ts-decorators.html", "Декоратори"],
+      ],
+    },
+    {
+      title: "React",
+      lessons: [
+        ["react-intro.html", "Що таке React"],
+        ["react-jsx.html", "JSX"],
+        ["react-components.html", "Компоненти"],
+        ["react-props.html", "Props"],
+        ["react-state.html", "Стан і useState"],
+        ["react-events.html", "Обробка подій"],
+        ["react-lists.html", "Списки та умовний рендеринг"],
+        ["react-effect.html", "useEffect і побічні ефекти"],
+        ["react-forms.html", "Форми"],
+        ["react-context.html", "Context API"],
+        ["react-custom-hooks.html", "Кастомні хуки"],
+        ["react-router.html", "Роутинг"],
+        ["react-performance.html", "Оптимізація"],
+      ],
+    },
   ];
 
   const STORAGE_KEY = "jscourse.nav.sections";

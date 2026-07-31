@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Context API · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="context">1. Проблема «props drilling»</h1>
+<p>Коли дані потрібно передати глибоко вкладеному компоненту, доводиться
+«протягувати» пропси через усі проміжні рівні, які їх навіть не використовують.
+Це називають <strong>props drilling</strong>. <strong>Context API</strong> розвʼязує проблему: дані стають
+доступні будь-якому нащадку без передавання через кожен рівень.</p>
+<h1 id="створення">2. Створення контексту</h1>
+<pre class="language-js"><code class="language-js">import { createContext } from 'react';
+
+// значення за замовчуванням
+export const ThemeContext = createContext('light');</code></pre>
+<h1 id="provider">3. Provider — надання значення</h1>
+<p>Компонент-провайдер огортає піддерево і задає значення контексту.</p>
+<pre class="language-js"><code class="language-js">import { useState } from 'react';
+import { ThemeContext } from './ThemeContext';
+
+function App() {
+  const [theme, setTheme] = useState('dark');
+
+  return (
+    &lt;ThemeContext.Provider value={theme}&gt;
+      &lt;Toolbar /&gt;
+      &lt;button onClick={() =&gt; setTheme('light')}&gt;Світла тема&lt;/button&gt;
+    &lt;/ThemeContext.Provider&gt;
+  );
+}</code></pre>
+<h1 id="usecontext">4. useContext — читання значення</h1>
+<p>Будь-який нащадок читає контекст хуком <code>useContext</code> — без пропсів.</p>
+<pre class="language-js"><code class="language-js">import { useContext } from 'react';
+import { ThemeContext } from './ThemeContext';
+
+function Toolbar() {
+  const theme = useContext(ThemeContext);
+  return &lt;div className={`toolbar ${theme}`}&gt;Панель&lt;/div&gt;;
+}</code></pre>
+<h1 id="патерн">5. Контекст зі станом</h1>
+<p>Часто в контекст кладуть і значення, і функції його зміни — так виходить простий
+глобальний стан.</p>
+<pre class="language-js"><code class="language-js">const AuthContext = createContext(null);
+
+function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const value = { user, login: setUser, logout: () =&gt; setUser(null) };
+
+  return &lt;AuthContext.Provider value={value}&gt;{children}&lt;/AuthContext.Provider&gt;;
+}</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Контекст добре підходить для «глобальних» даних, що рідко змінюються
+(тема, мова, поточний користувач). Для складного стану з частими оновленнями
+краще спеціалізовані рішення (Redux, Zustand) — надто «широкий» контекст
+спричиняє зайві рендери.</p></div></div>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://react.dev/learn/passing-data-deeply-with-context" target="_blank">Passing Data Deeply with Context — react.dev</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

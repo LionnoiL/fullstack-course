@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Форми · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="форми">1. Керовані компоненти</h1>
+<p>У React значення поля прийнято зберігати у стані. Таке поле називають
+<strong>керованим (controlled)</strong>: його <code>value</code> задається зі стану, а <code>onChange</code>
+оновлює стан. React стає єдиним джерелом істини.</p>
+<pre class="language-js"><code class="language-js">import { useState } from 'react';
+
+function NameField() {
+  const [name, setName] = useState('');
+
+  return (
+    &lt;input
+      value={name}
+      onChange={(e) =&gt; setName(e.target.value)}
+    /&gt;
+  );
+}</code></pre>
+<h1 id="кілька-полів">2. Кілька полів одним станом</h1>
+<p>Зручно тримати всі поля в одному обʼєкті й оновлювати за атрибутом <code>name</code>.</p>
+<pre class="language-js"><code class="language-js">function Form() {
+  const [form, setForm] = useState({ email: '', password: '' });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setForm((prev) =&gt; ({ ...prev, [name]: value }));
+  }
+
+  return (
+    &lt;&gt;
+      &lt;input name="email" value={form.email} onChange={handleChange} /&gt;
+      &lt;input name="password" value={form.password} onChange={handleChange} /&gt;
+    &lt;/&gt;
+  );
+}</code></pre>
+<h1 id="різні-поля">3. Чекбокси, select, textarea</h1>
+<pre class="language-js"><code class="language-js">// checkbox — беремо e.target.checked, а не value
+&lt;input type="checkbox" checked={agree} onChange={(e) =&gt; setAgree(e.target.checked)} /&gt;
+
+// select
+&lt;select value={city} onChange={(e) =&gt; setCity(e.target.value)}&gt;
+  &lt;option value="kyiv"&gt;Київ&lt;/option&gt;
+  &lt;option value="lviv"&gt;Львів&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+<h1 id="відправлення">4. Відправлення форми</h1>
+<pre class="language-js"><code class="language-js">function LoginForm() {
+  const [form, setForm] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (form.password.length &lt; 8) {
+      setError('Пароль закороткий');
+      return;
+    }
+    setError('');
+    console.log('Надсилаємо', form);
+  }
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      {/* поля... */}
+      {error &amp;&amp; &lt;p&gt;{error}&lt;/p&gt;}
+      &lt;button&gt;Увійти&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Для великих форм зі складною валідацією зручні бібліотеки —
+<strong>React Hook Form</strong> чи <strong>Formik</strong>. Вони зменшують кількість рендерів і
+шаблонного коду. Але спершу варто впевнено володіти керованими компонентами.</p></div></div>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://react.dev/reference/react-dom/components/input" target="_blank">Input — react.dev</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

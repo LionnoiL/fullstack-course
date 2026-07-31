@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Оптимізація · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="рендери">1. Коли компонент перерендерюється</h1>
+<p>Компонент рендериться повторно, коли змінюється його стан або пропси, а також
+коли рендериться його батько. Здебільшого це швидко, але у важких компонентах
+зайві рендери варто прибирати. Головні інструменти — <code>memo</code>, <code>useMemo</code>,
+<code>useCallback</code>.</p>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Спершу зробіть, щоб працювало правильно, і лише потім оптимізуйте — за
+даними профайлера. Передчасна оптимізація ускладнює код без реальної користі.</p></div></div>
+<h1 id="react-memo">2. React.memo</h1>
+<p><code>memo</code> запамʼятовує результат рендеру компонента і пропускає перерендер, якщо
+пропси не змінились.</p>
+<pre class="language-js"><code class="language-js">import { memo } from 'react';
+
+const Item = memo(function Item({ title }) {
+  console.log('render', title);
+  return &lt;li&gt;{title}&lt;/li&gt;;
+});
+// Item не перерендериться, поки title той самий</code></pre>
+<h1 id="usememo">3. useMemo — кешування обчислень</h1>
+<p><code>useMemo</code> запамʼятовує результат <em>важкого</em> обчислення й перераховує його лише
+при зміні залежностей.</p>
+<pre class="language-js"><code class="language-js">import { useMemo } from 'react';
+
+function Report({ items }) {
+  const total = useMemo(() =&gt; {
+    return items.reduce((sum, i) =&gt; sum + i.price, 0);
+  }, [items]); // перерахунок лише коли items змінюється
+
+  return &lt;p&gt;Разом: {total}&lt;/p&gt;;
+}</code></pre>
+<h1 id="usecallback">4. useCallback — стабільні функції</h1>
+<p>Щоразу під час рендеру створюється нова функція. Якщо передати її в <code>memo</code>-нащадка,
+він усе одно перерендериться. <code>useCallback</code> зберігає ту саму функцію між
+рендерами.</p>
+<pre class="language-js"><code class="language-js">import { useCallback } from 'react';
+
+function Parent({ items }) {
+  const handleSelect = useCallback((id) =&gt; {
+    console.log('обрано', id);
+  }, []); // та сама функція між рендерами
+
+  return &lt;List items={items} onSelect={handleSelect} /&gt;;
+}</code></pre>
+<h1 id="ключі-та-структура">5. Прості способи без хуків</h1>
+<ul>
+<li>коректні <code>key</code> у списках — уникають зайвих перемонтувань;</li>
+<li>виносьте важкий стан якнайближче до місця використання;</li>
+<li>розбивайте великі компоненти — тоді рендер зачіпає менше вузлів;</li>
+<li><strong>lazy loading</strong> сторінок через <code>React.lazy</code> і <code>Suspense</code>.</li>
+</ul>
+<pre class="language-js"><code class="language-js">import { lazy, Suspense } from 'react';
+
+const Dashboard = lazy(() =&gt; import('./Dashboard'));
+
+&lt;Suspense fallback={&lt;p&gt;Завантаження...&lt;/p&gt;}&gt;
+  &lt;Dashboard /&gt;
+&lt;/Suspense&gt;;</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://react.dev/reference/react/memo" target="_blank">memo — react.dev</a></li>
+<li><a href="https://react.dev/reference/react/useMemo" target="_blank">useMemo — react.dev</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

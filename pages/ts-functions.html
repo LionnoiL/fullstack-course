@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Типізація функцій · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="типізація-функцій">1. Параметри та результат</h1>
+<p>Для функції вказують типи параметрів і тип значення, що повертається (останній
+часто виводиться автоматично).</p>
+<pre class="language-js"><code class="language-js">function add(a: number, b: number): number {
+  return a + b;
+}
+
+const multiply = (a: number, b: number): number =&gt; a * b;</code></pre>
+<h1 id="необовязкові">2. Необовʼязкові та типові параметри</h1>
+<p>Знак <code>?</code> робить параметр необовʼязковим. Параметр зі значенням за замовчуванням
+теж стає необовʼязковим.</p>
+<pre class="language-js"><code class="language-js">function greet(name: string, greeting?: string): string {
+  return `${greeting ?? 'Привіт'}, ${name}`;
+}
+
+greet('Ada');            // 'Привіт, Ada'
+greet('Ada', 'Вітаю');   // 'Вітаю, Ada'
+
+function pow(base: number, exp: number = 2): number {
+  return base ** exp;
+}</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Необовʼязкові параметри мають іти <strong>після</strong> обовʼязкових. Інакше
+компілятор не зможе зіставити передані аргументи з параметрами.</p></div></div>
+<h1 id="rest">3. Rest-параметри</h1>
+<pre class="language-js"><code class="language-js">function sum(...nums: number[]): number {
+  return nums.reduce((acc, n) =&gt; acc + n, 0);
+}
+
+sum(1, 2, 3, 4); // 10</code></pre>
+<h1 id="тип-функції">4. Тип функції</h1>
+<p>Саму функцію теж можна описати типом — це знадобиться для колбеків.</p>
+<pre class="language-js"><code class="language-js">// (параметри) =&gt; тип результату
+let operation: (a: number, b: number) =&gt; number;
+
+operation = (a, b) =&gt; a + b; // типи a і b виводяться з анотації
+
+function repeat(n: number, action: (i: number) =&gt; void): void {
+  for (let i = 0; i &lt; n; i += 1) {
+    action(i);
+  }
+}</code></pre>
+<h1 id="перевантаження">5. Перевантаження функцій</h1>
+<p>Одну функцію можна описати кількома сигнатурами — залежно від типів аргументів
+змінюється тип результату.</p>
+<pre class="language-js"><code class="language-js">function len(x: string): number;
+function len(x: unknown[]): number;
+function len(x: string | unknown[]): number {
+  return x.length;
+}
+
+len('hello'); // 5
+len([1, 2]);  // 2</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://www.typescriptlang.org/docs/handbook/2/functions.html" target="_blank">More on Functions — TypeScript Handbook</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

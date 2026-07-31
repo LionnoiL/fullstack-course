@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Utility Types · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="utility-types">1. Готові утилітарні типи</h1>
+<p>TypeScript має набір <strong>вбудованих дженерик-типів</strong>, які перетворюють один тип
+на інший. Вони економлять час і уникають дублювання описів.</p>
+<pre class="language-js"><code class="language-js">interface User {
+  id: number;
+  name: string;
+  email: string;
+}</code></pre>
+<h1 id="partial-required">2. Partial і Required</h1>
+<p><code>Partial&lt;T&gt;</code> робить усі поля необовʼязковими, <code>Required&lt;T&gt;</code> — навпаки,
+обовʼязковими.</p>
+<pre class="language-js"><code class="language-js">// Усі поля необовʼязкові — зручно для оновлення
+function update(id: number, changes: Partial&lt;User&gt;) { /* ... */ }
+
+update(1, { name: 'Нове імʼя' }); // достатньо одного поля</code></pre>
+<h1 id="pick-omit">3. Pick і Omit</h1>
+<p><code>Pick&lt;T, K&gt;</code> залишає лише вказані поля, <code>Omit&lt;T, K&gt;</code> — усі, крім вказаних.</p>
+<pre class="language-js"><code class="language-js">type UserPreview = Pick&lt;User, 'id' | 'name'&gt;;
+// { id: number; name: string }
+
+type UserWithoutId = Omit&lt;User, 'id'&gt;;
+// { name: string; email: string }</code></pre>
+<h1 id="record">4. Record</h1>
+<p><code>Record&lt;K, V&gt;</code> описує обʼєкт із ключами типу <code>K</code> і значеннями типу <code>V</code>.</p>
+<pre class="language-js"><code class="language-js">type Roles = Record&lt;'admin' | 'user', boolean&gt;;
+
+const access: Roles = {
+  admin: true,
+  user: false,
+};
+
+// Словник будь-яких рядкових ключів
+const prices: Record&lt;string, number&gt; = { apple: 10, pear: 15 };</code></pre>
+<h1 id="інші">5. Readonly, Exclude, ReturnType та інші</h1>
+<pre class="language-js"><code class="language-js">type Frozen = Readonly&lt;User&gt;;          // усі поля readonly
+
+type T1 = Exclude&lt;'a' | 'b' | 'c', 'b'&gt;; // 'a' | 'c'
+type T2 = Extract&lt;'a' | 'b', 'b' | 'x'&gt;; // 'b'
+type T3 = NonNullable&lt;string | null&gt;;    // string
+
+function make() {
+  return { ok: true };
+}
+type Result = ReturnType&lt;typeof make&gt;;  // { ok: boolean }</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Замість того щоб описувати схожі типи вручну, майже завжди можна
+скомбінувати utility types з базового. Це зменшує дублювання: змінили <code>User</code> —
+похідні типи оновилися самі.</p></div></div>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://www.typescriptlang.org/docs/handbook/utility-types.html" target="_blank">Utility Types — TypeScript Handbook</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

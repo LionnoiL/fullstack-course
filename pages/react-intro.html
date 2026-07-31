@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Що таке React · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="react">1. Що таке React</h1>
+<p><strong>React</strong> — це бібліотека для побудови інтерфейсів користувача, створена в
+Meta. Її головна ідея — розбити інтерфейс на <strong>компоненти</strong>: незалежні шматки
+UI, які описують, <em>що</em> має відображатися, а React сам оновлює DOM.</p>
+<p>Замість того щоб вручну змінювати DOM (як у чистому JS), ви описуєте стан і
+розмітку, а React <strong>декларативно</strong> синхронізує сторінку зі станом.</p>
+<h1 id="virtual-dom">2. Віртуальний DOM</h1>
+<p>React тримає в памʼяті легку копію DOM — <strong>віртуальний DOM</strong>. Коли стан
+змінюється, React будує нове віртуальне дерево, порівнює його зі старим
+(reconciliation) і оновлює в реальному DOM лише те, що справді змінилось. Це
+робить оновлення швидкими й позбавляє від ручних маніпуляцій.</p>
+<h1 id="старт">3. Швидкий старт</h1>
+<p>Сучасний спосіб створити проєкт — збірник <strong>Vite</strong>:</p>
+<pre class="language-js"><code class="language-js">npm create vite@latest my-app -- --template react
+cd my-app
+npm install
+npm run dev</code></pre>
+<p>Точка входу монтує кореневий компонент у DOM:</p>
+<pre class="language-js"><code class="language-js">import { createRoot } from 'react-dom/client';
+import App from './App';
+
+const root = createRoot(document.getElementById('root'));
+root.render(&lt;App /&gt;);</code></pre>
+<h1 id="компонент">4. Перший компонент</h1>
+<p>Компонент — це звичайна функція, що повертає розмітку (JSX).</p>
+<pre class="language-js"><code class="language-js">function App() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Привіт, React!&lt;/h1&gt;
+      &lt;p&gt;Мій перший компонент&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>React — це саме бібліотека для UI, а не повноцінний фреймворк. Роутинг,
+запити, керування станом підключають окремими пакетами. Це дає гнучкість,
+але вимагає збирати «стек» самостійно.</p></div></div>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://react.dev/learn" target="_blank">Офіційний підручник React</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кастомні хуки · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="правила-хуків">1. Правила хуків</h1>
+<p>Хуки (<code>useState</code>, <code>useEffect</code> тощо) підпорядковані двом правилам:</p>
+<ul>
+<li>викликати лише на <strong>верхньому рівні</strong> компонента — не в циклах, умовах чи вкладених функціях;</li>
+<li>викликати лише з React-компонентів або з інших хуків.</li>
+</ul>
+<h1 id="кастомний-хук">2. Що таке кастомний хук</h1>
+<p><strong>Кастомний хук</strong> — це звичайна функція, назва якої починається з <code>use</code>, і яка
+використовує інші хуки. Вона дозволяє винести й перевикористати логіку зі
+станом між компонентами.</p>
+<pre class="language-js"><code class="language-js">import { useState } from 'react';
+
+function useCounter(initial = 0) {
+  const [count, setCount] = useState(initial);
+
+  const increment = () =&gt; setCount((c) =&gt; c + 1);
+  const decrement = () =&gt; setCount((c) =&gt; c - 1);
+  const reset = () =&gt; setCount(initial);
+
+  return { count, increment, decrement, reset };
+}</code></pre>
+<p>Використання виглядає як робота зі звичайним хуком:</p>
+<pre class="language-js"><code class="language-js">function Counter() {
+  const { count, increment, reset } = useCounter(10);
+
+  return (
+    &lt;&gt;
+      &lt;span&gt;{count}&lt;/span&gt;
+      &lt;button onClick={increment}&gt;+&lt;/button&gt;
+      &lt;button onClick={reset}&gt;Скинути&lt;/button&gt;
+    &lt;/&gt;
+  );
+}</code></pre>
+<h1 id="приклад-запиту">3. Хук для завантаження даних</h1>
+<pre class="language-js"><code class="language-js">function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() =&gt; {
+    setLoading(true);
+    fetch(url)
+      .then((res) =&gt; res.json())
+      .then(setData)
+      .finally(() =&gt; setLoading(false));
+  }, [url]);
+
+  return { data, loading };
+}
+
+// у компоненті:
+const { data, loading } = useFetch('/api/users');</code></pre>
+<h1 id="локальне-сховище">4. Хук над localStorage</h1>
+<pre class="language-js"><code class="language-js">function useLocalStorage(key, initial) {
+  const [value, setValue] = useState(() =&gt; {
+    const saved = localStorage.getItem(key);
+    return saved ? JSON.parse(saved) : initial;
+  });
+
+  useEffect(() =&gt; {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+
+  return [value, setValue];
+}</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Кастомні хуки <strong>не</strong> ділять стан між собою — кожен виклик створює
+власний ізольований стан. Вони перевикористовують <em>логіку</em>, а не дані.</p></div></div>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://react.dev/learn/reusing-logic-with-custom-hooks" target="_blank">Reusing Logic with Custom Hooks — react.dev</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

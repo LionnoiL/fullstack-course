@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSX · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="jsx">1. Що таке JSX</h1>
+<p><strong>JSX</strong> — це розширення синтаксису JavaScript, що дозволяє писати HTML-подібну
+розмітку прямо в коді. Браузер його не розуміє: збірник (Vite, Babel)
+перетворює JSX на виклики <code>React.createElement</code>.</p>
+<pre class="language-js"><code class="language-js">// JSX
+const element = &lt;h1 className="title"&gt;Привіт&lt;/h1&gt;;
+
+// у що він перетворюється
+const element2 = React.createElement('h1', { className: 'title' }, 'Привіт');</code></pre>
+<h1 id="вирази">2. Вставка виразів</h1>
+<p>У фігурних дужках <code>{ }</code> можна вставляти будь-який JavaScript-вираз.</p>
+<pre class="language-js"><code class="language-js">const name = 'Ada';
+const user = { age: 30 };
+
+const el = (
+  &lt;p&gt;
+    {name}, тобі {user.age} років. Через рік буде {user.age + 1}.
+  &lt;/p&gt;
+);</code></pre>
+<h1 id="атрибути">3. Атрибути та відмінності від HTML</h1>
+<p>JSX близький до HTML, але має відмінності, бо це JavaScript:</p>
+<ul>
+<li><code>class</code> → <code>className</code> (class — зарезервоване слово);</li>
+<li><code>for</code> → <code>htmlFor</code>;</li>
+<li>атрибути пишуться в <code>camelCase</code>: <code>onClick</code>, <code>tabIndex</code>;</li>
+<li>стилі задаються обʼєктом.</li>
+</ul>
+<pre class="language-js"><code class="language-js">const box = (
+  &lt;div
+    className="card"
+    style={{ color: 'red', fontSize: 16 }}
+    onClick={() =&gt; console.log('клік')}
+  &gt;
+    Вміст
+  &lt;/div&gt;
+);</code></pre>
+<h1 id="один-корінь">4. Один кореневий елемент</h1>
+<p>Компонент має повертати <strong>один</strong> кореневий вузол. Якщо обгортка не потрібна,
+використовують порожній фрагмент <code>&lt;&gt;...&lt;/&gt;</code>.</p>
+<pre class="language-js"><code class="language-js">function Info() {
+  return (
+    &lt;&gt;
+      &lt;h2&gt;Заголовок&lt;/h2&gt;
+      &lt;p&gt;Текст&lt;/p&gt;
+    &lt;/&gt;
+  );
+}</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Теги, що не мають вмісту, у JSX <strong>обовʼязково</strong> самозакривні:
+<code>&lt;img /&gt;</code>, <code>&lt;br /&gt;</code>, <code>&lt;input /&gt;</code>. Забутий слеш призведе до помилки.</p></div></div>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://react.dev/learn/writing-markup-with-jsx" target="_blank">Writing Markup with JSX — react.dev</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>
