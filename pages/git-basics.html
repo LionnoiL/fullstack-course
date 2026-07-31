@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git і командний рядок · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="cli">1. Командний рядок</h1>
+<p>Розробник щодня працює в терміналі. Базові команди:</p>
+<pre class="language-js"><code class="language-js">pwd            # де я зараз
+ls             # список файлів (dir у Windows)
+cd projects    # перейти в папку
+cd ..          # на рівень вгору
+mkdir app      # створити папку
+touch file.js  # створити файл
+rm file.js     # видалити файл</code></pre>
+<h1 id="git">2. Що таке Git</h1>
+<p><strong>Git</strong> — система контролю версій. Вона зберігає історію змін проєкту, дозволяє
+повертатися назад і працювати командою без конфліктів. <strong>GitHub</strong> — хмарний
+хостинг Git-репозиторіїв.</p>
+<h1 id="базовий-цикл">3. Базовий цикл роботи</h1>
+<pre class="language-js"><code class="language-js">git init                 # ініціалізувати репозиторій
+git status               # що змінилось
+
+git add .                # додати всі зміни в індекс
+git commit -m "Опис"     # зафіксувати зміни
+
+git log --oneline        # історія комітів</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Пиши змістовні повідомлення комітів у наказовому способі: «Add login form»,
+а не «зміни». Через місяць саме за ними ти орієнтуватимешся в історії.</p></div></div>
+<h1 id="віддалений">4. Робота з GitHub</h1>
+<pre class="language-js"><code class="language-js">git remote add origin git@github.com:user/repo.git
+git push -u origin main   # надіслати на GitHub
+git pull                  # забрати зміни з сервера
+git clone &lt;url&gt;           # скопіювати чужий репозиторій</code></pre>
+<h1 id="гілки">5. Гілки</h1>
+<p>Гілки дозволяють розробляти функції ізольовано, не чіпаючи основну гілку.</p>
+<pre class="language-js"><code class="language-js">git branch feature-login    # створити гілку
+git checkout feature-login  # перейти на неї
+git checkout -b feature-x   # створити і одразу перейти
+
+git merge feature-login     # злити гілку в поточну</code></pre>
+<p>Командна робота будується навколо <strong>Pull Request</strong> — пропозиції злити гілку
+після рев'ю коду.</p>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://git-scm.com/book/uk/v2" target="_blank">Pro Git (українською)</a></li>
+<li><a href="https://learngitbranching.js.org/?locale=uk" target="_blank">Learn Git Branching — інтерактивно</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Основи HTML · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="html">1. Що таке HTML</h1>
+<p><strong>HTML (HyperText Markup Language)</strong> — це мова розмітки, якою описують
+<em>структуру</em> вебсторінки: заголовки, абзаци, зображення, посилання. HTML не
+програмує логіку (це робить JavaScript) і не відповідає за вигляд (це CSS) —
+він задає зміст і його ієрархію.</p>
+<h1 id="елементи">2. Елементи й теги</h1>
+<p>Сторінка складається з <strong>елементів</strong>. Елемент зазвичай має відкривальний та
+закривальний теги, між якими — вміст.</p>
+<pre class="language-markup"><code class="language-markup">&lt;p&gt;Це абзац тексту.&lt;/p&gt;
+&lt;h1&gt;Це заголовок&lt;/h1&gt;</code></pre>
+<p>Деякі елементи <strong>порожні</strong> (не мають вмісту) і пишуться одним тегом:</p>
+<pre class="language-markup"><code class="language-markup">&lt;img src="cat.png" alt="Кіт"&gt;
+&lt;br&gt;
+&lt;hr&gt;</code></pre>
+<h1 id="атрибути">3. Атрибути</h1>
+<p><strong>Атрибути</strong> додають елементу додаткову інформацію і пишуться у відкривальному
+тезі у форматі <code>ім'я="значення"</code>.</p>
+<pre class="language-markup"><code class="language-markup">&lt;a href="https://example.com" target="_blank"&gt;Посилання&lt;/a&gt;
+&lt;img src="logo.png" alt="Логотип" width="120"&gt;</code></pre>
+<h1 id="скелет">4. Скелет документа</h1>
+<p>Будь-яка HTML-сторінка має стандартну структуру:</p>
+<pre class="language-markup"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="uk"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Назва вкладки&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Привіт, світ!&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<ul>
+<li><code>&lt;!DOCTYPE html&gt;</code> — оголошує сучасний стандарт HTML5;</li>
+<li><code>&lt;head&gt;</code> — службова інформація (кодування, назва, підключення стилів);</li>
+<li><code>&lt;body&gt;</code> — видимий вміст сторінки.</li>
+</ul>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Атрибут <code>lang</code> і <code>&lt;meta charset="UTF-8"&gt;</code> важливі для коректного
+відображення української мови та роботи пошукових систем і читачів екрана.</p></div></div>
+<h1 id="вкладеність">5. Вкладеність елементів</h1>
+<p>Елементи вкладаються один в одного, утворюючи дерево. Важливо закривати теги у
+правильному порядку.</p>
+<pre class="language-markup"><code class="language-markup">&lt;div&gt;
+  &lt;h2&gt;Заголовок&lt;/h2&gt;
+  &lt;p&gt;Текст із &lt;strong&gt;важливим&lt;/strong&gt; словом.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/uk/docs/Learn/HTML/Introduction_to_HTML" target="_blank">Вступ до HTML — MDN</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

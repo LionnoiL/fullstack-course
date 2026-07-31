@@ -7,6 +7,33 @@
 
   const sections = [
     {
+      title: "HTML",
+      lessons: [
+        ["html-intro.html", "Основи HTML"],
+        ["html-text.html", "Текст і списки"],
+        ["html-links-images.html", "Посилання та зображення"],
+        ["html-semantics.html", "Семантична розмітка"],
+        ["html-forms.html", "Форми"],
+        ["html-tables.html", "Таблиці"],
+        ["html-meta-seo.html", "Метадані та SEO"],
+        ["html-a11y.html", "Доступність (a11y)"],
+      ],
+    },
+    {
+      title: "CSS",
+      lessons: [
+        ["css-intro.html", "Підключення та синтаксис"],
+        ["css-selectors.html", "Селектори та специфічність"],
+        ["css-box-model.html", "Блокова модель"],
+        ["css-typography.html", "Кольори та типографіка"],
+        ["css-positioning.html", "Позиціонування"],
+        ["css-flexbox.html", "Flexbox"],
+        ["css-grid.html", "Grid"],
+        ["css-responsive.html", "Адаптивність"],
+        ["css-transitions.html", "Переходи та анімації"],
+      ],
+    },
+    {
       title: "Основи",
       lessons: [
         ["intro.html", "Що таке JavaScript?"],
@@ -137,6 +164,19 @@
       ],
     },
     {
+      title: "Бекенд",
+      lessons: [
+        ["backend-intro.html", "Вступ до бекенду"],
+        ["backend-express.html", "Express: сервер і маршрути"],
+        ["backend-middleware.html", "Middleware"],
+        ["backend-rest.html", "Побудова REST API"],
+        ["backend-databases.html", "Бази даних"],
+        ["backend-orm.html", "ORM (Prisma)"],
+        ["backend-auth.html", "Автентифікація"],
+        ["backend-env.html", "Конфігурація та оточення"],
+      ],
+    },
+    {
       title: "TypeScript",
       lessons: [
         ["ts-intro.html", "Знайомство з TypeScript"],
@@ -168,6 +208,15 @@
         ["react-custom-hooks.html", "Кастомні хуки"],
         ["react-router.html", "Роутинг"],
         ["react-performance.html", "Оптимізація"],
+      ],
+    },
+    {
+      title: "Супровідні теми",
+      lessons: [
+        ["git-basics.html", "Git і командний рядок"],
+        ["testing.html", "Тестування"],
+        ["web-security.html", "Веббезпека"],
+        ["deployment.html", "Деплой"],
       ],
     },
   ];

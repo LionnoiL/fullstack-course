@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Текст і списки · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="заголовки">1. Заголовки та абзаци</h1>
+<p>HTML має шість рівнів заголовків — від <code>&lt;h1&gt;</code> (найважливіший) до <code>&lt;h6&gt;</code>.
+Основний текст оформлюють абзацами <code>&lt;p&gt;</code>.</p>
+<pre class="language-markup"><code class="language-markup">&lt;h1&gt;Головний заголовок сторінки&lt;/h1&gt;
+&lt;h2&gt;Підрозділ&lt;/h2&gt;
+&lt;p&gt;Абзац звичайного тексту.&lt;/p&gt;</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>На сторінці має бути лише один <code>&lt;h1&gt;</code>, а рівні не можна «перестрибувати»
+(після <code>h2</code> не одразу <code>h4</code>). Це важливо для SEO і доступності.</p></div></div>
+<h1 id="форматування">2. Форматування тексту</h1>
+<pre class="language-markup"><code class="language-markup">&lt;strong&gt;важливий текст&lt;/strong&gt; — жирний зі змістовим наголосом
+&lt;em&gt;акцент&lt;/em&gt; — курсив зі змістовим наголосом
+&lt;mark&gt;виділене&lt;/mark&gt; — підсвічений маркером
+&lt;small&gt;дрібний&lt;/small&gt;, &lt;code&gt;код&lt;/code&gt;, &lt;br&gt; — перенос рядка</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>&lt;strong&gt;</code> і <code>&lt;em&gt;</code> несуть <em>зміст</em> (важливість, наголос), а
+застарілі <code>&lt;b&gt;</code> та <code>&lt;i&gt;</code> — лише вигляд. Надавайте перевагу семантичним.</p></div></div>
+<h1 id="списки">3. Списки</h1>
+<p>Марковані (<code>&lt;ul&gt;</code>) та нумеровані (<code>&lt;ol&gt;</code>) списки складаються з елементів
+<code>&lt;li&gt;</code>.</p>
+<pre class="language-markup"><code class="language-markup">&lt;ul&gt;
+  &lt;li&gt;Кава&lt;/li&gt;
+  &lt;li&gt;Чай&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Прокинутись&lt;/li&gt;
+  &lt;li&gt;Написати код&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+<h1 id="списки-означень">4. Списки означень</h1>
+<pre class="language-markup"><code class="language-markup">&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;Мова розмітки структури&lt;/dd&gt;
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;Мова оформлення&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+<h1 id="цитати">5. Цитати</h1>
+<pre class="language-markup"><code class="language-markup">&lt;blockquote&gt;
+  Великий блок цитати.
+&lt;/blockquote&gt;
+&lt;p&gt;Він сказав &lt;q&gt;коротку цитату&lt;/q&gt; в рядку.&lt;/p&gt;</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/uk/docs/Learn/HTML/Introduction_to_HTML/HTML_text_fundamentals" target="_blank">Основи тексту в HTML — MDN</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

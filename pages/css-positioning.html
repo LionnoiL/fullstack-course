@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Позиціонування · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="position">1. Властивість position</h1>
+<p>Властивість <code>position</code> керує тим, як елемент розташовується і чи реагує на
+<code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>.</p>
+<ul>
+<li><code>static</code> — за замовчуванням, у звичайному потоці;</li>
+<li><code>relative</code> — зсув відносно власного місця;</li>
+<li><code>absolute</code> — відносно найближчого позиціонованого предка;</li>
+<li><code>fixed</code> — відносно вікна (не рухається при прокрутці);</li>
+<li><code>sticky</code> — «прилипає» при прокрутці.</li>
+</ul>
+<h1 id="relative-absolute">2. relative + absolute</h1>
+<p>Найпоширеніший патерн: батько <code>relative</code>, дитина <code>absolute</code> — так дитина
+позиціонується всередині батька.</p>
+<pre class="language-css"><code class="language-css">.card {
+  position: relative;
+}
+.badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}</code></pre>
+<h1 id="fixed">3. fixed — закріплені елементи</h1>
+<pre class="language-css"><code class="language-css">.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}</code></pre>
+<h1 id="sticky">4. sticky — прилипання</h1>
+<pre class="language-css"><code class="language-css">.sidebar {
+  position: sticky;
+  top: 0; /* прилипне до верху при прокрутці */
+}</code></pre>
+<h1 id="z-index">5. z-index — порядок накладання</h1>
+<p><code>z-index</code> визначає, який позиціонований елемент буде «над» іншими. Більше
+значення — вище.</p>
+<pre class="language-css"><code class="language-css">.modal   { position: fixed; z-index: 1000; }
+.overlay { position: fixed; z-index: 900; }</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p><code>z-index</code> працює лише для позиціонованих елементів (не <code>static</code>) і
+діє в межах «контексту накладання». Не роздувайте значення до 9999 — це ознака
+проблем зі структурою, а не рішення.</p></div></div>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/uk/docs/Learn/CSS/CSS_layout/Positioning" target="_blank">Позиціонування — MDN</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

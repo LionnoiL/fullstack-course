@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Express: сервер і маршрути · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="express">1. Що таке Express</h1>
+<p><strong>Express</strong> — мінімалістичний вебфреймворк для Node.js. Він спрощує створення
+маршрутів, обробку запитів і відповідей, підключення проміжного ПЗ.</p>
+<pre class="language-js"><code class="language-js">npm init -y
+npm install express</code></pre>
+<h1 id="перший-сервер">2. Перший сервер</h1>
+<pre class="language-js"><code class="language-js">const express = require('express');
+const app = express();
+
+app.get('/', (req, res) =&gt; {
+  res.send('Привіт із Express!');
+});
+
+app.listen(3000, () =&gt; {
+  console.log('Сервер на http://localhost:3000');
+});</code></pre>
+<h1 id="маршрути">3. Маршрути (routes)</h1>
+<p>Маршрут — це поєднання <strong>HTTP-методу</strong> і <strong>шляху</strong>. Express має методи під
+кожен дієслово.</p>
+<pre class="language-js"><code class="language-js">app.get('/users', (req, res) =&gt; { /* отримати список */ });
+app.post('/users', (req, res) =&gt; { /* створити */ });
+app.put('/users/:id', (req, res) =&gt; { /* оновити */ });
+app.delete('/users/:id', (req, res) =&gt; { /* видалити */ });</code></pre>
+<h1 id="параметри">4. Параметри та запити</h1>
+<pre class="language-js"><code class="language-js">// параметр шляху: /users/42
+app.get('/users/:id', (req, res) =&gt; {
+  res.json({ id: req.params.id });
+});
+
+// query-параметри: /search?q=js&amp;page=2
+app.get('/search', (req, res) =&gt; {
+  const { q, page } = req.query;
+  res.json({ q, page });
+});</code></pre>
+<h1 id="відповідь">5. Формування відповіді</h1>
+<pre class="language-js"><code class="language-js">res.send('текст');            // текст або HTML
+res.json({ ok: true });       // JSON
+res.status(404).json({ error: 'Не знайдено' }); // код статусу
+res.redirect('/login');       // перенаправлення</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Щоб сервер сам перезапускався при зміні коду, встановіть <code>nodemon</code>
+(<code>npm i -D nodemon</code>) і запускайте <code>npx nodemon server.js</code>.</p></div></div>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://expressjs.com/uk/" target="_blank">Офіційна документація Express</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

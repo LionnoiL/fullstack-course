@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Адаптивність · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="адаптивність">1. Адаптивний дизайн</h1>
+<p><strong>Адаптивний (responsive) дизайн</strong> — це підхід, коли сторінка однаково зручна
+на телефоні, планшеті й десктопі. Досягається гнучкими одиницями, гнучкими
+розкладками та медіазапитами.</p>
+<h1 id="viewport">2. Метатег viewport</h1>
+<p>Обовʼязковий рядок, без якого мобільні браузери масштабують «десктопну»
+сторінку:</p>
+<pre class="language-markup"><code class="language-markup">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code></pre>
+<h1 id="media-queries">3. Медіазапити</h1>
+<p><strong>Медіазапит</strong> застосовує стилі лише за певної умови — зазвичай ширини екрана.</p>
+<pre class="language-css"><code class="language-css">/* базові стилі — для мобільних */
+.container { flex-direction: column; }
+
+/* від 768px і ширше — планшети/десктоп */
+@media (min-width: 768px) {
+  .container { flex-direction: row; }
+}
+
+@media (max-width: 480px) {
+  .menu { display: none; }
+}</code></pre>
+<h1 id="mobile-first">4. Mobile-first</h1>
+<p>Підхід <strong>mobile-first</strong>: базові стилі пишуть для вузького екрана, а
+медіазапитами <code>min-width</code> <em>додають</em> ускладнення для широких. Це чистіше, ніж
+навпаки.</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Обирайте «точки перелому» (breakpoints) за тим, де <em>ламається ваш дизайн</em>,
+а не під конкретні моделі пристроїв. Пристроїв безліч, а верстка або тримається,
+або ні.</p></div></div>
+<h1 id="гнучкі-одиниці">5. Гнучкі одиниці й зображення</h1>
+<pre class="language-css"><code class="language-css">.text { font-size: clamp(1rem, 2.5vw, 1.5rem); } /* адаптивний шрифт */
+img    { max-width: 100%; height: auto; }         /* картинки не вилазять */
+.box   { width: 90%; max-width: 1100px; }</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/uk/docs/Learn/CSS/CSS_layout/Responsive_Design" target="_blank">Адаптивний дизайн — MDN</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

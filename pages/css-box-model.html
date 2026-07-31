@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Блокова модель · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="box-model">1. Блокова модель</h1>
+<p>Кожен елемент — це прямокутний «ящик», що складається з чотирьох шарів (від
+центру назовні):</p>
+<ul>
+<li><strong>content</strong> — сам вміст (текст, зображення);</li>
+<li><strong>padding</strong> — внутрішній відступ між вмістом і межею;</li>
+<li><strong>border</strong> — рамка;</li>
+<li><strong>margin</strong> — зовнішній відступ до сусідів.</li>
+</ul>
+<pre class="language-css"><code class="language-css">.box {
+  width: 300px;
+  padding: 20px;
+  border: 2px solid #333;
+  margin: 16px;
+}</code></pre>
+<h1 id="box-sizing">2. box-sizing</h1>
+<p>За замовчуванням <code>width</code> задає лише ширину <em>content</em>, а padding і border
+додаються зверху — реальний розмір більший. Властивість <code>box-sizing: border-box</code>
+робить так, що <code>width</code> включає padding і border. Це майже завжди зручніше.</p>
+<pre class="language-css"><code class="language-css">* {
+  box-sizing: border-box;
+}
+/* тепер width: 300px — це РЕАЛЬНА ширина ящика */</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>box-sizing: border-box</code> для всіх елементів — стандартний перший рядок
+майже кожного проєкту. Без нього розрахунок розмірів стає болісним.</p></div></div>
+<h1 id="відступи">3. Скорочений запис відступів</h1>
+<pre class="language-css"><code class="language-css">margin: 10px;              /* усі сторони */
+margin: 10px 20px;         /* верх/низ | ліво/право */
+margin: 5px 10px 15px 20px;/* верх | право | низ | ліво */
+padding: 1rem 2rem;
+margin: 0 auto;            /* горизонтальне центрування блока */</code></pre>
+<h1 id="схлопування">4. Схлопування відступів</h1>
+<p>Вертикальні <code>margin</code> сусідніх елементів «схлопуються» — береться більший, а не
+їх сума. Це часта причина несподіваних відступів.</p>
+<h1 id="display">5. display: block, inline, inline-block</h1>
+<ul>
+<li><code>block</code> — займає всю ширину, починається з нового рядка (<code>div</code>, <code>p</code>);</li>
+<li><code>inline</code> — у рядку, ігнорує ширину/висоту (<code>span</code>, <code>a</code>);</li>
+<li><code>inline-block</code> — у рядку, але приймає розміри й відступи;</li>
+<li><code>none</code> — прибирає елемент з потоку.</li>
+</ul>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/uk/docs/Learn/CSS/Building_blocks/The_box_model" target="_blank">Блокова модель — MDN</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

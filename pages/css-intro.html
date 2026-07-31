@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Підключення та синтаксис CSS · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="css">1. Що таке CSS</h1>
+<p><strong>CSS (Cascading Style Sheets)</strong> — мова, якою описують <em>зовнішній вигляд</em>
+HTML-документа: кольори, шрифти, розміри, розташування. HTML відповідає за
+структуру, CSS — за оформлення.</p>
+<h1 id="синтаксис">2. Синтаксис правила</h1>
+<p>Правило складається із <strong>селектора</strong> (що стилізуємо) і блоку <strong>оголошень</strong>
+(які властивості й значення застосувати).</p>
+<pre class="language-css"><code class="language-css">selector {
+  property: value;
+  color: #1c1917;
+  font-size: 16px;
+}</code></pre>
+<h1 id="підключення">3. Три способи підключення</h1>
+<pre class="language-markup"><code class="language-markup">&lt;!-- 1. Зовнішній файл (найкраще) --&gt;
+&lt;link rel="stylesheet" href="style.css"&gt;
+
+&lt;!-- 2. Внутрішні стилі в head --&gt;
+&lt;style&gt;
+  p { color: gray; }
+&lt;/style&gt;
+
+&lt;!-- 3. Інлайн (уникайте) --&gt;
+&lt;p style="color: gray;"&gt;Текст&lt;/p&gt;</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Майже завжди використовуйте зовнішній файл: стилі кешуються, спільні для
+всіх сторінок і не змішуються з розміткою. Інлайн-стилі мають найвищий
+пріоритет і ускладнюють підтримку.</p></div></div>
+<h1 id="коментарі">4. Коментарі та одиниці</h1>
+<pre class="language-css"><code class="language-css">/* Це коментар */
+.box {
+  width: 300px;    /* пікселі */
+  padding: 1rem;   /* відносно кореневого шрифту */
+  font-size: 1.2em;/* відносно шрифту батька */
+  height: 50vh;    /* 50% висоти вікна */
+  color: hsl(210, 50%, 40%);
+}</code></pre>
+<h1 id="змінні">5. CSS-змінні</h1>
+<p>Власні властивості (змінні) задають один раз і перевикористовують — зручно для
+кольорів і розмірів теми.</p>
+<pre class="language-css"><code class="language-css">:root {
+  --accent: #2563eb;
+  --gap: 16px;
+}
+
+.button {
+  background: var(--accent);
+  padding: var(--gap);
+}</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/uk/docs/Learn/CSS/First_steps" target="_blank">Перші кроки в CSS — MDN</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

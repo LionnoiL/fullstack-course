@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Деплой · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="деплой">1. Що таке деплой</h1>
+<p><strong>Деплой (deployment)</strong> — це публікація застосунку, щоб він став доступним
+користувачам в інтернеті. Фронтенд і бекенд деплоять по-різному.</p>
+<h1 id="фронтенд">2. Деплой фронтенду</h1>
+<p>Статичний сайт чи SPA спершу <strong>збирають</strong>, а тоді викладають на хостинг
+статики (<strong>Vercel</strong>, <strong>Netlify</strong>, GitHub Pages).</p>
+<pre class="language-js"><code class="language-js">npm run build   # створює папку dist/ з оптимізованими файлами</code></pre>
+<p>На Vercel/Netlify достатньо підключити Git-репозиторій — вони самі збирають і
+публікують при кожному пуші.</p>
+<h1 id="бекенд">3. Деплой бекенду</h1>
+<p>Сервер Node.js потребує середовища виконання. Платформи: <strong>Render</strong>,
+<strong>Railway</strong>, Fly.io, VPS. Обовʼязково задають змінні оточення (БД, секрети)
+на самій платформі.</p>
+<h1 id="docker">4. Docker (контейнеризація)</h1>
+<p><strong>Docker</strong> пакує застосунок разом із залежностями в контейнер, який однаково
+працює будь-де — «на моїй машині працює» більше не проблема.</p>
+<pre class="language-js"><code class="language-js"># Dockerfile
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --omit=dev
+COPY . .
+EXPOSE 3000
+CMD ["node", "src/index.js"]</code></pre>
+<h1 id="ci-cd">5. CI/CD</h1>
+<p><strong>CI/CD</strong> — автоматичний конвеєр: при пуші в Git запускаються тести й лінтери
+(CI), а якщо все зелене — застосунок автоматично публікується (CD). Приклад —
+GitHub Actions.</p>
+<pre class="language-js"><code class="language-js"># .github/workflows/ci.yml
+name: CI
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm ci
+      - run: npm test</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Для навчальних проєктів найпростіший шлях: фронтенд — на Vercel, бекенд —
+на Render, база — керований PostgreSQL. Усе має безкоштовні тарифи й
+підключення через Git.</p></div></div>
+<h1 id="чеклист">6. Чекліст перед деплоєм</h1>
+<ul>
+<li>секрети у змінних оточення, а не в коді;</li>
+<li>увімкнено production-режим і HTTPS;</li>
+<li>тести проходять;</li>
+<li>налаштовано CORS під реальний домен.</li>
+</ul>
+<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://docs.github.com/uk/actions" target="_blank">GitHub Actions — документація</a></li>
+<li><a href="https://docs.docker.com/get-started/" target="_blank">Docker — початок роботи</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

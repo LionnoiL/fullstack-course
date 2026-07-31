@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Побудова REST API · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="rest">1. Принципи REST</h1>
+<p>Ви вже вивчали REST із боку клієнта. Тепер збудуємо API на сервері. Нагадаємо
+принципи: ресурси адресуються через URL, а дії над ними виражаються
+HTTP-методами.</p>
+<pre class="language-js"><code class="language-js">GET    /api/users       // список
+GET    /api/users/:id   // один
+POST   /api/users       // створити
+PUT    /api/users/:id   // оновити
+DELETE /api/users/:id   // видалити</code></pre>
+<h1 id="crud">2. CRUD-контролери</h1>
+<p>Реалізуємо повний набір операцій (поки що з масивом у памʼяті замість БД).</p>
+<pre class="language-js"><code class="language-js">const express = require('express');
+const app = express();
+app.use(express.json());
+
+let users = [{ id: 1, name: 'Ada' }];
+
+// список
+app.get('/api/users', (req, res) =&gt; {
+  res.json(users);
+});
+
+// один за id
+app.get('/api/users/:id', (req, res) =&gt; {
+  const user = users.find((u) =&gt; u.id === Number(req.params.id));
+  if (!user) return res.status(404).json({ error: 'Не знайдено' });
+  res.json(user);
+});
+
+// створити
+app.post('/api/users', (req, res) =&gt; {
+  const user = { id: Date.now(), name: req.body.name };
+  users.push(user);
+  res.status(201).json(user);
+});
+
+// видалити
+app.delete('/api/users/:id', (req, res) =&gt; {
+  users = users.filter((u) =&gt; u.id !== Number(req.params.id));
+  res.status(204).end();
+});
+
+app.listen(3000);</code></pre>
+<h1 id="статуси">3. Правильні коди статусів</h1>
+<ul>
+<li><code>200 OK</code> — успіх;</li>
+<li><code>201 Created</code> — ресурс створено;</li>
+<li><code>204 No Content</code> — успіх без тіла (видалення);</li>
+<li><code>400 Bad Request</code> — некоректні дані;</li>
+<li><code>401 / 403</code> — не автентифіковано / немає прав;</li>
+<li><code>404 Not Found</code> — ресурс відсутній;</li>
+<li><code>500</code> — помилка сервера.</li>
+</ul>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Групуйте маршрути через <code>express.Router()</code> в окремі файли
+(<code>routes/users.js</code>) — так код лишається чистим, коли ендпоінтів стає багато.</p></div></div>
+<h1 id="валідація">4. Валідація вхідних даних</h1>
+<p>Ніколи не довіряйте даним від клієнта — перевіряйте їх на сервері (вручну або
+бібліотеками на кшталт <code>zod</code>, <code>joi</code>).</p>
+<pre class="language-js"><code class="language-js">app.post('/api/users', (req, res) =&gt; {
+  const { name } = req.body;
+  if (!name || name.trim().length &lt; 2) {
+    return res.status(400).json({ error: 'Імʼя обовʼязкове' });
+  }
+  // ...створення
+});</code></pre>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://restfulapi.net/" target="_blank">REST API Tutorial</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Бази даних · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="бд">1. Навіщо база даних</h1>
+<p>Дані застосунку мають зберігатися <em>постійно</em> — між перезапусками сервера й для
+багатьох користувачів. Для цього використовують <strong>базу даних (БД)</strong>. Є два
+великі типи: реляційні (SQL) і документні (NoSQL).</p>
+<h1 id="sql">2. Реляційні БД (SQL)</h1>
+<p>Дані зберігаються в <strong>таблицях</strong> зі звʼязками між ними. Приклади:
+<strong>PostgreSQL</strong>, MySQL, SQLite. Мова запитів — <strong>SQL</strong>.</p>
+<pre class="language-sql"><code class="language-sql">CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(255) UNIQUE
+);
+
+INSERT INTO users (name, email) VALUES ('Ada', 'ada@site.com');
+
+SELECT * FROM users WHERE id = 1;
+
+UPDATE users SET name = 'Ada L.' WHERE id = 1;
+
+DELETE FROM users WHERE id = 1;</code></pre>
+<h1 id="звʼязки">3. Звʼязки між таблицями</h1>
+<p>Реляційні БД сильні саме звʼязками: користувач має багато замовлень, замовлення
+належить користувачу (через <code>foreign key</code>).</p>
+<pre class="language-sql"><code class="language-sql">CREATE TABLE orders (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id),
+  total NUMERIC
+);
+
+-- обʼєднання даних
+SELECT users.name, orders.total
+FROM orders
+JOIN users ON users.id = orders.user_id;</code></pre>
+<h1 id="nosql">4. Документні БД (NoSQL)</h1>
+<p><strong>MongoDB</strong> зберігає дані як гнучкі JSON-подібні документи без жорсткої схеми.
+Зручно, коли структура даних змінюється або вкладена.</p>
+<pre class="language-js"><code class="language-js">// документ у колекції users
+{
+  _id: ObjectId("..."),
+  name: "Ada",
+  email: "ada@site.com",
+  roles: ["admin", "user"]
+}
+
+db.users.find({ name: "Ada" });
+db.users.insertOne({ name: "Grace" });</code></pre>
+<h1 id="sql-vs-nosql">5. SQL чи NoSQL?</h1>
+<ul>
+<li><strong>SQL</strong> — коли дані структуровані й важливі звʼязки та цілісність (фінанси, облік);</li>
+<li><strong>NoSQL</strong> — коли схема гнучка, потрібна швидкість і масштабування (логи, каталоги).</li>
+</ul>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Для більшості вебзастосунків PostgreSQL — надійний вибір за замовчуванням.
+Писати «сирий» SQL із коду незручно й небезпечно (SQL-інʼєкції), тому далі
+використовують ORM — про це наступний урок.</p></div></div>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://www.postgresql.org/docs/" target="_blank">Документація PostgreSQL</a></li>
+<li><a href="https://www.mongodb.com/docs/" target="_blank">Документація MongoDB</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

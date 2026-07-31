@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Переходи та анімації · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="transition">1. Плавні переходи</h1>
+<p>Властивість <code>transition</code> робить зміну значень плавною замість миттєвої —
+наприклад, при наведенні.</p>
+<pre class="language-css"><code class="language-css">.button {
+  background: #2563eb;
+  transition: background 0.2s ease;
+}
+.button:hover {
+  background: #1e40af; /* плавно за 0.2с */
+}</code></pre>
+<h1 id="transition-параметри">2. Параметри transition</h1>
+<pre class="language-css"><code class="language-css">/* властивість | тривалість | функція | затримка */
+transition: transform 0.3s ease-in-out 0s;
+
+/* кілька властивостей */
+transition: color 0.2s, transform 0.3s;
+
+/* усі властивості */
+transition: all 0.2s ease;</code></pre>
+<h1 id="transform">3. Трансформації</h1>
+<p><code>transform</code> зміщує, масштабує чи обертає елемент — без впливу на сусідів і дуже
+продуктивно.</p>
+<pre class="language-css"><code class="language-css">.card:hover {
+  transform: translateY(-6px) scale(1.03);
+}
+/* rotate(45deg); translateX(10px); */</code></pre>
+<h1 id="keyframes">4. Анімації @keyframes</h1>
+<p>Для складніших, повторюваних анімацій описують ключові кадри.</p>
+<pre class="language-css"><code class="language-css">@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.modal {
+  animation: fade-in 0.4s ease-out;
+}
+
+/* нескінченне обертання спінера */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spinner { animation: spin 1s linear infinite; }</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Анімуйте переважно <code>transform</code> і <code>opacity</code> — вони не спричиняють
+перерахунок макета і працюють плавно. Анімація <code>width</code>, <code>height</code>, <code>top</code>
+навантажує браузер і може «смикатися».</p></div></div>
+<h1 id="доступність-анімацій">5. Повага до налаштувань користувача</h1>
+<pre class="language-css"><code class="language-css">@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/uk/docs/Web/CSS/CSS_animations/Using_CSS_animations" target="_blank">CSS-анімації — MDN</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

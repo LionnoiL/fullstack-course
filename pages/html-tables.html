@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Таблиці · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="таблиці">1. Таблиці для табличних даних</h1>
+<p>Таблиці <code>&lt;table&gt;</code> призначені для <em>табличних даних</em> — рядків і стовпців зі
+звʼязаним змістом. Рядок — <code>&lt;tr&gt;</code>, комірка даних — <code>&lt;td&gt;</code>, комірка-заголовок —
+<code>&lt;th&gt;</code>.</p>
+<pre class="language-markup"><code class="language-markup">&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Імʼя&lt;/th&gt;
+    &lt;th&gt;Вік&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Ada&lt;/td&gt;
+    &lt;td&gt;30&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+<h1 id="структура">2. Правильна структура</h1>
+<p>Для великих таблиць вміст ділять на <code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code> та <code>&lt;tfoot&gt;</code>, а
+підпис задають тегом <code>&lt;caption&gt;</code>.</p>
+<pre class="language-markup"><code class="language-markup">&lt;table&gt;
+  &lt;caption&gt;Успішність студентів&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;&lt;th&gt;Предмет&lt;/th&gt;&lt;th&gt;Бал&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;JavaScript&lt;/td&gt;&lt;td&gt;95&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;CSS&lt;/td&gt;&lt;td&gt;88&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+<h1 id="обʼєднання">3. Обʼєднання комірок</h1>
+<pre class="language-markup"><code class="language-markup">&lt;td colspan="2"&gt;Обʼєднано 2 стовпці&lt;/td&gt;
+&lt;td rowspan="3"&gt;Обʼєднано 3 рядки&lt;/td&gt;</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Не використовуйте таблиці для верстки макета сторінки — це застарілий і
+шкідливий для доступності підхід. Для розкладки є Flexbox і Grid (розділ CSS).</p></div></div>
+<h1 id="додаткові-матеріали">4. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/uk/docs/Learn/HTML/Tables" target="_blank">Таблиці HTML — MDN</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

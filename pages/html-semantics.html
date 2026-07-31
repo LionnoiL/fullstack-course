@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Семантична розмітка · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="семантика">1. Що таке семантична розмітка</h1>
+<p><strong>Семантичні теги</strong> описують <em>роль</em> вмісту, а не лише його вигляд. Замість
+того щоб усе загортати в <code>&lt;div&gt;</code>, використовують теги зі змістом: <code>&lt;header&gt;</code>,
+<code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code> тощо. Це покращує доступність, SEO і
+читабельність коду.</p>
+<h1 id="структурні">2. Структурні елементи сторінки</h1>
+<pre class="language-markup"><code class="language-markup">&lt;body&gt;
+  &lt;header&gt;Шапка сайту, логотип&lt;/header&gt;
+
+  &lt;nav&gt;Головне меню&lt;/nav&gt;
+
+  &lt;main&gt;
+    &lt;article&gt;
+      &lt;h1&gt;Заголовок статті&lt;/h1&gt;
+      &lt;section&gt;Розділ статті&lt;/section&gt;
+    &lt;/article&gt;
+
+    &lt;aside&gt;Бічна панель, віджети&lt;/aside&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;Підвал: копірайт, контакти&lt;/footer&gt;
+&lt;/body&gt;</code></pre>
+<h1 id="огляд">3. Основні семантичні теги</h1>
+<ul>
+<li><code>&lt;header&gt;</code> — вступна частина сторінки чи секції;</li>
+<li><code>&lt;nav&gt;</code> — блок навігації;</li>
+<li><code>&lt;main&gt;</code> — основний унікальний вміст (один на сторінку);</li>
+<li><code>&lt;article&gt;</code> — самодостатній матеріал (пост, картка товару);</li>
+<li><code>&lt;section&gt;</code> — тематичний розділ;</li>
+<li><code>&lt;aside&gt;</code> — другорядний вміст;</li>
+<li><code>&lt;footer&gt;</code> — підвал сторінки чи секції;</li>
+<li><code>&lt;figure&gt;</code>/<code>&lt;figcaption&gt;</code> — медіа з підписом.</li>
+</ul>
+<h1 id="проти-div">4. Семантика проти div</h1>
+<pre class="language-markup"><code class="language-markup">&lt;!-- ❌ несемантично --&gt;
+&lt;div class="header"&gt;...&lt;/div&gt;
+&lt;div class="nav"&gt;...&lt;/div&gt;
+
+&lt;!-- ✅ семантично --&gt;
+&lt;header&gt;...&lt;/header&gt;
+&lt;nav&gt;...&lt;/nav&gt;</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>&lt;div&gt;</code> і <code>&lt;span&gt;</code> досі потрібні — але лише коли немає відповідного
+семантичного тега (напр., обгортка суто для стилізації). Спершу шукайте
+змістовий тег, і тільки потім беріть <code>&lt;div&gt;</code>.</p></div></div>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/uk/docs/Learn/HTML/Introduction_to_HTML/Document_and_website_structure" target="_blank">Структура документа — MDN</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>
