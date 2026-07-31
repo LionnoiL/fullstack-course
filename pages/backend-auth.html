@@ -33,6 +33,7 @@ if (!ok) return res.status(401).json({ error: 'Невірні дані' });</cod
 <h1 id="jwt">3. JWT-токени</h1>
 <p><strong>JWT (JSON Web Token)</strong> — підписаний токен, який сервер видає після входу.
 Клієнт надсилає його з кожним запитом, а сервер перевіряє підпис.</p>
+<p><img src="images/jwt-flow.svg" alt="Потік автентифікації через JWT-токен"></p>
 <pre class="language-js"><code class="language-js">const jwt = require('jsonwebtoken');
 
 // видати токен після успішного входу

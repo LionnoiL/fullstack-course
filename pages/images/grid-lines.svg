@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="-apple-system, Segoe UI, Roboto, Arial, sans-serif">
+  <rect width="640" height="300" fill="#ffffff"/>
+  <rect x="90" y="55" width="480" height="200" fill="#f8fafc" stroke="#cbd5e1"/>
+  <line x1="250" y1="55" x2="250" y2="255" stroke="#cbd5e1" stroke-dasharray="5 4"/>
+  <line x1="410" y1="55" x2="410" y2="255" stroke="#cbd5e1" stroke-dasharray="5 4"/>
+  <line x1="90" y1="155" x2="570" y2="155" stroke="#cbd5e1" stroke-dasharray="5 4"/>
+  <text x="170" y="110" font-size="14" fill="#1e40af" text-anchor="middle">1fr</text>
+  <text x="330" y="110" font-size="14" fill="#1e40af" text-anchor="middle">1fr</text>
+  <text x="490" y="110" font-size="14" fill="#1e40af" text-anchor="middle">1fr</text>
+  <text x="330" y="40" font-size="14" fill="#111827" text-anchor="middle">columns →</text>
+  <text x="60" y="160" font-size="14" fill="#111827" text-anchor="middle" transform="rotate(-90 60 160)">rows ↓</text>
+</svg>

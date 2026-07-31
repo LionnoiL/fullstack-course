@@ -36,6 +36,7 @@ factorial(5); // 5 * 4 * 3 * 2 * 1 = 120</code></pre>
 <p>Кожен виклик функції додає новий кадр (frame) у стек викликів. Рекурсія
 «занурюється» до базового випадку, а потім «розкручується» назад, повертаючи
 значення з найглибшого виклику до найпершого.</p>
+<p><img src="images/recursion-stack.svg" alt="Рекурсивні виклики й повернення значень для factorial(3)"></p>
 <pre class="language-js"><code class="language-js">factorial(3)
  -&gt; 3 * factorial(2)
       -&gt; 2 * factorial(1)

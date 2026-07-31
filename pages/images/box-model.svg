@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 350" font-family="-apple-system, Segoe UI, Roboto, Arial, sans-serif">
+  <rect width="640" height="350" fill="#ffffff"/>
+  <rect x="15" y="15" width="610" height="320" fill="#faf7f0" stroke="#d6d3d1" stroke-dasharray="5 4"/>
+  <text x="24" y="34" font-size="14" fill="#78716c">margin</text>
+  <rect x="95" y="55" width="450" height="240" fill="#e7e5e4" stroke="#a8a29e"/>
+  <text x="104" y="74" font-size="14" fill="#57534e">border</text>
+  <rect x="165" y="100" width="310" height="150" fill="#dcfce7" stroke="#86efac"/>
+  <text x="174" y="119" font-size="14" fill="#15803d">padding</text>
+  <rect x="245" y="140" width="150" height="70" fill="#dbeafe" stroke="#93c5fd"/>
+  <text x="320" y="181" font-size="15" fill="#1e40af" text-anchor="middle" font-weight="600">content</text>
+</svg>
