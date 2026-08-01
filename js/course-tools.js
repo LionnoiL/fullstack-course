@@ -85,15 +85,25 @@
     }
     return -1;
   }
-  // Зворотне: за зсувом знайти текстовий вузол і локальний offset
-  function nodeAtOffset(target) {
+  // Зворотне: за зсувом знайти текстовий вузол і локальний offset.
+  // preferNext=true (для старту range): на точній межі між вузлами переходить
+  // до початку наступного, щоб range не починався перед блоковим елементом.
+  // preferNext=false (для кінця range): залишається в поточному вузлі на кінці.
+  function nodeAtOffset(target, preferNext) {
     const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, null);
     let total = 0;
     let cur;
     while ((cur = walker.nextNode())) {
       const len = cur.textContent.length;
-      if (target <= total + len) {
+      if (target < total + len) {
         return { node: cur, offset: target - total };
+      }
+      if (target === total + len) {
+        if (preferNext) {
+          const next = walker.nextNode();
+          if (next) return { node: next, offset: 0 };
+        }
+        return { node: cur, offset: len };
       }
       total += len;
     }
@@ -113,11 +123,24 @@
     return mark;
   }
 
+  // Прибрати вже накладені нами виділення (щоб повторний виклик не дублював їх).
+  function clearAppliedHighlights() {
+    content.querySelectorAll("mark.note-highlight").forEach((mark) => {
+      const parent = mark.parentNode;
+      while (mark.firstChild) {
+        parent.insertBefore(mark.firstChild, mark);
+      }
+      parent.removeChild(mark);
+      parent.normalize();
+    });
+  }
+
   function applyStoredHighlights() {
+    clearAppliedHighlights(); // ідемпотентність: спершу зняти те, що вже наклали
     getHighlights().forEach((h) => {
       try {
-        const s = nodeAtOffset(h.start);
-        const e = nodeAtOffset(h.start + h.len);
+        const s = nodeAtOffset(h.start, true);
+        const e = nodeAtOffset(h.start + h.len, false);
         if (!s || !e) {
           return;
         }
