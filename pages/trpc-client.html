@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Клієнт і React Query · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="ідея">1. Клієнт, що знає сервер</h1>
+<p>Клієнт створюється з <strong>типу</strong> <code>AppRouter</code> — не з коду. Тому в редакторі
+працюють автодоповнення й перевірка типів: назви процедур, форма входу й тип
+результату «підказуються» самі.</p>
+<pre class="language-js"><code class="language-js">// client/trpc.ts
+import { createTRPCReact } from '@trpc/react-query';
+import type { AppRouter } from '../server/router'; // лише ТИП
+
+export const trpc = createTRPCReact&lt;AppRouter&gt;();</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>@trpc/react-query</code> — це надбудова над <strong>TanStack Query</strong> з окремого розділу.
+tRPC генерує хуки <code>useQuery</code>/<code>useMutation</code>, а всю механіку кешу, статусів
+(<code>isLoading</code>, <code>error</code>) та інвалідації бере на себе React Query.</p></div></div>
+
+<h1 id="провайдери">2. Провайдери</h1>
+<p>Потрібні два провайдери: <code>QueryClientProvider</code> (від React Query) і
+<code>trpc.Provider</code> з налаштованим лінком. <code>httpBatchLink</code> склеює кілька викликів,
+що сталися одночасно, в один HTTP-запит.</p>
+<pre class="language-js"><code class="language-js">import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { httpBatchLink } from '@trpc/client';
+import { trpc } from './trpc';
+
+const queryClient = new QueryClient();
+const trpcClient = trpc.createClient({
+  links: [httpBatchLink({ url: 'http://localhost:3000/trpc' })],
+});
+
+export function Providers({ children }) {
+  return (
+    &lt;trpc.Provider client={trpcClient} queryClient={queryClient}&gt;
+      &lt;QueryClientProvider client={queryClient}&gt;{children}&lt;/QueryClientProvider&gt;
+    &lt;/trpc.Provider&gt;
+  );
+}</code></pre>
+
+<h1 id="usequery">3. Читання: <code>useQuery</code></h1>
+<p>Виклик повторює шлях у роутері. Вхід передається першим аргументом і
+<strong>перевіряється типом</strong> прямо в редакторі:</p>
+<pre class="language-js"><code class="language-js">function TodoList() {
+  const { data, isLoading, error } = trpc.todo.list.useQuery();
+
+  if (isLoading) return &lt;p&gt;Завантаження…&lt;/p&gt;;
+  if (error) return &lt;p&gt;Помилка: {error.message}&lt;/p&gt;;
+
+  // data типізовано як Todo[] — виведено із серверної процедури
+  return &lt;ul&gt;{data.map((t) =&gt; &lt;li key={t.id}&gt;{t.title}&lt;/li&gt;)}&lt;/ul&gt;;
+}
+
+// процедура зі входом:
+const todo = trpc.todo.byId.useQuery({ id: 1 }); // { id: number } — обов'язково</code></pre>
+
+<h1 id="usemutation">4. Зміни: <code>useMutation</code> + інвалідація</h1>
+<p>Мутації повертають <code>mutate</code>/<code>mutateAsync</code>. Після успіху <strong>інвалідуємо</strong>
+відповідний запит, щоб список перечитався — через <code>useUtils()</code>:</p>
+<pre class="language-js"><code class="language-js">function AddTodo() {
+  const utils = trpc.useUtils();
+  const addTodo = trpc.todo.add.useMutation({
+    onSuccess: () =&gt; {
+      utils.todo.list.invalidate(); // перечитати список
+    },
+  });
+
+  return (
+    &lt;button onClick={() =&gt; addTodo.mutate({ title: 'Нова задача' })}
+            disabled={addTodo.isPending}&gt;
+      Додати
+    &lt;/button&gt;
+  );
+}</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>utils.todo.list.invalidate()</code> — типізований аналог
+<code>queryClient.invalidateQueries</code> із TanStack Query, але tRPC сам знає ключ кешу для
+цієї процедури. Помилитися з ключем неможливо.</p></div></div>
+
+<h1 id="підсумок">5. Підсумок</h1>
+<ul>
+<li>клієнт створюється з типу <code>AppRouter</code> — автодоповнення без кодогенерації;</li>
+<li>два провайдери: React Query + tRPC з <code>httpBatchLink</code>;</li>
+<li><code>useQuery</code> для читання, <code>useMutation</code> + <code>utils…invalidate()</code> для змін.</li>
+</ul>
+
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://trpc.io/docs/client/react" target="_blank">tRPC — React Query Integration</a></li>
+<li><a href="https://trpc.io/docs/client/links/httpBatchLink" target="_blank">tRPC — httpBatchLink</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

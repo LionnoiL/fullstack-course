@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Процедури: queries і mutations · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="query-mutation">1. Query vs Mutation</h1>
+<p>Процедури бувають двох видів, за аналогією з HTTP:</p>
+<ul>
+<li><strong><code>.query()</code></strong> — <em>читання</em> даних, без побічних ефектів (як <code>GET</code>).
+Результат можна кешувати;</li>
+<li><strong><code>.mutation()</code></strong> — <em>зміна</em> даних: створити, оновити, видалити
+(як <code>POST</code>/<code>PUT</code>/<code>DELETE</code>).</li>
+</ul>
+<pre class="language-js"><code class="language-js">export const appRouter = router({
+  list: publicProcedure.query(() =&gt; db.todos.findMany()),
+  clear: publicProcedure.mutation(() =&gt; db.todos.deleteMany()),
+});</code></pre>
+
+<h1 id="input">2. Вхідні дані: <code>.input()</code> + Zod</h1>
+<p>Аргументи процедури описують Zod-схемою через <code>.input()</code>. tRPC <strong>перевіряє</strong>
+вхід цією схемою на рантаймі й одночасно <strong>виводить тип</strong> аргументу — усередині
+процедури <code>input</code> уже типізований, без ручних анотацій.</p>
+<pre class="language-js"><code class="language-js">import { z } from 'zod';
+
+export const appRouter = router({
+  byId: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .query(({ input }) =&gt; {
+      // input: { id: number } — виведено зі схеми
+      return db.todos.findById(input.id);
+    }),
+});</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Якщо клієнт надішле дані, що не проходять схему, tRPC поверне помилку
+<code>BAD_REQUEST</code> ще <em>до</em> виконання твого коду. Тобто всередині процедури
+<code>input</code> уже гарантовано валідний — не треба перевіряти вручну.</p></div></div>
+
+<h1 id="mutation-input">3. Mutation зі входом</h1>
+<p>Мутації так само приймають <code>.input()</code>. Ось створення todo з валідацією:</p>
+<pre class="language-js"><code class="language-js">add: publicProcedure
+  .input(z.object({ title: z.string().min(1).max(200) }))
+  .mutation(({ input }) =&gt; {
+    return db.todos.create({ title: input.title, done: false });
+  }),
+
+toggle: publicProcedure
+  .input(z.object({ id: z.number(), done: z.boolean() }))
+  .mutation(({ input }) =&gt; db.todos.update(input.id, { done: input.done })),</code></pre>
+
+<h1 id="output">4. Тип результату (і опційний <code>.output()</code>)</h1>
+<p>Тип того, що процедура <em>повертає</em>, tRPC виводить автоматично зі <code>return</code> —
+окремо його описувати не треба. За бажання можна додати <code>.output()</code> зі
+схемою, щоб <strong>гарантувати</strong> форму відповіді (корисно, коли не хочеш випадково
+віддати зайві поля, як-от <code>passwordHash</code>):</p>
+<pre class="language-js"><code class="language-js">const todoShape = z.object({ id: z.number(), title: z.string(), done: z.boolean() });
+
+list: publicProcedure
+  .output(z.array(todoShape)) // зайві поля буде відсічено/перевірено
+  .query(() =&gt; db.todos.findMany()),</code></pre>
+
+<h1 id="async">5. Асинхронні процедури</h1>
+<p>Процедура може бути <code>async</code> — tRPC чекає на проміс. Це звична робота з БД:</p>
+<pre class="language-js"><code class="language-js">user: publicProcedure
+  .input(z.object({ id: z.string() }))
+  .query(async ({ input }) =&gt; {
+    const user = await prisma.user.findUnique({ where: { id: input.id } });
+    return user; // тип результату виведеться з Prisma
+  }),</code></pre>
+<p>Тепер маємо процедури читання й запису з валідацією. Далі — як групувати їх у
+вкладені роутери й давати процедурам спільний <em>контекст</em> (БД, поточний користувач).</p>
+
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://trpc.io/docs/server/procedures" target="_blank">tRPC — Procedures</a></li>
+<li><a href="https://trpc.io/docs/server/validators" target="_blank">tRPC — Input &amp; Output Validators</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

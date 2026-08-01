@@ -360,6 +360,18 @@
       ],
     },
     {
+      title: "tRPC (типобезпечний API)",
+      lessons: [
+        ["trpc-intro.html", "Навіщо типобезпечний API"],
+        ["trpc-setup.html", "Встановлення та ініціалізація"],
+        ["trpc-procedures.html", "Процедури: queries і mutations"],
+        ["trpc-router.html", "Роутери та контекст"],
+        ["trpc-client.html", "Клієнт і React Query"],
+        ["trpc-advanced.html", "Middleware, захист, помилки"],
+        ["practice-trpc.html", "🎯 Практика: tRPC"],
+      ],
+    },
+    {
       title: "Next.js",
       lessons: [
         ["next-intro.html", "Що таке Next.js"],

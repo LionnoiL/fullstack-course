@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Middleware, захищені процедури, помилки · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="middleware">1. Middleware</h1>
+<p><strong>Middleware</strong> — код, що виконується <em>перед</em> процедурою: перевірити права,
+залогувати, зміряти час. Він отримує <code>ctx</code> і викликає <code>next()</code>, щоб пустити
+запит далі (або кидає помилку, щоб зупинити).</p>
+<pre class="language-js"><code class="language-js">// server/trpc.ts
+const t = initTRPC.context&lt;Context&gt;().create();
+
+const logger = t.middleware(async ({ path, type, next }) =&gt; {
+  const start = Date.now();
+  const result = await next();
+  console.log(`${type} ${path} — ${Date.now() - start}ms`);
+  return result;
+});
+
+export const publicProcedure = t.procedure.use(logger);</code></pre>
+
+<h1 id="protected">2. Захищені процедури</h1>
+<p>Найчастіший middleware — перевірка автентифікації. Він читає <code>ctx.user</code> (який ми
+поклали в контекст) і або кидає <code>UNAUTHORIZED</code>, або пускає далі. Ключовий трюк:
+<code>next()</code> може <strong>звузити</strong> тип контексту — після перевірки <code>ctx.user</code> уже не
+<code>null</code>.</p>
+<pre class="language-js"><code class="language-js">import { TRPCError } from '@trpc/server';
+
+const isAuthed = t.middleware(({ ctx, next }) =&gt; {
+  if (!ctx.user) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+  // передаємо далі звужений контекст: user тепер точно є
+  return next({ ctx: { user: ctx.user } });
+});
+
+export const protectedProcedure = t.procedure.use(isAuthed);</code></pre>
+<pre class="language-js"><code class="language-js">// тепер у процедурі ctx.user — гарантовано не null
+me: protectedProcedure.query(({ ctx }) =&gt; ctx.user),
+deleteAccount: protectedProcedure.mutation(({ ctx }) =&gt; db.users.remove(ctx.user.id)),</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Патерн «базові процедури» дуже зручний: <code>publicProcedure</code> для відкритих
+ендпоінтів і <code>protectedProcedure</code> для тих, що вимагають входу. Захист — в одному
+місці, а не розсипаний перевірками по кожній процедурі.</p></div></div>
+
+<h1 id="errors">3. Помилки: <code>TRPCError</code></h1>
+<p>Помилки кидають через <code>TRPCError</code> зі стандартним <code>code</code>, який tRPC
+перекладає у HTTP-статус. Основні коди:</p>
+<ul>
+<li><code>BAD_REQUEST</code> (400) — некоректні дані (Zod кидає це сам);</li>
+<li><code>UNAUTHORIZED</code> (401) — не автентифікований;</li>
+<li><code>FORBIDDEN</code> (403) — немає прав;</li>
+<li><code>NOT_FOUND</code> (404) — ресурс не знайдено;</li>
+<li><code>INTERNAL_SERVER_ERROR</code> (500) — інше.</li>
+</ul>
+<pre class="language-js"><code class="language-js">byId: publicProcedure
+  .input(z.object({ id: z.number() }))
+  .query(({ input }) =&gt; {
+    const todo = db.todos.findById(input.id);
+    if (!todo) throw new TRPCError({ code: 'NOT_FOUND', message: 'Немає такої задачі' });
+    return todo;
+  }),</code></pre>
+<p>На клієнті ця помилка приходить типізовано: <code>error.data?.code === 'NOT_FOUND'</code>,
+а <code>error.message</code> містить текст.</p>
+
+<h1 id="error-formatting">4. Формат помилок і Zod</h1>
+<p>Через <code>errorFormatter</code> в <code>initTRPC</code> можна долучати до відповіді деталі
+Zod-помилок, щоб клієнт показав їх по полях (як у формах):</p>
+<pre class="language-js"><code class="language-js">const t = initTRPC.context&lt;Context&gt;().create({
+  errorFormatter({ shape, error }) {
+    return {
+      ...shape,
+      data: {
+        ...shape.data,
+        zodError: error.cause instanceof ZodError ? error.cause.flatten() : null,
+      },
+    };
+  },
+});</code></pre>
+
+<h1 id="graphql">5. Коротко: коли натомість GraphQL</h1>
+<p>tRPC блищить у внутрішньому TypeScript-фулстеку. Якщо ж API <em>публічний</em>, потрібні
+клієнти іншими мовами або гнучкі запити «візьми лише ці поля» під різні екрани —
+подивись у бік <strong>GraphQL</strong> (схема SDL, один ендпоінт, кодогенерація типів). Це не
+конкуренти на кожен проєкт, а різні інструменти під різні контракти.</p>
+
+<h1 id="підсумок">6. Підсумок розділу</h1>
+<ul>
+<li>middleware виконується перед процедурою й може звужувати контекст;</li>
+<li><code>protectedProcedure</code> централізує перевірку автентифікації;</li>
+<li>помилки — через <code>TRPCError</code> з кодом; на клієнті вони типізовані;</li>
+<li>tRPC — для TS-монорепо; публічний контракт — REST/GraphQL.</li>
+</ul>
+
+<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://trpc.io/docs/server/middlewares" target="_blank">tRPC — Middlewares</a></li>
+<li><a href="https://trpc.io/docs/server/error-handling" target="_blank">tRPC — Error Handling</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>
