@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" font-family="-apple-system, Segoe UI, Roboto, Arial, sans-serif">
+  <rect width="640" height="320" fill="#ffffff"/>
+  <defs>
+    <marker id="sa" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+    <marker id="sg" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#16a34a"/>
+    </marker>
+    <marker id="sy" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#b45309"/>
+    </marker>
+  </defs>
+
+  <!-- page -->
+  <rect x="24" y="120" width="120" height="60" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="84" y="146" font-size="12" fill="#1e40af" text-anchor="middle">Сторінка</text>
+  <text x="84" y="164" font-size="10.5" fill="#57534e" text-anchor="middle">fetch(...)</text>
+
+  <!-- service worker -->
+  <rect x="230" y="110" width="150" height="80" rx="10" fill="#e0e7ff" stroke="#818cf8"/>
+  <text x="305" y="136" font-size="13" fill="#3730a3" text-anchor="middle" font-weight="600">Service Worker</text>
+  <text x="305" y="156" font-size="10.5" fill="#57534e" text-anchor="middle">перехоплює запит</text>
+  <text x="305" y="172" font-size="10.5" fill="#57534e" text-anchor="middle">(проксі між сторінкою й мережею)</text>
+
+  <line x1="144" y1="150" x2="226" y2="150" stroke="#6366f1" stroke-width="2" marker-end="url(#sa)"/>
+
+  <!-- cache -->
+  <rect x="470" y="40" width="150" height="70" rx="10" fill="#dcfce7" stroke="#86efac"/>
+  <text x="545" y="70" font-size="12" fill="#15803d" text-anchor="middle" font-weight="600">Cache Storage</text>
+  <text x="545" y="90" font-size="10.5" fill="#166534" text-anchor="middle">збережені відповіді</text>
+
+  <!-- network -->
+  <rect x="470" y="200" width="150" height="70" rx="10" fill="#fef9c3" stroke="#eab308"/>
+  <text x="545" y="230" font-size="12" fill="#854d0e" text-anchor="middle" font-weight="600">Мережа</text>
+  <text x="545" y="250" font-size="10.5" fill="#854d0e" text-anchor="middle">сервер (якщо треба)</text>
+
+  <!-- cache-first path -->
+  <path d="M380 135 C 430 120, 440 95, 468 88" fill="none" stroke="#16a34a" stroke-width="2" marker-end="url(#sg)"/>
+  <text x="430" y="112" font-size="10.5" fill="#15803d" text-anchor="middle">1. є в кеші?</text>
+
+  <!-- network fallback -->
+  <path d="M380 165 C 430 190, 440 215, 468 226" fill="none" stroke="#b45309" stroke-width="2" marker-end="url(#sy)"/>
+  <text x="432" y="205" font-size="10.5" fill="#b45309" text-anchor="middle">2. якщо нема — в мережу</text>
+
+  <text x="320" y="300" font-size="11" fill="#78716c" text-anchor="middle">офлайн-режим: коли мережі немає, сторінка працює зі збережених у кеші відповідей</text>
+</svg>

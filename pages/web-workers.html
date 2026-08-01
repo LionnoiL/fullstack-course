@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Workers · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="проблема">1. Проблема: JS однопотоковий</h1>
+<p>JavaScript у браузері виконується в <strong>одному потоці</strong> — тому ж, що малює UI й
+обробляє події. Якщо запустити важке обчислення (розбір великого файлу, складна
+математика), потік зайнятий, і сторінка <strong>«зависає»</strong>: не реагує на кліки, анімації
+стоять.</p>
+
+<h1 id="worker">2. Рішення: Web Worker</h1>
+<p><strong>Web Worker</strong> — окремий фоновий потік, у якому виконується твій скрипт
+<em>паралельно</em> головному. Головний потік лишається чуйним, а важка робота йде збоку.
+Спілкування — через повідомлення (<code>postMessage</code>).</p>
+<p><img src="images/web-worker-threads.svg" alt="Головний потік шле дані у worker через postMessage, worker рахує паралельно й повертає результат — UI не підвисає" loading="lazy"></p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Ключове обмеження: worker <strong>не має доступу до DOM</strong> (немає <code>document</code>,
+<code>window</code>). Він рахує й повертає результат, а малює вже головний потік. Це плата
+за паралелізм.</p></div></div>
+
+<h1 id="приклад">3. Мінімальний приклад</h1>
+<pre class="language-js"><code class="language-js">// worker.js — окремий файл, окремий потік
+onmessage = (e) =&gt; {
+  const result = heavyCompute(e.data); // важка робота
+  postMessage(result);                 // віддати результат назад
+};</code></pre>
+<pre class="language-js"><code class="language-js">// main.js — головний потік
+const worker = new Worker('./worker.js', { type: 'module' });
+
+worker.postMessage(bigInput);          // відправити дані у worker
+worker.onmessage = (e) =&gt; {
+  render(e.data);                       // отримати й показати результат
+};
+worker.onerror = (err) =&gt; console.error(err);</code></pre>
+
+<h1 id="vite">4. Worker у Vite</h1>
+<p>Збирачі спрощують створення воркера. У Vite є зручний синтаксис через
+<code>import ... ?worker</code> або <code>import.meta.url</code>:</p>
+<pre class="language-js"><code class="language-js">// Vite: сам збере worker у окремий файл
+const worker = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' });</code></pre>
+
+<h1 id="коли">5. Коли (не) потрібен</h1>
+<ul>
+<li>✅ <strong>важкі обчислення</strong>: обробка зображень, парсинг великих CSV/JSON,
+шифрування, фізика, аналітика на клієнті;</li>
+<li>❌ <strong>звичайні асинхронні задачі</strong> (мережа, таймери) — вони й так не блокують
+потік; worker тут зайвий;</li>
+<li>❌ дрібні швидкі операції — накладні витрати на передачу даних переважать вигоду.</li>
+</ul>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Дані у worker <strong>копіюються</strong> (структуроване клонування), а не передаються за
+посиланням. Для великих обʼєктів це має ціну; для дуже великих буферів є
+<em>transferable objects</em> (передача володіння без копії).</p></div></div>
+
+<h1 id="види">6. Види воркерів (коротко)</h1>
+<ul>
+<li><strong>Dedicated Worker</strong> — належить одній сторінці (те, що вище);</li>
+<li><strong>Shared Worker</strong> — спільний для кількох вкладок;</li>
+<li><strong>Service Worker</strong> — особливий воркер-проксі для мережі й офлайну (наступні
+уроки).</li>
+</ul>
+
+<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers" target="_blank">MDN — Using Web Workers</a></li>
+<li><a href="https://vite.dev/guide/features.html#web-workers" target="_blank">Vite — Web Workers</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

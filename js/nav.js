@@ -166,6 +166,18 @@
       ],
     },
     {
+      title: "Сучасний JavaScript",
+      lessons: [
+        ["modern-js-arrays.html", "Сучасні методи масивів"],
+        ["modern-js-objects.html", "groupBy, structuredClone, hasOwn"],
+        ["modern-js-operators.html", "Сучасні оператори"],
+        ["modern-js-modules.html", "Top-level await і import()"],
+        ["proxy-reflect.html", "Proxy та Reflect"],
+        ["js-patterns.html", "Патерни проєктування"],
+        ["practice-modern-js.html", "🎯 Практика: сучасний JS"],
+      ],
+    },
+    {
       title: "ООП",
       lessons: [
         ["oop.html", "ООП"],
@@ -196,6 +208,19 @@
         ["intersection-observer.html", "IntersectionObserver API"],
         ["bom.html", "Об'єктна модель браузера (BOM)"],
         ["practice-events.html", "🎯 Практика: події"],
+      ],
+    },
+    {
+      title: "Web APIs та PWA",
+      lessons: [
+        ["web-apis-intro.html", "Огляд браузерних Web APIs"],
+        ["web-workers.html", "Web Workers"],
+        ["indexeddb.html", "IndexedDB"],
+        ["service-workers.html", "Service Workers і кешування"],
+        ["pwa.html", "PWA: маніфест, встановлення, офлайн"],
+        ["web-components.html", "Web Components та Shadow DOM"],
+        ["intl-i18n.html", "Intl та інтернаціоналізація"],
+        ["practice-web-apis.html", "🎯 Практика: Web APIs та PWA"],
       ],
     },
     {

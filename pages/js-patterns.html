@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Патерни проєктування · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="що-таке">1. Що таке патерн проєктування</h1>
+<p><strong>Патерн</strong> — це перевірене типове рішення поширеної задачі проєктування. Це не
+код, який можна скопіювати, а <em>ідея</em>, яку адаптуєш під ситуацію. Знання патернів дає
+спільну мову в команді («тут потрібен Observer») і вберігає від винаходження велосипеда.</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Не тягни патерн заради патерну. Спочатку — проста робоча реалізація; патерн
+застосовуй, коли <em>справді</em> зʼявилась проблема, яку він розвʼязує. Зайва абстракція
+шкодить не менше за її брак.</p></div></div>
+
+<h1 id="module">2. Module — інкапсуляція</h1>
+<p>Ховає внутрішні деталі, назовні відкриває лише потрібне. У сучасному JS роль модуля
+виконують <strong>ES-модулі</strong> (файл = модуль), а всередині файлу — замикання.</p>
+<pre class="language-js"><code class="language-js">// counter.js — приватний стан + публічний API
+let count = 0;                        // приватне (не експортується)
+export function increment() { count++; }
+export function get() { return count; }
+// count ззовні недоступний — лише через increment/get</code></pre>
+
+<h1 id="singleton">3. Singleton — єдиний екземпляр</h1>
+<p>Гарантує, що обʼєкт існує в <strong>одному</strong> примірнику (конфіг, зʼєднання з БД, кеш).
+В ES-модулях це майже безкоштовно: модуль виконується один раз, тож експортований
+екземпляр — уже сінглтон.</p>
+<pre class="language-js"><code class="language-js">// store.js
+class Store { constructor() { this.data = {}; } }
+export const store = new Store(); // усі імпорти отримають ТОЙ САМИЙ обʼєкт</code></pre>
+
+<h1 id="factory">4. Factory — створення без <code>new</code></h1>
+<p>Функція-фабрика повертає готовий обʼєкт, ховаючи логіку його створення. Зручно, коли
+тип залежить від параметра.</p>
+<pre class="language-js"><code class="language-js">function createUser(role) {
+  const base = { role, createdAt: Date.now() };
+  if (role === 'admin') return { ...base, canDelete: true };
+  return { ...base, canDelete: false };
+}
+const admin = createUser('admin');</code></pre>
+
+<h1 id="observer">5. Observer (Pub/Sub) — підписка на події</h1>
+<p>Обʼєкти підписуються на подію й отримують сповіщення, коли вона стається. На цьому
+патерні тримаються події DOM, стани (Redux/Zustand), реактивність.</p>
+<pre class="language-js"><code class="language-js">class EventBus {
+  constructor() { this.listeners = {}; }
+  on(event, fn) { (this.listeners[event] ??= []).push(fn); }
+  emit(event, data) { (this.listeners[event] ?? []).forEach((fn) =&gt; fn(data)); }
+}
+
+const bus = new EventBus();
+bus.on('login', (user) =&gt; console.log('увійшов', user.name));
+bus.emit('login', { name: 'Аня' }); // → "увійшов Аня"</code></pre>
+
+<h1 id="strategy">6. Strategy — взаємозамінні алгоритми</h1>
+<p>Виносить різні варіанти поведінки в окремі функції й обирає потрібну в рантаймі —
+замість купи <code>if/else</code>.</p>
+<pre class="language-js"><code class="language-js">const shipping = {
+  standard: (w) =&gt; w * 5,
+  express:  (w) =&gt; w * 5 + 50,
+  pickup:   () =&gt; 0,
+};
+function cost(method, weight) {
+  return (shipping[method] ?? shipping.standard)(weight);
+}
+cost('express', 2); // 60</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Обʼєкт-словник функцій (як <code>shipping</code> вище) — ідіоматичний JS-спосіб Strategy:
+замість <code>switch</code> обираєш алгоритм за ключем. Легко додати новий варіант, не
+чіпаючи наявні.</p></div></div>
+
+<h1 id="інші">7. Куди далі</h1>
+<p>Є ще десятки патернів (Facade, Decorator, Adapter, Command…). Але більшість
+щоденних задач у JS покривають саме ці пʼять — плюс уже знайомі тобі композиція
+функцій і модулі. Розпізнавай їх у чужому коді — і застосовуй свідомо, не заради краси.</p>
+
+<h1 id="додаткові-матеріали">8. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://www.patterns.dev/" target="_blank">Patterns.dev — сучасні патерни</a></li>
+<li><a href="https://refactoring.guru/design-patterns" target="_blank">Refactoring.Guru — Design Patterns</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

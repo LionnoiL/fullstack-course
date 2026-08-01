@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proxy та Reflect · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="що-таке">1. Що таке Proxy</h1>
+<p><strong>Proxy</strong> обгортає обʼєкт і дозволяє <strong>перехоплювати операції</strong> з ним:
+читання поля, запис, перевірку наявності, видалення. Ти задаєш «пастки» (traps), і
+вони спрацьовують замість стандартної поведінки.</p>
+<pre class="language-js"><code class="language-js">const target = { name: 'Аня', age: 30 };
+
+const proxy = new Proxy(target, {
+  get(obj, prop) {
+    console.log('читають', prop);
+    return prop in obj ? obj[prop] : `&lt;немає поля ${prop}&gt;`;
+  },
+  set(obj, prop, value) {
+    if (prop === 'age' &amp;&amp; typeof value !== 'number') {
+      throw new TypeError('age має бути числом');
+    }
+    obj[prop] = value;
+    return true; // set МУСИТЬ повернути true при успіху
+  },
+});
+
+proxy.name;        // лог: "читають name" → 'Аня'
+proxy.city;        // '&lt;немає поля city&gt;'
+proxy.age = 'ой';  // TypeError</code></pre>
+
+<h1 id="traps">2. Поширені пастки</h1>
+<ul>
+<li><code>get(obj, prop, receiver)</code> — читання <code>obj.prop</code>;</li>
+<li><code>set(obj, prop, value, receiver)</code> — запис (повертай <code>true</code>);</li>
+<li><code>has(obj, prop)</code> — оператор <code>in</code>;</li>
+<li><code>deleteProperty(obj, prop)</code> — <code>delete obj.prop</code>;</li>
+<li><code>apply</code>/<code>construct</code> — виклик функції / <code>new</code>.</li>
+</ul>
+
+<h1 id="reflect">3. Reflect — «правильний» доступ до операцій</h1>
+<p><strong>Reflect</strong> — обʼєкт із методами, що дублюють базові операції над обʼєктами
+(<code>Reflect.get</code>, <code>Reflect.set</code>, <code>Reflect.has</code>…). Їх зручно
+викликати <em>усередині пасток</em>, щоб виконати «стандартну» дію коректно (з правильним
+<code>this</code>/<code>receiver</code>).</p>
+<pre class="language-js"><code class="language-js">const proxy = new Proxy(target, {
+  get(obj, prop, receiver) {
+    console.log('get', prop);
+    return Reflect.get(obj, prop, receiver); // делегувати стандартне читання
+  },
+  set(obj, prop, value, receiver) {
+    return Reflect.set(obj, prop, value, receiver); // повертає true/false сам
+  },
+});</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Пара Proxy + Reflect — стандартний патерн: пастка <em>додає</em> свою логіку (лог,
+валідацію), а <code>Reflect</code> виконує саму операцію без ручного <code>obj[prop] = ...</code>,
+правильно обробляючи гетери/сетери й <code>receiver</code>.</p></div></div>
+
+<h1 id="навіщо">4. Навіщо це на практиці</h1>
+<ul>
+<li><strong>реактивність</strong> — саме на Proxy побудована реактивність Vue 3 та бібліотек
+на кшталт Valtio: перехопив запис у стан → оновив UI;</li>
+<li><strong>валідація</strong> — не дати записати некоректне значення;</li>
+<li><strong>значення за замовчуванням</strong>, логування доступу, «тільки для читання»
+обʼєкти, віртуальні поля.</li>
+</ul>
+<pre class="language-js"><code class="language-js">// приклад: обʼєкт «тільки для читання»
+function readonly(obj) {
+  return new Proxy(obj, {
+    set() { throw new Error('Обʼєкт незмінний'); },
+    deleteProperty() { throw new Error('Обʼєкт незмінний'); },
+  });
+}</code></pre>
+
+<h1 id="ціна">5. Ціна й обережність</h1>
+<p>Proxy додає накладні витрати на кожну операцію — не обгортай ним «гарячі» структури в
+циклах без потреби. Це потужний, але спеціалізований інструмент: для щоденного коду
+рідко потрібен, зате критично важливий у бібліотеках і фреймворках.</p>
+
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy" target="_blank">MDN — Proxy</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect" target="_blank">MDN — Reflect</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

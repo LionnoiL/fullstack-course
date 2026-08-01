@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сучасні методи масивів · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="навіщо">1. Проблема мутуючих методів</h1>
+<p>Класичні <code>sort()</code>, <code>reverse()</code>, <code>splice()</code> <strong>змінюють сам
+масив</strong> (мутують). У сучасному коді (особливо в React, де стан має бути незмінним)
+це джерело багів: відсортував — і випадково зіпсував оригінал.</p>
+<pre class="language-js"><code class="language-js">const nums = [3, 1, 2];
+const sorted = nums.sort();   // мутує nums!
+console.log(nums);            // [1, 2, 3] — оригінал змінено 😱</code></pre>
+
+<h1 id="immutable">2. Незмінні аналоги (ES2023)</h1>
+<p>З’явилися методи, що повертають <strong>новий</strong> масив, лишаючи оригінал недоторканим:</p>
+<pre class="language-js"><code class="language-js">const nums = [3, 1, 2];
+
+const sorted   = nums.toSorted((a, b) =&gt; a - b); // [1, 2, 3]
+const reversed = nums.toReversed();              // [2, 1, 3]
+const spliced  = nums.toSpliced(1, 1);           // [3, 2] (видалити 1 з індексу 1)
+const replaced = nums.with(0, 99);               // [99, 1, 2] (замінити індекс 0)
+
+console.log(nums); // [3, 1, 2] — оригінал НЕ змінено ✅</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Правило: у React та скрізь, де важлива незмінність, віддавай перевагу
+<code>toSorted</code>/<code>toReversed</code>/<code>toSpliced</code>/<code>with</code>. Раніше писали
+<code>[...arr].sort()</code> — тепер це вбудовано.</p></div></div>
+
+<h1 id="at">3. <code>at()</code> — доступ з кінця</h1>
+<p><code>at()</code> дозволяє індекс від кінця через відʼємне число — зручніше за
+<code>arr[arr.length - 1]</code>:</p>
+<pre class="language-js"><code class="language-js">const arr = ['a', 'b', 'c'];
+arr.at(0);   // 'a'
+arr.at(-1);  // 'c'  — останній
+arr.at(-2);  // 'b'
+'hello'.at(-1); // 'o' — працює і для рядків</code></pre>
+
+<h1 id="findlast">4. <code>findLast</code> і <code>findLastIndex</code></h1>
+<p>Шукають <strong>з кінця</strong> масиву — коли потрібен останній елемент за умовою:</p>
+<pre class="language-js"><code class="language-js">const nums = [1, 2, 3, 4, 5];
+nums.findLast((n) =&gt; n % 2 === 0);      // 4 (останнє парне)
+nums.findLastIndex((n) =&gt; n % 2 === 0); // 3 (його індекс)</code></pre>
+
+<h1 id="підтримка">5. Підтримка</h1>
+<p>Ці методи — стандарт у сучасних браузерах і Node (18+). Якщо потрібна підтримка дуже
+старих середовищ, білдер (Vite) із поліфілами вирівняє це за тебе. Перевірити
+сумісність можна на <a href="https://caniuse.com/" target="_blank">Can I use</a>.</p>
+
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSorted" target="_blank">MDN — Array.prototype.toSorted</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at" target="_blank">MDN — Array.prototype.at</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Огляд браузерних Web APIs · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="що-таке">1. Що таке Web APIs</h1>
+<p><strong>Web APIs</strong> — це вбудовані можливості браузера, доступні з JavaScript, окрім
+самої мови. DOM, <code>fetch</code>, <code>localStorage</code>, <code>IntersectionObserver</code> — усе це
+Web APIs, і ти вже ними користувався. У цьому розділі — потужніша частина: фонові
+потоки, локальні бази, офлайн, власні HTML-теги, форматування під локаль, малювання.</p>
+
+<h1 id="огляд">2. Що розберемо</h1>
+<ul>
+<li><strong>Web Workers</strong> — важкі обчислення в окремому потоці, щоб не «вішати» UI;</li>
+<li><strong>IndexedDB</strong> — повноцінна база даних у браузері (більше за <code>localStorage</code>);</li>
+<li><strong>Service Workers + PWA</strong> — офлайн, кешування, встановлення застосунку;</li>
+<li><strong>Web Components</strong> — власні перевикористовувані елементи з ізоляцією стилів;</li>
+<li><strong>Intl</strong> — форматування дат, чисел і валют під мову/регіон.</li>
+</ul>
+
+<h1 id="перевірка">3. Як перевіряти підтримку</h1>
+<p>Не всі API є всюди. Перевіряй наявність перед використанням (feature detection) і
+давай запасний варіант:</p>
+<pre class="language-js"><code class="language-js">if ('serviceWorker' in navigator) {
+  // Service Worker підтримується
+}
+if (window.Worker) {
+  // Web Workers доступні
+}
+// сумісність зручно дивитися на caniuse.com</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Принцип <strong>progressive enhancement</strong>: базова функція працює скрізь, а сучасні
+API додають покращення там, де вони є. Ніколи не покладайся на API «наосліп».</p></div></div>
+
+<h1 id="canvas">4. Приклад: Canvas — малювання</h1>
+<p><strong>Canvas API</strong> дає полотно для програмного малювання — графіки, ігри,
+візуалізації, обробка зображень. Малюєш через 2D-контекст:</p>
+<pre class="language-js"><code class="language-js">&lt;canvas id="c" width="300" height="150"&gt;&lt;/canvas&gt;
+
+const ctx = document.querySelector('#c').getContext('2d');
+
+ctx.fillStyle = '#2563eb';
+ctx.fillRect(20, 20, 100, 60);        // прямокутник
+
+ctx.beginPath();
+ctx.arc(200, 80, 40, 0, Math.PI * 2); // коло
+ctx.fillStyle = '#16a34a';
+ctx.fill();
+
+ctx.font = '16px sans-serif';
+ctx.fillStyle = '#000';
+ctx.fillText('Привіт, Canvas', 20, 120);</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Canvas — <em>растровий</em> (пікселі): швидкий для багатьох обʼєктів (ігри, частинки),
+але без DOM-вузлів. Для векторних інтерактивних діаграм часто беруть <strong>SVG</strong>.
+Обирай за задачею.</p></div></div>
+
+<h1 id="далі">5. Куди далі</h1>
+<p>Кожному з ключових API присвячено окремий урок. Почнемо з Web Workers — як винести
+важку роботу з головного потоку.</p>
+
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API" target="_blank">MDN — Web APIs (повний список)</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API" target="_blank">MDN — Canvas API</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

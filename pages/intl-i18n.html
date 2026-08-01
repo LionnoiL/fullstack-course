@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intl та інтернаціоналізація · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="проблема">1. Чому «просто підставити текст» замало</h1>
+<p>Формати дат, чисел і валют <strong>різні в різних країнах</strong>: <code>1 000,50</code> в
+Україні — <code>1,000.50</code> у США; дата, назви місяців, множина («1 товар», «2
+товари», «5 товарів») теж відрізняються. Робити це вручну — помилки й безлад.
+Вбудований обʼєкт <strong>Intl</strong> усе це вміє.</p>
+
+<h1 id="numbers">2. Числа й валюта</h1>
+<pre class="language-js"><code class="language-js">new Intl.NumberFormat('uk-UA').format(1234567.89);
+// "1 234 567,89"
+
+new Intl.NumberFormat('uk-UA', { style: 'currency', currency: 'UAH' })
+  .format(499);
+// "499,00 ₴"
+
+new Intl.NumberFormat('en-US', { style: 'percent' }).format(0.25);
+// "25%"</code></pre>
+
+<h1 id="dates">3. Дати й час</h1>
+<pre class="language-js"><code class="language-js">const d = new Date('2026-03-15T10:30:00');
+
+new Intl.DateTimeFormat('uk-UA', { dateStyle: 'long' }).format(d);
+// "15 березня 2026 р."
+
+new Intl.DateTimeFormat('uk-UA', { dateStyle: 'short', timeStyle: 'short' }).format(d);
+// "15.03.26, 10:30"</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Перший аргумент — <strong>локаль</strong> (<code>'uk-UA'</code>, <code>'en-US'</code>). Передавай мову
+користувача (з <code>navigator.language</code> або налаштувань), і той самий код видасть
+правильний формат для кожного.</p></div></div>
+
+<h1 id="plural">4. Множина й відносний час</h1>
+<pre class="language-js"><code class="language-js">// правильна форма множини — критично для укр. мови
+const pr = new Intl.PluralRules('uk-UA');
+pr.select(1);  // "one"   → "товар"
+pr.select(3);  // "few"   → "товари"
+pr.select(5);  // "many"  → "товарів"
+
+// відносний час: "2 дні тому", "через годину"
+const rtf = new Intl.RelativeTimeFormat('uk-UA', { numeric: 'auto' });
+rtf.format(-2, 'day');  // "позавчора"
+rtf.format(1, 'hour');  // "за 1 годину"
+
+// сортування з урахуванням мови
+['я', 'а', 'б'].sort(new Intl.Collator('uk-UA').compare); // ['а','б','я']</code></pre>
+
+<h1 id="i18n">5. i18n у застосунках</h1>
+<p><code>Intl</code> форматує <em>значення</em>, а переклад <em>текстів</em> інтерфейсу — окрема задача
+(<strong>i18n</strong>). Для неї беруть бібліотеки: словники ключ→переклад + вибір мови.</p>
+<ul>
+<li><strong>i18next</strong> / <strong>react-i18next</strong> — популярний стандарт для React;</li>
+<li><strong>FormatJS (react-intl)</strong> — з інтеграцією <code>Intl</code>;</li>
+<li>у Next.js — вбудований роутинг локалей (<code>/en</code>, <code>/uk</code>).</li>
+</ul>
+<pre class="language-js"><code class="language-js">// react-i18next — приклад
+import { useTranslation } from 'react-i18next';
+
+function Greeting() {
+  const { t } = useTranslation();
+  return &lt;h1&gt;{t('welcome', { name: 'Аня' })}&lt;/h1&gt;; // "Вітаємо, Аня"
+}
+// словник uk: { "welcome": "Вітаємо, {{name}}" }</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Плануй i18n <strong>заздалегідь</strong>: не «зашивай» тексти в JSX, а виноси в ключі.
+Додати мову потім — це новий словник, а не переписування компонентів. Числа й дати
+завжди форматуй через <code>Intl</code>, а не рядками.</p></div></div>
+
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl" target="_blank">MDN — Intl</a></li>
+<li><a href="https://www.i18next.com/" target="_blank">i18next</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

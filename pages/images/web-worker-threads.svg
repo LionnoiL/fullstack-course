@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="-apple-system, Segoe UI, Roboto, Arial, sans-serif">
+  <rect width="640" height="300" fill="#ffffff"/>
+  <defs>
+    <marker id="wa" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="wg" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <!-- main thread -->
+  <rect x="30" y="40" width="240" height="220" rx="10" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="150" y="66" font-size="14" fill="#1e40af" text-anchor="middle" font-weight="600">Головний потік</text>
+  <text x="150" y="84" font-size="11" fill="#1e3a8a" text-anchor="middle">UI, DOM, події</text>
+  <rect x="52" y="104" width="196" height="40" rx="6" fill="#dbeafe"/>
+  <text x="150" y="129" font-size="11" fill="#1e3a8a" text-anchor="middle">малює інтерфейс, лишається чуйним</text>
+  <rect x="52" y="156" width="196" height="80" rx="6" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="64" y="178" font-size="11" fill="#1e40af" font-family="Consolas, monospace">worker.postMessage(data)</text>
+  <text x="64" y="212" font-size="11" fill="#1e40af" font-family="Consolas, monospace">worker.onmessage =</text>
+  <text x="64" y="228" font-size="11" fill="#1e40af" font-family="Consolas, monospace">  (e) =&gt; render(e.data)</text>
+
+  <!-- worker -->
+  <rect x="370" y="40" width="240" height="220" rx="10" fill="#dcfce7" stroke="#86efac"/>
+  <text x="490" y="66" font-size="14" fill="#15803d" text-anchor="middle" font-weight="600">Worker</text>
+  <text x="490" y="84" font-size="11" fill="#166534" text-anchor="middle">окремий потік, без DOM</text>
+  <rect x="392" y="104" width="196" height="40" rx="6" fill="#bbf7d0"/>
+  <text x="490" y="129" font-size="11" fill="#166534" text-anchor="middle">важкі обчислення паралельно</text>
+  <rect x="392" y="156" width="196" height="80" rx="6" fill="#ffffff" stroke="#86efac"/>
+  <text x="404" y="178" font-size="11" fill="#15803d" font-family="Consolas, monospace">onmessage = (e) =&gt; {</text>
+  <text x="404" y="200" font-size="11" fill="#15803d" font-family="Consolas, monospace">  const r = heavy(e.data)</text>
+  <text x="404" y="216" font-size="11" fill="#15803d" font-family="Consolas, monospace">  postMessage(r)</text>
+  <text x="404" y="232" font-size="11" fill="#15803d" font-family="Consolas, monospace">}</text>
+
+  <!-- arrows -->
+  <line x1="270" y1="120" x2="368" y2="120" stroke="#2563eb" stroke-width="2" marker-end="url(#wa)"/>
+  <text x="320" y="112" font-size="10.5" fill="#2563eb" text-anchor="middle">postMessage →</text>
+  <line x1="370" y1="180" x2="272" y2="180" stroke="#16a34a" stroke-width="2" marker-end="url(#wg)"/>
+  <text x="320" y="196" font-size="10.5" fill="#16a34a" text-anchor="middle">← результат</text>
+
+  <text x="320" y="288" font-size="11" fill="#78716c" text-anchor="middle">важка робота йде в окремому потоці — інтерфейс не «підвисає»</text>
+</svg>
