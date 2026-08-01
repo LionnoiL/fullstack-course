@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Адаптивність і стани у Tailwind · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="mobile-first">1. Mobile-first і брейкпоінти</h1>
+<p>Клас без префікса діє на всіх екранах. Префікси <code>sm:</code>, <code>md:</code>, <code>lg:</code>,
+<code>xl:</code>, <code>2xl:</code> застосовують стиль <strong>починаючи</strong> з відповідної ширини.
+Тобто спершу верстаємо мобільний вигляд, потім «нарощуємо» для більших екранів.</p>
+<pre class="language-markup"><code class="language-markup">&lt;!-- 1 колонка на телефоні, 2 на планшеті, 4 на десктопі --&gt;
+&lt;div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"&gt;
+  ...
+&lt;/div&gt;</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Читайте <code>md:grid-cols-2</code> як «від ширини md і більше — дві колонки». Тому базовий
+клас пишуть <em>без</em> префікса (найменший екран), а не навпаки. Це найчастіша
+плутанина в новачків.</p></div></div>
+<h1 id="стани">2. Стани: hover, focus, active</h1>
+<p>Псевдокласи задаються тим самим способом — через префікс:</p>
+<pre class="language-markup"><code class="language-markup">&lt;button class="bg-blue-600 hover:bg-blue-700 focus:ring-2 active:scale-95
+               transition"&gt;
+  Наведи або натисни
+&lt;/button&gt;</code></pre>
+<p>Префікси можна комбінувати: <code>md:hover:underline</code> — підкреслення при наведенні
+лише на середніх і більших екранах.</p>
+<h1 id="dark">3. Темна тема</h1>
+<p>Префікс <code>dark:</code> вмикає стилі для темного режиму (за замовчуванням — за
+системним <code>prefers-color-scheme</code>).</p>
+<pre class="language-markup"><code class="language-markup">&lt;div class="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100"&gt;
+  Автоматично адаптується до світлої/темної теми
+&lt;/div&gt;</code></pre>
+<h1 id="group">4. Групи та стани батька</h1>
+<p>Іноді дочірній елемент має реагувати на наведення на <em>батька</em>. Для цього
+батьку дають клас <code>group</code>, а дітям — <code>group-hover:</code>.</p>
+<pre class="language-markup"><code class="language-markup">&lt;a href="#" class="group block p-4 rounded hover:bg-gray-100"&gt;
+  &lt;h3 class="group-hover:text-blue-600"&gt;Заголовок&lt;/h3&gt;
+  &lt;p class="text-gray-500"&gt;Опис&lt;/p&gt;
+&lt;/a&gt;</code></pre>
+<h1 id="інші-варіанти">5. Інші корисні варіанти</h1>
+<pre class="language-markup"><code class="language-markup">&lt;!-- перший / останній елемент --&gt;
+&lt;li class="border-b last:border-b-0"&gt;...&lt;/li&gt;
+
+&lt;!-- стилі для disabled --&gt;
+&lt;button class="disabled:opacity-50 disabled:cursor-not-allowed"&gt;...&lt;/button&gt;</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://tailwindcss.com/docs/responsive-design" target="_blank">Responsive design — Tailwind</a></li>
+<li><a href="https://tailwindcss.com/docs/hover-focus-and-other-states" target="_blank">Hover, focus &amp; other states — Tailwind</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

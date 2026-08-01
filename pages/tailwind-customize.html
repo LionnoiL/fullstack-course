@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кастомізація і теми у Tailwind · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="theme">1. Тема через @theme</h1>
+<p>У версії 4 кастомізація живе прямо в CSS. Свої кольори, шрифти, відступи чи
+брейкпоінти оголошують у блоці <code>@theme</code> як CSS-змінні — Tailwind автоматично
+генерує з них класи-утиліти.</p>
+<pre class="language-css"><code class="language-css">@import "tailwindcss";
+
+@theme {
+  --color-brand: #4f46e5;
+  --color-brand-dark: #4338ca;
+  --font-display: "Poppins", sans-serif;
+  --spacing-18: 4.5rem;
+}</code></pre>
+<p>Після цього доступні класи <code>bg-brand</code>, <code>text-brand</code>, <code>font-display</code>,
+<code>p-18</code> тощо — так само, як вбудовані.</p>
+<pre class="language-markup"><code class="language-markup">&lt;button class="bg-brand hover:bg-brand-dark font-display px-18"&gt;
+  Фірмова кнопка
+&lt;/button&gt;</code></pre>
+<h1 id="змінні">2. Доступ до значень теми</h1>
+<p>Усі токени теми — це звичайні CSS-змінні, тож їх можна використати й у власному
+CSS поза утилітами:</p>
+<pre class="language-css"><code class="language-css">.custom-badge {
+  background: var(--color-brand);
+  padding: var(--spacing-2);
+}</code></pre>
+<h1 id="шрифти">3. Підключення шрифту</h1>
+<pre class="language-css"><code class="language-css">@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&amp;display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Poppins", sans-serif;
+}</code></pre>
+<h1 id="базові-стилі">4. Власні базові стилі</h1>
+<p>Глобальні стилі (наприклад, для <code>body</code>) додають через <code>@layer base</code>, щоб вони
+не конфліктували з утилітами за пріоритетом.</p>
+<pre class="language-css"><code class="language-css">@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+  }
+  h1 {
+    @apply text-3xl font-bold;
+  }
+}</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>У версії 4 файл <code>tailwind.config.js</code> більше не обов'язковий — конфігурація
+переїхала в CSS (<code>@theme</code>). Старіші проєкти на версії 3 усе ще
+налаштовуються через JS-конфіг, тож звіряйтеся з версією в <code>package.json</code>.</p></div></div>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://tailwindcss.com/docs/theme" target="_blank">Theme — Tailwind</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

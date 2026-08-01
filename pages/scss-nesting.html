@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вкладеність і &amp; у SCSS · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="вкладеність">1. Вкладеність селекторів</h1>
+<p>SCSS дозволяє вкладати селектори один в одного, повторюючи структуру HTML. Це
+економить повторення батьківського селектора.</p>
+<pre class="language-scss"><code class="language-scss">.card {
+  padding: 1rem;
+
+  .title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  .text { color: #6b7280; }
+}</code></pre>
+<p>Скомпілюється у:</p>
+<pre class="language-css"><code class="language-css">.card { padding: 1rem; }
+.card .title { font-size: 1.25rem; font-weight: bold; }
+.card .text { color: #6b7280; }</code></pre>
+<h1 id="ampersand">2. Батьківський селектор &amp;</h1>
+<p>Символ <code>&amp;</code> посилається на батьківський селектор. Найчастіше — для псевдокласів
+і модифікаторів.</p>
+<pre class="language-scss"><code class="language-scss">.button {
+  background: #2563eb;
+
+  &amp;:hover { background: #1e40af; }
+  &amp;:disabled { opacity: .5; }
+
+  // модифікатор у стилі БЕМ → .button--large
+  &amp;--large { padding: 1rem 2rem; }
+}</code></pre>
+<h1 id="контекст">3. &amp; для контексту</h1>
+<p><code>&amp;</code> можна поставити й <em>після</em> — щоб описати елемент у певному оточенні:</p>
+<pre class="language-scss"><code class="language-scss">.title {
+  color: #111;
+
+  .dark-theme &amp; {
+    color: #fff; // .dark-theme .title
+  }
+}</code></pre>
+<h1 id="властивості">4. Вкладені властивості</h1>
+<p>Властивості зі спільним префіксом теж можна групувати:</p>
+<pre class="language-scss"><code class="language-scss">.box {
+  font: {
+    family: sans-serif;
+    size: 1rem;
+    weight: 600;
+  }
+}</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Не вкладайте глибше 2–3 рівнів. Надмірна вкладеність породжує довгі
+специфічні селектори (<code>.a .b .c .d</code>), які важко перевизначити й які б'ють по
+продуктивності. Вкладеність — зручність, а не мета.</p></div></div>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://sass-lang.com/documentation/style-rules/#nesting" target="_blank">Nesting — Sass docs</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

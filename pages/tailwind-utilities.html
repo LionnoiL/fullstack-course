@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Базові утиліти Tailwind · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="шкала">1. Шкала відступів</h1>
+<p>Tailwind використовує єдину числову шкалу, де крок <code>1</code> = <code>0.25rem</code> (4px).
+Тож <code>p-4</code> — це <code>padding: 1rem</code>, а <code>m-2</code> — <code>margin: 0.5rem</code>.
+Це тримає інтерфейс узгодженим.</p>
+<pre class="language-markup"><code class="language-markup">&lt;div class="p-4"&gt;padding: 1rem&lt;/div&gt;
+&lt;div class="px-6 py-2"&gt;padding по осях X і Y&lt;/div&gt;
+&lt;div class="mt-8 mb-4"&gt;margin зверху й знизу&lt;/div&gt;
+&lt;div class="mx-auto"&gt;центрування блока по горизонталі&lt;/div&gt;</code></pre>
+<h1 id="кольори">2. Кольори</h1>
+<p>Кольори задаються як <code>&lt;властивість&gt;-&lt;колір&gt;-&lt;відтінок&gt;</code>, де відтінок від
+<code>50</code> (світлий) до <code>950</code> (темний).</p>
+<pre class="language-markup"><code class="language-markup">&lt;p class="text-gray-700"&gt;колір тексту&lt;/p&gt;
+&lt;div class="bg-blue-500"&gt;колір фону&lt;/div&gt;
+&lt;div class="border border-red-400"&gt;колір рамки&lt;/div&gt;</code></pre>
+<h1 id="типографіка">3. Типографіка</h1>
+<pre class="language-markup"><code class="language-markup">&lt;h1 class="text-3xl font-bold"&gt;Великий жирний заголовок&lt;/h1&gt;
+&lt;p class="text-sm text-gray-500 leading-relaxed"&gt;
+  Дрібний сірий текст зі збільшеним міжрядковим інтервалом
+&lt;/p&gt;
+&lt;p class="text-center uppercase tracking-wide"&gt;По центру, великими, з розрядкою&lt;/p&gt;</code></pre>
+<h1 id="розміри">4. Розміри</h1>
+<pre class="language-markup"><code class="language-markup">&lt;div class="w-64 h-32"&gt;ширина 16rem, висота 8rem&lt;/div&gt;
+&lt;img class="w-full max-w-md" src="..." alt=""&gt;
+&lt;div class="w-1/2"&gt;половина ширини батька&lt;/div&gt;
+&lt;div class="min-h-screen"&gt;мінімум на весь екран&lt;/div&gt;</code></pre>
+<h1 id="декор">5. Рамки, скруглення, тіні</h1>
+<pre class="language-markup"><code class="language-markup">&lt;div class="rounded-lg border border-gray-200 shadow-md p-6"&gt;
+  Картка зі скругленими кутами, тонкою рамкою й тінню
+&lt;/div&gt;
+&lt;img class="rounded-full" src="..." alt="аватар"&gt;</code></pre>
+<h1 id="довільні">6. Довільні значення</h1>
+<p>Якщо потрібного значення немає в шкалі, візьміть його у квадратні дужки:</p>
+<pre class="language-markup"><code class="language-markup">&lt;div class="top-[117px] w-[38%] bg-[#1da1f2]"&gt;...&lt;/div&gt;</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Довільні значення — «аварійний вихід». Якщо ви часто пишете одне й те саме
+<code>[...]</code>, краще додати його в тему (див. урок про кастомізацію), щоб мати
+іменований клас і єдиний стиль по всьому проєкту.</p></div></div>
+<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://tailwindcss.com/docs/styling-with-utility-classes" target="_blank">Styling with utility classes — Tailwind</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

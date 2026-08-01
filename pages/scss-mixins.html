@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Міксини, функції та @extend · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="mixin">1. Міксини: @mixin і @include</h1>
+<p><strong>Міксин</strong> — це набір стилів, який можна перевикористати в різних селекторах.
+Оголошують через <code>@mixin</code>, підключають через <code>@include</code>.</p>
+<pre class="language-scss"><code class="language-scss">@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal { @include flex-center; }
+.hero  { @include flex-center; min-height: 100vh; }</code></pre>
+<h1 id="параметри">2. Параметри й значення за замовчуванням</h1>
+<pre class="language-scss"><code class="language-scss">@mixin button($bg, $color: #fff) {
+  background: $bg;
+  color: $color;
+  padding: .5rem 1rem;
+  border-radius: 6px;
+}
+
+.btn-primary { @include button(#2563eb); }
+.btn-warning { @include button(#f59e0b, #111); }</code></pre>
+<h1 id="медіа">3. Практичний приклад: брейкпоінти</h1>
+<p>Часта задача — зробити зручні медіазапити:</p>
+<pre class="language-scss"><code class="language-scss">@mixin respond($bp) {
+  @if $bp == tablet {
+    @media (min-width: 768px) { @content; }
+  } @else if $bp == desktop {
+    @media (min-width: 1024px) { @content; }
+  }
+}
+
+.grid {
+  grid-template-columns: 1fr;
+  @include respond(tablet)  { grid-template-columns: 1fr 1fr; }
+  @include respond(desktop) { grid-template-columns: repeat(4, 1fr); }
+}</code></pre>
+<p><code>@content</code> — це блок, який ви передаєте всередину міксина при виклику.</p>
+<h1 id="функції">4. Функції: @function</h1>
+<p>Міксин вставляє стилі, а <strong>функція</strong> повертає значення.</p>
+<pre class="language-scss"><code class="language-scss">@function rem($px, $base: 16) {
+  @return ($px / $base) * 1rem;
+}
+
+.title { font-size: rem(24); } // 1.5rem</code></pre>
+<h1 id="extend">5. Наслідування: @extend і %placeholder</h1>
+<p><code>@extend</code> дозволяє одному селектору перейняти стилі іншого. Найкраще — з
+<strong>плейсхолдером</strong> <code>%</code>, який сам по собі не потрапляє у CSS.</p>
+<pre class="language-scss"><code class="language-scss">%card-base {
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.1);
+  padding: 1rem;
+}
+
+.product { @extend %card-base; }
+.article { @extend %card-base; }</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Коли брати міксин, а коли <code>@extend</code>? Якщо потрібні параметри або медіазапити —
+міксин. Якщо просто ділите однаковий блок стилів між селекторами без
+параметрів — <code>%placeholder</code> + <code>@extend</code> дає компактніший CSS.</p></div></div>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://sass-lang.com/documentation/at-rules/mixin/" target="_blank">Mixins — Sass docs</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

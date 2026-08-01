@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практика: Tailwind CSS · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="практика">Практика: Tailwind CSS</h1>
+<p>Створи HTML-файл і підключи Tailwind через CDN (<code>&lt;script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"&gt;&lt;/script&gt;</code>)
+або відкрий <a href="https://play.tailwindcss.com" target="_blank">play.tailwindcss.com</a>.
+Розв'яжи завдання лише утилітами, звужуючи вікно для перевірки адаптиву.</p>
+
+<div class="task">
+<h2>Завдання 1. Картка товару</h2>
+<p class="task-goal">Зроби картку: зображення зверху, під ним заголовок, ціна й кнопка
+«Купити». Скруглені кути, тінь, внутрішні відступи. Кнопка темнішає при наведенні.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-markup"><code class="language-markup">&lt;div class="max-w-xs rounded-xl shadow-md overflow-hidden bg-white"&gt;
+  &lt;img class="w-full h-40 object-cover" src="https://picsum.photos/400/200" alt=""&gt;
+  &lt;div class="p-4"&gt;
+    &lt;h3 class="text-lg font-semibold"&gt;Навушники&lt;/h3&gt;
+    &lt;p class="text-gray-500 mt-1"&gt;1 299 грн&lt;/p&gt;
+    &lt;button class="mt-3 w-full py-2 rounded-lg bg-blue-600 text-white
+                   hover:bg-blue-700 transition"&gt;
+      Купити
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 2. Адаптивна сітка</h2>
+<p class="task-goal">Розмісти 6 карток у сітці: 1 колонка на телефоні, 2 на планшеті,
+3 на десктопі, з однаковими проміжками.</p>
+<details class="hint"><summary>Підказка</summary><p>Використай <code>grid</code>, <code>grid-cols-1</code>, <code>md:grid-cols-2</code>, <code>lg:grid-cols-3</code> і <code>gap-4</code>.</p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-markup"><code class="language-markup">&lt;div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"&gt;
+  &lt;div class="p-6 bg-gray-100 rounded"&gt;1&lt;/div&gt;
+  &lt;div class="p-6 bg-gray-100 rounded"&gt;2&lt;/div&gt;
+  &lt;!-- ще 4 --&gt;
+&lt;/div&gt;</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 3. Шапка сайту (navbar)</h2>
+<p class="task-goal">Зроби горизонтальну шапку: логотип ліворуч, посилання праворуч,
+вирівняні по центру вертикально, з відступами й тонкою нижньою рамкою.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-markup"><code class="language-markup">&lt;header class="flex items-center justify-between px-6 py-4 border-b"&gt;
+  &lt;span class="text-xl font-bold"&gt;Logo&lt;/span&gt;
+  &lt;nav class="flex gap-6 text-gray-600"&gt;
+    &lt;a href="#" class="hover:text-blue-600"&gt;Головна&lt;/a&gt;
+    &lt;a href="#" class="hover:text-blue-600"&gt;Про нас&lt;/a&gt;
+    &lt;a href="#" class="hover:text-blue-600"&gt;Контакти&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 4. Темна тема (виклик)</h2>
+<p class="task-goal">Візьми картку із завдання 1 і додай підтримку темного режиму
+через префікс <code>dark:</code> — фон, текст і рамки мають адаптуватися. Перевір,
+перемкнувши системну тему.</p>
+</div>
+
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Спробуй переверстати свій проєкт-лендинг із розділу «Проєкти» на Tailwind —
+і порівняй відчуття з версією на Bootstrap. Так найкраще видно різницю між
+готовими компонентами й утилітами.</p></div></div>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

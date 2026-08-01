@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Директиви та цикли у SCSS · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="інтерполяція">1. Інтерполяція #{}</h1>
+<p>Щоб підставити значення змінної туди, де очікується «текст» (ім'я властивості,
+селектор, частина рядка), використовують <code>#{...}</code>.</p>
+<pre class="language-scss"><code class="language-scss">$side: left;
+$name: "primary";
+
+.box { margin-#{$side}: 1rem; } // margin-left: 1rem
+.btn-#{$name} { color: blue; }   // .btn-primary</code></pre>
+<h1 id="if">2. Умови: @if / @else</h1>
+<pre class="language-scss"><code class="language-scss">@mixin text-contrast($bg) {
+  @if lightness($bg) &gt; 50% {
+    color: #111;
+  } @else {
+    color: #fff;
+  }
+}
+
+.badge { background: #fde047; @include text-contrast(#fde047); }</code></pre>
+<h1 id="each">3. Цикл @each — по списку чи мапі</h1>
+<p>Найпоширеніший цикл: згенерувати класи з набору значень.</p>
+<pre class="language-scss"><code class="language-scss">$colors: (
+  "primary": #2563eb,
+  "danger":  #dc2626,
+  "success": #16a34a,
+);
+
+@each $name, $value in $colors {
+  .text-#{$name} { color: $value; }
+  .bg-#{$name}   { background: $value; }
+}</code></pre>
+<p>Результат — по парі класів <code>.text-primary</code>/<code>.bg-primary</code> тощо для кожного кольору.</p>
+<h1 id="for">4. Цикл @for — за діапазоном</h1>
+<pre class="language-scss"><code class="language-scss">// утиліти відступів: .m-1 ... .m-5
+@for $i from 1 through 5 {
+  .m-#{$i} { margin: #{$i * 0.25}rem; }
+}</code></pre>
+<h1 id="while">5. Цикл @while</h1>
+<pre class="language-scss"><code class="language-scss">$i: 1;
+@while $i &lt;= 3 {
+  .col-#{$i} { width: percentage($i / 3); }
+  $i: $i + 1;
+}</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Цикли + мапи — це «двигун» багатьох CSS-фреймворків: так генерують сотні
+утилітних класів з кількох рядків. Але пам'ятайте, що кожна ітерація додає CSS —
+не генеруйте те, чим не користуєтесь.</p></div></div>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://sass-lang.com/documentation/at-rules/control/" target="_blank">Control flow — Sass docs</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

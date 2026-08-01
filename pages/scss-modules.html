@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Партіали, @use і @forward · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="партіали">1. Партіали</h1>
+<p>Великі стилі розбивають на окремі файли-<strong>партіали</strong>. Ім'я партіала починається
+з підкреслення (<code>_variables.scss</code>) — це сигнал компілятору не робити з нього
+окремий <code>.css</code>, а лише підключати в інші файли.</p>
+<pre class="language-scss"><code class="language-scss">styles/
+  _variables.scss   // змінні, палітра
+  _mixins.scss      // міксини
+  _buttons.scss     // компонент
+  main.scss         // збирає все докупи</code></pre>
+<h1 id="use">2. @use — підключення модуля</h1>
+<p>Сучасний спосіб підключати партіали — правило <code>@use</code>. Воно імпортує файл як
+<strong>модуль</strong> зі своїм простором імен.</p>
+<pre class="language-scss"><code class="language-scss">// main.scss
+@use "variables";
+@use "buttons";
+
+// доступ через простір імен (ім'я файлу без _ і розширення)
+.link { color: variables.$primary; }</code></pre>
+<p>Простір імен можна перейменувати або прибрати:</p>
+<pre class="language-scss"><code class="language-scss">@use "variables" as v;      // v.$primary
+@use "variables" as *;      // $primary без префікса</code></pre>
+<h1 id="forward">3. @forward — реекспорт</h1>
+<p><code>@forward</code> робить вміст одного партіала доступним для тих, хто підключить
+<em>поточний</em> файл. Так будують «індексний» файл бібліотеки стилів.</p>
+<pre class="language-scss"><code class="language-scss">// styles/_index.scss
+@forward "variables";
+@forward "mixins";
+
+// деінде достатньо одного рядка:
+@use "styles"; // отримали і змінні, і міксини</code></pre>
+<h1 id="вбудовані">4. Вбудовані модулі</h1>
+<p>Sass має стандартну бібліотеку — її модулі теж підключають через <code>@use</code>:</p>
+<pre class="language-scss"><code class="language-scss">@use "sass:math";
+@use "sass:color";
+
+.box {
+  width: math.div(100%, 3);
+  background: color.adjust(#2563eb, $lightness: -10%);
+}</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Старе правило <code>@import</code> оголошено застарілим і поступово вилучається із Sass.
+У нових проєктах використовуйте <code>@use</code> / <code>@forward</code>: вони уникають конфліктів
+імен і не підключають один файл багато разів.</p></div></div>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://sass-lang.com/documentation/at-rules/use/" target="_blank">@use — Sass docs</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

@@ -51,6 +51,30 @@
       ],
     },
     {
+      title: "Tailwind CSS",
+      lessons: [
+        ["tailwind-intro.html", "Що таке Tailwind CSS"],
+        ["tailwind-utilities.html", "Базові утиліти"],
+        ["tailwind-layout.html", "Flexbox і Grid"],
+        ["tailwind-responsive.html", "Адаптивність і стани"],
+        ["tailwind-customize.html", "Кастомізація і теми"],
+        ["tailwind-components.html", "Компоненти та @apply"],
+        ["practice-tailwind.html", "🎯 Практика: Tailwind CSS"],
+      ],
+    },
+    {
+      title: "SCSS",
+      lessons: [
+        ["scss-intro.html", "Знайомство із Sass/SCSS"],
+        ["scss-variables.html", "Змінні та типи даних"],
+        ["scss-nesting.html", "Вкладеність і &"],
+        ["scss-mixins.html", "Міксини, функції, @extend"],
+        ["scss-modules.html", "Партіали, @use і @forward"],
+        ["scss-control.html", "Директиви та цикли"],
+        ["practice-scss.html", "🎯 Практика: SCSS"],
+      ],
+    },
+    {
       title: "Основи JavaScript",
       lessons: [
         ["intro.html", "Що таке JavaScript?"],
