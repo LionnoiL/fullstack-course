@@ -336,6 +336,18 @@
       ],
     },
     {
+      title: "Дизайн-системи",
+      lessons: [
+        ["design-systems-intro.html", "Що таке дизайн-система"],
+        ["radix-intro.html", "Radix Primitives"],
+        ["shadcn-intro.html", "shadcn/ui: підхід"],
+        ["shadcn-usage.html", "Використання shadcn/ui"],
+        ["storybook-intro.html", "Storybook: навіщо"],
+        ["storybook-stories.html", "Написання історій (stories)"],
+        ["practice-design-systems.html", "🎯 Практика: дизайн-системи"],
+      ],
+    },
+    {
       title: "Next.js",
       lessons: [
         ["next-intro.html", "Що таке Next.js"],

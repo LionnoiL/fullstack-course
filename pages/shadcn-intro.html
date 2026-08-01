@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>shadcn/ui: підхід · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="shadcn">1. Що таке shadcn/ui</h1>
+<p><strong>shadcn/ui</strong> — це колекція гарних, доступних компонентів на базі <strong>Radix</strong> і
+<strong>Tailwind CSS</strong>. Головна відмінність: це <em>не</em> npm-бібліотека, яку ти
+встановлюєш і імпортуєш. Натомість CLI <strong>копіює код компонента у твій проєкт</strong> —
+і далі він твій.</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Гасло shadcn/ui — «this is not a component library, it's how you build your
+component library». Ти отримуєш стартовий код, який вільно редагуєш, а не чорну
+скриньку в <code>node_modules</code>, обмежену чужим API.</p></div></div>
+<h1 id="переваги">2. Чому копіювати код — це добре</h1>
+<ul>
+<li><strong>Повний контроль:</strong> компонент лежить у твоєму <code>components/ui</code> — міняй
+розмітку й стилі як завгодно.</li>
+<li><strong>Немає версійного пекла:</strong> оновлення бібліотеки не зламає твій UI, бо код
+уже твій.</li>
+<li><strong>Прозорість:</strong> видно, як усе влаштовано, — гарний спосіб вчитися.</li>
+<li><strong>Доступність у подарунок:</strong> усередині Radix, тож a11y на місці.</li>
+</ul>
+<h1 id="ціна">3. Ціна підходу</h1>
+<ul>
+<li>код компонентів — тепер твоя відповідальність (сам стежиш за оновленнями);</li>
+<li>потрібні React + Tailwind у проєкті;</li>
+<li>більше файлів у репозиторії, ніж один пакет-залежність.</li>
+</ul>
+<h1 id="з-чого">4. З чого складається компонент</h1>
+<p>Типовий компонент shadcn/ui — це React-обгортка над Radix-примітивом зі стилями
+Tailwind і зручним API варіантів (через <code>class-variance-authority</code>).</p>
+<pre class="language-js"><code class="language-js">// приклад згенерованого button.tsx (спрощено)
+const buttonVariants = cva('inline-flex items-center rounded-md', {
+  variants: {
+    variant: { default: 'bg-primary text-white', ghost: 'hover:bg-accent' },
+    size: { sm: 'h-8 px-3', md: 'h-10 px-4' },
+  },
+  defaultVariants: { variant: 'default', size: 'md' },
+});</code></pre>
+<h1 id="коли">5. Коли обирати</h1>
+<p>Ідеально, коли потрібен унікальний, повністю кастомний UI на React + Tailwind, і
+ти хочеш володіти кодом компонентів. Для швидкого прототипу з дефолтним виглядом
+готова бібліотека може бути простішою.</p>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://ui.shadcn.com/" target="_blank">shadcn/ui — сайт</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

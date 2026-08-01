@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Що таке дизайн-система · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="дизайн-система">1. Що таке дизайн-система</h1>
+<p><strong>Дизайн-система</strong> — це набір узгоджених правил і готових будівельних блоків
+для інтерфейсу: токени (кольори, відступи, шрифти), компоненти (кнопки, поля,
+діалоги) і патерни їх використання. Мета — щоб продукт виглядав і поводився
+однаково, а розробка була швидкою.</p>
+<p><img src="images/design-system-layers.svg" alt="Шари дизайн-системи: токени, примітиви, компоненти, патерни"></p>
+<p>Кожен верхній шар спирається на нижчий: токени живлять примітиви, примітиви дають
+поведінку компонентам, а з компонентів збираються екрани.</p>
+<h1 id="токени">2. Дизайн-токени</h1>
+<p>Токени — це названі значення дизайну в одному місці. Найзручніше зберігати їх як
+CSS-змінні (тему ми проходили в «Сучасному CSS»):</p>
+<pre class="language-css"><code class="language-css">:root {
+  --color-primary: #4f46e5;
+  --radius: 8px;
+  --space-4: 1rem;
+  --font-sans: "Inter", sans-serif;
+}</code></pre>
+<h1 id="інструменти">3. Наш стек</h1>
+<p>У цьому розділі — три популярні інструменти, що доповнюють один одного:</p>
+<ul>
+<li><strong>Radix</strong> — примітиви з поведінкою й доступністю, але <em>без</em> вигляду;</li>
+<li><strong>shadcn/ui</strong> — готові стильні компоненти на базі Radix + Tailwind, які ти
+копіюєш у свій проєкт і володієш ними;</li>
+<li><strong>Storybook</strong> — середовище для ізольованої розробки й документування
+компонентів.</li>
+</ul>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Готові бібліотеки (MUI, Ant Design) дають усе й одразу, але їх важко глибоко
+кастомізувати. Зв'язка Radix + shadcn/ui — інший підхід: базова поведінка й
+доступність готові, а вигляд повністю твій.</p></div></div>
+<h1 id="навіщо">4. Навіщо це знати</h1>
+<ul>
+<li>швидша розробка узгодженого UI без «велосипедів»;</li>
+<li>доступність (a11y) з коробки — складна тема, яку примітиви беруть на себе;</li>
+<li>спільна мова з дизайнерами й рештою команди.</li>
+</ul>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://www.designsystems.com/" target="_blank">designsystems.com — вступ</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

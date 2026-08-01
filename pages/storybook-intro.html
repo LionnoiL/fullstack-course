@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storybook: навіщо · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="storybook">1. Що таке Storybook</h1>
+<p><strong>Storybook</strong> — окреме середовище, де компоненти розробляють і показують
+<em>ізольовано</em>, поза застосунком. Кожен компонент можна побачити в усіх його
+станах, не клікаючи через півсайту, щоб до нього дістатися.</p>
+<p><img src="images/storybook-isolation.svg" alt="Компонент глибоко в застосунку проти того самого компонента ізольовано в Storybook"></p>
+<h1 id="проблема">2. Яку проблему вирішує</h1>
+<p>Уяви кнопку в стані «завантаження» усередині форми, яка з'являється лише після
+логіну й трьох кліків. Перевіряти її вигляд у застосунку — болісно. Storybook
+показує компонент напряму й одразу в потрібному стані.</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Ізольована розробка змінює порядок роботи: спершу доводиш компонент «до пуття»
+в Storybook (усі варіанти, крайні випадки, доступність), а вже потім вставляєш
+готовий у застосунок. Менше сюрпризів у реальному UI.</p></div></div>
+<h1 id="що-дає">3. Що дає команді</h1>
+<ul>
+<li><strong>Каталог компонентів</strong> — жива документація дизайн-системи;</li>
+<li><strong>Розробка без залежностей</strong> — не треба піднімати весь застосунок;</li>
+<li><strong>Візуальні й a11y-перевірки</strong> — через аддони;</li>
+<li><strong>Спільна мова</strong> з дизайнерами й тестувальниками.</li>
+</ul>
+<h1 id="встановлення">4. Встановлення</h1>
+<p>Storybook додають однією командою в наявний проєкт — вона визначає збирач (Vite)
+і налаштовує все сама:</p>
+<pre class="language-js"><code class="language-js">npx storybook@latest init
+npm run storybook   // відкриє UI на localhost:6006</code></pre>
+<h1 id="структура">5. Як це виглядає</h1>
+<p>Зліва — дерево компонентів та їхніх станів («історій»), у центрі — сам компонент,
+праворуч/знизу — панель <em>Controls</em>, де можна крутити пропси наживо. Далі
+навчимося писати ці історії.</p>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://storybook.js.org/docs" target="_blank">Storybook — документація</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

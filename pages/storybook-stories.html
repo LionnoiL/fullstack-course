@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Написання історій (stories) · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="історія">1. Що таке історія</h1>
+<p><strong>Історія (story)</strong> — це один стан компонента. Файли історій називають
+<code>Component.stories.jsx</code> і кладуть поруч із компонентом. Формат — CSF (Component
+Story Format): дефолтний експорт описує компонент, іменовані — окремі стани.</p>
+<pre class="language-js"><code class="language-js">// Button.stories.jsx
+import { Button } from './Button';
+
+export default {
+  title: 'UI/Button',
+  component: Button,
+};
+
+export const Primary = { args: { variant: 'primary', children: 'Кнопка' } };
+export const Ghost   = { args: { variant: 'ghost',   children: 'Привид' } };
+export const Disabled = { args: { disabled: true, children: 'Вимкнена' } };</code></pre>
+<h1 id="args">2. args — пропси історії</h1>
+<p><code>args</code> — це набір пропсів, з якими рендериться компонент. Storybook автоматично
+робить із них інтерактивні <strong>Controls</strong>, тож пропси можна крутити прямо в UI
+без правок коду.</p>
+<h1 id="argtypes">3. Керування контролами</h1>
+<pre class="language-js"><code class="language-js">export default {
+  title: 'UI/Button',
+  component: Button,
+  argTypes: {
+    variant: { control: 'select', options: ['primary', 'ghost', 'danger'] },
+    disabled: { control: 'boolean' },
+  },
+};</code></pre>
+<h1 id="actions">4. Події через actions</h1>
+<p>Щоб бачити виклики обробників у панелі <em>Actions</em>, передають функцію-шпигуна:</p>
+<pre class="language-js"><code class="language-js">import { fn } from 'storybook/test';
+
+export default {
+  component: Button,
+  args: { onClick: fn() }, // кліки з'являться у вкладці Actions
+};</code></pre>
+<h1 id="addons">5. Корисні аддони</h1>
+<ul>
+<li><strong>Controls</strong> — крутити пропси наживо (вбудований);</li>
+<li><strong>Actions</strong> — лог викликів колбеків;</li>
+<li><strong>a11y</strong> — автоперевірка доступності компонента;</li>
+<li><strong>Viewport</strong> — перегляд на різних розмірах екрана.</li>
+</ul>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Пиши історію на <em>кожен важливий стан</em>: порожній, з даними, завантаження,
+помилка, крайні значення. Тоді Storybook стає і візуальним тестом, і живою
+документацією, яка не старіє разом із кодом.</p></div></div>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://storybook.js.org/docs/writing-stories" target="_blank">Writing Stories — Storybook</a></li>
+<li><a href="https://storybook.js.org/addons" target="_blank">Аддони — Storybook</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

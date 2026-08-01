@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="-apple-system, Segoe UI, Roboto, Arial, sans-serif">
+  <rect width="640" height="300" fill="#ffffff"/>
+  <rect x="180" y="28" width="380" height="52" rx="8" fill="#dcfce7" stroke="#86efac"/>
+  <text x="370" y="50" font-size="15" fill="#15803d" text-anchor="middle">Патерни та екрани застосунку</text>
+  <text x="370" y="69" font-size="12" fill="#57534e" text-anchor="middle">форми, сторінки, лейаути</text>
+  <rect x="180" y="92" width="380" height="52" rx="8" fill="#e0e7ff" stroke="#818cf8"/>
+  <text x="370" y="114" font-size="15" fill="#3730a3" text-anchor="middle">Компоненти зі стилями — shadcn/ui</text>
+  <text x="370" y="133" font-size="12" fill="#57534e" text-anchor="middle">Button, Dialog, Select…</text>
+  <rect x="180" y="156" width="380" height="52" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="370" y="178" font-size="15" fill="#1e40af" text-anchor="middle">Примітиви: поведінка + доступність — Radix</text>
+  <text x="370" y="197" font-size="12" fill="#57534e" text-anchor="middle">фокус, клавіатура, ARIA</text>
+  <rect x="180" y="220" width="380" height="52" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="370" y="242" font-size="15" fill="#854d0e" text-anchor="middle">Дизайн-токени</text>
+  <text x="370" y="261" font-size="12" fill="#57534e" text-anchor="middle">кольори, відступи, шрифти, радіуси</text>
+  <text x="90" y="146" font-size="13" fill="#78716c" text-anchor="middle" transform="rotate(-90 90 146)">кожен шар спирається на нижчий</text>
+  <path d="M120 40 v220" stroke="#cbd5e1" stroke-width="1.5" fill="none"/>
+  <path d="M120 260 l-5 -10 h10 z" fill="#cbd5e1"/>
+</svg>

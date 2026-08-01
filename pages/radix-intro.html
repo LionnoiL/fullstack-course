@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radix Primitives · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="headless">1. Ідея headless-компонентів</h1>
+<p><strong>Radix Primitives</strong> — це бібліотека «безголових» (headless) компонентів для
+React. Вони беруть на себе <em>складну</em> частину — поведінку, керування фокусом,
+клавіатуру, ARIA-атрибути й доступність, — але не нав'язують жодного вигляду.
+Стилі повністю твої.</p>
+<p><img src="images/headless-ui.svg" alt="Radix (поведінка та доступність) плюс ваші стилі дорівнює готовий компонент"></p>
+<h1 id="навіщо">2. Навіщо це потрібно</h1>
+<p>Написати справді доступне випадне меню чи діалог складно: пастка фокуса, Esc,
+навігація стрілками, читачі екрана, кліки поза межами. Radix реалізує це
+правильно, а ти лише стилізуєш розмітку.</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Доступність (a11y) — не «додаткова опція», а вимога якісного продукту.
+Самостійно правильно реалізувати клавіатуру й ARIA для складних віджетів дуже
+важко — саме тут headless-примітиви економлять дні роботи й уникають помилок.</p></div></div>
+<h1 id="приклад">3. Приклад: діалог</h1>
+<pre class="language-js"><code class="language-js">npm install @radix-ui/react-dialog</code></pre>
+<pre class="language-js"><code class="language-js">import * as Dialog from '@radix-ui/react-dialog';
+
+function Modal() {
+  return (
+    &lt;Dialog.Root&gt;
+      &lt;Dialog.Trigger&gt;Відкрити&lt;/Dialog.Trigger&gt;
+      &lt;Dialog.Portal&gt;
+        &lt;Dialog.Overlay className="overlay" /&gt;
+        &lt;Dialog.Content className="modal"&gt;
+          &lt;Dialog.Title&gt;Заголовок&lt;/Dialog.Title&gt;
+          &lt;Dialog.Description&gt;Опис вікна&lt;/Dialog.Description&gt;
+          &lt;Dialog.Close&gt;Закрити&lt;/Dialog.Close&gt;
+        &lt;/Dialog.Content&gt;
+      &lt;/Dialog.Portal&gt;
+    &lt;/Dialog.Root&gt;
+  );
+}</code></pre>
+<p>Класи (<code>overlay</code>, <code>modal</code>) — твої: Radix лише дає структуру й поведінку.
+Пастка фокуса, <code>Esc</code>, клік по фону, ARIA вже працюють.</p>
+<h1 id="патерн">4. Патерн композиції</h1>
+<p>Radix-компоненти складаються з частин (<code>Root</code>, <code>Trigger</code>, <code>Content</code>…). Це дає
+повний контроль над розміткою — на відміну від монолітних «чорних скриньок».</p>
+<h1 id="примітиви">5. Які є примітиви</h1>
+<p>Dialog, Dropdown Menu, Popover, Tooltip, Tabs, Accordion, Select, Checkbox,
+Switch, Slider, Toast та інші — усе найскладніше для доступності.</p>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://www.radix-ui.com/primitives" target="_blank">Radix Primitives — документація</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>
