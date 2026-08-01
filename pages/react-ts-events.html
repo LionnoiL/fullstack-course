@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Події та рефи у React + TS · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="inline">1. Обробники в JSX — тип виводиться</h1>
+<p>Якщо писати обробник прямо в атрибуті, TypeScript сам знає тип події —
+анотувати нічого не треба.</p>
+<pre class="language-js"><code class="language-js">&lt;button onClick={(e) =&gt; console.log(e.currentTarget)}&gt;
+  Клік
+&lt;/button&gt;
+
+&lt;input onChange={(e) =&gt; setValue(e.target.value)} /&gt;</code></pre>
+<h1 id="окремо">2. Обробник як окрема функція</h1>
+<p>Коли виносиш обробник у змінну, тип події треба вказати явно. React надає готові
+типи: <code>React.MouseEvent</code>, <code>React.ChangeEvent</code>, <code>React.FormEvent</code> тощо.</p>
+<pre class="language-js"><code class="language-js">function handleChange(e: React.ChangeEvent&lt;HTMLInputElement&gt;) {
+  setValue(e.target.value);
+}
+
+function handleSubmit(e: React.FormEvent&lt;HTMLFormElement&gt;) {
+  e.preventDefault();
+}
+
+// &lt;input onChange={handleChange} /&gt;
+// &lt;form onSubmit={handleSubmit} /&gt;</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>У дженерику вказують тип <em>елемента</em>, на якому подія: <code>HTMLInputElement</code>,
+<code>HTMLButtonElement</code>, <code>HTMLFormElement</code>. Саме він визначає, які поля має
+<code>e.target</code> / <code>e.currentTarget</code>.</p></div></div>
+<h1 id="useref-dom">3. useRef на DOM-елемент</h1>
+<p>Для рефа на елемент задають тип елемента й початкове <code>null</code>:</p>
+<pre class="language-js"><code class="language-js">const inputRef = useRef&lt;HTMLInputElement&gt;(null);
+
+function focus() {
+  inputRef.current?.focus();   // ?. бо на старті null
+}
+
+// &lt;input ref={inputRef} /&gt;</code></pre>
+<h1 id="useref-value">4. useRef як «коробка» для значення</h1>
+<p>Реф часто використовують не для DOM, а щоб зберігати значення між рендерами
+(напр. id таймера):</p>
+<pre class="language-js"><code class="language-js">const timerRef = useRef&lt;number | null&gt;(null);
+
+timerRef.current = window.setInterval(tick, 1000);
+// ...
+if (timerRef.current) clearInterval(timerRef.current);</code></pre>
+<h1 id="типи-подій">5. Найпоширеніші типи подій</h1>
+<ul>
+<li><code>React.ChangeEvent&lt;HTMLInputElement&gt;</code> — введення в поле;</li>
+<li><code>React.MouseEvent&lt;HTMLButtonElement&gt;</code> — клік;</li>
+<li><code>React.FormEvent&lt;HTMLFormElement&gt;</code> — сабміт форми;</li>
+<li><code>React.KeyboardEvent</code> — натискання клавіш.</li>
+</ul>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/forms_and_events/" target="_blank">Forms and Events — Cheatsheet</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

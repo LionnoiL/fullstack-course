@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Типізація стану (useState) · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="inference">1. Найчастіше тип виводиться сам</h1>
+<p>Якщо передати <code>useState</code> початкове значення, TypeScript сам визначить тип стану
+й сеттера. Явно нічого писати не треба.</p>
+<pre class="language-js"><code class="language-js">const [count, setCount] = useState(0);        // number
+const [name, setName]   = useState('Ada');    // string
+const [open, setOpen]   = useState(false);    // boolean
+
+setCount(count + 1); // ✅
+setCount('багато');  // ❌ помилка типу</code></pre>
+<h1 id="явний">2. Явний тип через дженерик</h1>
+<p>Тип задають у кутових дужках, коли з початкового значення його не видно —
+наприклад, якщо стартуємо з <code>null</code> або порожнього масиву.</p>
+<pre class="language-js"><code class="language-js">type User = { id: number; name: string };
+
+// без явного типу тут вивелось би null, і .name дало б помилку
+const [user, setUser] = useState&lt;User | null&gt;(null);
+
+const [items, setItems] = useState&lt;string[]&gt;([]);</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Порожній масив <code>[]</code> без дженерика виведеться як <code>never[]</code> — у нього не можна
+буде нічого покласти. Тому для масивів і об'єктів, що почнуться порожніми,
+завжди вказуй тип: <code>useState&lt;Todo[]&gt;([])</code>.</p></div></div>
+<h1 id="null">3. Робота зі станом, що може бути null</h1>
+<p>Коли стан має тип <code>User | null</code>, TS змусить перевірити наявність значення перед
+доступом до полів — це рятує від класичної помилки «cannot read property of
+null».</p>
+<pre class="language-js"><code class="language-js">{user &amp;&amp; &lt;p&gt;Вітаємо, {user.name}&lt;/p&gt;}
+
+// або з ранім виходом
+if (!user) return &lt;p&gt;Завантаження…&lt;/p&gt;;
+return &lt;p&gt;{user.name}&lt;/p&gt;;</code></pre>
+<h1 id="обєкт">4. Складний стан-об'єкт</h1>
+<pre class="language-js"><code class="language-js">type Form = { email: string; password: string };
+
+const [form, setForm] = useState&lt;Form&gt;({ email: '', password: '' });
+
+// оновлення поля — з розгортанням
+setForm((prev) =&gt; ({ ...prev, email: 'a@b.com' }));</code></pre>
+<h1 id="lazy">5. Ліниве початкове значення</h1>
+<pre class="language-js"><code class="language-js">// функція-ініціалізатор; тип виводиться з її результату
+const [state, setState] = useState(() =&gt; expensiveInit());</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/hooks/" target="_blank">Hooks (useState) — Cheatsheet</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

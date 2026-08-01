@@ -288,6 +288,18 @@
       ],
     },
     {
+      title: "React + TypeScript",
+      lessons: [
+        ["react-ts-intro.html", "Навіщо TypeScript у React"],
+        ["react-ts-props.html", "Типізація props"],
+        ["react-ts-state.html", "Типізація стану (useState)"],
+        ["react-ts-events.html", "Події та рефи"],
+        ["react-ts-hooks.html", "Типізація хуків"],
+        ["react-ts-patterns.html", "Патерни типізації"],
+        ["practice-react-ts.html", "🎯 Практика: React + TypeScript"],
+      ],
+    },
+    {
       title: "Next.js",
       lessons: [
         ["next-intro.html", "Що таке Next.js"],
