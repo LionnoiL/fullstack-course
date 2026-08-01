@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Логічні властивості, clamp, темна тема · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="logical">1. Логічні властивості</h1>
+<p>Замість фізичних <code>left</code>/<code>right</code>/<code>top</code>/<code>bottom</code> сучасний CSS пропонує
+<strong>логічні</strong> напрямки, які підлаштовуються під напрям письма (напр. для
+мов справа-наліво). Це основа інтернаціоналізації.</p>
+<pre class="language-css"><code class="language-css">.box {
+  margin-inline: auto;          /* ліво+право (в LTR) */
+  padding-block: 1rem;          /* верх+низ */
+  border-inline-start: 2px solid; /* «початок» рядка */
+}
+/* inline — вздовж рядка, block — впоперек */</code></pre>
+<h1 id="aspect-ratio">2. aspect-ratio</h1>
+<p>Фіксоване співвідношення сторін — без старих хаків із <code>padding-top: 56.25%</code>:</p>
+<pre class="language-css"><code class="language-css">.video { aspect-ratio: 16 / 9; width: 100%; }
+.avatar { aspect-ratio: 1; }   /* квадрат */</code></pre>
+<h1 id="clamp">3. clamp() та адаптивна типографіка</h1>
+<p><code>clamp(min, ідеал, max)</code> задає значення, що плавно масштабується між межами —
+ідеально для «плинних» шрифтів без медіазапитів.</p>
+<pre class="language-css"><code class="language-css">h1 {
+  /* не менше 1.5rem, ~5% ширини вікна, не більше 3rem */
+  font-size: clamp(1.5rem, 5vw, 3rem);
+}
+.container { width: min(100% - 2rem, 1200px); }</code></pre>
+<h1 id="dark">4. Темна тема</h1>
+<p>Реагувати на системну тему дозволяє <code>prefers-color-scheme</code>. Найзручніше —
+оголосити змінні для обох тем:</p>
+<pre class="language-css"><code class="language-css">:root {
+  color-scheme: light dark;      /* дозволити обидві */
+  --bg: #ffffff;
+  --fg: #111111;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #111111; --fg: #eeeeee; }
+}
+body { background: var(--bg); color: var(--fg); }</code></pre>
+<p>Ще коротше — функція <code>light-dark()</code>, що обирає значення за поточною темою:</p>
+<pre class="language-css"><code class="language-css">:root { color-scheme: light dark; }
+body {
+  background: light-dark(#fff, #111);
+  color: light-dark(#111, #eee);
+}</code></pre>
+<h1 id="color-mix">5. color-mix()</h1>
+<p>Змішування кольорів прямо в CSS — зручно для станів (hover, тіні) з одного
+базового кольору:</p>
+<pre class="language-css"><code class="language-css">.btn { background: #2563eb; }
+.btn:hover {
+  /* 80% базового + 20% чорного = темніше */
+  background: color-mix(in srgb, #2563eb 80%, black);
+}</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>clamp()</code>, <code>min()</code>, <code>max()</code> прибирають десятки медіазапитів: багато що тепер
+масштабується <em>плавно</em> замість стрибків на брейкпоінтах. Це і менше коду, і
+приємніший вигляд на проміжних розмірах.</p></div></div>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_logical_properties_and_values" target="_blank">Logical properties — MDN</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/clamp" target="_blank">clamp() — MDN</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

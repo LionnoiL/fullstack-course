@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Каскадні шари (@layer) · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="проблема">1. Проблема специфічності</h1>
+<p>У великих проєктах стилі починають «воювати»: щоб перекрити чуже правило,
+доводиться нарощувати специфічність або тулити <code>!important</code>. <strong>Каскадні
+шари</strong> (<code>@layer</code>) дають керувати пріоритетом стилів явно.</p>
+<h1 id="шари">2. Оголошення шарів</h1>
+<p>Спершу оголошують <em>порядок</em> шарів — він визначає пріоритет. Пізніший шар
+перемагає, <strong>незалежно від специфічності</strong> селекторів усередині.</p>
+<pre class="language-css"><code class="language-css">/* порядок: reset найслабший, utilities найсильніший */
+@layer reset, base, components, utilities;
+
+@layer base {
+  a { color: blue; }
+}
+
+@layer components {
+  .link { color: green; } /* переможе a, бо шар пізніший */
+}</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Ключова ідея: між шарами <strong>порядок важливіший за специфічність</strong>. Правило з
+пізнішого шару перекриє правило з ранішого, навіть якщо в раннього селектор
+«важчий». Це рятує від гонки специфічності й <code>!important</code>.</p></div></div>
+<h1 id="незашаровані">3. Незашаровані стилі — найсильніші</h1>
+<p>Стилі поза будь-яким шаром мають вищий пріоритет за будь-який шар. Тому власні
+override-и часто лишають поза шарами.</p>
+<pre class="language-css"><code class="language-css">@layer components {
+  .btn { color: gray; }
+}
+
+/* поза шаром — перекриє .btn із шару components */
+.btn { color: black; }</code></pre>
+<h1 id="import">4. Імпорт бібліотек у шар</h1>
+<p>Зручно завантажити чужий CSS у окремий шар — тоді свої стилі легко його
+перекривають без боротьби зі специфічністю:</p>
+<pre class="language-css"><code class="language-css">@import url("bootstrap.css") layer(vendor);
+
+@layer vendor, app; /* app сильніший за vendor */</code></pre>
+<h1 id="коли">5. Коли застосовувати</h1>
+<ul>
+<li>велика кодова база з багатьма авторами;</li>
+<li>інтеграція сторонніх стилів, які треба перекривати;</li>
+<li>дизайн-система з чіткими рівнями: reset → base → компоненти → утиліти.</li>
+</ul>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@layer" target="_blank">@layer — MDN</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

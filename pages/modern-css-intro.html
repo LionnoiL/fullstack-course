@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сучасний CSS: огляд · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="огляд">1. Що змінилося в CSS</h1>
+<p>За останні роки CSS отримав можливості, заради яких раніше тягли препроцесори,
+JS чи хитрі хаки. Сьогодні це <strong>нативні</strong> засоби, доступні в усіх сучасних
+браузерах:</p>
+<ul>
+<li><strong>вкладеність</strong> прямо в CSS — без Sass;</li>
+<li><code>:has()</code> — «батьківський» селектор, про який мріяли роками;</li>
+<li><strong>container queries</strong> (<code>@container</code>) — адаптив за розміром контейнера, а не
+екрана;</li>
+<li><strong>каскадні шари</strong> (<code>@layer</code>) — керування пріоритетом стилів;</li>
+<li><strong>логічні властивості</strong>, <code>aspect-ratio</code>, <code>clamp()</code>, нативна темна тема.</li>
+</ul>
+<h1 id="supports">2. Перевірка підтримки: @supports</h1>
+<p>Щоб застосувати нову фічу лише там, де вона працює, використовують feature
+query <code>@supports</code>:</p>
+<pre class="language-css"><code class="language-css">@supports (container-type: inline-size) {
+  /* стилі, якщо браузер уміє container queries */
+}
+
+/* заперечення */
+@supports not (aspect-ratio: 1) {
+  .box { height: 200px; }
+}</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Перш ніж використати свіжу властивість у продакшні, звіряйся з
+<a href="https://caniuse.com" target="_blank">caniuse.com</a> та поняттям <strong>Baseline</strong>
+(показує, чи фіча вже стабільно доступна в усіх основних браузерах). Усі теми
+цього розділу вже входять у Baseline.</p></div></div>
+<h1 id="прогресивність">3. Прогресивне покращення</h1>
+<p>Підхід «працює всюди, а де можна — краще»: базовий макет тримається на давно
+підтримуваних властивостях, а сучасні фічі додають зверху через <code>@supports</code>.
+Так сайт не ламається у старому браузері.</p>
+<h1 id="звязок">4. Зв'язок з іншими розділами</h1>
+<p>Ти вже проходив базовий CSS (селектори, flexbox, grid, адаптивність) і Sass. Цей
+розділ показує, що багато можливостей Sass (вкладеність, змінні) тепер є прямо в
+CSS — хоча препроцесор досі корисний для складнішої логіки.</p>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@supports" target="_blank">@supports — MDN</a></li>
+<li><a href="https://web.dev/baseline" target="_blank">Baseline — web.dev</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

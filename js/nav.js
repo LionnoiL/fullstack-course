@@ -38,6 +38,18 @@
       ],
     },
     {
+      title: "Сучасний CSS",
+      lessons: [
+        ["modern-css-intro.html", "Огляд і @supports"],
+        ["modern-css-nesting.html", "Нативна вкладеність"],
+        ["modern-css-selectors.html", ":has(), :is(), :where()"],
+        ["modern-css-container.html", "Container queries"],
+        ["modern-css-layers.html", "Каскадні шари (@layer)"],
+        ["modern-css-utils.html", "Логічні властивості, clamp, тема"],
+        ["practice-modern-css.html", "🎯 Практика: сучасний CSS"],
+      ],
+    },
+    {
       title: "Bootstrap",
       lessons: [
         ["bootstrap-intro.html", "Знайомство з Bootstrap"],
