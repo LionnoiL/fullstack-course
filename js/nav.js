@@ -405,7 +405,121 @@
 
   const STORAGE_KEY = "jscourse.nav.sections";
   const PROGRESS_KEY = "jscourse.progress";
+  const MARKS_KEY = "jscourse.nav.marks";
   const current = location.pathname.split("/").pop() || "intro.html";
+
+  // Кольорові мітки-статуси, які користувач ставить на розділи.
+  const MARKS = {
+    important: { text: "Важливо", color: "#dc2626", bg: "#fee2e2" },
+    review: { text: "Повторити", color: "#7c3aed", bg: "#ede9fe" },
+    progress: { text: "В процесі", color: "#16a34a", bg: "#dcfce7" },
+  };
+
+  function getMarks() {
+    try {
+      return JSON.parse(localStorage.getItem(MARKS_KEY)) || {};
+    } catch (e) {
+      return {};
+    }
+  }
+  function setMarkStore(title, key) {
+    const m = getMarks();
+    if (key) {
+      m[title] = key;
+    } else {
+      delete m[title];
+    }
+    try {
+      localStorage.setItem(MARKS_KEY, JSON.stringify(m));
+    } catch (e) {
+      /* ігноруємо */
+    }
+  }
+
+  function closeMarkPops(except) {
+    document.querySelectorAll(".nav-mark-pop.open").forEach((p) => {
+      if (p !== except) {
+        p.classList.remove("open");
+      }
+    });
+  }
+
+  // Будує контрол мітки для одного розділу (кнопка + випадний вибір).
+  function buildMark(title) {
+    const wrap = document.createElement("div");
+    wrap.className = "nav-mark";
+
+    function render() {
+      wrap.innerHTML = "";
+      const cur = getMarks()[title];
+
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "nav-mark-btn";
+      const flag = document.createElement("span");
+      flag.className = "nav-mark-flag";
+      flag.textContent = "⚑"; // ⚑
+      btn.appendChild(flag);
+      if (cur && MARKS[cur]) {
+        btn.classList.add("has-mark");
+        btn.style.setProperty("--mk", MARKS[cur].color);
+        btn.style.setProperty("--mkbg", MARKS[cur].bg);
+        const t = document.createElement("span");
+        t.className = "nav-mark-text";
+        t.textContent = MARKS[cur].text;
+        btn.appendChild(t);
+        btn.title = "Мітка: " + MARKS[cur].text;
+      } else {
+        btn.title = "Поставити мітку";
+      }
+
+      const pop = document.createElement("div");
+      pop.className = "nav-mark-pop";
+      Object.keys(MARKS).forEach((key) => {
+        const opt = document.createElement("button");
+        opt.type = "button";
+        opt.className = "nav-mark-opt" + (key === cur ? " active" : "");
+        opt.style.setProperty("--mk", MARKS[key].color);
+        const dot = document.createElement("span");
+        dot.className = "dot";
+        const txt = document.createElement("span");
+        txt.textContent = MARKS[key].text;
+        opt.appendChild(dot);
+        opt.appendChild(txt);
+        opt.addEventListener("click", (e) => {
+          e.stopPropagation();
+          setMarkStore(title, key === cur ? null : key);
+          render();
+        });
+        pop.appendChild(opt);
+      });
+      if (cur) {
+        const clear = document.createElement("button");
+        clear.type = "button";
+        clear.className = "nav-mark-opt nav-mark-clear";
+        clear.textContent = "Зняти мітку";
+        clear.addEventListener("click", (e) => {
+          e.stopPropagation();
+          setMarkStore(title, null);
+          render();
+        });
+        pop.appendChild(clear);
+      }
+
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const willOpen = !pop.classList.contains("open");
+        closeMarkPops();
+        pop.classList.toggle("open", willOpen);
+      });
+
+      wrap.appendChild(btn);
+      wrap.appendChild(pop);
+    }
+
+    render();
+    return wrap;
+  }
 
   // Збережений стан розділів: { "Назва розділу": "open" | "closed" }
   let saved = {};
@@ -439,6 +553,7 @@
 
   function build() {
     const progress = getProgress();
+    const searchBox = sidebar.querySelector(".search-box");
     sidebar.innerHTML = "";
 
     // Загальний прогрес курсу
@@ -467,6 +582,25 @@
     prog.appendChild(plabel);
     prog.appendChild(pbar);
     sidebar.appendChild(prog);
+
+    // Швидке посилання на зведення нотаток.
+    const links = document.createElement("div");
+    links.className = "nav-links";
+    const notesLink = document.createElement("a");
+    notesLink.className = "nav-link-item";
+    if (current === "notes.html") {
+      notesLink.classList.add("active");
+    }
+    notesLink.href = "notes.html";
+    const nIcon = document.createElement("span");
+    nIcon.setAttribute("aria-hidden", "true");
+    nIcon.textContent = "📝";
+    const nText = document.createElement("span");
+    nText.textContent = "Мої нотатки";
+    notesLink.appendChild(nIcon);
+    notesLink.appendChild(nText);
+    links.appendChild(notesLink);
+    sidebar.appendChild(links);
 
     const nav = document.createElement("nav");
     nav.className = "nav-sections";
@@ -509,6 +643,11 @@
       header.appendChild(label);
       header.appendChild(count);
 
+      const head = document.createElement("div");
+      head.className = "nav-section-head";
+      head.appendChild(header);
+      head.appendChild(buildMark(section.title));
+
       const ul = document.createElement("ul");
       for (const [href, title] of section.lessons) {
         const li = document.createElement("li");
@@ -540,12 +679,17 @@
         persist();
       });
 
-      wrap.appendChild(header);
+      wrap.appendChild(head);
       wrap.appendChild(ul);
       nav.appendChild(wrap);
     }
 
     sidebar.appendChild(nav);
+
+    // Повертаємо поле пошуку нагору (build() очищає сайдбар).
+    if (searchBox) {
+      sidebar.insertBefore(searchBox, sidebar.firstChild);
+    }
 
     if (activeLink && typeof activeLink.scrollIntoView === "function") {
       activeLink.scrollIntoView({ block: "nearest" });
@@ -628,4 +772,65 @@
     }
     content.appendChild(footer);
   })();
+
+  // Закриваємо будь-який відкритий вибір мітки при кліку поза ним / Esc.
+  document.addEventListener("click", () => closeMarkPops());
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeMarkPops();
+    }
+  });
+
+  // Мобільне меню: бічну панель ховаємо в «шухляду» з кнопкою-бургером.
+  (function mobileDrawer() {
+    if (document.querySelector(".nav-toggle")) {
+      return;
+    }
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "nav-toggle";
+    toggle.setAttribute("aria-label", "Меню");
+    toggle.innerHTML = "<span></span><span></span><span></span>";
+
+    const backdrop = document.createElement("div");
+    backdrop.className = "nav-backdrop";
+
+    document.body.appendChild(toggle);
+    document.body.appendChild(backdrop);
+
+    function open() {
+      sidebar.classList.add("open");
+      backdrop.classList.add("show");
+      document.body.classList.add("nav-drawer-open");
+      toggle.classList.add("is-open");
+    }
+    function close() {
+      sidebar.classList.remove("open");
+      backdrop.classList.remove("show");
+      document.body.classList.remove("nav-drawer-open");
+      toggle.classList.remove("is-open");
+    }
+
+    toggle.addEventListener("click", () => {
+      if (sidebar.classList.contains("open")) {
+        close();
+      } else {
+        open();
+      }
+    });
+    backdrop.addEventListener("click", close);
+    sidebar.addEventListener("click", (e) => {
+      if (e.target.closest("a")) {
+        close();
+      }
+    });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        close();
+      }
+    });
+  })();
+
+  // Робимо структуру курсу доступною для сторінки зведення нотаток.
+  window.COURSE_SECTIONS = sections;
 })();

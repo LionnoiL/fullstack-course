@@ -336,16 +336,36 @@ pre[class*="lang-"] {
     flex-direction: column;
   }
 
+  .nav-toggle {
+    display: flex;
+  }
+
   .sidebar {
-    width: 100%;
-    height: auto;
-    position: static;
-    border-right: none;
-    border-bottom: 1px solid var(--line);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 82%;
+    max-width: 320px;
+    height: 100vh;
+    z-index: 1000;
+    background: var(--bg);
+    border-right: 1px solid var(--line);
+    border-bottom: none;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .nav-backdrop.show {
+    display: block;
   }
 
   .content {
-    padding: 1.4rem 1.2rem 2rem;
+    padding: 3.6rem 1.2rem 2rem;
     max-width: 100%;
   }
 }
@@ -853,4 +873,289 @@ details[open].solution summary {
 .ac-item.active,
 .ac-item:hover {
   background: var(--panel);
+}
+
+/* ============ Кнопка-бургер і підложка (мобільне меню) ============ */
+.nav-toggle {
+  display: none;
+  position: fixed;
+  top: 0.7rem;
+  left: 0.7rem;
+  z-index: 1100;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--text);
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.nav-toggle.is-open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.nav-toggle.is-open span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.is-open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.nav-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* ============ Швидкі посилання в меню ============ */
+.nav-links {
+  padding: 0.5rem 0.6rem 0;
+}
+
+.nav-link-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.55rem;
+  border-radius: 7px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.nav-link-item:hover {
+  background: var(--soft);
+  color: var(--text);
+}
+
+.nav-link-item.active {
+  background: var(--panel);
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ============ Мітки на розділах ============ */
+.nav-section-head {
+  display: flex;
+  align-items: center;
+}
+
+.nav-section-head .nav-section-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.nav-section-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav-mark {
+  position: relative;
+  flex-shrink: 0;
+  padding-right: 0.5rem;
+}
+
+.nav-mark-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.8rem;
+  line-height: 1;
+  padding: 0.3rem 0.35rem;
+  border-radius: 6px;
+  opacity: 0.4;
+  transition:
+    opacity 0.15s ease,
+    background 0.15s ease;
+}
+
+.nav-section-head:hover .nav-mark-btn {
+  opacity: 0.8;
+}
+
+.nav-mark-btn:hover {
+  opacity: 1;
+  background: var(--soft);
+}
+
+.nav-mark-btn.has-mark {
+  opacity: 1;
+  color: var(--mk);
+  background: var(--mkbg);
+  font-size: 0.64rem;
+  font-weight: 700;
+  padding: 0.2rem 0.45rem;
+}
+
+.nav-mark-text {
+  white-space: nowrap;
+}
+
+.nav-mark-pop {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0.4rem;
+  z-index: 60;
+  min-width: 160px;
+  margin-top: 0.25rem;
+  padding: 0.3rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+}
+
+.nav-mark-pop.open {
+  display: block;
+}
+
+.nav-mark-opt {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: 100%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text);
+  padding: 0.45rem 0.5rem;
+  border-radius: 6px;
+}
+
+.nav-mark-opt:hover {
+  background: var(--soft);
+}
+
+.nav-mark-opt.active {
+  font-weight: 700;
+}
+
+.nav-mark-opt .dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--mk);
+  flex-shrink: 0;
+}
+
+.nav-mark-clear {
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  margin-top: 0.2rem;
+  padding-top: 0.5rem;
+}
+
+/* ============ Сторінка зведення нотаток ============ */
+.notes-count {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.note-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  background: var(--panel);
+}
+
+.note-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.note-card-section {
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  background: var(--soft);
+  border: 1px solid var(--line);
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+}
+
+.note-card-title {
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.note-card-title:hover {
+  text-decoration: underline;
+}
+
+.note-card-go {
+  margin-left: auto;
+  font-size: 0.82rem;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.note-card-go:hover {
+  text-decoration: underline;
+}
+
+.note-card-text {
+  white-space: pre-wrap;
+  color: var(--text);
+  margin: 0;
+}
+
+.notes-empty {
+  margin-top: 2rem;
+  color: var(--muted);
+}
+
+.notes-all-link {
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-decoration: none;
+  margin-left: auto;
+  margin-right: 0.8rem;
+  font-weight: 500;
+}
+
+.notes-all-link:hover {
+  text-decoration: underline;
 }

@@ -258,12 +258,18 @@
   header.className = "notes-panel-header";
   const title = document.createElement("span");
   title.textContent = "Нотатки до уроку";
+  const allLink = document.createElement("a");
+  allLink.className = "notes-all-link";
+  allLink.href = "notes.html";
+  allLink.textContent = "Усі нотатки →";
+  allLink.title = "Переглянути всі нотатки курсу";
   const closeBtn = document.createElement("button");
   closeBtn.type = "button";
   closeBtn.className = "notes-close";
   closeBtn.textContent = "×";
   closeBtn.title = "Закрити";
   header.appendChild(title);
+  header.appendChild(allLink);
   header.appendChild(closeBtn);
 
   const area = document.createElement("textarea");
