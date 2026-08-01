@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Навіщо auth-провайдери · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="рекап">1. Що ми вже знаємо</h1>
+<p>У розділі «Бекенд» ми робили автентифікацію руками: хешували паролі
+(<code>bcrypt</code>), видавали <strong>JWT</strong>, перевіряли токен у middleware й розрізняли
+ролі. Це важлива база — але у справжньому проєкті на власних плечах доводиться нести
+ще й вхід через Google/GitHub, скидання пароля, підтвердження пошти, refresh-токени,
+захист від CSRF. Багато коду, де легко зробити <em>небезпечну</em> помилку.</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><strong>Правило безпеки №1:</strong> не винаходь автентифікацію з нуля для продакшену.
+Готові провайдери й бібліотеки вже врахували десятки нюансів (ротація токенів,
+таймінг-атаки, безпечні cookie). Ми розберемо, <em>як</em> вони працюють усередині, і
+використаємо перевірені рішення.</p></div></div>
+
+<h1 id="терміни">2. Автентифікація vs авторизація</h1>
+<ul>
+<li><strong>Автентифікація (authentication)</strong> — <em>хто ти?</em> Підтвердження особи
+(пароль, вхід через Google, magic link).</li>
+<li><strong>Авторизація (authorization)</strong> — <em>що тобі можна?</em> Доступ до ресурсів за
+роллю чи правами (admin, owner, читання/запис).</li>
+</ul>
+<p>Провайдери здебільшого беруть на себе <em>автентифікацію</em>, а авторизацію (ролі,
+права) ти доповнюєш під свою логіку.</p>
+
+<h1 id="сесії-токени">3. Два підходи до «памʼяті» про вхід</h1>
+<p>Після входу застосунок має якось памʼятати, що користувач залогінений. Є два
+класичні способи:</p>
+<ul>
+<li><strong>Сесії з cookie</strong> — сервер зберігає сесію (в памʼяті/Redis/БД), а браузер
+тримає лише ідентифікатор сесії в <code>httpOnly</code>-cookie. Легко «відкликати» вхід
+(видалив сесію — і все).</li>
+<li><strong>JWT-токени</strong> — сервер не зберігає стан: уся інформація в підписаному
+токені. Зручно для API й мобільних клієнтів, але відкликати токен до його
+завершення складніше.</li>
+</ul>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Обидва підходи валідні. Auth.js за замовчуванням використовує <strong>сесії в
+зашифрованій cookie</strong>, а Supabase — <strong>JWT + refresh-токен</strong>. Далі побачимо
+обидва на практиці.</p></div></div>
+
+<h1 id="провайдери">4. Що таке «auth-провайдер»</h1>
+<p>Слово «провайдер» вживають у двох значеннях:</p>
+<ul>
+<li><strong>OAuth-провайдер (identity provider)</strong> — зовнішній сервіс, що підтверджує
+особу: Google, GitHub, Apple. Користувач входить <em>там</em>, а тобі повертається
+підтвердження.</li>
+<li><strong>Auth-платформа/бібліотека</strong> — інструмент, що організовує весь потік у твоєму
+застосунку: <strong>Auth.js (NextAuth)</strong>, <strong>Supabase Auth</strong>, <strong>Clerk</strong>,
+Auth0. Вони під капотом і спілкуються з OAuth-провайдерами, і керують сесіями.</li>
+</ul>
+
+<h1 id="план">5. План розділу</h1>
+<ol>
+<li>OAuth 2.0 / OpenID Connect — як влаштований вхід через Google;</li>
+<li>Auth.js (NextAuth): налаштування й провайдери;</li>
+<li>сесія, колбеки й захист роутів;</li>
+<li>Supabase Auth як приклад BaaS-підходу;</li>
+<li>refresh-токени, ролі, безпека зберігання токенів.</li>
+</ol>
+
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://authjs.dev/" target="_blank">Auth.js — офіційний сайт</a></li>
+<li><a href="https://supabase.com/docs/guides/auth" target="_blank">Supabase Auth — документація</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

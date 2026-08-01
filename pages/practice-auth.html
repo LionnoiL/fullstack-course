@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практика: Auth-провайдери · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="практика">Практика: Auth-провайдери</h1>
+<p>Візьми Next.js-проєкт (App Router) і додай автентифікацію через Auth.js, а тоді
+спробуй альтернативу — Supabase. Мета — відчути весь потік: провайдер → сесія →
+захист роутів → ролі.</p>
+
+<div class="task">
+<h2>Завдання 1. Вхід через GitHub (Auth.js)</h2>
+<p class="task-goal">Встанови <code>next-auth@beta</code>, налаштуй <code>auth.ts</code> з GitHub-провайдером
+і роут-хендлер <code>app/api/auth/[...nextauth]/route.ts</code>. Додай кнопки «Увійти»/«Вийти».
+Зареєструй OAuth-застосунок у GitHub і пропиши Redirect URI.</p>
+<details class="hint"><summary>Підказка</summary><p>Redirect URI у налаштуваннях GitHub — <code>http://localhost:3000/api/auth/callback/github</code>. Секрет згенеруй через <code>npx auth secret</code>.</p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">// auth.ts
+import NextAuth from 'next-auth';
+import GitHub from 'next-auth/providers/github';
+export const { handlers, auth, signIn, signOut } = NextAuth({ providers: [GitHub] });
+
+// app/api/auth/[...nextauth]/route.ts
+export const { GET, POST } = handlers;</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 2. Показати сесію</h2>
+<p class="task-goal">На головній сторінці (серверний компонент) прочитай сесію через
+<code>auth()</code>. Якщо користувач увійшов — покажи його імʼя та email, інакше — кнопку входу.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">const session = await auth();
+return session
+  ? &lt;p&gt;Привіт, {session.user?.name} ({session.user?.email})&lt;/p&gt;
+  : &lt;LoginButton /&gt;;</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 3. Захистити <code>/dashboard</code></h2>
+<p class="task-goal">Додай <code>middleware.ts</code>, що пускає на <code>/dashboard</code> лише
+залогінених, а решту редіректить на сторінку входу. Використай <code>matcher</code>.</p>
+<details class="hint"><summary>Підказка</summary><p>Найпростіше — реекспорт: <code>export { auth as middleware } from '@/auth';</code> плюс <code>config.matcher</code>. Тонший контроль — через колбек <code>authorized</code>.</p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">// middleware.ts
+export { auth as middleware } from '@/auth';
+export const config = { matcher: ['/dashboard/:path*'] };</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 4. Ролі через колбеки</h2>
+<p class="task-goal">У колбеках <code>jwt</code> і <code>session</code> прокинь поле <code>role</code> в сесію.
+На сторінці <code>/admin</code> (server action чи компонент) дозволь дію лише для
+<code>role === 'admin'</code>, інакше кидай помилку доступу.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">callbacks: {
+  async jwt({ token, user }) { if (user) token.role = user.role; return token; },
+  async session({ session, token }) {
+    if (session.user) session.user.role = token.role;
+    return session;
+  },
+},
+// на сторінці:
+if (session?.user?.role !== 'admin') throw new Error('403');</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 5. Той самий вхід через Supabase (виклик)</h2>
+<p class="task-goal">В окремій гілці/проєкті під'єднай <code>@supabase/supabase-js</code>: реалізуй
+реєстрацію й вхід (email+пароль) та <code>signInWithOAuth('github')</code>. Додай до однієї
+таблиці RLS-політику «користувач бачить лише свої рядки» (<code>auth.uid() = user_id</code>)
+і переконайся, що чужі дані не повертаються.</p>
+</div>
+
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Порівняй два підходи: з Auth.js користувачі у <em>твоїй</em> БД і повний контроль; із
+Supabase auth і дані живуть на платформі, а RLS переносить авторизацію в саму базу.
+Занотуй, що зручніше саме для твого fullstack-проєкту.</p></div></div>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

@@ -386,6 +386,18 @@
       ],
     },
     {
+      title: "Auth-провайдери",
+      lessons: [
+        ["auth-intro.html", "Навіщо auth-провайдери"],
+        ["auth-oauth.html", "OAuth 2.0 та OpenID Connect"],
+        ["authjs-setup.html", "Auth.js (NextAuth): налаштування"],
+        ["authjs-usage.html", "Сесія, колбеки, захист роутів"],
+        ["supabase-auth.html", "Supabase Auth і RLS"],
+        ["auth-advanced.html", "Refresh-токени, ролі, безпека"],
+        ["practice-auth.html", "🎯 Практика: Auth-провайдери"],
+      ],
+    },
+    {
       title: "Супровідні теми",
       lessons: [
         ["git-basics.html", "Git і командний рядок"],

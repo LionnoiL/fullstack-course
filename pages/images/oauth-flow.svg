@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 370" font-family="-apple-system, Segoe UI, Roboto, Arial, sans-serif">
+  <rect width="640" height="370" fill="#ffffff"/>
+  <defs>
+    <marker id="ob" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="og" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#16a34a"/>
+    </marker>
+    <marker id="oy" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#b45309"/>
+    </marker>
+  </defs>
+
+  <!-- actors -->
+  <rect x="30" y="20" width="140" height="42" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="100" y="46" font-size="14" fill="#1e3a8a" text-anchor="middle">Браузер</text>
+  <rect x="250" y="20" width="140" height="42" rx="8" fill="#dcfce7" stroke="#86efac"/>
+  <text x="320" y="46" font-size="14" fill="#15803d" text-anchor="middle">Твій застосунок</text>
+  <rect x="470" y="20" width="150" height="42" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="545" y="41" font-size="14" fill="#854d0e" text-anchor="middle">Провайдер</text>
+  <text x="545" y="56" font-size="11" fill="#854d0e" text-anchor="middle">Google / GitHub</text>
+
+  <!-- lifelines -->
+  <line x1="100" y1="62" x2="100" y2="352" stroke="#e7e5e4" stroke-width="2"/>
+  <line x1="320" y1="62" x2="320" y2="352" stroke="#e7e5e4" stroke-width="2"/>
+  <line x1="545" y1="62" x2="545" y2="352" stroke="#e7e5e4" stroke-width="2"/>
+
+  <!-- 1: browser -> provider (redirect to consent) -->
+  <line x1="100" y1="98" x2="545" y2="98" stroke="#2563eb" stroke-width="2" marker-end="url(#ob)"/>
+  <text x="320" y="90" font-size="12" fill="#2563eb" text-anchor="middle">1. редірект на екран згоди (/authorize)</text>
+
+  <!-- 2: user login + consent at provider -->
+  <rect x="455" y="118" width="180" height="30" rx="4" fill="#fef3c7" stroke="#eab308"/>
+  <text x="545" y="138" font-size="11" fill="#854d0e" text-anchor="middle">2. логін + згода користувача</text>
+
+  <!-- 3: provider -> app (callback with code) -->
+  <line x1="545" y1="180" x2="320" y2="180" stroke="#b45309" stroke-width="2" marker-end="url(#oy)"/>
+  <text x="432" y="172" font-size="12" fill="#b45309" text-anchor="middle">3. callback з ?code=…</text>
+
+  <!-- 4: app -> provider (exchange code, back channel) -->
+  <line x1="320" y1="222" x2="545" y2="222" stroke="#16a34a" stroke-width="2" marker-end="url(#og)"/>
+  <text x="432" y="214" font-size="12" fill="#16a34a" text-anchor="middle">4. обмін code → токени</text>
+  <text x="432" y="238" font-size="10.5" fill="#78716c" text-anchor="middle">сервер-до-сервера, з client_secret</text>
+
+  <!-- 5: provider -> app (tokens) -->
+  <line x1="545" y1="270" x2="320" y2="270" stroke="#b45309" stroke-width="2" marker-end="url(#oy)"/>
+  <text x="432" y="262" font-size="12" fill="#b45309" text-anchor="middle">5. access_token + id_token</text>
+
+  <!-- 6: app -> browser (session cookie) -->
+  <line x1="320" y1="320" x2="100" y2="320" stroke="#16a34a" stroke-width="2" marker-end="url(#og)"/>
+  <text x="210" y="312" font-size="12" fill="#16a34a" text-anchor="middle">6. сесія (httpOnly cookie)</text>
+
+  <text x="320" y="350" font-size="11" fill="#78716c" text-anchor="middle">OAuth 2.0 Authorization Code flow — пароль користувача твій застосунок ніколи не бачить</text>
+</svg>
