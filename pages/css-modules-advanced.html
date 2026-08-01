@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Modules: composes, :global, clsx · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="composes">1. <code>composes</code> — успадкування класів</h1>
+<p>Щоб не дублювати стилі, один клас може <strong>увібрати</strong> інший через
+<code>composes</code> (аналог «наслідування» для класів). Це чистіше, ніж чіпляти два
+класи в JSX.</p>
+<pre class="language-css"><code class="language-css">/* Button.module.css */
+.base {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.primary {
+  composes: base;         /* увібрати стилі .base */
+  background: #2563eb;
+  color: #fff;
+}
+.danger {
+  composes: base;
+  background: #dc2626;
+  color: #fff;
+}</code></pre>
+<pre class="language-js"><code class="language-js">&lt;button className={styles.primary}&gt;OK&lt;/button&gt;   // уже містить .base</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>composes</code> можна брати й <strong>з іншого файлу</strong>:
+<code>composes: base from './shared.module.css';</code>. Так виносять спільні «примітиви»
+(кнопка, картка) в один модуль.</p></div></div>
+
+<h1 id="global">2. <code>:global</code> — навмисно глобальні стилі</h1>
+<p>Іноді клас треба <em>не</em> локалізовувати — напр. стилі сторонньої бібліотеки чи
+глобальні хелпери. Обгорни його в <code>:global</code>:</p>
+<pre class="language-css"><code class="language-css">:global(.swiper-slide) {   /* клас чужої бібліотеки — лишити як є */
+  padding: 1rem;
+}
+.wrapper :global(.legacy) { color: #555; }  /* локальний .wrapper + глобальний .legacy */</code></pre>
+
+<h1 id="динамічні">3. Динамічні класи (clsx / classnames)</h1>
+<p>Часто клас залежить від стану (активний, помилка). Склеювати рядки вручну незручно —
+беруть крихітну бібліотеку <strong>clsx</strong> (або <code>classnames</code>):</p>
+<pre class="language-js"><code class="language-js">import clsx from 'clsx';
+import styles from './Tab.module.css';
+
+function Tab({ active, disabled }) {
+  return (
+    &lt;button
+      className={clsx(styles.tab, {
+        [styles.active]: active,     // додасться, якщо active === true
+        [styles.disabled]: disabled,
+      })}
+    /&gt;
+  );
+}</code></pre>
+
+<h1 id="змінні">4. Тема через CSS-змінні</h1>
+<p>CSS Modules чудово поєднуються з <strong>CSS custom properties</strong> для тем: змінні
+оголошуєш глобально, а модулі їх використовують. Перемикання теми — зміна змінних,
+без перезбірки.</p>
+<pre class="language-css"><code class="language-css">/* globals.css */
+:root { --accent: #2563eb; }
+[data-theme='dark'] { --accent: #60a5fa; }
+
+/* Button.module.css */
+.primary { background: var(--accent); }</code></pre>
+
+<h1 id="typescript">5. Типізація в TypeScript</h1>
+<p>За замовчуванням TS не знає, які ключі є в <code>styles</code>. Рішення: плагін або
+згенеровані <code>.d.ts</code>-типи (напр. <code>typescript-plugin-css-modules</code>), щоб
+<code>styles.</code> давав автодоповнення й ловив помилки в назвах класів.</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Типізовані модулі перетворюють помилку в назві класу з «мовчазно нема стилю» на
+<strong>помилку компіляції</strong> — зручно в командних проєктах. Для старту достатньо й
+без типів.</p></div></div>
+
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://github.com/css-modules/css-modules#composition" target="_blank">CSS Modules — composition</a></li>
+<li><a href="https://github.com/lukeed/clsx" target="_blank">clsx — умовні класи</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

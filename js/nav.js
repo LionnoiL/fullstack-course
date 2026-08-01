@@ -87,6 +87,18 @@
       ],
     },
     {
+      title: "CSS Modules та CSS-in-JS",
+      lessons: [
+        ["css-approaches.html", "Підходи до стилізації"],
+        ["css-modules-basics.html", "CSS Modules: основи"],
+        ["css-modules-advanced.html", "composes, :global, clsx, TS"],
+        ["css-in-js-intro.html", "CSS-in-JS: styled-components"],
+        ["css-in-js-modern.html", "Zero-runtime та Server Components"],
+        ["css-styling-compare.html", "Вибір підходу"],
+        ["practice-css-styling.html", "🎯 Практика: CSS Modules / CSS-in-JS"],
+      ],
+    },
+    {
       title: "Основи JavaScript",
       lessons: [
         ["intro.html", "Що таке JavaScript?"],

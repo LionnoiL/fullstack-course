@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вибір підходу до стилізації · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="огляд">1. Усі підходи поряд</h1>
+<p>Ми маємо кілька способів стилізувати компонентний застосунок. У кожного — своя ніша.
+Немає «єдино правильного»; є доречний під контекст. Порівняймо за чотирма ознаками:
+<em>де живе стиль</em>, <em>рантайм</em> (чи є JS-вартість у браузері), <em>динаміка за
+пропсами</em> й <em>сумісність із Server Components (RSC)</em>.</p>
+<ul>
+<li><strong>Глобальний CSS / SCSS</strong> — стиль у <code>.css</code>/<code>.scss</code>; без рантайму;
+динаміка лише через перемикання класів; RSC — ✅.</li>
+<li><strong>CSS Modules</strong> — стиль у <code>.module.css</code>; без рантайму; динаміка через
+класи + <code>clsx</code>; RSC — ✅.</li>
+<li><strong>Tailwind</strong> — стиль у розмітці (утиліти); без рантайму; динаміка через умовні
+класи; RSC — ✅.</li>
+<li><strong>CSS-in-JS (runtime)</strong> — стиль у JS-компоненті; <strong>є</strong> рантайм; динаміка
+за пропсами повна; RSC — ⚠️ лише в клієнтських компонентах.</li>
+<li><strong>Zero-runtime (vanilla-extract, Panda)</strong> — стиль у <code>.css.ts</code>/JS; без
+рантайму (компілюється на збірці); варіанти задаються заздалегідь; RSC — ✅.</li>
+</ul>
+
+<h1 id="як-вибрати">2. Як вибрати</h1>
+<ul>
+<li><strong>Маленький сайт / лендинг</strong> → звичайний CSS/SCSS або Tailwind. Не ускладнюй.</li>
+<li><strong>Компонентний застосунок (Vite/CRA)</strong> → <strong>CSS Modules</strong>: простий,
+швидкий, без рантайму, звичайний CSS.</li>
+<li><strong>Багато динаміки, теми, дизайн-система в JS</strong> → <strong>CSS-in-JS</strong> (Emotion/
+styled-components) — якщо перформанс не критичний і код клієнтський.</li>
+<li><strong>Next.js App Router / серверний рендер</strong> → <strong>CSS Modules</strong> або
+<strong>zero-runtime</strong> (vanilla-extract, Panda) — щоб не тягти рантайм у RSC.</li>
+<li><strong>Строгі типи й токени</strong> → <strong>zero-runtime</strong>.</li>
+</ul>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Тренд 2024–2026: у Next.js-екосистемі <strong>runtime CSS-in-JS відступає</strong> на
+користь CSS Modules і zero-runtime через Server Components. У SPA (Vite) — усі
+підходи життєздатні; найбезпечніший дефолт — <strong>CSS Modules</strong>.</p></div></div>
+
+<h1 id="змішування">3. Чи можна змішувати</h1>
+<p>Так — і часто змішують: глобальний CSS для reset/змінних теми, CSS Modules для
+компонентів, Tailwind-утиліти для дрібних правок. Головне — <strong>узгодженість у
+команді</strong>: домовтесь про основний підхід, а не тягніть три одночасно «бо можна».</p>
+
+<h1 id="продуктивність">4. Продуктивність коротко</h1>
+<ul>
+<li><strong>zero-runtime</strong> (CSS Modules, Tailwind, vanilla-extract) — стилі готові на
+збірці, у браузер іде чистий CSS: найшвидше;</li>
+<li><strong>runtime CSS-in-JS</strong> — додатковий JS + обчислення стилів під час рендеру;
+на великих списках відчутно;</li>
+<li>для більшості застосунків різниця несуттєва — обирай за <em>зручністю команди</em>,
+а оптимізуй, коли є реальна проблема.</li>
+</ul>
+
+<h1 id="підсумок">5. Підсумок розділу</h1>
+<ul>
+<li>проблема глобального CSS — конфлікти імен; рішення — <strong>локальний scope</strong>;</li>
+<li><strong>CSS Modules</strong> — звичайний CSS + унікальні класи на збірці, дефолт для більшості;</li>
+<li><strong>CSS-in-JS</strong> — стилі в JS із динамікою за пропсами; рантайм має ціну й
+обмеження в RSC;</li>
+<li><strong>zero-runtime</strong> — зручність CSS-in-JS без рантайму;</li>
+<li>вибір — за контекстом (SPA vs Next, динаміка, типи, команда).</li>
+</ul>
+
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://nextjs.org/docs/app/building-your-application/styling" target="_blank">Next.js — Styling (огляд підходів)</a></li>
+<li><a href="https://web.dev/learn/css/" target="_blank">web.dev — Learn CSS</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

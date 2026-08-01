@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero-runtime CSS-in-JS та Server Components · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="рантайм">1. Проблема рантайму</h1>
+<p>Класичні styled-components/Emotion — <strong>runtime CSS-in-JS</strong>: під час роботи в
+браузері бібліотека обчислює стилі, генерує класи й вставляє їх у <code>&lt;style&gt;</code>. Це
+зручно, але має ціну:</p>
+<ul>
+<li>у бандл іде <strong>сама бібліотека</strong> (додатковий JS);</li>
+<li>стилі рахуються <strong>при кожному рендері</strong> — навантаження на CPU;</li>
+<li>погано дружить із <strong>React Server Components</strong> (нижче).</li>
+</ul>
+
+<h1 id="rsc">2. Чому це болить у Server Components</h1>
+<p>У Next.js App Router компоненти за замовчуванням <strong>серверні</strong> — без JS у
+браузері. Runtime CSS-in-JS <em>потребує</em> JS на клієнті, тож styled-components
+працюють лише в компонентах з <code>'use client'</code>. Це змушує робити клієнтськими
+навіть суто презентаційні частини — втрачаєш переваги серверного рендеру.</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Тому в екосистемі Next.js стався зсув: від runtime CSS-in-JS — до <strong>CSS Modules</strong>
+або <strong>zero-runtime</strong> рішень, які віддають звичайний CSS без клієнтського JS.</p></div></div>
+
+<h1 id="zero-runtime">3. Zero-runtime CSS-in-JS</h1>
+<p><strong>Zero-runtime</strong> — пишеш стилі в JS, але вся робота відбувається <strong>на етапі
+збірки</strong>: генерується статичний CSS-файл, а бібліотека в бандл <em>не</em> потрапляє. Це
+поєднує зручність CSS-in-JS зі швидкістю CSS Modules.</p>
+<ul>
+<li><strong>vanilla-extract</strong> — стилі в окремих <code>*.css.ts</code>-файлах із повною
+типізацією TypeScript; компілюється в статичний CSS;</li>
+<li><strong>Panda CSS</strong> — стилі-обʼєкти в JS + токени дизайн-системи; генерує CSS на
+збірці;</li>
+<li><strong>Linaria</strong> — синтаксис як у styled-components, але zero-runtime.</li>
+</ul>
+<pre class="language-js"><code class="language-js">// vanilla-extract: button.css.ts — типізовано, компілюється в CSS
+import { style } from '@vanilla-extract/css';
+
+export const button = style({
+  padding: '0.6rem 1.2rem',
+  borderRadius: 6,
+  background: '#2563eb',
+  color: '#fff',
+  ':hover': { background: '#1e40af' },
+});</code></pre>
+<pre class="language-js"><code class="language-js">// у компоненті — як CSS Modules: імпортуєш згенерований клас
+import { button } from './button.css';
+&lt;button className={button}&gt;OK&lt;/button&gt;</code></pre>
+
+<h1 id="токени">4. Токени й типобезпека</h1>
+<p>Сильна сторона zero-runtime — <strong>типізовані токени</strong>: кольори, відступи, шрифти
+описані в TS, і використати неіснуючий токен = помилка компіляції. Це те, що дизайн-
+системи (розділ «Дизайн-системи») люблять поєднувати з такими інструментами.</p>
+
+<h1 id="вибір-стека">5. Що це означає на практиці</h1>
+<ul>
+<li>звичайний Vite/React-застосунок → <strong>CSS Modules</strong> або runtime CSS-in-JS —
+обидва ок;</li>
+<li>Next.js App Router / серверний рендер / жорсткі вимоги до перформансу →
+<strong>CSS Modules</strong> або <strong>zero-runtime</strong> (vanilla-extract, Panda);</li>
+<li>дизайн-система з токенами й строгими типами → <strong>zero-runtime</strong>.</li>
+</ul>
+<p>У фінальному уроці зведемо всі підходи в одну таблицю вибору.</p>
+
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://vanilla-extract.style/" target="_blank">vanilla-extract</a></li>
+<li><a href="https://panda-css.com/" target="_blank">Panda CSS</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Підходи до стилізації · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="проблема">1. Проблема глобального CSS</h1>
+<p>Звичайний CSS має <strong>один глобальний простір імен</strong>: клас <code>.title</code> у
+<em>будь-якому</em> файлі впливає на <em>усі</em> елементи з цим класом на сторінці. У малому
+проєкті це ок, а у великому — джерело болю:</p>
+<ul>
+<li><strong>випадкові конфлікти</strong> — два розробники назвали клас однаково, стилі
+«перетікають»;</li>
+<li><strong>страх видаляти</strong> — незрозуміло, чи ще десь використовується цей клас;</li>
+<li><strong>боротьба специфічності</strong> — <code>!important</code>, довжелезні селектори;</li>
+<li>складно зрозуміти, <em>які</em> стилі належать <em>якому</em> компоненту.</li>
+</ul>
+<p><img src="images/css-scoping.svg" alt="Глобальний CSS: два файли з класом .title конфліктують. CSS Modules: білдер робить імена унікальними — конфлікту немає" loading="lazy"></p>
+
+<h1 id="scoping">2. Ідея: локальний scope стилів</h1>
+<p>Розвʼязок — привʼязати стилі до <strong>компонента</strong>, а не до всієї сторінки. Тоді
+клас <code>.title</code> у картці не зачепить <code>.title</code> у пості. Досягають цього
+по-різному, але мета одна: <strong>стилі не течуть за межі свого компонента</strong>.</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Це та сама проблема, що модулі розвʼязали для JS: замість глобальних змінних —
+локальні, імпортовані явно. Тут — те саме, але для класів CSS.</p></div></div>
+
+<h1 id="підходи">3. Огляд підходів</h1>
+<ul>
+<li><strong>Глобальний CSS + БЕМ</strong> — угода про іменування (<code>.card__title</code>), щоб
+уникати збігів <em>вручну</em>. Працює, але дисципліна на людині;</li>
+<li><strong>CSS Modules</strong> — пишеш звичайний CSS у файлі <code>*.module.css</code>, а білдер
+<em>автоматично</em> робить класи унікальними. Стилі й далі в окремих файлах;</li>
+<li><strong>CSS-in-JS</strong> — стилі описуєш прямо в JS/JSX (styled-components, Emotion);
+клас генерується з коду компонента;</li>
+<li><strong>Utility-first (Tailwind)</strong> — узагалі без своїх класів, лише готові утиліти
+(окремий розділ курсу).</li>
+</ul>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><strong>CSS Modules</strong> і <strong>CSS-in-JS</strong> розвʼязують <em>одну</em> проблему (локальний
+scope) з різних боків: перший лишає CSS у CSS-файлах, другий переносить його в
+компонент. Далі розберемо обидва й порівняємо.</p></div></div>
+
+<h1 id="що-обрати">4. Що коли доречно (коротко)</h1>
+<ul>
+<li>маленький сайт / лендинг → звичайного CSS або Tailwind досить;</li>
+<li>компонентний застосунок (React/Vue) із власними стилями → <strong>CSS Modules</strong> —
+простий, швидкий, без рантайму;</li>
+<li>динамічні стилі за пропсами, теми, дизайн-система в JS → <strong>CSS-in-JS</strong>;</li>
+<li>Server Components / жорсткі вимоги до продуктивності → <strong>zero-runtime</strong>
+рішення (розберемо в окремому уроці).</li>
+</ul>
+<p>Далі — по кроках: спершу CSS Modules, потім CSS-in-JS, і фінальне порівняння.</p>
+
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://github.com/css-modules/css-modules" target="_blank">CSS Modules — специфікація</a></li>
+<li><a href="https://css-tricks.com/css-modules-part-1-need/" target="_blank">CSS-Tricks — навіщо CSS Modules</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>
