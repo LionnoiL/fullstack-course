@@ -336,10 +336,6 @@ pre[class*="lang-"] {
     flex-direction: column;
   }
 
-  .nav-toggle {
-    display: flex;
-  }
-
   .sidebar {
     position: fixed;
     top: 0;
@@ -899,6 +895,30 @@ details[open].solution summary {
 .nav-toggle-icon {
   font-size: 1.05rem;
   line-height: 1;
+}
+
+/* Відкритий стан: кнопка стає круглою іконкою й переїжджає праворуч від
+   шухляди (тобто справа від поля пошуку), щоб не перекривати його. */
+.nav-toggle.is-open {
+  left: calc(min(82%, 320px) + 0.5rem);
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  justify-content: center;
+}
+
+.nav-toggle.is-open .nav-toggle-text {
+  display: none;
+}
+
+/* Показуємо кнопку на мобільному. Це правило має йти ПІСЛЯ базового
+   `.nav-toggle { display: none }`, інакше за рівної специфічності перемагає
+   пізніше оголошене приховування. */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: flex;
+  }
 }
 
 .nav-backdrop {
