@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESLint: встановлення й конфіг · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="встановлення">1. Встановлення</h1>
+<p>Найпростіший старт — офіційний майстер, який поставить ESLint і створить конфіг,
+поставивши кілька питань:</p>
+<pre class="language-js"><code class="language-js">npm init @eslint/config@latest</code></pre>
+<p>Або вручну:</p>
+<pre class="language-js"><code class="language-js">npm install -D eslint</code></pre>
+<h1 id="flat-config">2. Плоский конфіг eslint.config.js</h1>
+<p>Починаючи з ESLint 9, стандарт — «плоский» конфіг у файлі <code>eslint.config.js</code>
+(замість старого <code>.eslintrc</code>). Це звичайний JS-модуль, що експортує масив
+об'єктів-конфігурацій.</p>
+<pre class="language-js"><code class="language-js">// eslint.config.js
+import js from '@eslint/js';
+
+export default [
+  js.configs.recommended,   // базовий набір рекомендованих правил
+  {
+    files: ['**/*.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+    },
+    rules: {
+      'no-unused-vars': 'warn',
+      'no-undef': 'error',
+    },
+  },
+];</code></pre>
+<h1 id="запуск">3. Запуск</h1>
+<pre class="language-js"><code class="language-js">npx eslint .            // перевірити весь проєкт
+npx eslint src/app.js   // конкретний файл
+npx eslint . --fix      // виправити те, що можна автоматично</code></pre>
+<p>Зручно додати скрипти в <code>package.json</code>:</p>
+<pre class="language-js"><code class="language-js">"scripts": {
+  "lint": "eslint .",
+  "lint:fix": "eslint . --fix"
+}</code></pre>
+<h1 id="globals">4. Глобальні змінні й оточення</h1>
+<p>Щоб ESLint знав про глобальні змінні браузера (<code>window</code>, <code>document</code>) чи Node
+(<code>process</code>), використай пакет <code>globals</code>:</p>
+<pre class="language-js"><code class="language-js">import globals from 'globals';
+
+export default [
+  {
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.node },
+    },
+  },
+];</code></pre>
+<h1 id="ignore">5. Ігнорування файлів</h1>
+<p>Файли, які не треба перевіряти, вказують окремим об'єктом з <code>ignores</code>:</p>
+<pre class="language-js"><code class="language-js">export default [
+  { ignores: ['dist/', 'node_modules/', '*.min.js'] },
+  // ...решта конфігу
+];</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Порядок у масиві має значення: пізніші об'єкти перевизначають правила з
+попередніх. Тому базові рекомендовані конфіги ставлять першими, а свої
+налаштування — після них.</p></div></div>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://eslint.org/docs/latest/use/configure/configuration-files" target="_blank">Configuration Files — ESLint</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

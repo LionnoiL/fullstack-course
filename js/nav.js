@@ -197,6 +197,18 @@
       ],
     },
     {
+      title: "ESLint + Prettier",
+      lessons: [
+        ["eslint-intro.html", "Навіщо лінтери й форматери"],
+        ["eslint-setup.html", "ESLint: встановлення й конфіг"],
+        ["eslint-rules.html", "Правила та плагіни"],
+        ["prettier-setup.html", "Prettier: форматування"],
+        ["eslint-prettier.html", "ESLint + Prettier разом"],
+        ["eslint-workflow.html", "Редактор, Git-хуки, CI"],
+        ["practice-eslint.html", "🎯 Практика: ESLint + Prettier"],
+      ],
+    },
+    {
       title: "Дані",
       lessons: [
         ["json.html", "JSON"],

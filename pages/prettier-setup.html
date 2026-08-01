@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prettier: форматування · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="prettier">1. Що таке Prettier</h1>
+<p><strong>Prettier</strong> — «упертий» форматер коду: він розбирає файл і друкує його
+заново за єдиними правилами. Суперечки про стиль зникають — форматування завжди
+однакове, незалежно від того, як ти набрав код.</p>
+<pre class="language-js"><code class="language-js">npm install -D --save-exact prettier</code></pre>
+<h1 id="запуск">2. Запуск</h1>
+<pre class="language-js"><code class="language-js">npx prettier . --check    // показати, що не відформатовано
+npx prettier . --write    // відформатувати всі файли</code></pre>
+<pre class="language-js"><code class="language-js">"scripts": {
+  "format": "prettier . --write"
+}</code></pre>
+<h1 id="config">3. Налаштування .prettierrc</h1>
+<p>Prettier навмисно має мало опцій. Їх задають у <code>.prettierrc</code> (JSON):</p>
+<pre class="language-js"><code class="language-js">{
+  "semi": true,          // крапки з комою
+  "singleQuote": true,   // одинарні лапки
+  "printWidth": 80,      // бажана довжина рядка
+  "tabWidth": 2,         // ширина відступу
+  "trailingComma": "all" // коми в кінці багаторядкових списків
+}</code></pre>
+<h1 id="ignore">4. Файл .prettierignore</h1>
+<p>Що не форматувати — перелічують у <code>.prettierignore</code> (синтаксис як у
+<code>.gitignore</code>):</p>
+<pre class="language-"><code class="language-">dist/
+node_modules/
+package-lock.json</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Філософія Prettier — <strong>мінімум налаштувань</strong>. Не витрачай час на тонке
+підстроювання стилю: візьми дефолти (або кілька опцій), зафіксуй їх у репозиторії
+й забудь. Головна цінність — щоб у всіх однаково, а не «ідеально під мене».</p></div></div>
+<h1 id="editorconfig">5. Формати, які він розуміє</h1>
+<p>Prettier форматує не лише JS/TS, а й CSS, SCSS, HTML, JSON, Markdown, YAML — тож
+одним інструментом покривається майже весь проєкт.</p>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://prettier.io/docs/options" target="_blank">Options — Prettier</a></li>
+<li><a href="https://prettier.io/playground/" target="_blank">Prettier Playground</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

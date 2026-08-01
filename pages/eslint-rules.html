@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Правила та плагіни ESLint · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="правила">1. Правила та їх рівні</h1>
+<p>Кожне правило можна вимкнути або задати йому рівень серйозності:</p>
+<ul>
+<li><code>"off"</code> або <code>0</code> — вимкнено;</li>
+<li><code>"warn"</code> або <code>1</code> — попередження (не валить збірку);</li>
+<li><code>"error"</code> або <code>2</code> — помилка (ненульовий код виходу).</li>
+</ul>
+<pre class="language-js"><code class="language-js">rules: {
+  'no-console': 'warn',
+  'eqeqeq': 'error',              // вимагати === замість ==
+  'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+}</code></pre>
+<p>Деякі правила приймають додаткові опції — тоді значенням є масив
+<code>[рівень, опції]</code>, як у <code>no-unused-vars</code> вище.</p>
+<h1 id="вимкнення">2. Вимкнення в коді</h1>
+<p>Іноді правило треба обійти точково — це роблять коментарями:</p>
+<pre class="language-js"><code class="language-js">// eslint-disable-next-line no-console
+console.log('лише тут дозволено');
+
+/* eslint-disable no-alert */
+alert('вимкнено для цілого блоку');
+/* eslint-enable no-alert */</code></pre>
+<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Вимикати правило — крайній захід. Якщо доводиться робити це часто, можливо,
+правило зайве (тоді вимкни його в конфізі глобально) або код справді варто
+переписати. Масові <code>eslint-disable</code> знецінюють лінтер.</p></div></div>
+<h1 id="плагіни">3. Плагіни</h1>
+<p>Плагіни додають правила для конкретних технологій. Їх ставлять через npm і
+підключають у конфізі.</p>
+<pre class="language-js"><code class="language-js">// приклад: правила для React-хуків
+import reactHooks from 'eslint-plugin-react-hooks';
+
+export default [
+  {
+    plugins: { 'react-hooks': reactHooks },
+    rules: {
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+    },
+  },
+];</code></pre>
+<p>Популярні: <code>eslint-plugin-react</code>, <code>eslint-plugin-jsx-a11y</code>,
+<code>@typescript-eslint</code>, <code>eslint-plugin-import</code>.</p>
+<h1 id="typescript">4. ESLint і TypeScript</h1>
+<p>Для TS є готовий набір <code>typescript-eslint</code>, що додає типозалежні правила:</p>
+<pre class="language-js"><code class="language-js">import tseslint from 'typescript-eslint';
+
+export default tseslint.config(
+  ...tseslint.configs.recommended,
+);</code></pre>
+<h1 id="config">5. Різні правила для різних файлів</h1>
+<p>Завдяки масиву конфігів легко застосувати правила лише до частини файлів:</p>
+<pre class="language-js"><code class="language-js">export default [
+  { files: ['**/*.test.js'], rules: { 'no-console': 'off' } },
+  { files: ['src/**/*.js'],  rules: { 'no-console': 'error' } },
+];</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://eslint.org/docs/latest/rules/" target="_blank">Rules Reference — ESLint</a></li>
+<li><a href="https://typescript-eslint.io/" target="_blank">typescript-eslint</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>
