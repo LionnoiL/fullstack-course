@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>useMutation: зміна даних · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="usemutation">1. Хук useMutation</h1>
+<p>Якщо <code>useQuery</code> — для читання, то <code>useMutation</code> — для змін (створення,
+оновлення, видалення). Він не виконується сам: ти запускаєш його викликом
+<code>mutate</code>.</p>
+<pre class="language-js"><code class="language-js">import { useMutation } from '@tanstack/react-query';
+
+function AddTodo() {
+  const mutation = useMutation({
+    mutationFn: (title) =&gt;
+      fetch('/api/todos', {
+        method: 'POST',
+        body: JSON.stringify({ title }),
+      }).then((r) =&gt; r.json()),
+  });
+
+  return (
+    &lt;button onClick={() =&gt; mutation.mutate('Нова задача')}&gt;
+      Додати
+    &lt;/button&gt;
+  );
+}</code></pre>
+<h1 id="стани">2. Стани мутації</h1>
+<ul>
+<li><code>isPending</code> — запит виконується (зручно блокувати кнопку);</li>
+<li><code>isError</code> / <code>error</code> — не вдалося;</li>
+<li><code>isSuccess</code> / <code>data</code> — успіх і відповідь сервера.</li>
+</ul>
+<pre class="language-js"><code class="language-js">&lt;button disabled={mutation.isPending} onClick={() =&gt; mutation.mutate('X')}&gt;
+  {mutation.isPending ? 'Зберігаю…' : 'Додати'}
+&lt;/button&gt;</code></pre>
+<h1 id="callbacks">3. Колбеки життєвого циклу</h1>
+<pre class="language-js"><code class="language-js">useMutation({
+  mutationFn: addTodo,
+  onSuccess: (data) =&gt; { /* після успіху */ },
+  onError:   (err)  =&gt; { /* після помилки */ },
+  onSettled: ()     =&gt; { /* у будь-якому разі */ },
+});</code></pre>
+<h1 id="invalidate">4. Оновлення даних після мутації</h1>
+<p>Найважливіше: після зміни даних треба оновити відповідні запити. Для цього
+беруть <code>queryClient</code> і <strong>інвалідують</strong> ключ — TanStack Query перезавантажить
+ці дані.</p>
+<pre class="language-js"><code class="language-js">import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+const queryClient = useQueryClient();
+
+const mutation = useMutation({
+  mutationFn: addTodo,
+  onSuccess: () =&gt; {
+    // список ['todos'] застарів → перечитати з сервера
+    queryClient.invalidateQueries({ queryKey: ['todos'] });
+  },
+});</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Схема «змінив → інвалідував ключ» — 90% роботи з мутаціями. Не оновлюй
+локальні <code>useState</code> вручну після запиту: хай джерелом правди лишається кеш
+TanStack Query, а UI перемалюється сам після інвалідації.</p></div></div>
+<h1 id="async">5. mutateAsync</h1>
+<p>Якщо потрібно дочекатися результату (напр. закрити форму лише після успіху) —
+є проміс-версія <code>mutateAsync</code>:</p>
+<pre class="language-js"><code class="language-js">async function handleSubmit() {
+  try {
+    await mutation.mutateAsync(title);
+    closeModal();
+  } catch (e) {
+    // помилку вже обробить onError; тут — за потреби
+  }
+}</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://tanstack.com/query/latest/docs/framework/react/guides/mutations" target="_blank">Mutations — TanStack Query</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

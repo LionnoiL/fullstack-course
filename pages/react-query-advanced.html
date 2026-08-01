@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Пагінація та оптимістичні оновлення · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="pagination">1. Пагінація</h1>
+<p>Сторінку роблять частиною ключа. Опція <code>placeholderData</code> зберігає попередні
+дані під час переходу, щоб список не «блимав» порожнечею.</p>
+<pre class="language-js"><code class="language-js">import { keepPreviousData } from '@tanstack/react-query';
+
+const { data } = useQuery({
+  queryKey: ['todos', page],
+  queryFn: () =&gt; fetchTodos(page),
+  placeholderData: keepPreviousData, // показувати минулу сторінку до приходу нової
+});</code></pre>
+<h1 id="infinite">2. Безкінечний список</h1>
+<p>Для «Показати ще» / нескінченного скролу є окремий хук <code>useInfiniteQuery</code>:</p>
+<pre class="language-js"><code class="language-js">const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  queryKey: ['feed'],
+  queryFn: ({ pageParam }) =&gt; fetchFeed(pageParam),
+  initialPageParam: 1,
+  getNextPageParam: (lastPage) =&gt; lastPage.nextCursor ?? undefined,
+});</code></pre>
+<h1 id="dependent">3. Залежні запити</h1>
+<p>Коли один запит потребує результату іншого, керуй ним через <code>enabled</code>:</p>
+<pre class="language-js"><code class="language-js">const { data: user } = useQuery({ queryKey: ['user'], queryFn: fetchUser });
+
+const { data: projects } = useQuery({
+  queryKey: ['projects', user?.id],
+  queryFn: () =&gt; fetchProjects(user.id),
+  enabled: !!user?.id, // чекаємо, поки прийде user
+});</code></pre>
+<h1 id="optimistic">4. Оптимістичні оновлення</h1>
+<p>Щоб UI реагував миттєво, оновлюють кеш ще <em>до</em> відповіді сервера, а при помилці
+відкочують.</p>
+<pre class="language-js"><code class="language-js">useMutation({
+  mutationFn: toggleTodo,
+  onMutate: async (id) =&gt; {
+    await queryClient.cancelQueries({ queryKey: ['todos'] });
+    const prev = queryClient.getQueryData(['todos']);
+    queryClient.setQueryData(['todos'], (old) =&gt;
+      old.map((t) =&gt; (t.id === id ? { ...t, done: !t.done } : t))
+    );
+    return { prev }; // контекст для відкату
+  },
+  onError: (_err, _id, ctx) =&gt; {
+    queryClient.setQueryData(['todos'], ctx.prev); // відкат
+  },
+  onSettled: () =&gt; queryClient.invalidateQueries({ queryKey: ['todos'] }),
+});</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Оптимістичні оновлення — потужно, але додають складності. Починай із простого:
+«мутація → <code>invalidateQueries</code>». Оптимізм додавай там, де миттєвий відгук
+справді важливий (лайки, чекбокси, перемикачі).</p></div></div>
+<h1 id="prefetch">5. Передзавантаження</h1>
+<pre class="language-js"><code class="language-js">// напр. при наведенні на посилання — дані вже будуть готові
+queryClient.prefetchQuery({ queryKey: ['todo', id], queryFn: () =&gt; fetchTodo(id) });</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://tanstack.com/query/latest/docs/framework/react/guides/paginated-queries" target="_blank">Paginated Queries — TanStack Query</a></li>
+<li><a href="https://tanstack.com/query/latest/docs/framework/react/guides/optimistic-updates" target="_blank">Optimistic Updates — TanStack Query</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

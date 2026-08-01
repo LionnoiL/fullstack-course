@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кешування та інвалідація · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="як-працює">1. Як працює кеш</h1>
+<p>Кожен запит зберігається в кеші під своїм <code>queryKey</code>. Якщо інший компонент
+запитає ті самі дані, TanStack Query віддасть їх із кешу миттєво, а за потреби
+тихо оновить у фоні. Однакові одночасні запити <strong>дедуплікуються</strong> в один.</p>
+<h1 id="staletime">2. staleTime — коли дані «застарівають»</h1>
+<p><code>staleTime</code> визначає, скільки дані вважаються свіжими. Свіжі дані НЕ
+перезапитуються; щойно вони стають <em>stale</em> — бібліотека може оновити їх у фоні
+(при монтуванні, фокусі вікна тощо).</p>
+<pre class="language-js"><code class="language-js">useQuery({
+  queryKey: ['todos'],
+  queryFn: fetchTodos,
+  staleTime: 5 * 60 * 1000, // свіжі 5 хвилин — без зайвих запитів
+});</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>За замовчуванням <code>staleTime: 0</code> — дані застарівають одразу, тому бачиш багато
+фонових оновлень. Це не помилка, а стратегія «завжди свіже». Для рідкозмінних
+даних підніми <code>staleTime</code>, щоб зменшити трафік.</p></div></div>
+<h1 id="gctime">3. gcTime — коли кеш очищається</h1>
+<p><code>gcTime</code> (garbage collection, раніше <code>cacheTime</code>) — скільки <strong>невикористані</strong>
+дані лежать у кеші, перш ніж їх видалять. За замовчуванням 5 хвилин.</p>
+<h1 id="invalidate">4. Інвалідація</h1>
+<p>Явно позначити дані застарілими й перезавантажити — <code>invalidateQueries</code>. Ключ
+можна вказати частково: інвалідуються всі запити, чий ключ починається з нього.</p>
+<pre class="language-js"><code class="language-js">// оновити конкретний список
+queryClient.invalidateQueries({ queryKey: ['todos'] });
+
+// оновити ВСЕ, що починається з ['todo'] — і ['todo'], і ['todo', 5]
+queryClient.invalidateQueries({ queryKey: ['todo'] });</code></pre>
+<h1 id="setquerydata">5. Пряме читання й запис кешу</h1>
+<pre class="language-js"><code class="language-js">// прочитати з кешу поза компонентом
+const todos = queryClient.getQueryData(['todos']);
+
+// записати вручну (напр. одразу після мутації, без запиту)
+queryClient.setQueryData(['todos'], (old) =&gt; [...old, newTodo]);</code></pre>
+<h1 id="refetch">6. Ручне оновлення</h1>
+<p><code>useQuery</code> повертає <code>refetch</code> — виклик перезапитує дані на вимогу (напр. кнопка
+«Оновити»).</p>
+<pre class="language-js"><code class="language-js">const { data, refetch, isFetching } = useQuery({ /* ... */ });
+&lt;button onClick={() =&gt; refetch()} disabled={isFetching}&gt;Оновити&lt;/button&gt;</code></pre>
+<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://tanstack.com/query/latest/docs/framework/react/guides/caching" target="_blank">Caching — TanStack Query</a></li>
+<li><a href="https://tanstack.com/query/latest/docs/framework/react/guides/query-invalidation" target="_blank">Query Invalidation — TanStack Query</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

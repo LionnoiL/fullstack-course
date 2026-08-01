@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Навіщо TanStack Query · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="проблема">1. Проблема ручного завантаження</h1>
+<p>Класичний спосіб отримати дані в React — <code>useEffect</code> + <code>fetch</code> + кілька
+<code>useState</code>. Швидко з'ясовується, що навколо кожного запиту доводиться писати той
+самий код: стан завантаження, обробка помилки, скасування, повторний запит,
+кешування.</p>
+<pre class="language-js"><code class="language-js">// типовий бойлерплейт — і так для кожного запиту
+const [data, setData] = useState(null);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
+
+useEffect(() =&gt; {
+  setLoading(true);
+  fetch('/api/todos')
+    .then((r) =&gt; r.json())
+    .then(setData)
+    .catch(setError)
+    .finally(() =&gt; setLoading(false));
+}, []);</code></pre>
+<h1 id="server-state">2. Серверний стан — особливий</h1>
+<p>Дані з сервера — це не звичайний стан застосунку. Вони живуть віддалено, можуть
+застаріти, оновлюватися іншими користувачами, кешуватися. <strong>TanStack Query</strong>
+(раніше React Query) — це бібліотека саме для <em>серверного стану</em>.</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Розрізняй <strong>клієнтський стан</strong> (відкрите модальне вікно, введений текст —
+це <code>useState</code>/Zustand) і <strong>серверний стан</strong> (список товарів з API — це
+TanStack Query). Змішувати їх в одному сховищі — часта помилка.</p></div></div>
+<h1 id="що-дає">3. Що дає з коробки</h1>
+<ul>
+<li>кешування й повторне використання даних між компонентами;</li>
+<li>стани <code>isPending</code> / <code>isError</code> / <code>data</code> без ручних <code>useState</code>;</li>
+<li>фонове оновлення застарілих даних (refetch);</li>
+<li>дедуплікацію однакових запитів;</li>
+<li>пагінацію, безкінечні списки, оптимістичні оновлення.</li>
+</ul>
+<h1 id="той-самий">4. Той самий приклад із TanStack Query</h1>
+<pre class="language-js"><code class="language-js">const { data, isPending, error } = useQuery({
+  queryKey: ['todos'],
+  queryFn: () =&gt; fetch('/api/todos').then((r) =&gt; r.json()),
+});</code></pre>
+<p>Три рядки замість десятка — і при цьому кеш, дедуплікація й фонове оновлення вже
+працюють. Далі розберемо це докладно.</p>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://tanstack.com/query/latest/docs/framework/react/overview" target="_blank">TanStack Query — Overview</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

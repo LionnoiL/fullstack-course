@@ -300,6 +300,18 @@
       ],
     },
     {
+      title: "TanStack Query",
+      lessons: [
+        ["react-query-intro.html", "Навіщо TanStack Query"],
+        ["react-query-setup.html", "Встановлення та QueryClient"],
+        ["react-query-queries.html", "useQuery: отримання даних"],
+        ["react-query-mutations.html", "useMutation: зміна даних"],
+        ["react-query-cache.html", "Кешування та інвалідація"],
+        ["react-query-advanced.html", "Пагінація та оптимізм"],
+        ["practice-react-query.html", "🎯 Практика: TanStack Query"],
+      ],
+    },
+    {
       title: "Next.js",
       lessons: [
         ["next-intro.html", "Що таке Next.js"],
