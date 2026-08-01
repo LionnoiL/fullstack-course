@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redux Toolkit: концепції · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="redux">1. Що таке Redux і Redux Toolkit</h1>
+<p><strong>Redux</strong> — передбачуване сховище зі суворим потоком даних. <strong>Redux Toolkit
+(RTK)</strong> — офіційний, сучасний спосіб писати Redux: він прибирає більшість
+бойлерплейту старого Redux. Сьогодні «писати Redux» означає «писати RTK».</p>
+<h1 id="потік">2. Односпрямований потік даних</h1>
+<p>Дані течуть в один бік, і це робить зміни передбачуваними:</p>
+<pre class="language-"><code class="language-">компонент → dispatch(action) → reducer → новий state → компонент</code></pre>
+<ul>
+<li><strong>store</strong> — єдине сховище всього стану;</li>
+<li><strong>action</strong> — об'єкт-опис того, «що сталося» (<code>{ type, payload }</code>);</li>
+<li><strong>reducer</strong> — чиста функція <code>(state, action) → новий state</code>;</li>
+<li><strong>dispatch</strong> — спосіб надіслати action у стор.</li>
+</ul>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Редюсер має бути <strong>чистою функцією</strong> (тема з розділу «Функції»): жодних
+запитів, випадковості чи мутацій ззовні — лише обчислення нового стану зі старого
+та action. Це те, що дає Redux передбачуваність і чудові devtools.</p></div></div>
+<h1 id="immer">3. «Мутації» завдяки Immer</h1>
+<p>Класичний Redux вимагав повертати нові об'єкти вручну (spread на кожному рівні).
+RTK вбудовує <strong>Immer</strong>, тож усередині редюсера можна писати наче
+«мутуючий» код — насправді Immer створює новий незмінний стан.</p>
+<pre class="language-js"><code class="language-js">// виглядає як мутація, але стан лишається immutable
+increment: (state) =&gt; {
+  state.count += 1;
+}</code></pre>
+<h1 id="встановлення">4. Встановлення</h1>
+<pre class="language-js"><code class="language-js">npm install @reduxjs/toolkit react-redux</code></pre>
+<ul>
+<li><code>@reduxjs/toolkit</code> — сам RTK (стор, слайси, тунки);</li>
+<li><code>react-redux</code> — прив'язка до React (<code>Provider</code>, хуки).</li>
+</ul>
+<h1 id="коли">5. Коли обирати Redux Toolkit</h1>
+<ul>
+<li>великий застосунок зі складним спільним станом;</li>
+<li>потрібні суворі патерни й передбачуваність у великій команді;</li>
+<li>цінні потужні DevTools (time-travel, інспекція кожного action).</li>
+</ul>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://redux-toolkit.js.org/introduction/getting-started" target="_blank">Redux Toolkit — Getting Started</a></li>
+<li><a href="https://redux.js.org/tutorials/essentials/part-1-overview-concepts" target="_blank">Redux Essentials — концепції</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

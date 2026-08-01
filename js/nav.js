@@ -312,6 +312,18 @@
       ],
     },
     {
+      title: "Керування станом",
+      lessons: [
+        ["state-intro.html", "Навіщо глобальний стан"],
+        ["zustand-basics.html", "Zustand: основи"],
+        ["zustand-advanced.html", "Zustand: middleware і async"],
+        ["redux-intro.html", "Redux Toolkit: концепції"],
+        ["redux-slices.html", "createSlice та store"],
+        ["redux-async.html", "Асинхронність (thunk, RTK Query)"],
+        ["practice-state.html", "🎯 Практика: керування станом"],
+      ],
+    },
+    {
       title: "Next.js",
       lessons: [
         ["next-intro.html", "Що таке Next.js"],

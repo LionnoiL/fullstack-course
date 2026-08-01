@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>createSlice та store · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="slice">1. Слайс: createSlice</h1>
+<p><strong>Слайс</strong> — це шматок стану разом із його редюсерами. <code>createSlice</code> сам
+генерує action-и з імен редюсерів — писати їх вручну не треба.</p>
+<pre class="language-js"><code class="language-js">// counterSlice.js
+import { createSlice } from '@reduxjs/toolkit';
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { value: 0 },
+  reducers: {
+    increment: (state) =&gt; { state.value += 1; },
+    decrement: (state) =&gt; { state.value -= 1; },
+    addBy: (state, action) =&gt; { state.value += action.payload; },
+  },
+});
+
+export const { increment, decrement, addBy } = counterSlice.actions;
+export default counterSlice.reducer;</code></pre>
+<h1 id="store">2. Конфігурація стору</h1>
+<pre class="language-js"><code class="language-js">// store.js
+import { configureStore } from '@reduxjs/toolkit';
+import counterReducer from './counterSlice';
+
+export const store = configureStore({
+  reducer: {
+    counter: counterReducer,   // state.counter
+    // todos: todosReducer, ...
+  },
+});</code></pre>
+<h1 id="provider">3. Provider</h1>
+<p>Стор роздають застосунку через <code>Provider</code> (як і QueryClientProvider раніше):</p>
+<pre class="language-js"><code class="language-js">import { Provider } from 'react-redux';
+import { store } from './store';
+
+createRoot(document.getElementById('root')).render(
+  &lt;Provider store={store}&gt;
+    &lt;App /&gt;
+  &lt;/Provider&gt;
+);</code></pre>
+<h1 id="hooks">4. Читання й відправлення: useSelector / useDispatch</h1>
+<pre class="language-js"><code class="language-js">import { useSelector, useDispatch } from 'react-redux';
+import { increment, addBy } from './counterSlice';
+
+function Counter() {
+  const value = useSelector((state) =&gt; state.counter.value);
+  const dispatch = useDispatch();
+
+  return (
+    &lt;div&gt;
+      &lt;span&gt;{value}&lt;/span&gt;
+      &lt;button onClick={() =&gt; dispatch(increment())}&gt;+1&lt;/button&gt;
+      &lt;button onClick={() =&gt; dispatch(addBy(5))}&gt;+5&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>useSelector</code> має вибирати <strong>мінімальний</strong> потрібний шматок стану — як і в
+Zustand. Компонент перемальовується, коли вибране значення змінюється, тож не
+селектуй увесь стор одним об'єктом.</p></div></div>
+<h1 id="selectors">5. Винесені селектори</h1>
+<p>Селектори зручно тримати поруч зі слайсом і перевикористовувати:</p>
+<pre class="language-js"><code class="language-js">// у counterSlice.js
+export const selectCount = (state) =&gt; state.counter.value;
+
+// у компоненті
+const value = useSelector(selectCount);</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://redux-toolkit.js.org/api/createSlice" target="_blank">createSlice — RTK</a></li>
+<li><a href="https://react-redux.js.org/api/hooks" target="_blank">Hooks (useSelector/useDispatch) — React Redux</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>
