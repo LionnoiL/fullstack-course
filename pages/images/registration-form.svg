@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" font-family="-apple-system, Segoe UI, Roboto, Arial, sans-serif">
+  <rect width="640" height="380" fill="#ffffff"/>
+  <rect x="180" y="20" width="280" height="340" rx="10" fill="#faf7f0" stroke="#d6d3d1"/>
+  <text x="320" y="52" font-size="15" fill="#1c1917" text-anchor="middle" font-weight="600">Реєстрація</text>
+
+  <!-- name -->
+  <text x="204" y="82" font-size="12" fill="#57534e">Ім'я</text>
+  <rect x="204" y="90" width="232" height="30" rx="5" fill="#ffffff" stroke="#d6d3d1"/>
+  <text x="214" y="110" font-size="12" fill="#a8a29e">Ann</text>
+
+  <!-- email -->
+  <text x="204" y="140" font-size="12" fill="#57534e">Email  <tspan fill="#2563eb">type="email"</tspan></text>
+  <rect x="204" y="148" width="232" height="30" rx="5" fill="#ffffff" stroke="#d6d3d1"/>
+  <text x="214" y="168" font-size="12" fill="#a8a29e">ann@mail.com</text>
+
+  <!-- password -->
+  <text x="204" y="198" font-size="12" fill="#57534e">Пароль  <tspan fill="#2563eb">minlength="8"</tspan></text>
+  <rect x="204" y="206" width="232" height="30" rx="5" fill="#ffffff" stroke="#d6d3d1"/>
+  <text x="214" y="226" font-size="13" fill="#a8a29e" letter-spacing="2">••••••••</text>
+
+  <!-- checkbox -->
+  <rect x="204" y="256" width="16" height="16" rx="3" fill="#dcfce7" stroke="#16a34a"/>
+  <path d="M207 264 l3 3 l6 -7" fill="none" stroke="#16a34a" stroke-width="2"/>
+  <text x="230" y="269" font-size="12" fill="#44403c">Приймаю умови  <tspan fill="#dc2626">required</tspan></text>
+
+  <!-- submit -->
+  <rect x="204" y="296" width="232" height="38" rx="6" fill="#2563eb"/>
+  <text x="320" y="320" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="600">Зареєструватися</text>
+
+  <!-- side note -->
+  <text x="470" y="112" font-size="11" fill="#78716c">label + for</text>
+  <text x="470" y="128" font-size="11" fill="#78716c">зв'язують</text>
+  <text x="470" y="144" font-size="11" fill="#78716c">підпис і поле</text>
+  <path d="M468 108 C 450 100, 445 100, 438 102" fill="none" stroke="#cbd5e1" stroke-width="1.5"/>
+</svg>

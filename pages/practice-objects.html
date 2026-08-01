@@ -20,7 +20,7 @@
 Practice.load('tasks', [
   {
     title: 'pick — вибрати поля',
-    desc: '<code>pick(obj, keys)</code> → новий об’єкт лише з переліченими полями.',
+    desc: '<code>pick(obj, keys)</code> повертає <strong>новий</strong> об’єкт, до якого потрапляють лише поля, названі в масиві <code>keys</code>. Ключі, яких немає в <code>obj</code>, тихо пропускаються (не стають <code>undefined</code>). Вихідний об’єкт не змінюється. Приклад: <code>pick({id:1, name:"Ann", age:30}, ["id","name"])</code> → <code>{id:1, name:"Ann"}</code>.',
     entry: 'pick',
     starter: 'function pick(obj, keys) {\n  \n}',
     solution: 'function pick(obj, keys) {\n  return keys.reduce((acc, key) => {\n    if (key in obj) acc[key] = obj[key];\n    return acc;\n  }, {});\n}',
@@ -31,7 +31,7 @@ Practice.load('tasks', [
   },
   {
     title: 'omit — прибрати поля',
-    desc: '<code>omit(obj, keys)</code> → об’єкт без перелічених полів.',
+    desc: 'Протилежність до <code>pick</code>. <code>omit(obj, keys)</code> повертає новий об’єкт з <strong>усіма</strong> полями <code>obj</code>, окрім тих, що перелічені в <code>keys</code>. Оригінал лишається недоторканим. Приклад: <code>omit({id:1, name:"Ann", age:30}, ["age"])</code> → <code>{id:1, name:"Ann"}</code>. Зручно ховати службові чи чутливі поля (пароль, токен) перед відправкою даних.',
     entry: 'omit',
     starter: 'function omit(obj, keys) {\n  \n}',
     solution: 'function omit(obj, keys) {\n  return Object.fromEntries(\n    Object.entries(obj).filter(([k]) => !keys.includes(k)),\n  );\n}',
@@ -41,7 +41,7 @@ Practice.load('tasks', [
   },
   {
     title: 'Підрахунок слів',
-    desc: '<code>wordCount(str)</code> → об’єкт з кількістю кожного слова (розділені пробілом).',
+    desc: '<code>wordCount(str)</code> розбиває рядок на слова за пробілом і повертає об’єкт-словник, де ключ — це слово, а значення — скільки разів воно трапилось. Порядок ключів відповідає першій появі слова. Приклад: <code>wordCount("a b a")</code> → <code>{a:2, b:1}</code>. Це класичний приклад використання об’єкта як лічильника (hash map).',
     entry: 'wordCount',
     starter: 'function wordCount(str) {\n  \n}',
     solution: "function wordCount(str) {\n  return str.split(' ').reduce((acc, word) => {\n    acc[word] = (acc[word] || 0) + 1;\n    return acc;\n  }, {});\n}",
@@ -51,7 +51,7 @@ Practice.load('tasks', [
   },
   {
     title: 'Інвертувати об’єкт',
-    desc: '<code>invert(obj)</code> → поміняти місцями ключі й значення.',
+    desc: '<code>invert(obj)</code> міняє місцями ключі та значення: те, що було значенням, стає ключем, і навпаки. Приклад: <code>invert({a:"x", b:"y"})</code> → <code>{x:"a", y:"b"}</code>. Пам’ятай, що ключі об’єкта — завжди рядки, тож числові значення стануть рядковими ключами; а якщо два різні ключі мали однакове значення, у результаті лишиться тільки останній.',
     entry: 'invert',
     starter: 'function invert(obj) {\n  \n}',
     solution: 'function invert(obj) {\n  const result = {};\n  for (const [key, value] of Object.entries(obj)) {\n    result[value] = key;\n  }\n  return result;\n}',
@@ -61,7 +61,7 @@ Practice.load('tasks', [
   },
   {
     title: 'mapValues',
-    desc: '<code>mapValues(obj, fn)</code> → об’єкт із тими ж ключами, значення пропущені через fn.',
+    desc: 'Аналог <code>Array.map</code>, але для об’єктів. <code>mapValues(obj, fn)</code> повертає новий об’єкт із тими <strong>самими ключами</strong>, а кожне значення замінює на результат <code>fn(value)</code>. Ключі не змінюються. Приклад: <code>mapValues({a:1, b:2}, x =&gt; x * 2)</code> → <code>{a:2, b:4}</code>.',
     entry: 'mapValues',
     starter: 'function mapValues(obj, fn) {\n  \n}',
     solution: 'function mapValues(obj, fn) {\n  return Object.fromEntries(\n    Object.entries(obj).map(([k, v]) => [k, fn(v)]),\n  );\n}',
@@ -71,7 +71,7 @@ Practice.load('tasks', [
   },
   {
     title: 'fromPairs',
-    desc: '<code>fromPairs(pairs)</code> → об’єкт із масиву пар [ключ, значення].',
+    desc: '<code>fromPairs(pairs)</code> будує об’єкт із масиву пар, де кожна пара — це <code>[ключ, значення]</code>. Це зворотна операція до <code>Object.entries</code>. Приклад: <code>fromPairs([["a",1], ["b",2]])</code> → <code>{a:1, b:2}</code>. Якщо ключ трапляється двічі, перемагає остання пара.',
     entry: 'fromPairs',
     starter: 'function fromPairs(pairs) {\n  \n}',
     solution: 'function fromPairs(pairs) {\n  return Object.fromEntries(pairs);\n}',
@@ -81,7 +81,7 @@ Practice.load('tasks', [
   },
   {
     title: 'Глибоке копіювання',
-    desc: '<code>deepClone(obj)</code> → незалежна глибока копія (без функцій).',
+    desc: '<code>deepClone(obj)</code> створює <strong>повністю незалежну</strong> копію об’єкта разом із усіма вкладеними об’єктами й масивами. Зміна копії не повинна впливати на оригінал (на відміну від <code>{...obj}</code>, що копіює лише верхній рівень). У цьому завданні достатньо простих даних без функцій, <code>Date</code> чи циклічних посилань. Приклад: <code>const c = deepClone({a:{b:1}}); c.a.b = 9;</code> — оригінал лишається <code>{a:{b:1}}</code>.',
     entry: 'deepClone',
     starter: 'function deepClone(obj) {\n  \n}',
     hint: 'JSON.parse(JSON.stringify(obj)).',
@@ -92,7 +92,7 @@ Practice.load('tasks', [
   },
   {
     title: 'Значення за замовчуванням',
-    desc: '<code>mergeDefaults(obj, defaults)</code> → відсутні поля беруться з defaults.',
+    desc: '<code>mergeDefaults(obj, defaults)</code> повертає об’єкт, у якому наявні поля <code>obj</code> мають <strong>пріоритет</strong>, а всі відсутні добираються з <code>defaults</code>. Тобто <code>defaults</code> задає базові налаштування, а <code>obj</code> їх перекриває. Приклад: <code>mergeDefaults({a:1}, {a:9, b:2})</code> → <code>{a:1, b:2}</code>. Типовий патерн для об’єктів конфігурації / опцій функції.',
     entry: 'mergeDefaults',
     starter: 'function mergeDefaults(obj, defaults) {\n  \n}',
     solution: 'function mergeDefaults(obj, defaults) {\n  return { ...defaults, ...obj };\n}',
@@ -102,7 +102,7 @@ Practice.load('tasks', [
   },
   {
     title: 'countBy',
-    desc: '<code>countBy(arr, fn)</code> → об’єкт: скільки елементів дає кожен ключ fn(item).',
+    desc: '<code>countBy(arr, fn)</code> групує елементи масиву за ключем, який повертає <code>fn(item)</code>, і рахує, скільки елементів потрапило в кожну групу. Результат — об’єкт <code>{ ключ: кількість }</code>. Приклад: <code>countBy([1,2,3,4], x =&gt; x % 2 === 0 ? "even" : "odd")</code> → <code>{odd:2, even:2}</code>. Корисно для статистики: скільки замовлень у кожному статусі, скільки користувачів у кожному місті тощо.',
     entry: 'countBy',
     starter: 'function countBy(arr, fn) {\n  \n}',
     solution: 'function countBy(arr, fn) {\n  return arr.reduce((acc, item) => {\n    const k = fn(item);\n    acc[k] = (acc[k] || 0) + 1;\n    return acc;\n  }, {});\n}',
@@ -112,7 +112,7 @@ Practice.load('tasks', [
   },
   {
     title: 'isEmpty',
-    desc: '<code>isEmpty(obj)</code> → true, якщо в об’єкті немає власних полів.',
+    desc: '<code>isEmpty(obj)</code> повертає <code>true</code>, якщо об’єкт не має жодного власного поля, і <code>false</code> — якщо має хоча б одне. Порожній <code>{}</code> вважається порожнім. Приклади: <code>isEmpty({})</code> → <code>true</code>, <code>isEmpty({a:1})</code> → <code>false</code>. Підказка: перевір довжину <code>Object.keys(obj)</code>.',
     entry: 'isEmpty',
     starter: 'function isEmpty(obj) {\n  \n}',
     solution: 'function isEmpty(obj) {\n  return Object.keys(obj).length === 0;\n}',

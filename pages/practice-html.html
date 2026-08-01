@@ -17,8 +17,16 @@
 
 <div class="task">
 <h2>Завдання 1. Семантична структура сторінки</h2>
-<p class="task-goal">Збери каркас статті блогу з семантичних тегів: шапка з
-навігацією, основний вміст зі статтею та заголовком, бічна панель і підвал.</p>
+<p class="task-goal">Збери каркас статті блогу <strong>з семантичних тегів</strong>, а не
+з нескінченних <code>&lt;div&gt;</code>. Семантичні теги пояснюють браузеру, пошуковикам
+і читалкам екрана, <em>чим</em> є кожен блок: шапка сайту, навігація, основний вміст,
+окрема стаття, бічна панель зі схожими матеріалами та підвал. Це покращує доступність
+(accessibility) і SEO «безкоштовно».</p>
+<p class="task-goal">Побудуй таку структуру: <code>&lt;header&gt;</code> з меню-навігацією
+всередині, <code>&lt;main&gt;</code> з <code>&lt;article&gt;</code> (заголовок + текст статті)
+та <code>&lt;aside&gt;</code> (схожі статті), і <code>&lt;footer&gt;</code> з копірайтом. Орієнтуйся
+на схему нижче.</p>
+<p><img src="images/semantic-layout.svg" alt="Схема семантичної розмітки сторінки: header з nav, main з article та aside, footer" loading="lazy"></p>
 <details class="hint"><summary>Вимоги</summary>
 <ul>
 <li>використати <code>header</code>, <code>nav</code>, <code>main</code>, <code>article</code>, <code>aside</code>, <code>footer</code>;</li>
@@ -50,8 +58,16 @@
 
 <div class="task">
 <h2>Завдання 2. Форма реєстрації</h2>
-<p class="task-goal">Зроби форму з полями «ім'я», «email», «пароль», згодою з
-умовами (checkbox) і кнопкою. Використай <code>label</code> та вбудовану валідацію.</p>
+<p class="task-goal">Зроби робочу форму реєстрації з чотирма полями: <strong>ім'я</strong>,
+<strong>email</strong>, <strong>пароль</strong> і <strong>checkbox згоди з умовами</strong>, плюс
+кнопка відправлення. Кожне поле має бути підписане тегом <code>&lt;label&gt;</code>, пов'язаним
+з інпутом через <code>for</code>/<code>id</code> — тоді клік по підпису ставить фокус у поле,
+а читалки екрана правильно озвучують форму.</p>
+<p class="task-goal">Скористайся <strong>вбудованою валідацією браузера</strong>, щоб не писати
+жодного JS: <code>required</code> робить поле обов'язковим, <code>type="email"</code> перевіряє
+формат пошти, а <code>minlength="8"</code> задає мінімальну довжину пароля. Форма має мати
+атрибути <code>action</code> і <code>method="post"</code>. Приблизний вигляд — на макеті нижче.</p>
+<p><img src="images/registration-form.svg" alt="Макет форми реєстрації: поля ім'я, email, пароль, checkbox згоди та кнопка Зареєструватися" loading="lazy"></p>
 <details class="solution"><summary>Рішення</summary>
 <pre class="language-markup"><code class="language-markup">&lt;form action="/register" method="post"&gt;
   &lt;label for="name"&gt;Ім'я&lt;/label&gt;
