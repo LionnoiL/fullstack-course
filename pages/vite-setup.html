@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Створення проєкту на Vite · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="create">1. Створення проєкту</h1>
+<p>Найшвидший старт — офіційний генератор. Він поставить питання й розгорне готовий
+шаблон:</p>
+<pre class="language-js"><code class="language-js">npm create vite@latest</code></pre>
+<p>Далі майстер запитає ім'я проєкту, фреймворк (Vanilla, React, Vue, Svelte…) і
+варіант (JavaScript / TypeScript). Можна задати все одразу:</p>
+<pre class="language-js"><code class="language-js">// проєкт my-app на React + TypeScript
+npm create vite@latest my-app -- --template react-ts</code></pre>
+<h1 id="запуск">2. Встановлення й запуск</h1>
+<pre class="language-js"><code class="language-js">cd my-app
+npm install     // поставити залежності
+npm run dev     // запустити dev-сервер</code></pre>
+<p>У консолі з'явиться локальна адреса (зазвичай <code>http://localhost:5173</code>) — відкрий
+її в браузері.</p>
+<h1 id="скрипти">3. Основні npm-скрипти</h1>
+<p>У <code>package.json</code> шаблон додає три команди:</p>
+<pre class="language-js"><code class="language-js">"scripts": {
+  "dev":     "vite",         // сервер розробки з HMR
+  "build":   "vite build",   // продакшн-збірка в dist/
+  "preview": "vite preview"  // локальний перегляд зібраного dist/
+}</code></pre>
+<h1 id="структура">4. Структура проєкту</h1>
+<pre class="language-"><code class="language-">my-app/
+  index.html          ← точка входу (в корені, не в public!)
+  package.json
+  vite.config.js      ← конфігурація Vite
+  public/             ← статика «як є» (favicon тощо)
+  src/
+    main.js           ← головний JS, підключений з index.html
+    style.css</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>У Vite <code>index.html</code> — це <strong>точка входу</strong>, а не просто статичний файл, і
+лежить у корені. Саме з нього через <code>&lt;script type="module" src="/src/main.js"&gt;</code>
+Vite будує дерево залежностей.</p></div></div>
+<h1 id="html">5. Точка входу index.html</h1>
+<pre class="language-markup"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="uk"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;title&gt;Vite App&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="app"&gt;&lt;/div&gt;
+    &lt;script type="module" src="/src/main.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://vite.dev/guide/" target="_blank">Getting Started — Vite</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

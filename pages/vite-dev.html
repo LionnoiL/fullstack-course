@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dev-сервер і HMR у Vite · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="dev-server">1. Сервер розробки</h1>
+<p>Команда <code>npm run dev</code> піднімає локальний сервер із живим перезавантаженням.
+Vite віддає модулі на вимогу, тож старт майже миттєвий незалежно від розміру
+проєкту.</p>
+<pre class="language-js"><code class="language-js">npm run dev
+
+// VITE ready in 320 ms
+// ➜  Local:   http://localhost:5173/
+// ➜  Network: use --host to expose</code></pre>
+<h1 id="hmr">2. HMR — гаряча заміна модулів</h1>
+<p><strong>Hot Module Replacement</strong> оновлює в браузері лише той модуль, який ти
+змінив, <em>без</em> перезавантаження сторінки. Стан застосунку (введений текст,
+відкрита вкладка) при цьому зберігається.</p>
+<p>Правиш CSS — стилі оновлюються миттєво й без миготіння. У фреймворках (React, Vue)
+HMR працює «з коробки» через офіційні плагіни.</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>HMR — головна причина, чому розробка на Vite відчувається такою швидкою: цикл
+«зберіг файл → побачив результат» скорочується до частки секунди, і не треба
+щоразу відновлювати стан сторінки вручну.</p></div></div>
+<h1 id="hmr-api">3. HMR API для власного коду</h1>
+<p>У чистому JS можна підписатися на оновлення модуля вручну через <code>import.meta.hot</code>:</p>
+<pre class="language-js"><code class="language-js">if (import.meta.hot) {
+  import.meta.hot.accept((newModule) =&gt; {
+    // застосувати оновлений модуль без перезавантаження
+    console.log("модуль оновлено", newModule);
+  });
+}</code></pre>
+<h1 id="налаштування">4. Налаштування сервера</h1>
+<p>Порт, автовідкриття браузера й доступ по мережі задають у <code>vite.config.js</code>:</p>
+<pre class="language-js"><code class="language-js">import { defineConfig } from 'vite';
+
+export default defineConfig({
+  server: {
+    port: 3000,   // інший порт
+    open: true,   // відкрити браузер автоматично
+    host: true,   // доступ з інших пристроїв у мережі
+  },
+});</code></pre>
+<h1 id="proxy">5. Проксі для API</h1>
+<p>Щоб під час розробки звертатися до бекенду без CORS-проблем, налаштуй проксі:</p>
+<pre class="language-js"><code class="language-js">server: {
+  proxy: {
+    // запити на /api підуть на локальний бекенд
+    '/api': 'http://localhost:8080',
+  },
+}</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://vite.dev/guide/features.html#hot-module-replacement" target="_blank">HMR — Vite</a></li>
+<li><a href="https://vite.dev/config/server-options.html" target="_blank">Server options — Vite</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

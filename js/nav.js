@@ -185,6 +185,18 @@
       ],
     },
     {
+      title: "Vite",
+      lessons: [
+        ["vite-intro.html", "Що таке Vite"],
+        ["vite-setup.html", "Створення проєкту"],
+        ["vite-dev.html", "Dev-сервер і HMR"],
+        ["vite-assets.html", "Ассети, CSS та env"],
+        ["vite-build.html", "Продакшн-збірка"],
+        ["vite-plugins.html", "Плагіни та конфігурація"],
+        ["practice-vite.html", "🎯 Практика: Vite"],
+      ],
+    },
+    {
       title: "Дані",
       lessons: [
         ["json.html", "JSON"],

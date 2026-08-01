@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Плагіни та конфігурація Vite · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="config">1. Файл vite.config.js</h1>
+<p>Уся конфігурація живе в <code>vite.config.js</code> у корені проєкту. Функція
+<code>defineConfig</code> дає підказки типів у редакторі.</p>
+<pre class="language-js"><code class="language-js">import { defineConfig } from 'vite';
+
+export default defineConfig({
+  root: '.',          // корінь проєкту
+  base: '/',          // базовий публічний шлях
+  plugins: [],        // список плагінів
+  server: { port: 3000 },
+  build: { outDir: 'dist' },
+});</code></pre>
+<h1 id="plugins">2. Плагіни</h1>
+<p>Плагіни розширюють Vite: підтримка фреймворків, PWA, стиснення тощо. Їх ставлять
+через npm і додають у масив <code>plugins</code>.</p>
+<pre class="language-js"><code class="language-js">import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+});</code></pre>
+<p>Кілька популярних:</p>
+<ul>
+<li><code>@vitejs/plugin-react</code> / <code>@vitejs/plugin-vue</code> — підтримка фреймворків;</li>
+<li><code>@tailwindcss/vite</code> — інтеграція Tailwind CSS (див. розділ Tailwind);</li>
+<li><code>vite-plugin-pwa</code> — перетворення застосунку на PWA.</li>
+</ul>
+<h1 id="alias">3. Аліаси шляхів</h1>
+<p>Щоб замість <code>../../../utils</code> писати <code>@/utils</code>, налаштуй аліас:</p>
+<pre class="language-js"><code class="language-js">import { defineConfig } from 'vite';
+import { fileURLToPath, URL } from 'node:url';
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
+});</code></pre>
+<pre class="language-js"><code class="language-js">// тепер у будь-якому файлі:
+import { formatDate } from '@/utils/date.js';</code></pre>
+<h1 id="env-config">4. Різна конфігурація за режимом</h1>
+<p>Конфіг може бути функцією, що враховує режим (<code>dev</code>/<code>build</code>):</p>
+<pre class="language-js"><code class="language-js">export default defineConfig(({ mode }) =&gt; ({
+  build: {
+    sourcemap: mode === 'development',
+  },
+}));</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Vite сумісний із плагінами <strong>Rollup</strong> — тож екосистема плагінів дуже
+широка. Але починай із мінімального конфіга: у більшості проєктів достатньо
+одного плагіна фреймворка, а решта — за реальної потреби.</p></div></div>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://vite.dev/config/" target="_blank">Configuring Vite — офіційна документація</a></li>
+<li><a href="https://vite.dev/plugins/" target="_blank">Plugins — Vite</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>
