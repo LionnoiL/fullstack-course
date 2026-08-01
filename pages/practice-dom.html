@@ -17,8 +17,10 @@
 
 <div class="task">
 <h2>Завдання 1. Динамічний список</h2>
-<p class="task-goal">З масиву даних згенеруй <code>&lt;ul&gt;</code> зі <code>&lt;li&gt;</code> і встав у
-сторінку.</p>
+<p class="task-goal">Маючи масив рядків (напр. напоїв чи задач), <strong>програмно</strong> згенеруй
+елемент <code>&lt;ul&gt;</code> з окремим <code>&lt;li&gt;</code> на кожен елемент масиву й встав його в
+сторінку. Використай <code>document.createElement</code> і <code>textContent</code> (а не
+<code>innerHTML</code> з конкатенацією рядків — так безпечніше й чистіше).</p>
 <details class="solution"><summary>Рішення</summary>
 <pre class="language-js"><code class="language-js">const items = ['Кава', 'Чай', 'Какао'];
 const ul = document.createElement('ul');
@@ -35,8 +37,11 @@ document.body.appendChild(ul);</code></pre>
 
 <div class="task">
 <h2>Завдання 2. Перемикач теми</h2>
-<p class="task-goal">Додай кнопку, яка перемикає клас <code>dark</code> на <code>&lt;body&gt;</code> і
-запам'ятовує вибір у <code>localStorage</code>.</p>
+<p class="task-goal">Додай кнопку, яка перемикає клас <code>dark</code> на <code>&lt;body&gt;</code>
+(<code>classList.toggle</code>) і <strong>запамʼятовує</strong> вибір у <code>localStorage</code>. При
+повторному відкритті сторінки збережена тема має відновитися <em>одразу</em> — прочитай
+<code>localStorage</code> на старті й застосуй клас до відмальовування. Додай трохи CSS для
+<code>body.dark</code>, щоб побачити ефект.</p>
 <details class="solution"><summary>Рішення</summary>
 <pre class="language-js"><code class="language-js">const btn = document.querySelector('#theme');
 
@@ -55,8 +60,10 @@ btn.addEventListener('click', () =&gt; {
 
 <div class="task">
 <h2>Завдання 3. Лічильник кліків (виклик)</h2>
-<p class="task-goal">Зроби кнопку, що показує, скільки разів її натиснули, і кнопку
-скидання. Оновлюй лише потрібний вузол DOM.</p>
+<p class="task-goal">Зроби кнопку, що показує, <strong>скільки разів її натиснули</strong>, і
+окрему кнопку <strong>скидання</strong> лічильника до нуля. Тримай значення в змінній, а при
+кожному кліку оновлюй <em>лише текст потрібного вузла</em> (<code>textContent</code>), а не
+перемальовуй усю сторінку — це базова звичка ефективної роботи з DOM.</p>
 </div>
 
   </main>

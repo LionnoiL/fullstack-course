@@ -30,8 +30,10 @@
 
 <div class="task">
 <h2>Завдання 2. Динамічний маршрут із даними</h2>
-<p class="task-goal">Зроби <code>/blog/[slug]</code>, що серверно завантажує пост за <code>slug</code>
-через <code>fetch</code> і показує його.</p>
+<p class="task-goal">Зроби динамічний маршрут <code>/blog/[slug]</code> (серверний компонент),
+що бере <code>slug</code> із <code>params</code>, серверно завантажує відповідний пост через
+<code>fetch</code> і показує його заголовок і текст. Переконайся, що дані тягнуться <em>на
+сервері</em> (без <code>useEffect</code>), а різні <code>slug</code> дають різні сторінки.</p>
 <details class="solution"><summary>Рішення</summary>
 <pre class="language-js"><code class="language-js">// app/blog/[slug]/page.jsx
 export default async function Post({ params }) {

@@ -18,8 +18,10 @@
 
 <div class="task">
 <h2>Завдання 1. Завантажити й вивести дані</h2>
-<p class="task-goal">Через <code>fetch</code> отримай список користувачів і виведи їхні
-імена. Обробй можливу помилку.</p>
+<p class="task-goal">Через <code>fetch</code> + <code>async/await</code> отримай список користувачів з
+<code>/users</code> і виведи їхні імена (у консоль або на сторінку). Обовʼязково <strong>перевір
+відповідь</strong> (<code>res.ok</code>) і <strong>обробі помилку</strong> через <code>try/catch</code> — мережа
+може впасти або сервер повернути не-200. Це базовий шаблон будь-якого запиту.</p>
 <details class="solution"><summary>Рішення</summary>
 <pre class="language-js"><code class="language-js">async function loadUsers() {
   try {
@@ -37,7 +39,10 @@ loadUsers();</code></pre>
 
 <div class="task">
 <h2>Завдання 2. Паралельні запити</h2>
-<p class="task-goal">Завантаж одночасно користувача й його пости та виведи їх разом.</p>
+<p class="task-goal">Завантаж <strong>одночасно</strong> користувача (<code>/users/1</code>) і його пости
+(<code>/posts?userId=1</code>) та виведи їх разом (напр. «Ім'я має N постів»). Ключове —
+запустити обидва запити <em>паралельно</em> через <code>Promise.all</code>, а не по черзі
+з двома <code>await</code> поспіль: так замість суми часів отримаєш час найповільнішого.</p>
 <details class="hint"><summary>Підказка</summary><p><code>Promise.all([...])</code> запускає запити паралельно.</p></details>
 <details class="solution"><summary>Рішення</summary>
 <pre class="language-js"><code class="language-js">async function loadUserData(id) {
@@ -53,8 +58,13 @@ loadUserData(1);</code></pre>
 
 <div class="task">
 <h2>Завдання 3. Погодний віджет (виклик)</h2>
-<p class="task-goal">Зроби поле вводу міста й кнопку, що завантажує та показує погоду
-з відкритого API. Це підготовка до мілстоун-проєкту «Погода з API».</p>
+<p class="task-goal">Зроби віджет: <strong>поле вводу міста</strong> й <strong>кнопку</strong>, що завантажує
+й показує погоду з відкритого API (напр. Open-Meteo чи OpenWeatherMap). Виведи назву
+міста, температуру й короткий опис. Обовʼязково передбач <strong>три стани</strong>:
+«завантаження…», успішний результат і помилку («місто не знайдено» / збій мережі).
+Орієнтуйся на макет нижче. Це підготовка до мілстоун-проєкту «Погода з API».</p>
+<p><img src="images/weather-widget-mockup.svg" alt="Макет погодного віджета: поле вводу міста з кнопкою пошуку та картка результату з містом, температурою й описом" loading="lazy"></p>
+<details class="hint"><summary>Підказка</summary><p>Логіку запиту винеси в <code>async</code>-функцію, яку кличе <code>click</code> кнопки. Стан «завантаження» вмикай <em>перед</em> <code>await</code>, а вимикай у <code>finally</code>. Багато погодних API просять безкоштовний ключ — тримай його в межах навчального прикладу.</p></details>
 </div>
 
   </main>

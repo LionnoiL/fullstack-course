@@ -19,8 +19,10 @@
 
 <div class="task">
 <h2>Завдання 1. Список через useQuery</h2>
-<p class="task-goal">Завантаж <code>/todos</code> хуком <code>useQuery</code> і виведи список. Обробі
-стани <code>isPending</code> та <code>isError</code>.</p>
+<p class="task-goal">Загорни застосунок у <code>QueryClientProvider</code>, тоді хуком
+<code>useQuery</code> завантаж <code>/todos</code> (задай <code>queryKey</code> і <code>queryFn</code>) і
+виведи список. Обовʼязково обробі стани <code>isPending</code> (показати «завантаження…») та
+<code>isError</code> (показати помилку) — не звертайся до <code>data</code>, поки він не готовий.</p>
 <details class="solution"><summary>Рішення</summary>
 <pre class="language-js"><code class="language-js">const { data, isPending, isError } = useQuery({
   queryKey: ['todos'],

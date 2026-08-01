@@ -18,8 +18,11 @@
 
 <div class="task">
 <h2>Завдання 1. Картка товару</h2>
-<p class="task-goal">Зроби картку: зображення зверху, під ним заголовок, ціна й кнопка
-«Купити». Скруглені кути, тінь, внутрішні відступи. Кнопка темнішає при наведенні.</p>
+<p class="task-goal">Зроби картку товару <strong>лише utility-класами</strong> Tailwind: зображення
+зверху, під ним заголовок, ціна (як акцент) і кнопка «Купити» на всю ширину картки.
+Додай скруглені кути, тінь і внутрішні відступи; кнопка має темнішати при наведенні
+(<code>hover:</code>). Обмеж ширину картки (напр. <code>max-w-xs</code>). Орієнтуйся на макет.</p>
+<p><img src="images/product-card-mockup.svg" alt="Макет картки товару: зображення зверху, заголовок, ціна-акцент і кнопка Купити на всю ширину" loading="lazy"></p>
 <details class="solution"><summary>Рішення</summary>
 <pre class="language-markup"><code class="language-markup">&lt;div class="max-w-xs rounded-xl shadow-md overflow-hidden bg-white"&gt;
   &lt;img class="w-full h-40 object-cover" src="https://picsum.photos/400/200" alt=""&gt;

@@ -57,8 +57,11 @@ $radius: 8px;
 
 <div class="task">
 <h2>Завдання 3. Генерація утиліт із мапи</h2>
-<p class="task-goal">Маючи мапу кольорів, згенеруй через <code>@each</code> класи
-<code>.text-*</code> і <code>.bg-*</code> для кожного кольору.</p>
+<p class="task-goal">Опиши мапу кольорів (<code>$colors: (primary: #2563eb, danger: #dc2626, ...)</code>)
+і через цикл <code>@each</code> згенеруй для кожного запису два класи: <code>.text-*</code>
+(колір тексту) і <code>.bg-*</code> (колір фону) — напр. <code>.text-primary</code>,
+<code>.bg-danger</code>. Мета — побачити, як з однієї мапи народжується цілий набір
+утиліт без ручного дублювання (саме так працюють утиліти Bootstrap/Tailwind).</p>
 <details class="solution"><summary>Рішення</summary>
 <pre class="language-scss"><code class="language-scss">$colors: ("primary": #2563eb, "danger": #dc2626, "muted": #6b7280);
 

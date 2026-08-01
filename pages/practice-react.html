@@ -74,8 +74,12 @@ export default function Todo() {
 
 <div class="task">
 <h2>Завдання 3. Завантаження даних (виклик)</h2>
-<p class="task-goal">У <code>useEffect</code> завантаж список постів з API й покажи стан
-завантаження та можливу помилку. Винеси логіку в кастомний хук <code>useFetch</code>.</p>
+<p class="task-goal">У <code>useEffect</code> завантаж список постів з API (напр.
+JSONPlaceholder) і покажи <strong>три стани</strong>: «завантаження…», список даних і
+повідомлення про помилку. Далі <strong>винеси</strong> цю логіку в кастомний хук
+<code>useFetch(url)</code>, що повертає <code>{ data, loading, error }</code> — і використай його
+в компоненті. Зверни увагу на масив залежностей <code>useEffect</code>, щоб не було
+зайвих повторних запитів.</p>
 </div>
 
   </main>
