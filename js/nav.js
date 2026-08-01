@@ -410,6 +410,19 @@
       ],
     },
     {
+      title: "AI-інтеграція",
+      lessons: [
+        ["ai-intro.html", "Навіщо AI-інтеграція"],
+        ["ai-first-call.html", "Перший виклик LLM-API"],
+        ["ai-streaming.html", "Стрімінг відповіді"],
+        ["ai-tools.html", "Tool / function calling"],
+        ["ai-vercel-sdk.html", "Vercel AI SDK і чат"],
+        ["ai-rag.html", "RAG: відповіді на твоїх даних"],
+        ["ai-vector-db.html", "Векторні БД (pgvector, Pinecone)"],
+        ["practice-ai.html", "🎯 Практика: AI-інтеграція"],
+      ],
+    },
+    {
       title: "Супровідні теми",
       lessons: [
         ["git-basics.html", "Git і командний рядок"],

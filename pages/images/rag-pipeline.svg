@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" font-family="-apple-system, Segoe UI, Roboto, Arial, sans-serif">
+  <rect width="640" height="400" fill="#ffffff"/>
+  <defs>
+    <marker id="ga" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+
+  <!-- Indexing row -->
+  <text x="20" y="34" font-size="13" fill="#1c1917" font-weight="600">Індексація (заздалегідь)</text>
+  <rect x="20" y="46" width="120" height="46" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="80" y="68" font-size="12" fill="#1e40af" text-anchor="middle">Документи</text>
+  <text x="80" y="83" font-size="10.5" fill="#57534e" text-anchor="middle">pdf, docs, база</text>
+
+  <rect x="170" y="46" width="110" height="46" rx="8" fill="#f5f3ff" stroke="#c4b5fd"/>
+  <text x="225" y="68" font-size="12" fill="#5b21b6" text-anchor="middle">Чанки</text>
+  <text x="225" y="83" font-size="10.5" fill="#57534e" text-anchor="middle">розбиття на шматки</text>
+
+  <rect x="310" y="46" width="120" height="46" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="370" y="68" font-size="12" fill="#854d0e" text-anchor="middle">Embeddings</text>
+  <text x="370" y="83" font-size="10.5" fill="#57534e" text-anchor="middle">вектор чисел</text>
+
+  <rect x="460" y="46" width="160" height="46" rx="8" fill="#dcfce7" stroke="#86efac"/>
+  <text x="540" y="68" font-size="12" fill="#15803d" text-anchor="middle">Векторна БД</text>
+  <text x="540" y="83" font-size="10.5" fill="#57534e" text-anchor="middle">pgvector / Pinecone</text>
+
+  <line x1="140" y1="69" x2="166" y2="69" stroke="#6366f1" stroke-width="2" marker-end="url(#ga)"/>
+  <line x1="280" y1="69" x2="306" y2="69" stroke="#6366f1" stroke-width="2" marker-end="url(#ga)"/>
+  <line x1="430" y1="69" x2="456" y2="69" stroke="#6366f1" stroke-width="2" marker-end="url(#ga)"/>
+
+  <!-- divider -->
+  <line x1="20" y1="120" x2="620" y2="120" stroke="#e7e5e4" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Query row -->
+  <text x="20" y="152" font-size="13" fill="#1c1917" font-weight="600">Запит (під час діалогу)</text>
+
+  <rect x="20" y="168" width="150" height="46" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="95" y="190" font-size="12" fill="#1e40af" text-anchor="middle">Питання користувача</text>
+  <text x="95" y="205" font-size="10.5" fill="#57534e" text-anchor="middle">«Як налаштувати X?»</text>
+
+  <rect x="20" y="240" width="150" height="42" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="95" y="266" font-size="12" fill="#854d0e" text-anchor="middle">Embedding запиту</text>
+
+  <rect x="230" y="240" width="180" height="42" rx="8" fill="#dcfce7" stroke="#86efac"/>
+  <text x="320" y="261" font-size="12" fill="#15803d" text-anchor="middle">Пошук за схожістю</text>
+  <text x="320" y="276" font-size="10.5" fill="#57534e" text-anchor="middle">топ-K релевантних чанків</text>
+
+  <rect x="230" y="310" width="180" height="46" rx="8" fill="#e0e7ff" stroke="#818cf8"/>
+  <text x="320" y="332" font-size="12" fill="#3730a3" text-anchor="middle">Промпт + контекст</text>
+  <text x="320" y="347" font-size="10.5" fill="#57534e" text-anchor="middle">питання + знайдені чанки</text>
+
+  <rect x="470" y="310" width="150" height="46" rx="8" fill="#fae8ff" stroke="#e879f9"/>
+  <text x="545" y="332" font-size="12" fill="#86198f" text-anchor="middle">LLM</text>
+  <text x="545" y="347" font-size="10.5" fill="#57534e" text-anchor="middle">відповідь з джерелами</text>
+
+  <line x1="95" y1="214" x2="95" y2="236" stroke="#6366f1" stroke-width="2" marker-end="url(#ga)"/>
+  <line x1="170" y1="261" x2="226" y2="261" stroke="#6366f1" stroke-width="2" marker-end="url(#ga)"/>
+  <line x1="320" y1="282" x2="320" y2="306" stroke="#6366f1" stroke-width="2" marker-end="url(#ga)"/>
+  <line x1="410" y1="333" x2="466" y2="333" stroke="#6366f1" stroke-width="2" marker-end="url(#ga)"/>
+  <!-- link vector db to search -->
+  <line x1="500" y1="92" x2="500" y2="230" stroke="#86efac" stroke-width="2" stroke-dasharray="3 3"/>
+  <line x1="500" y1="230" x2="412" y2="252" stroke="#86efac" stroke-width="2" marker-end="url(#ga)"/>
+  <text x="520" y="180" font-size="10.5" fill="#15803d">та сама БД</text>
+</svg>

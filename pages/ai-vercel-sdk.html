@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vercel AI SDK · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="навіщо">1. Навіщо Vercel AI SDK</h1>
+<p>Писати руками парсинг SSE, керування станом чату й перемикання провайдерів —
+рутина. <strong>Vercel AI SDK</strong> (пакет <code>ai</code>) дає єдиний API поверх різних
+провайдерів (Anthropic, OpenAI тощо) і <strong>готові React-хуки</strong> для чату зі
+стрімінгом. Особливо зручний у Next.js.</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Головна ідея — <strong>абстракція над провайдером</strong>: логіка застосунку не залежить
+від того, чи це Claude, чи GPT. Змінити модель — це змінити один рядок. SDK активно
+розвивається, тож звіряйся з офіційною документацією щодо точних сигнатур.</p></div></div>
+
+<h1 id="встановлення">2. Встановлення</h1>
+<pre class="language-js"><code class="language-js">npm install ai @ai-sdk/anthropic
+# .env: ANTHROPIC_API_KEY=sk-ant-...</code></pre>
+
+<h1 id="generate">3. Разова генерація: <code>generateText</code></h1>
+<p>Модель обираємо через провайдер-функцію. <code>generateText</code> повертає повний текст:</p>
+<pre class="language-js"><code class="language-js">import { generateText } from 'ai';
+import { anthropic } from '@ai-sdk/anthropic';
+
+const { text } = await generateText({
+  model: anthropic('claude-opus-4-8'),
+  prompt: 'Поясни, що таке замикання в JS, коротко.',
+});
+console.log(text);</code></pre>
+
+<h1 id="stream">4. Стрімінг: <code>streamText</code></h1>
+<p>У серверному ендпоінті (напр. Route Handler у Next.js) <code>streamText</code> одразу
+віддає потік, який зручно повернути у відповідь:</p>
+<pre class="language-js"><code class="language-js">// app/api/chat/route.ts (Next.js App Router)
+import { streamText } from 'ai';
+import { anthropic } from '@ai-sdk/anthropic';
+
+export async function POST(req) {
+  const { messages } = await req.json();
+
+  const result = streamText({
+    model: anthropic('claude-opus-4-8'),
+    system: 'Ти — асистент курсу. Відповідай українською.',
+    messages,
+  });
+
+  return result.toDataStreamResponse(); // готовий SSE-відповідь для useChat
+}</code></pre>
+
+<h1 id="usechat">5. Чат на клієнті: <code>useChat</code></h1>
+<p>Хук <code>useChat</code> бере на себе весь стан: історію повідомлень, поле вводу, сабміт і
+<strong>стрімінг</strong> відповіді. Ти лише малюєш UI.</p>
+<pre class="language-js"><code class="language-js">'use client';
+import { useChat } from '@ai-sdk/react';
+
+export default function Chat() {
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
+
+  return (
+    &lt;div&gt;
+      {messages.map((m) =&gt; (
+        &lt;p key={m.id}&gt;&lt;b&gt;{m.role}:&lt;/b&gt; {m.content}&lt;/p&gt;
+      ))}
+      &lt;form onSubmit={handleSubmit}&gt;
+        &lt;input value={input} onChange={handleInputChange} placeholder="Запитай..." /&gt;
+        &lt;button&gt;Надіслати&lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Порівняй із ручним SSE-парсингом з уроку про стрімінг — тут його немає взагалі.
+<code>useChat</code> сам стрімить токени в <code>messages</code>, тож відповідь зʼявляється по
+частинах без жодного коду з твого боку.</p></div></div>
+
+<h1 id="інструменти">6. Інструменти та інше</h1>
+<p>SDK підтримує й <strong>tool calling</strong> (через параметр <code>tools</code> зі схемами, часто
+на Zod), структурований вивід (<code>generateObject</code>), а також роботу з іншими
+провайдерами через їхні пакети (<code>@ai-sdk/openai</code> тощо) — той самий код застосунку,
+інша модель.</p>
+
+<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://sdk.vercel.ai/docs" target="_blank">Vercel AI SDK — документація</a></li>
+<li><a href="https://sdk.vercel.ai/docs/ai-sdk-ui/chatbot" target="_blank">AI SDK UI — Chatbot (useChat)</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>
