@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebSocket: протокол і API · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="що-таке">1. Що таке WebSocket</h1>
+<p><strong>WebSocket</strong> — протокол, що дає одне <em>постійне двобічне</em> з'єднання між
+браузером і сервером. Після встановлення обидві сторони можуть надсилати повідомлення
+будь-коли, з мінімальним оверхедом на кожен кадр. Ідеально для чатів, ігор, спільних
+курсорів, тикерів.</p>
+
+<h1 id="handshake">2. Рукостискання й схема адрес</h1>
+<p>З'єднання починається як звичайний HTTP-запит із заголовком <code>Upgrade: websocket</code>.
+Сервер відповідає <code>101 Switching Protocols</code> — і далі це вже не HTTP, а
+WebSocket-кадри тим самим TCP-з'єднанням.</p>
+<ul>
+<li><code>ws://</code> — незашифроване (аналог <code>http</code>);</li>
+<li><code>wss://</code> — через TLS (аналог <code>https</code>) — <strong>завжди</strong> у продакшені.</li>
+</ul>
+
+<h1 id="client-api">3. Браузерний WebSocket API</h1>
+<p>У браузері є вбудований клас <code>WebSocket</code> — теж без бібліотек:</p>
+<pre class="language-js"><code class="language-js">const ws = new WebSocket('wss://example.com/chat');
+
+ws.onopen = () =&gt; ws.send(JSON.stringify({ type: 'join', room: 'general' }));
+
+ws.onmessage = (event) =&gt; {
+  const msg = JSON.parse(event.data);
+  render(msg);
+};
+
+ws.onclose = (e) =&gt; console.log('закрито', e.code);
+ws.onerror = (e) =&gt; console.error('помилка', e);
+
+// надіслати
+ws.send(JSON.stringify({ type: 'message', text: 'Привіт!' }));</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>WebSocket передає <strong>рядки або бінарні дані</strong> — структури серіалізуй у JSON
+(<code>JSON.stringify</code>/<code>JSON.parse</code>). Зазвичай вводять поле <code>type</code>, щоб
+розрізняти види повідомлень.</p></div></div>
+
+<h1 id="server">4. Сервер (бібліотека <code>ws</code>)</h1>
+<p>У Node найпростіший WebSocket-сервер — на пакеті <code>ws</code>:</p>
+<pre class="language-js"><code class="language-js">import { WebSocketServer } from 'ws';
+
+const wss = new WebSocketServer({ port: 8080 });
+
+wss.on('connection', (socket) =&gt; {
+  socket.on('message', (raw) =&gt; {
+    const msg = JSON.parse(raw.toString());
+    // розіслати всім підключеним (broadcast)
+    for (const client of wss.clients) {
+      if (client.readyState === client.OPEN) client.send(JSON.stringify(msg));
+    }
+  });
+
+  socket.on('close', () =&gt; console.log('клієнт відключився'));
+});</code></pre>
+
+<h1 id="lifecycle">5. Стан і закриття</h1>
+<p><code>ws.readyState</code>: <code>CONNECTING</code> → <code>OPEN</code> → <code>CLOSING</code> → <code>CLOSED</code>.
+Надсилати можна лише в стані <code>OPEN</code>. Закриття супроводжується <em>кодом</em>
+(<code>1000</code> — нормальне, <code>1006</code> — обрив без рукостискання).</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>«Голий» WebSocket не має вбудованого перепідключення, кімнат чи fallback — це
+доводиться писати самому. Тому на практиці часто беруть надбудову <strong>Socket.io</strong>,
+яку розглянемо далі.</p></div></div>
+
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSocket" target="_blank">MDN — WebSocket</a></li>
+<li><a href="https://github.com/websockets/ws" target="_blank">ws — WebSocket-бібліотека для Node</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

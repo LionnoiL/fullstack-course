@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практика: Реалтайм · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="практика">Практика: Реалтайм (WebSockets / SSE)</h1>
+<p>Зроби невеликий Node-сервер і клієнт (Vite). Пройди шлях від простого SSE-лічильника
+до чату на Socket.io з кімнатами, автентифікацією й presence.</p>
+
+<div class="task">
+<h2>Завдання 1. SSE-годинник</h2>
+<p class="task-goal">Зроби ендпоінт <code>/api/time</code>, що щосекунди стрімить поточний час
+через <code>text/event-stream</code>. На клієнті підпишись через <code>EventSource</code> й оновлюй
+елемент на сторінці. Не забудь прибирати таймер на <code>close</code>.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">// сервер
+app.get('/api/time', (req, res) =&gt; {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  const t = setInterval(() =&gt; res.write(`data: ${Date.now()}\n\n`), 1000);
+  req.on('close', () =&gt; clearInterval(t));
+});
+
+// клієнт
+const es = new EventSource('/api/time');
+es.onmessage = (e) =&gt; { clock.textContent = new Date(+e.data).toLocaleTimeString(); };</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 2. Ехо через WebSocket</h2>
+<p class="task-goal">Підніми WebSocket-сервер на <code>ws</code>. На кожне отримане повідомлення
+відповідай тим самим текстом у верхньому регістрі. На клієнті (браузерний
+<code>WebSocket</code>) надішли рядок і покажи відповідь.</p>
+<details class="hint"><summary>Підказка</summary><p>Надсилати можна лише в стані <code>OPEN</code>. Структуровані дані серіалізуй через <code>JSON.stringify</code>/<code>JSON.parse</code>.</p></details>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">// сервер (ws)
+wss.on('connection', (socket) =&gt; {
+  socket.on('message', (raw) =&gt; socket.send(raw.toString().toUpperCase()));
+});
+// клієнт
+ws.onopen = () =&gt; ws.send('привіт');
+ws.onmessage = (e) =&gt; console.log(e.data); // ПРИВІТ</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 3. Чат на Socket.io</h2>
+<p class="task-goal">Зроби спільний чат: клієнт надсилає подію <code>message</code>, сервер
+розсилає її всім через <code>broadcast</code>. Додай список повідомлень на сторінці. Використай
+іменовані події <code>emit</code>/<code>on</code>.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">// сервер
+io.on('connection', (socket) =&gt; {
+  socket.on('message', (text) =&gt;
+    io.emit('message', { id: socket.id, text }));
+});
+// клієнт
+socket.emit('message', input.value);
+socket.on('message', (m) =&gt; addToList(m));</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 4. Кімнати та «друкує…»</h2>
+<p class="task-goal">Додай кімнати: за подією <code>join</code> клади сокет у кімнату й адресуй
+повідомлення лише їй (<code>io.to(room)</code>). Реалізуй індикатор <code>typing</code>, який видно
+іншим учасникам кімнати (але не самому автору).</p>
+<details class="hint"><summary>Підказка</summary><p><code>socket.join(room)</code> для входу; <code>socket.to(room).emit('typing', id)</code> — усім у кімнаті, крім відправника.</p></details>
+</div>
+
+<div class="task">
+<h2>Завдання 5. Автентифікація й presence (виклик)</h2>
+<p class="task-goal">Передавай JWT при підключенні (<code>io(url, { auth: { token } })</code>) і
+перевіряй його в <code>io.use(...)</code>-middleware. Веди список онлайн-користувачів і
+розсилай <code>presence</code> на <code>connection</code>/<code>disconnect</code>. За бажання — додай
+дозавантаження пропущених повідомлень через HTTP після reconnect.</p>
+</div>
+
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Вбудуй реалтайм у свій fullstack-проєкт: живі сповіщення про нову нотатку або
+онлайн-статус. Порівняй, де достатньо SSE, а де справді потрібен двобічний
+WebSocket.</p></div></div>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" font-family="-apple-system, Segoe UI, Roboto, Arial, sans-serif">
+  <rect width="640" height="380" fill="#ffffff"/>
+  <defs>
+    <marker id="rb" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="rg" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <!-- column headers -->
+  <text x="95" y="20" font-size="12" fill="#57534e" text-anchor="middle">Клієнт</text>
+  <text x="545" y="20" font-size="12" fill="#57534e" text-anchor="middle">Сервер</text>
+
+  <!-- ===== Polling ===== -->
+  <text x="20" y="46" font-size="13" fill="#1c1917" font-weight="600">Polling</text>
+  <rect x="60" y="34" width="70" height="80" rx="6" fill="#eff6ff" stroke="#93c5fd"/>
+  <rect x="510" y="34" width="70" height="80" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+  <line x1="130" y1="48" x2="510" y2="48" stroke="#2563eb" stroke-width="1.5" marker-end="url(#rb)"/>
+  <line x1="510" y1="62" x2="130" y2="62" stroke="#16a34a" stroke-width="1.5" marker-end="url(#rg)"/>
+  <line x1="130" y1="80" x2="510" y2="80" stroke="#2563eb" stroke-width="1.5" marker-end="url(#rb)"/>
+  <line x1="510" y1="94" x2="130" y2="94" stroke="#16a34a" stroke-width="1.5" marker-end="url(#rg)"/>
+  <text x="320" y="44" font-size="10.5" fill="#2563eb" text-anchor="middle">«є щось нове?»</text>
+  <text x="320" y="108" font-size="10.5" fill="#78716c" text-anchor="middle">багато зайвих запитів, затримка до наступного опитування</text>
+
+  <!-- ===== SSE ===== -->
+  <text x="20" y="164" font-size="13" fill="#1c1917" font-weight="600">SSE</text>
+  <rect x="60" y="152" width="70" height="80" rx="6" fill="#dcfce7" stroke="#86efac"/>
+  <rect x="510" y="152" width="70" height="80" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+  <line x1="130" y1="166" x2="510" y2="166" stroke="#2563eb" stroke-width="1.5" marker-end="url(#rb)"/>
+  <text x="320" y="162" font-size="10.5" fill="#2563eb" text-anchor="middle">1 підключення (GET, text/event-stream)</text>
+  <line x1="510" y1="186" x2="130" y2="186" stroke="#16a34a" stroke-width="1.5" marker-end="url(#rg)"/>
+  <line x1="510" y1="202" x2="130" y2="202" stroke="#16a34a" stroke-width="1.5" marker-end="url(#rg)"/>
+  <line x1="510" y1="218" x2="130" y2="218" stroke="#16a34a" stroke-width="1.5" marker-end="url(#rg)"/>
+  <text x="320" y="232" font-size="10.5" fill="#78716c" text-anchor="middle">однобічний потік подій сервер → клієнт (авто-reconnect)</text>
+
+  <!-- ===== WebSocket ===== -->
+  <text x="20" y="282" font-size="13" fill="#1c1917" font-weight="600">WebSocket</text>
+  <rect x="60" y="270" width="70" height="86" rx="6" fill="#e0e7ff" stroke="#818cf8"/>
+  <rect x="510" y="270" width="70" height="86" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+  <line x1="130" y1="284" x2="510" y2="284" stroke="#2563eb" stroke-width="1.5" marker-end="url(#rb)"/>
+  <text x="320" y="280" font-size="10.5" fill="#2563eb" text-anchor="middle">рукостискання → постійне з'єднання (ws/wss)</text>
+  <line x1="510" y1="306" x2="130" y2="306" stroke="#16a34a" stroke-width="1.5" marker-end="url(#rg)"/>
+  <line x1="130" y1="322" x2="510" y2="322" stroke="#2563eb" stroke-width="1.5" marker-end="url(#rb)"/>
+  <line x1="510" y1="338" x2="130" y2="338" stroke="#16a34a" stroke-width="1.5" marker-end="url(#rg)"/>
+  <text x="320" y="354" font-size="10.5" fill="#78716c" text-anchor="middle">двобічний обмін у реальному часі, малий оверхед на кадр</text>
+</svg>

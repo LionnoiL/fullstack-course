@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Патерни реального часу · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="broadcast">1. Розсилка: кому надсилати</h1>
+<p>У реалтайм-застосунках ключове питання — <em>кому</em> адресувати подію. Socket.io дає
+кілька варіантів:</p>
+<pre class="language-js"><code class="language-js">io.emit('e', data);                 // усім підключеним
+socket.broadcast.emit('e', data);   // усім, крім відправника
+io.to('room1').emit('e', data);     // усім у кімнаті
+socket.to('room1').emit('e', data); // у кімнаті, крім відправника
+io.to(userSocketId).emit('e', data);// конкретному сокету</code></pre>
+
+<h1 id="канали">2. Кімнати як канали підписки</h1>
+<p>Кімнати — універсальний механізм підписки. Один сокет може бути в багатьох
+кімнатах: приватний чат <code>chat:42</code>, дошка <code>board:7</code>, персональний канал
+<code>user:99</code> для сповіщень саме цьому користувачу.</p>
+<pre class="language-js"><code class="language-js">socket.join(`user:${userId}`);      // особистий канал
+socket.join(`board:${boardId}`);    // спільний ресурс
+// сповістити конкретного користувача з будь-якого місця коду:
+io.to(`user:${userId}`).emit('notification', payload);</code></pre>
+
+<h1 id="auth">3. Автентифікація сокета</h1>
+<p>WebSocket не має заголовків на кожне повідомлення — тож токен передають <strong>під час
+підключення</strong> й перевіряють у middleware. Далі сокет уже «знає» користувача.</p>
+<pre class="language-js"><code class="language-js">// клієнт
+const socket = io('/', { auth: { token } });
+
+// сервер — middleware до з'єднання
+io.use((socket, next) =&gt; {
+  try {
+    socket.data.user = jwt.verify(socket.handshake.auth.token, process.env.JWT_SECRET);
+    next();
+  } catch {
+    next(new Error('unauthorized'));
+  }
+});</code></pre>
+<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Перевіряй права <strong>на сервері</strong> для кожної дії, а не лише при підключенні.
+Клієнт може надіслати будь-яку подію — довіряти <code>socket.data.user</code> (з
+перевіреного токена), а не полям із самого повідомлення.</p></div></div>
+
+<h1 id="presence">4. Presence: хто онлайн і «друкує…»</h1>
+<p><strong>Presence</strong> — відстеження активних користувачів. Базовий підхід — оновлювати
+список на <code>connection</code>/<code>disconnect</code> і розсилати його кімнаті:</p>
+<pre class="language-js"><code class="language-js">const online = new Set();
+
+io.on('connection', (socket) =&gt; {
+  online.add(socket.data.user.id);
+  io.emit('presence', [...online]);
+
+  socket.on('typing', (room) =&gt; socket.to(room).emit('typing', socket.data.user.id));
+
+  socket.on('disconnect', () =&gt; {
+    online.delete(socket.data.user.id);
+    io.emit('presence', [...online]);
+  });
+});</code></pre>
+
+<h1 id="scaling">5. Масштабування на кілька процесів</h1>
+<p>Проблема: якщо серверів кілька, користувачі на <em>різних</em> інстансах не бачать
+подій одне одного (кожен тримає свій список сокетів у памʼяті). Рішення —
+<strong>adapter</strong>, що пересилає події між інстансами через спільний брокер (Redis):</p>
+<pre class="language-js"><code class="language-js">import { createAdapter } from '@socket.io/redis-adapter';
+import { createClient } from 'redis';
+
+const pub = createClient({ url: process.env.REDIS_URL });
+const sub = pub.duplicate();
+await Promise.all([pub.connect(), sub.connect()]);
+
+io.adapter(createAdapter(pub, sub)); // тепер broadcast працює між усіма інстансами</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Ще один наслідок кількох інстансів — <strong>sticky sessions</strong>: балансувальник має
+слати запити одного клієнта на той самий сервер (бо long-polling fallback тримає
+стан). Redis-adapter + sticky sessions — стандартна пара для продакшену.</p></div></div>
+
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://socket.io/docs/v4/redis-adapter/" target="_blank">Socket.io — Redis Adapter</a></li>
+<li><a href="https://socket.io/docs/v4/middlewares/" target="_blank">Socket.io — Middlewares (auth)</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Надійність реального часу · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="reconnect">1. Перепідключення</h1>
+<p>Мережа рано чи пізно обірветься: Wi-Fi, тунель, засинання ноутбука. Клієнт
+має <em>сам</em> відновлювати з'єднання. Socket.io робить це з коробки з наростаючою
+затримкою (exponential backoff); для сирого WebSocket — пишеш вручну.</p>
+<pre class="language-js"><code class="language-js">// «сирий» WebSocket: простий reconnect з backoff
+function connect() {
+  const ws = new WebSocket(url);
+  let delay = 1000;
+  ws.onopen = () =&gt; { delay = 1000; };
+  ws.onclose = () =&gt; {
+    setTimeout(connect, delay);
+    delay = Math.min(delay * 2, 30000); // 1s, 2s, 4s … до 30s
+  };
+  return ws;
+}</code></pre>
+
+<h1 id="heartbeat">2. Heartbeat: виявити «мертве» з'єднання</h1>
+<p>TCP-з'єднання може «мовчки» померти — сокет ще <code>OPEN</code>, а даних уже не буде.
+Тому сторони обмінюються <strong>ping/pong</strong>: якщо на ping довго немає відповіді —
+вважаємо з'єднання втраченим і перепідключаємось. Socket.io й <code>ws</code> мають вбудований
+heartbeat; при своєму протоколі роби його сам.</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Без heartbeat застосунок «думає», що онлайн, а насправді нічого не отримує.
+Heartbeat + reconnect — обовʼязкова пара для стабільного реалтайму.</p></div></div>
+
+<h1 id="delivery">3. Доставка й пропущені повідомлення</h1>
+<p>Поки клієнт був офлайн, події могли статися. Варіанти гарантій:</p>
+<ul>
+<li><strong>at-most-once</strong> — надіслали й забули (можна втратити); підходить для
+ефемерного (курсор, «друкує…»);</li>
+<li><strong>at-least-once</strong> — з підтвердженням (ack) і повтором; можливі дублікати —
+роби обробку <em>ідемпотентною</em>;</li>
+<li><strong>дозавантаження</strong> — при reconnect клієнт питає «дай усе після <code>lastId</code>» —
+історію добираємо звичайним HTTP-запитом.</li>
+</ul>
+<pre class="language-js"><code class="language-js">socket.on('connect', async () =&gt; {
+  const missed = await fetch(`/api/messages?after=${lastSeenId}`).then((r) =&gt; r.json());
+  missed.forEach(render); // добрали пропущене, далі — жива стрічка
+});</code></pre>
+
+<h1 id="backpressure">4. Backpressure і обсяг</h1>
+<p>Якщо сервер шле швидше, ніж клієнт встигає, буфери ростуть. Стратегії:
+<strong>throttle/debounce</strong> швидких подій (позиція курсора — не частіше ніж раз на
+50&nbsp;мс), обʼєднання оновлень у батч, надсилання <em>дельт</em> замість повного стану.
+Стеж за <code>ws.bufferedAmount</code>, щоб не переповнити канал.</p>
+
+<h1 id="sse-vs-ws">5. Ще раз: SSE чи WebSocket</h1>
+<ul>
+<li><strong>SSE</strong> — лише сервер→клієнт, простий, поверх HTTP, авто-reconnect і
+<code>Last-Event-ID</code>; менше інфраструктури;</li>
+<li><strong>WebSocket</strong> — двобічний, низька затримка, але треба самому дбати про
+reconnect/heartbeat/масштабування (або брати Socket.io).</li>
+</ul>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Не ускладнюй завчасно: якщо потрібен лише потік сервер→клієнт — SSE зазвичай
+достатньо й дешевше в експлуатації. WebSocket вмикай, коли двобічність реально
+потрібна.</p></div></div>
+
+<h1 id="managed">6. Керовані сервіси</h1>
+<p>Тримати власний WebSocket-кластер (sticky sessions, Redis, автоскейл) — робота.
+Часто вигідніше взяти <strong>керований realtime</strong>: <strong>Pusher</strong>, <strong>Ably</strong>,
+<strong>Supabase Realtime</strong>. Вони дають канали, presence і масштабування як сервіс — ти
+лише публікуєш і підписуєшся.</p>
+<pre class="language-js"><code class="language-js">// приклад: Supabase Realtime — підписка на зміни таблиці
+supabase.channel('room:1')
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' },
+      (payload) =&gt; render(payload.new))
+  .subscribe();</code></pre>
+
+<h1 id="чеклист">7. Чеклист продакшену</h1>
+<ul>
+<li><code>wss://</code> (TLS) завжди; автентифікація при підключенні;</li>
+<li>reconnect із backoff + heartbeat;</li>
+<li>дозавантаження пропущеного через <code>lastId</code>;</li>
+<li>ідемпотентна обробка при at-least-once;</li>
+<li>throttle частих подій, надсилання дельт;</li>
+<li>масштабування: Redis-adapter + sticky sessions (або керований сервіс).</li>
+</ul>
+
+<h1 id="додаткові-матеріали">8. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://supabase.com/docs/guides/realtime" target="_blank">Supabase Realtime</a></li>
+<li><a href="https://ably.com/topic/websockets" target="_blank">Ably — WebSockets у продакшені</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

@@ -398,6 +398,18 @@
       ],
     },
     {
+      title: "Реалтайм (WebSockets / SSE)",
+      lessons: [
+        ["realtime-intro.html", "Навіщо реалтайм"],
+        ["sse-basics.html", "Server-Sent Events (SSE)"],
+        ["websockets-basics.html", "WebSocket: протокол і API"],
+        ["socketio-intro.html", "Socket.io: події та кімнати"],
+        ["realtime-patterns.html", "Патерни: broadcast, auth, presence"],
+        ["realtime-advanced.html", "Надійність і масштабування"],
+        ["practice-realtime.html", "🎯 Практика: Реалтайм"],
+      ],
+    },
+    {
       title: "Супровідні теми",
       lessons: [
         ["git-basics.html", "Git і командний рядок"],
