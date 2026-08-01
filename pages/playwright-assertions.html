@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playwright: перевірки · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="web-first">1. Web-first перевірки</h1>
+<p>Перевірки Playwright — <strong>«web-first»</strong>: <code>expect(locator)</code> сам
+<strong>повторює</strong> перевірку, доки вона не пройде або не спливе таймаут. Це прибирає
+цілий клас flaky-тестів, де елемент ще не встиг оновитися.</p>
+<pre class="language-js"><code class="language-js">import { test, expect } from '@playwright/test';
+
+// чекає, поки елемент стане видимим (не падає одразу)
+await expect(page.getByRole('heading', { name: 'Дякуємо!' })).toBeVisible();</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Різниця важлива: <code>expect(await locator.isVisible())</code> перевіряє <em>миттєвий</em>
+стан і легко падає. <code>await expect(locator).toBeVisible()</code> — <strong>чекає</strong>. Майже
+завжди потрібен другий варіант.</p></div></div>
+
+<h1 id="матчери">2. Поширені перевірки</h1>
+<pre class="language-js"><code class="language-js">await expect(locator).toBeVisible();
+await expect(locator).toBeHidden();
+await expect(locator).toHaveText('Готово');        // точний текст
+await expect(locator).toContainText('успішно');    // частковий
+await expect(locator).toHaveValue('ann@mail.com'); // значення поля
+await expect(locator).toBeEnabled();
+await expect(locator).toBeChecked();
+await expect(locator).toHaveCount(3);              // скільки елементів
+await expect(page).toHaveURL(/\/dashboard/);       // адреса
+await expect(page).toHaveTitle(/Профіль/);</code></pre>
+
+<h1 id="таймаут">3. Таймаути й негативні перевірки</h1>
+<pre class="language-js"><code class="language-js">// індивідуальний таймаут для повільної дії
+await expect(page.getByText('Звіт готовий')).toBeVisible({ timeout: 15000 });
+
+// заперечення
+await expect(page.getByText('Помилка')).not.toBeVisible();</code></pre>
+
+<h1 id="скриншоти">4. Скриншоти й візуальні перевірки</h1>
+<p>Playwright уміє порівнювати скриншоти з еталоном — зручно ловити візуальні регресії:</p>
+<pre class="language-js"><code class="language-js">await expect(page).toHaveScreenshot('home.png'); // перший раз створює еталон
+await expect(page.getByRole('article')).toHaveScreenshot('card.png');</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Візуальні тести чутливі до шрифтів і ОС — тому їх зазвичай ганяють у сталому
+середовищі (Docker/CI). При навмисній зміні дизайну еталон оновлюють:
+<code>--update-snapshots</code>.</p></div></div>
+
+<h1 id="трейси">5. Трейси й діагностика падінь</h1>
+<p>Коли тест падає, найцінніше — <strong>trace</strong>: покроковий запис із DOM-знімками,
+мережею й консоллю на кожній дії. Вмикається в конфігу (<code>trace: 'on-first-retry'</code>).</p>
+<pre class="language-js"><code class="language-js">npx playwright show-trace trace.zip   # відкрити trace viewer</code></pre>
+<p>А також автоматичні скриншот і відео при падінні — налаштовуються в <code>use</code>:</p>
+<pre class="language-js"><code class="language-js">use: {
+  screenshot: 'only-on-failure',
+  video: 'retain-on-failure',
+  trace: 'on-first-retry',
+}</code></pre>
+<p>Перевірки освоєно — час скласти з дій і перевірок реальні сценарії.</p>
+
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://playwright.dev/docs/test-assertions" target="_blank">Playwright — Assertions</a></li>
+<li><a href="https://playwright.dev/docs/trace-viewer" target="_blank">Playwright — Trace Viewer</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

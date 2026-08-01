@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playwright: дебаг, codegen і CI · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="codegen">1. Codegen — тест «під запис»</h1>
+<p>Не обовʼязково писати кожен локатор руками. <strong>Codegen</strong> відкриває браузер,
+записує твої кліки й уведення і <strong>генерує код тесту</strong> з правильними локаторами —
+чудовий старт, який потім чистиш.</p>
+<pre class="language-js"><code class="language-js">npx playwright codegen http://localhost:5173</code></pre>
+
+<h1 id="debug">2. Дебаг</h1>
+<pre class="language-js"><code class="language-js">npx playwright test --ui          # UI-режим: крокуй тестом, дивись стан
+npx playwright test --debug       # покроковий дебаг з інспектором
+npx playwright show-trace trace.zip  # розбір падіння постфактум</code></pre>
+<p>У коді можна поставити паузу, що відкриває інспектор:</p>
+<pre class="language-js"><code class="language-js">await page.pause(); // застосунок «завмре», відкриється Playwright Inspector</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Зв'язка <strong>codegen (написати) + UI-режим (дебажити) + trace viewer (розібрати
+падіння в CI)</strong> покриває майже всі потреби. З ними E2E перестають бути «чорною
+скринькою».</p></div></div>
+
+<h1 id="ci">3. Запуск у CI (GitHub Actions)</h1>
+<p>Найбільша користь від E2E — коли вони ганяються <strong>автоматично на кожен push/PR</strong>
+і не пускають зламаний код у гілку. Генератор проєкту вміє створити workflow; ось
+його суть:</p>
+<pre class="language-js"><code class="language-js"># .github/workflows/playwright.yml
+name: Playwright Tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm ci
+      - run: npx playwright install --with-deps  # браузери + системні залежності
+      - run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>У CI <code>playwright install --with-deps</code> обовʼязковий — він доставляє системні
+бібліотеки для браузерів. HTML-звіт і трейси зберігай як <strong>артефакти</strong>, щоб
+розібрати падіння, не відтворюючи їх локально.</p></div></div>
+
+<h1 id="retries">4. Повтори й паралельність</h1>
+<p>E2E інколи падають через мережеві дрібниці. Розумні <strong>повтори</strong> в CI відсіюють
+випадкові збої, не ховаючи справжні баги:</p>
+<pre class="language-js"><code class="language-js">// playwright.config.ts
+export default defineConfig({
+  retries: process.env.CI ? 2 : 0, // повтори лише в CI
+  workers: process.env.CI ? 2 : undefined,
+  reporter: 'html',
+});</code></pre>
+
+<h1 id="best">5. Найкращі практики</h1>
+<ul>
+<li>покривай E2E <strong>ключові шляхи</strong> (вхід, оплата, оформлення), а деталі — unit-ами;</li>
+<li>шукай за <strong>роллю/текстом</strong>, не за CSS-класами; уникай <code>waitForTimeout</code>;</li>
+<li>роби тести <strong>незалежними</strong> — кожен готує свій стан і не залежить від порядку;</li>
+<li>мокай зовнішні сервіси для стабільності; сесію логіну зберігай через
+<code>storageState</code>;</li>
+<li>став E2E у CI на кожен PR — саме там вони окупаються.</li>
+</ul>
+<p>На цьому Top-12 роадмепу закрито 🎉 — маєш повний сучасний фулстек-стек 2026.</p>
+
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://playwright.dev/docs/ci-intro" target="_blank">Playwright — Continuous Integration</a></li>
+<li><a href="https://playwright.dev/docs/best-practices" target="_blank">Playwright — Best Practices</a></li>
+<li><a href="https://playwright.dev/docs/codegen" target="_blank">Playwright — Codegen</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

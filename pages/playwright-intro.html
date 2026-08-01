@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Навіщо E2E та Playwright · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="рекап">1. Де ми зупинились</h1>
+<p>У розділі «Тестування» ми писали <strong>модульні</strong> тести (Vitest) на окремі функції
+й тести компонентів (React Testing Library). Вони швидкі й точкові, але перевіряють
+<em>частини</em>. А чи працює застосунок <strong>цілком</strong> — від кліку в браузері до відповіді
+сервера — вони не кажуть.</p>
+
+<h1 id="e2e">2. Що таке E2E-тести</h1>
+<p><strong>E2E (end-to-end)</strong> тести відтворюють <strong>сценарій живого користувача</strong> у
+справжньому браузері: відкрити сторінку, ввести логін, натиснути кнопку, перевірити,
+що зʼявився результат. Вони ганяють увесь стек разом — фронтенд, мережу, бекенд — і
+ловлять баги, яких не видно на рівні окремих функцій.</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>E2E відповідають на питання «чи <em>працює</em> продукт для користувача». Модульні —
+«чи правильна ця функція». Потрібні обидва рівні, але з різною кількістю.</p></div></div>
+
+<h1 id="піраміда">3. Піраміда тестів</h1>
+<p>Тести розподіляють за принципом <strong>піраміди</strong>: багато швидких і дешевих unit-тестів
+унизу, менше інтеграційних усередині й <em>небагато</em> повільних E2E зверху.</p>
+<p><img src="images/test-pyramid.svg" alt="Піраміда тестів: багато Unit унизу, менше Integration усередині, кілька E2E зверху" loading="lazy"></p>
+<ul>
+<li><strong>Unit</strong> — миттєві, ізольовані, їх сотні;</li>
+<li><strong>Integration</strong> — кілька частин разом (напр. з замоканою мережею через MSW);</li>
+<li><strong>E2E</strong> — повільні й «дорогі» в підтримці, тож покривай ними лише
+<em>ключові</em> сценарії (вхід, оплата, оформлення).</li>
+</ul>
+<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Антипатерн — «перевернута піраморіжка»: сотні E2E й майже нема unit. E2E повільні
+й крихкі; покривати ними <em>кожну</em> дрібницю — довго й боляче. Тримай їх для
+критичних шляхів.</p></div></div>
+
+<h1 id="playwright">4. Що таке Playwright</h1>
+<p><strong>Playwright</strong> — сучасний інструмент E2E-тестування від Microsoft. Керує
+справжніми браузерами (Chromium, Firefox, WebKit) через єдиний API. Його сильні
+сторони:</p>
+<ul>
+<li><strong>авто-очікування</strong> — сам чекає, поки елемент зʼявиться й стане клікабельним
+(менше «мерехтливих» тестів);</li>
+<li><strong>крос-браузерність</strong> — один тест ганяється в трьох рушіях;</li>
+<li><strong>інструменти</strong> — генератор коду, trace viewer, UI-режим для дебагу;</li>
+<li>працює з будь-яким стеком (React, Next.js, звичайний HTML).</li>
+</ul>
+<p>Альтернатива — <strong>Cypress</strong>; принципи схожі, ми візьмемо Playwright.</p>
+
+<h1 id="приклад">5. Як виглядає тест</h1>
+<pre class="language-js"><code class="language-js">import { test, expect } from '@playwright/test';
+
+test('користувач бачить заголовок', async ({ page }) =&gt; {
+  await page.goto('https://example.com');
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+});</code></pre>
+<p>Далі в розділі: встановлення й запуск, локатори та дії, перевірки, реальні сценарії
+(форми, вхід, мокання мережі) і запуск у CI.</p>
+
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://playwright.dev/" target="_blank">Playwright — офіційний сайт</a></li>
+<li><a href="https://martinfowler.com/articles/practical-test-pyramid.html" target="_blank">The Practical Test Pyramid</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

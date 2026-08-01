@@ -423,6 +423,18 @@
       ],
     },
     {
+      title: "E2E-тести (Playwright)",
+      lessons: [
+        ["playwright-intro.html", "Навіщо E2E та Playwright"],
+        ["playwright-setup.html", "Встановлення та запуск"],
+        ["playwright-locators.html", "Локатори та дії"],
+        ["playwright-assertions.html", "Перевірки (assertions)"],
+        ["playwright-scenarios.html", "Сценарії: форми, auth, моки"],
+        ["playwright-ci.html", "Дебаг, codegen і CI"],
+        ["practice-playwright.html", "🎯 Практика: E2E-тести"],
+      ],
+    },
+    {
       title: "Супровідні теми",
       lessons: [
         ["git-basics.html", "Git і командний рядок"],

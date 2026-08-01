@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практика: E2E-тести (Playwright) · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="практика">Практика: E2E-тести (Playwright)</h1>
+<p>Візьми свій застосунок (напр. fullstack-нотатник або To-Do) і додай E2E-тести.
+Ініціалізуй Playwright (<code>npm init playwright@latest</code>), налаштуй <code>baseURL</code> і
+<code>webServer</code> у конфігу.</p>
+
+<div class="task">
+<h2>Завдання 1. Перший тест і запуск</h2>
+<p class="task-goal">Напиши тест, що відкриває головну сторінку й перевіряє заголовок
+або видимий елемент. Запусти його в UI-режимі (<code>--headed</code>/<code>--ui</code>) і подивись
+HTML-звіт.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">import { test, expect } from '@playwright/test';
+
+test('головна відкривається', async ({ page }) =&gt; {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+});</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 2. Сценарій із формою</h2>
+<p class="task-goal">Протестуй додавання елемента: заповни поле, натисни кнопку й
+перевір, що новий елемент зʼявився у списку. Використай локатори за роллю/підписом,
+без <code>waitForTimeout</code>.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">test('додавання нотатки', async ({ page }) =&gt; {
+  await page.goto('/');
+  await page.getByLabel('Текст нотатки').fill('Купити молоко');
+  await page.getByRole('button', { name: 'Додати' }).click();
+  await expect(page.getByText('Купити молоко')).toBeVisible();
+});</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 3. Codegen</h2>
+<p class="task-goal">Запусти <code>npx playwright codegen</code> на своєму застосунку, «клікни»
+сценарій вручну й отримай згенерований код. Почисти локатори й перетвори на
+повноцінний тест.</p>
+<details class="hint"><summary>Підказка</summary><p><code>npx playwright codegen http://localhost:5173</code>. Заміни автозгенеровані загальні локатори на змістовні <code>getByRole</code>/<code>getByLabel</code>, додай <code>expect</code>-перевірки.</p></details>
+</div>
+
+<div class="task">
+<h2>Завдання 4. Мокання мережі</h2>
+<p class="task-goal">Заміни реальний запит до API фіктивною відповіддю через
+<code>page.route</code> і переконайся, що застосунок показує саме ці дані. Так тест не
+залежить від бекенду.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">await page.route('**/api/notes', (route) =&gt;
+  route.fulfill({ json: [{ id: 1, text: 'Тестова нотатка' }] }));
+await page.goto('/');
+await expect(page.getByText('Тестова нотатка')).toBeVisible();</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 5. Авторизація + CI (виклик)</h2>
+<p class="task-goal">Зроби <code>setup</code>-проєкт, що логіниться один раз і зберігає сесію
+через <code>storageState</code>, а решта тестів стартують уже залогіненими. Додай GitHub
+Actions workflow, що ганяє тести на кожен PR і зберігає звіт як артефакт.</p>
+<details class="hint"><summary>Підказка</summary><p>Після входу — <code>await page.context().storageState({ path: 'playwright/.auth/user.json' })</code>; у конфігу — <code>use: { storageState: '...' }</code>. У CI не забудь <code>npx playwright install --with-deps</code>.</p></details>
+</div>
+
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Покрий E2E-тестами <em>ключові</em> шляхи свого проєкту (вхід, створення/видалення
+запису), а дрібну логіку лиши unit-тестам із розділу «Тестування». Постав тести в
+CI — і кожен PR перевірятиметься автоматично.</p></div></div>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>
