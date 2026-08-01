@@ -789,8 +789,15 @@
     const toggle = document.createElement("button");
     toggle.type = "button";
     toggle.className = "nav-toggle";
-    toggle.setAttribute("aria-label", "Меню");
-    toggle.innerHTML = "<span></span><span></span><span></span>";
+    toggle.setAttribute("aria-label", "Відкрити меню");
+    const tIcon = document.createElement("span");
+    tIcon.className = "nav-toggle-icon";
+    tIcon.textContent = "☰"; // ☰
+    const tText = document.createElement("span");
+    tText.className = "nav-toggle-text";
+    tText.textContent = "Меню";
+    toggle.appendChild(tIcon);
+    toggle.appendChild(tText);
 
     const backdrop = document.createElement("div");
     backdrop.className = "nav-backdrop";
@@ -803,12 +810,18 @@
       backdrop.classList.add("show");
       document.body.classList.add("nav-drawer-open");
       toggle.classList.add("is-open");
+      tIcon.textContent = "✕"; // ✕
+      tText.textContent = "Закрити";
+      toggle.setAttribute("aria-label", "Закрити меню");
     }
     function close() {
       sidebar.classList.remove("open");
       backdrop.classList.remove("show");
       document.body.classList.remove("nav-drawer-open");
       toggle.classList.remove("is-open");
+      tIcon.textContent = "☰"; // ☰
+      tText.textContent = "Меню";
+      toggle.setAttribute("aria-label", "Відкрити меню");
     }
 
     toggle.addEventListener("click", () => {
