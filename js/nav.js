@@ -348,6 +348,18 @@
       ],
     },
     {
+      title: "Форми: React Hook Form + Zod",
+      lessons: [
+        ["rhf-intro.html", "Навіщо React Hook Form"],
+        ["rhf-basics.html", "useForm, register, handleSubmit"],
+        ["rhf-validation.html", "Вбудована валідація"],
+        ["zod-intro.html", "Zod: схеми валідації"],
+        ["rhf-zod.html", "React Hook Form + Zod"],
+        ["rhf-advanced.html", "Controller, useFieldArray, watch"],
+        ["practice-forms.html", "🎯 Практика: форми (RHF + Zod)"],
+      ],
+    },
+    {
       title: "Next.js",
       lessons: [
         ["next-intro.html", "Що таке Next.js"],

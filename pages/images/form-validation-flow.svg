@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 210" font-family="-apple-system, Segoe UI, Roboto, Arial, sans-serif">
+  <rect width="640" height="210" fill="#ffffff"/>
+  <defs>
+    <marker id="fa" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+    <marker id="fg" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#16a34a"/>
+    </marker>
+    <marker id="fr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#dc2626"/>
+    </marker>
+  </defs>
+  <rect x="16" y="80" width="140" height="54" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="86" y="103" font-size="13" fill="#1e40af" text-anchor="middle">Поля форми</text>
+  <text x="86" y="121" font-size="11" fill="#57534e" text-anchor="middle">register / ref</text>
+  <line x1="156" y1="107" x2="192" y2="107" stroke="#94a3b8" stroke-width="2" marker-end="url(#fa)"/>
+  <rect x="196" y="80" width="150" height="54" rx="8" fill="#e0e7ff" stroke="#818cf8"/>
+  <text x="271" y="103" font-size="13" fill="#3730a3" text-anchor="middle">React Hook Form</text>
+  <text x="271" y="121" font-size="11" fill="#57534e" text-anchor="middle">збирає значення</text>
+  <line x1="346" y1="107" x2="382" y2="107" stroke="#94a3b8" stroke-width="2" marker-end="url(#fa)"/>
+  <rect x="386" y="80" width="120" height="54" rx="8" fill="#fef9c3" stroke="#eab308"/>
+  <text x="446" y="103" font-size="13" fill="#854d0e" text-anchor="middle">Zod-схема</text>
+  <text x="446" y="121" font-size="11" fill="#57534e" text-anchor="middle">перевіряє</text>
+  <path d="M506 96 C 540 96, 540 60, 522 52" fill="none" stroke="#16a34a" stroke-width="2" marker-end="url(#fg)"/>
+  <path d="M506 118 C 540 118, 540 156, 522 164" fill="none" stroke="#dc2626" stroke-width="2" marker-end="url(#fr)"/>
+  <rect x="520" y="28" width="112" height="46" rx="8" fill="#dcfce7" stroke="#86efac"/>
+  <text x="576" y="49" font-size="12" fill="#15803d" text-anchor="middle">onSubmit(дані)</text>
+  <text x="576" y="65" font-size="11" fill="#15803d" text-anchor="middle">✓ типізовано</text>
+  <rect x="520" y="140" width="112" height="46" rx="8" fill="#fee2e2" stroke="#fca5a5"/>
+  <text x="576" y="161" font-size="12" fill="#b91c1c" text-anchor="middle">errors</text>
+  <text x="576" y="177" font-size="11" fill="#b91c1c" text-anchor="middle">✗ показ підказок</text>
+</svg>

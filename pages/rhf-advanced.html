@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controller, useFieldArray, watch · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="controller">1. Controller — для кастомних полів</h1>
+<p><code>register</code> працює з нативними <code>&lt;input&gt;</code>. Але UI-бібліотеки (напр. Radix
+Select чи компоненти shadcn/ui) не приймають <code>ref</code> напряму. Для них є
+<strong>Controller</strong> — обгортка, що зв'язує контрольований компонент із RHF.</p>
+<pre class="language-js"><code class="language-js">import { useForm, Controller } from 'react-hook-form';
+
+&lt;Controller
+  name="country"
+  control={control}
+  render={({ field }) =&gt; (
+    &lt;CustomSelect {...field} options={countries} /&gt;
+  )}
+/&gt;</code></pre>
+<h1 id="fieldarray">2. useFieldArray — динамічні поля</h1>
+<p>Коли кількість полів змінна (список телефонів, позиції замовлення), беруть
+<code>useFieldArray</code>.</p>
+<pre class="language-js"><code class="language-js">import { useFieldArray, useForm } from 'react-hook-form';
+
+const { control, register } = useForm({ defaultValues: { phones: [{ value: '' }] } });
+const { fields, append, remove } = useFieldArray({ control, name: 'phones' });
+
+{fields.map((field, i) =&gt; (
+  &lt;div key={field.id}&gt;
+    &lt;input {...register(`phones.${i}.value`)} /&gt;
+    &lt;button type="button" onClick={() =&gt; remove(i)}&gt;✕&lt;/button&gt;
+  &lt;/div&gt;
+))}
+&lt;button type="button" onClick={() =&gt; append({ value: '' })}&gt;Додати&lt;/button&gt;</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Використовуй <code>field.id</code> (а не індекс) як <code>key</code> у списку полів. RHF генерує
+стабільні id, і це рятує від багів під час додавання/видалення рядків — так само,
+як правильні ключі списків у React.</p></div></div>
+<h1 id="watch">3. watch — стежити за значеннями</h1>
+<p><code>watch</code> дозволяє реагувати на поточні значення (напр. показати поле лише за
+умовою):</p>
+<pre class="language-js"><code class="language-js">const { watch } = useForm();
+const hasCompany = watch('hasCompany');
+
+{hasCompany &amp;&amp; &lt;input {...register('companyName')} /&gt;}</code></pre>
+<h1 id="reset">4. reset і програмна зміна</h1>
+<pre class="language-js"><code class="language-js">const { reset, setValue, getValues } = useForm();
+
+reset();                          // очистити форму
+reset({ email: 'a@b.com' });      // задати нові значення
+setValue('email', 'x@y.com');     // змінити одне поле
+const values = getValues();       // прочитати без ре-рендеру</code></pre>
+<h1 id="submit-async">5. Асинхронний сабміт</h1>
+<pre class="language-js"><code class="language-js">const onSubmit = async (data) =&gt; {
+  await api.save(data);   // isSubmitting = true, поки чекаємо
+};</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://react-hook-form.com/docs/usecontroller/controller" target="_blank">Controller — React Hook Form</a></li>
+<li><a href="https://react-hook-form.com/docs/usefieldarray" target="_blank">useFieldArray — React Hook Form</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

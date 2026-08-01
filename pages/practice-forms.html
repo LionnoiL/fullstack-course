@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практика: форми (RHF + Zod) · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="практика">Практика: форми (React Hook Form + Zod)</h1>
+<p>Створи React-проєкт (Vite) і встанови <code>react-hook-form</code>, <code>zod</code>,
+<code>@hookform/resolvers</code>. Рухайся від простої форми до типізованої зі схемою.</p>
+
+<div class="task">
+<h2>Завдання 1. Проста форма на RHF</h2>
+<p class="task-goal">Зроби форму входу (email, пароль) через <code>useForm</code>,
+<code>register</code> і <code>handleSubmit</code>. Виведи зібрані дані в консоль.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">const { register, handleSubmit } = useForm();
+const onSubmit = (data) =&gt; console.log(data);
+
+&lt;form onSubmit={handleSubmit(onSubmit)}&gt;
+  &lt;input {...register('email')} /&gt;
+  &lt;input type="password" {...register('password')} /&gt;
+  &lt;button&gt;Увійти&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 2. Zod-схема</h2>
+<p class="task-goal">Опиши схему реєстрації: <code>name</code> (мін. 2), <code>email</code>, <code>age</code> (18+),
+<code>password</code> (мін. 8). Перевір тестовий об'єкт через <code>safeParse</code> і виведи помилки.</p>
+<details class="hint"><summary>Підказка</summary><p><code>z.object({ ... })</code>, для віку — <code>z.coerce.number().min(18)</code> (значення з input приходить рядком).</p></details>
+</div>
+
+<div class="task">
+<h2>Завдання 3. З'єднати RHF + Zod</h2>
+<p class="task-goal">Підключи схему із завдання 2 через <code>zodResolver</code> і показуй
+повідомлення про помилки під кожним полем. Кнопку блокуй під час <code>isSubmitting</code>.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">const { register, handleSubmit, formState: { errors } } = useForm({
+  resolver: zodResolver(schema),
+});
+
+&lt;input {...register('email')} /&gt;
+{errors.email &amp;&amp; &lt;p className="error"&gt;{errors.email.message}&lt;/p&gt;}</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 4. Динамічні поля (виклик)</h2>
+<p class="task-goal">Через <code>useFieldArray</code> зроби список навичок, який можна
+доповнювати й видаляти. Додай перевірку схемою (<code>z.array(...).min(1)</code>) — хоча б
+одна навичка обов'язкова. За наявності — використай <code>Controller</code> для кастомного
+поля-селекта.</p>
+</div>
+
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Переведи форму зі свого проєкту (напр. форму додавання нотатки у fullstack-проєкті)
+на RHF + Zod і застосуй <em>ту саму</em> схему на бекенді для перевірки запиту.
+Відчуєш головну перевагу — одне джерело правди для валідації й типів.</p></div></div>
+
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

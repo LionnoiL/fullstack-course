@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zod: схеми валідації · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="zod">1. Що таке Zod</h1>
+<p><strong>Zod</strong> — бібліотека для опису й перевірки форми даних через <strong>схеми</strong>. Ти
+описуєш, якими мають бути дані, а Zod перевіряє реальні значення й повертає або
+результат, або зрозумілі помилки. Бонус — з однієї схеми виводиться
+TypeScript-тип.</p>
+<pre class="language-js"><code class="language-js">npm install zod</code></pre>
+<h1 id="схема">2. Опис схеми</h1>
+<pre class="language-js"><code class="language-js">import { z } from 'zod';
+
+const userSchema = z.object({
+  name: z.string().min(2, 'Мінімум 2 символи'),
+  email: z.string().email('Некоректний email'),
+  age: z.number().int().min(18, 'Тільки 18+'),
+  role: z.enum(['user', 'admin']),
+  website: z.string().url().optional(),
+});</code></pre>
+<h1 id="parse">3. Перевірка: parse і safeParse</h1>
+<p><code>parse</code> кидає виняток при помилці, а <code>safeParse</code> повертає результат-об'єкт —
+зручніше для форм.</p>
+<pre class="language-js"><code class="language-js">const result = userSchema.safeParse(data);
+
+if (result.success) {
+  console.log(result.data);   // валідні, типізовані дані
+} else {
+  console.log(result.error.issues); // список помилок по полях
+}</code></pre>
+<h1 id="infer">4. Тип зі схеми: z.infer</h1>
+<p>Не треба окремо писати тип — Zod виведе його зі схеми. Одне джерело правди для
+перевірки <em>й</em> типів.</p>
+<pre class="language-js"><code class="language-js">type User = z.infer&lt;typeof userSchema&gt;;
+// { name: string; email: string; age: number;
+//   role: 'user' | 'admin'; website?: string }</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Схема — одне джерело правди: змінив правило (напр. мінімальну довжину) в одному
+місці — і оновилися і валідація, і тип. Ту саму схему можна використати й на
+бекенді, щоб перевіряти вхідні дані запиту.</p></div></div>
+<h1 id="трансформації">5. Уточнення й трансформації</h1>
+<pre class="language-js"><code class="language-js">// перевірка кількох полів разом
+const schema = z.object({
+  password: z.string().min(8),
+  confirm: z.string(),
+}).refine((d) =&gt; d.password === d.confirm, {
+  message: 'Паролі не збігаються',
+  path: ['confirm'],
+});
+
+// перетворення значення
+z.string().trim().toLowerCase();
+z.coerce.number(); // "42" → 42</code></pre>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://zod.dev/" target="_blank">Zod — документація</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

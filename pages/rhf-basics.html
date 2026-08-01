@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>useForm, register, handleSubmit · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="useform">1. Хук useForm</h1>
+<p>Центральний хук — <code>useForm</code>. Він повертає інструменти для роботи з формою:
+<code>register</code> (підключити поле), <code>handleSubmit</code> (обробити відправлення),
+<code>formState</code> (стан, зокрема помилки).</p>
+<pre class="language-js"><code class="language-js">import { useForm } from 'react-hook-form';
+
+function LoginForm() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = (data) =&gt; console.log(data); // { email, password }
+
+  return (
+    &lt;form onSubmit={handleSubmit(onSubmit)}&gt;
+      &lt;input {...register('email')} /&gt;
+      &lt;input type="password" {...register('password')} /&gt;
+      &lt;button&gt;Увійти&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+<h1 id="register">2. register — підключення поля</h1>
+<p><code>register('ім'я')</code> повертає потрібні пропси (<code>name</code>, <code>ref</code>, <code>onChange</code>,
+<code>onBlur</code>), які розгортають у поле через spread. Ім'я стає ключем у даних форми.</p>
+<pre class="language-js"><code class="language-js">&lt;input {...register('email')} /&gt;
+// вкладені імена → вкладений об'єкт
+&lt;input {...register('address.city')} /&gt; // data.address.city</code></pre>
+<h1 id="handlesubmit">3. handleSubmit</h1>
+<p><code>handleSubmit</code> обгортає твій обробник: спершу валідує форму, і лише якщо все
+гаразд — викликає <code>onSubmit</code> з зібраними даними. Другим аргументом можна передати
+обробник помилок.</p>
+<pre class="language-js"><code class="language-js">&lt;form onSubmit={handleSubmit(onValid, onInvalid)}&gt;</code></pre>
+<h1 id="defaults">4. Початкові значення</h1>
+<pre class="language-js"><code class="language-js">const { register } = useForm({
+  defaultValues: { email: '', remember: true },
+});</code></pre>
+<h1 id="formstate">5. Корисне з formState</h1>
+<ul>
+<li><code>errors</code> — об'єкт помилок по полях;</li>
+<li><code>isSubmitting</code> — форма відправляється (блокуй кнопку);</li>
+<li><code>isValid</code> — чи валідна форма зараз;</li>
+<li><code>isDirty</code> — чи змінював користувач значення.</li>
+</ul>
+<pre class="language-js"><code class="language-js">const { formState: { isSubmitting } } = useForm();
+&lt;button disabled={isSubmitting}&gt;Зберегти&lt;/button&gt;</code></pre>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Не обгортай поля RHF у власні <code>useState</code> — це зруйнує головну перевагу
+(мінімум ре-рендерів). Дай RHF керувати значеннями, а читай їх у <code>onSubmit</code> або
+через <code>watch</code>.</p></div></div>
+<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://react-hook-form.com/docs/useform" target="_blank">useForm — React Hook Form</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>

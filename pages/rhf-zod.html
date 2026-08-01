@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>React Hook Form + Zod · JS Course</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+<h1 id="resolver">1. Місток: zodResolver</h1>
+<p>Щоб RHF валідував форму за Zod-схемою, ставлять пакет-адаптер і передають схему в
+<code>resolver</code>.</p>
+<pre class="language-js"><code class="language-js">npm install @hookform/resolvers zod</code></pre>
+<pre class="language-js"><code class="language-js">import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const schema = z.object({
+  email: z.string().email('Некоректний email'),
+  password: z.string().min(8, 'Мінімум 8 символів'),
+});
+
+const { register, handleSubmit, formState: { errors } } = useForm({
+  resolver: zodResolver(schema),
+});</code></pre>
+<h1 id="повна-форма">2. Повний приклад</h1>
+<pre class="language-js"><code class="language-js">function LoginForm() {
+  const { register, handleSubmit, formState: { errors, isSubmitting } } =
+    useForm({ resolver: zodResolver(schema) });
+
+  const onSubmit = (data) =&gt; console.log(data); // вже валідні дані
+
+  return (
+    &lt;form onSubmit={handleSubmit(onSubmit)}&gt;
+      &lt;input {...register('email')} /&gt;
+      {errors.email &amp;&amp; &lt;p className="error"&gt;{errors.email.message}&lt;/p&gt;}
+
+      &lt;input type="password" {...register('password')} /&gt;
+      {errors.password &amp;&amp; &lt;p className="error"&gt;{errors.password.message}&lt;/p&gt;}
+
+      &lt;button disabled={isSubmitting}&gt;Увійти&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+<p>Тепер правила живуть <em>лише</em> у схемі, а повідомлення про помилки автоматично
+потрапляють у <code>errors</code> за іменами полів.</p>
+<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Це і є цільова архітектура форм у 2026: <strong>RHF</strong> — механіка й продуктивність,
+<strong>Zod</strong> — правила й типи, <code>zodResolver</code> — місток між ними. Одна схема
+перевіряє форму на клієнті й може перевіряти запит на сервері.</p></div></div>
+<h1 id="типи">3. Типізація форми зі схеми</h1>
+<p>З TypeScript тип значень форми беруть прямо зі схеми — жодного дублювання:</p>
+<pre class="language-js"><code class="language-js">type FormData = z.infer&lt;typeof schema&gt;;
+
+const { register } = useForm&lt;FormData&gt;({ resolver: zodResolver(schema) });
+// register('emial') → помилка типу: такого поля немає</code></pre>
+<h1 id="дефолти">4. Початкові значення зі схемою</h1>
+<pre class="language-js"><code class="language-js">useForm&lt;FormData&gt;({
+  resolver: zodResolver(schema),
+  defaultValues: { email: '', password: '' },
+});</code></pre>
+<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+<ul>
+<li><a href="https://react-hook-form.com/docs/useform#resolver" target="_blank">resolver — React Hook Form</a></li>
+<li><a href="https://github.com/react-hook-form/resolvers" target="_blank">@hookform/resolvers</a></li>
+</ul>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="../js/course-tools.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+</body>
+</html>
