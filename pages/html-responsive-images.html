@@ -1,47 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Адаптивні зображення · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="навіщо">1. Навіщо адаптивні зображення</h1>
-<p>Одне й те саме зображення показується на маленькому телефоні й на великому
-4K-моніторі, на екранах зі звичайною та подвійною щільністю пікселів (Retina).
-Якщо всюди віддавати одну велику картинку — мобільні користувачі марно
-викачують зайві мегабайти; якщо маленьку — вона буде розмитою на великих і
-«ретінових» екранах.</p>
-<p><strong>Адаптивні зображення</strong> дозволяють браузеру самому обрати найкращий файл під
-конкретний екран. Є два різні завдання:</p>
-<ul>
-<li><strong>перемикання за роздільністю</strong> — той самий кадр у різних розмірах (атрибути <code>srcset</code> і <code>sizes</code>);</li>
-<li><strong>художня спрямованість (art direction)</strong> — різні <em>кадри</em> для різних екранів (елемент <code>&lt;picture&gt;</code>).</li>
-</ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Адаптивні зображення · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="навіщо">1. Навіщо адаптивні зображення</h1>
+        <p>
+          Одне й те саме зображення показується на маленькому телефоні й на великому 4K-моніторі, на
+          екранах зі звичайною та подвійною щільністю пікселів (Retina). Якщо всюди віддавати одну
+          велику картинку — мобільні користувачі марно викачують зайві мегабайти; якщо маленьку —
+          вона буде розмитою на великих і «ретінових» екранах.
+        </p>
+        <p>
+          <strong>Адаптивні зображення</strong> дозволяють браузеру самому обрати найкращий файл під
+          конкретний екран. Є два різні завдання:
+        </p>
+        <ul>
+          <li>
+            <strong>перемикання за роздільністю</strong> — той самий кадр у різних розмірах
+            (атрибути <code>srcset</code> і <code>sizes</code>);
+          </li>
+          <li>
+            <strong>художня спрямованість (art direction)</strong> — різні <em>кадри</em> для різних
+            екранів (елемент <code>&lt;picture&gt;</code>).
+          </li>
+        </ul>
 
-<h1 id="srcset-density">2. srcset за щільністю пікселів</h1>
-<p>Якщо зображення показується у <em>фіксованому</em> розмірі, але треба чіткість на
-Retina, вкажи варіанти з дескрипторами <code>1x</code>, <code>2x</code>, <code>3x</code>. Браузер обере
-файл під <code>devicePixelRatio</code> пристрою.</p>
-<pre class="language-markup"><code class="language-markup">&lt;img
+        <h1 id="srcset-density">2. srcset за щільністю пікселів</h1>
+        <p>
+          Якщо зображення показується у <em>фіксованому</em> розмірі, але треба чіткість на Retina,
+          вкажи варіанти з дескрипторами <code>1x</code>, <code>2x</code>, <code>3x</code>. Браузер
+          обере файл під <code>devicePixelRatio</code> пристрою.
+        </p>
+        <pre class="language-markup"><code class="language-markup">&lt;img
   src="logo.png"
   srcset="logo.png 1x, logo@2x.png 2x, logo@3x.png 3x"
   alt="Логотип"
   width="120"&gt;</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>src</code> лишається як запасний варіант для старих браузерів, які не розуміють
-<code>srcset</code>. Сучасні його проігнорують і візьмуть відповідний варіант зі <code>srcset</code>.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>src</code> лишається як запасний варіант для старих браузерів, які не розуміють
+              <code>srcset</code>. Сучасні його проігнорують і візьмуть відповідний варіант зі
+              <code>srcset</code>.
+            </p>
+          </div>
+        </div>
 
-<h1 id="srcset-width">3. srcset + sizes за шириною</h1>
-<p>Коли зображення <em>тягнеться</em> й займає різну ширину на різних екранах, зручніше
-описати варіанти дескрипторами ширини <code>w</code> (реальна ширина файлу в пікселях) і
-підказати браузеру через <code>sizes</code>, скільки місця займе картинка. Далі браузер
-сам вибере оптимальний файл.</p>
-<pre class="language-markup"><code class="language-markup">&lt;img
+        <h1 id="srcset-width">3. srcset + sizes за шириною</h1>
+        <p>
+          Коли зображення <em>тягнеться</em> й займає різну ширину на різних екранах, зручніше
+          описати варіанти дескрипторами ширини <code>w</code> (реальна ширина файлу в пікселях) і
+          підказати браузеру через <code>sizes</code>, скільки місця займе картинка. Далі браузер
+          сам вибере оптимальний файл.
+        </p>
+        <pre class="language-markup"><code class="language-markup">&lt;img
   src="photo-800.jpg"
   srcset="photo-400.jpg 400w,
           photo-800.jpg 800w,
@@ -51,81 +75,141 @@ Retina, вкажи варіанти з дескрипторами <code>1x</code
          (max-width: 1000px) 50vw,
          33vw"
   alt="Пейзаж"&gt;</code></pre>
-<p>Як читати <code>sizes</code>: «на екранах до 600px картинка займе всю ширину вікна
-(<code>100vw</code>); до 1000px — половину; інакше — третину». Знаючи очікувану ширину й
-щільність екрана, браузер підбере найдоречніший файл зі <code>srcset</code>.</p>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Дескриптор <code>w</code> — це <strong>реальна ширина файлу</strong>, а не бажаний розмір на
-сторінці. Не змішуй <code>w</code> та <code>x</code> в одному <code>srcset</code>. Якщо не вказати <code>sizes</code>
-при <code>w</code>-дескрипторах, браузер вважатиме <code>100vw</code>.</p></div></div>
+        <p>
+          Як читати <code>sizes</code>: «на екранах до 600px картинка займе всю ширину вікна
+          (<code>100vw</code>); до 1000px — половину; інакше — третину». Знаючи очікувану ширину й
+          щільність екрана, браузер підбере найдоречніший файл зі <code>srcset</code>.
+        </p>
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Дескриптор <code>w</code> — це <strong>реальна ширина файлу</strong>, а не бажаний
+              розмір на сторінці. Не змішуй <code>w</code> та <code>x</code> в одному
+              <code>srcset</code>. Якщо не вказати <code>sizes</code> при
+              <code>w</code>-дескрипторах, браузер вважатиме <code>100vw</code>.
+            </p>
+          </div>
+        </div>
 
-<h1 id="picture-art">4. picture: різні кадри (art direction)</h1>
-<p>Іноді на мобільному потрібен <em>інший</em> кадр — наприклад, обрізаний вертикальний
-портрет замість широкого горизонтального. Це вже не зміна розміру, а зміна
-зображення, і тут потрібен елемент <code>&lt;picture&gt;</code> з <code>&lt;source media="…"&gt;</code>.</p>
-<pre class="language-markup"><code class="language-markup">&lt;picture&gt;
+        <h1 id="picture-art">4. picture: різні кадри (art direction)</h1>
+        <p>
+          Іноді на мобільному потрібен <em>інший</em> кадр — наприклад, обрізаний вертикальний
+          портрет замість широкого горизонтального. Це вже не зміна розміру, а зміна зображення, і
+          тут потрібен елемент <code>&lt;picture&gt;</code> з <code>&lt;source media="…"&gt;</code>.
+        </p>
+        <pre class="language-markup"><code class="language-markup">&lt;picture&gt;
   &lt;source media="(max-width: 600px)" srcset="hero-portrait.jpg"&gt;
   &lt;source media="(min-width: 601px)" srcset="hero-landscape.jpg"&gt;
   &lt;img src="hero-landscape.jpg" alt="Головний банер"&gt;
 &lt;/picture&gt;</code></pre>
-<p>Браузер бере перший <code>&lt;source&gt;</code>, чия умова <code>media</code> справджується. Обов'язковий
-<code>&lt;img&gt;</code> усередині — це і запасний варіант, і носій атрибутів (<code>alt</code>, <code>width</code>).</p>
+        <p>
+          Браузер бере перший <code>&lt;source&gt;</code>, чия умова
+          <code>media</code> справджується. Обов'язковий <code>&lt;img&gt;</code> усередині — це і
+          запасний варіант, і носій атрибутів (<code>alt</code>, <code>width</code>).
+        </p>
 
-<h1 id="picture-formats">5. Сучасні формати (AVIF, WebP)</h1>
-<p>Формати <strong>AVIF</strong> і <strong>WebP</strong> важать значно менше за JPEG/PNG при тій самій
-якості, але їх розуміють не всі браузери. Через <code>&lt;source type="…"&gt;</code> можна
-запропонувати сучасний формат із безпечним «відкатом» на JPEG.</p>
-<pre class="language-markup"><code class="language-markup">&lt;picture&gt;
+        <h1 id="picture-formats">5. Сучасні формати (AVIF, WebP)</h1>
+        <p>
+          Формати <strong>AVIF</strong> і <strong>WebP</strong> важать значно менше за JPEG/PNG при
+          тій самій якості, але їх розуміють не всі браузери. Через
+          <code>&lt;source type="…"&gt;</code> можна запропонувати сучасний формат із безпечним
+          «відкатом» на JPEG.
+        </p>
+        <pre class="language-markup"><code class="language-markup">&lt;picture&gt;
   &lt;source type="image/avif" srcset="photo.avif"&gt;
   &lt;source type="image/webp" srcset="photo.webp"&gt;
   &lt;img src="photo.jpg" alt="Фото"&gt;
 &lt;/picture&gt;</code></pre>
-<p>Браузер бере перший <code>&lt;source&gt;</code> з форматом, який підтримує; інакше — <code>&lt;img&gt;</code>.
-Порядок важливий: спершу найлегший формат (AVIF), потім WebP, наприкінці JPEG.</p>
+        <p>
+          Браузер бере перший <code>&lt;source&gt;</code> з форматом, який підтримує; інакше —
+          <code>&lt;img&gt;</code>. Порядок важливий: спершу найлегший формат (AVIF), потім WebP,
+          наприкінці JPEG.
+        </p>
 
-<h1 id="lazy-cls">6. Продуктивність: lazy, decoding, розміри</h1>
-<p>Незалежно від адаптивності, до зображень варто додавати:</p>
-<pre class="language-markup"><code class="language-markup">&lt;img
+        <h1 id="lazy-cls">6. Продуктивність: lazy, decoding, розміри</h1>
+        <p>Незалежно від адаптивності, до зображень варто додавати:</p>
+        <pre class="language-markup"><code class="language-markup">&lt;img
   src="photo.jpg"
   width="800"
   height="600"
   loading="lazy"
   decoding="async"
   alt="..."&gt;</code></pre>
-<ul>
-<li><code>loading="lazy"</code> — картинки поза екраном вантажаться лише при прокрутці;</li>
-<li><code>decoding="async"</code> — декодування не блокує відображення сторінки;</li>
-<li><code>width</code> і <code>height</code> — браузер заздалегідь резервує місце, тож сторінка не
-«стрибає» під час завантаження (менший <strong>CLS</strong>).</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Головне зображення «над згином» (hero) <strong>не</strong> роби lazy — воно потрібне
-одразу. Ліниве завантаження — для картинок нижче на сторінці.</p></div></div>
+        <ul>
+          <li>
+            <code>loading="lazy"</code> — картинки поза екраном вантажаться лише при прокрутці;
+          </li>
+          <li><code>decoding="async"</code> — декодування не блокує відображення сторінки;</li>
+          <li>
+            <code>width</code> і <code>height</code> — браузер заздалегідь резервує місце, тож
+            сторінка не «стрибає» під час завантаження (менший <strong>CLS</strong>).
+          </li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Головне зображення «над згином» (hero) <strong>не</strong> роби lazy — воно потрібне
+              одразу. Ліниве завантаження — для картинок нижче на сторінці.
+            </p>
+          </div>
+        </div>
 
-<h1 id="підсумок">7. Що коли обирати</h1>
-<ul>
-<li>той самий кадр, різні розміри → <code>&lt;img&gt;</code> зі <code>srcset</code> + <code>sizes</code>;</li>
-<li>фіксований розмір + Retina → <code>srcset</code> з <code>1x/2x/3x</code>;</li>
-<li>різні кадри для різних екранів → <code>&lt;picture&gt;</code> з <code>media</code>;</li>
-<li>сучасні формати з відкатом → <code>&lt;picture&gt;</code> з <code>&lt;source type&gt;</code>.</li>
-</ul>
+        <h1 id="підсумок">7. Що коли обирати</h1>
+        <ul>
+          <li>
+            той самий кадр, різні розміри → <code>&lt;img&gt;</code> зі <code>srcset</code> +
+            <code>sizes</code>;
+          </li>
+          <li>фіксований розмір + Retina → <code>srcset</code> з <code>1x/2x/3x</code>;</li>
+          <li>
+            різні кадри для різних екранів → <code>&lt;picture&gt;</code> з <code>media</code>;
+          </li>
+          <li>
+            сучасні формати з відкатом → <code>&lt;picture&gt;</code> з
+            <code>&lt;source type&gt;</code>.
+          </li>
+        </ul>
 
-<h1 id="додаткові-матеріали">8. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/uk/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images" target="_blank">Адаптивні зображення — MDN</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture" target="_blank">Елемент picture — MDN</a></li>
-<li><a href="https://squoosh.app" target="_blank">Squoosh — стиснення та конвертація зображень (WebP/AVIF)</a></li>
-<li><a href="https://www.remove.bg/uk" target="_blank">remove.bg — видалення фону зображення</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">8. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://developer.mozilla.org/uk/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images"
+              target="_blank"
+              >Адаптивні зображення — MDN</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture"
+              target="_blank"
+              >Елемент picture — MDN</a
+            >
+          </li>
+          <li>
+            <a href="https://squoosh.app" target="_blank"
+              >Squoosh — стиснення та конвертація зображень (WebP/AVIF)</a
+            >
+          </li>
+          <li>
+            <a href="https://www.remove.bg/uk" target="_blank"
+              >remove.bg — видалення фону зображення</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

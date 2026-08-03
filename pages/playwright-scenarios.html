@@ -1,19 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Playwright: реальні сценарії · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="форма">1. Сценарій із формою</h1>
-<p>Складемо дії й перевірки в цілісний шлях користувача — реєстрацію:</p>
-<pre class="language-js"><code class="language-js">test('реєстрація нового користувача', async ({ page }) =&gt; {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playwright: реальні сценарії · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="форма">1. Сценарій із формою</h1>
+        <p>Складемо дії й перевірки в цілісний шлях користувача — реєстрацію:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">test('реєстрація нового користувача', async ({ page }) =&gt; {
   await page.goto('/register');
 
   await page.getByLabel('Імʼя').fill('Аня');
@@ -27,9 +32,11 @@
   await expect(page.getByText('Привіт, Аня')).toBeVisible();
 });</code></pre>
 
-<h1 id="hooks">2. beforeEach і спільна підготовка</h1>
-<p>Повторювані кроки (відкрити сторінку, залогінитись) виносять у <code>beforeEach</code>:</p>
-<pre class="language-js"><code class="language-js">test.beforeEach(async ({ page }) =&gt; {
+        <h1 id="hooks">2. beforeEach і спільна підготовка</h1>
+        <p>
+          Повторювані кроки (відкрити сторінку, залогінитись) виносять у <code>beforeEach</code>:
+        </p>
+        <pre class="language-js"><code class="language-js">test.beforeEach(async ({ page }) =&gt; {
   await page.goto('/');
 });
 
@@ -38,10 +45,13 @@ test.describe('кошик', () =&gt; {
   test('видалення товару', async ({ page }) =&gt; { /* ... */ });
 });</code></pre>
 
-<h1 id="auth">3. Автентифікація без повторного входу</h1>
-<p>Логінитися в кожному тесті — повільно. Playwright дозволяє <strong>один раз</strong> увійти,
-зберегти стан сесії (cookie/localStorage) і <strong>перевикористати</strong> його:</p>
-<pre class="language-js"><code class="language-js">// auth.setup.ts — виконати один раз
+        <h1 id="auth">3. Автентифікація без повторного входу</h1>
+        <p>
+          Логінитися в кожному тесті — повільно. Playwright дозволяє
+          <strong>один раз</strong> увійти, зберегти стан сесії (cookie/localStorage) і
+          <strong>перевикористати</strong> його:
+        </p>
+        <pre class="language-js"><code class="language-js">// auth.setup.ts — виконати один раз
 import { test as setup } from '@playwright/test';
 
 setup('авторизація', async ({ page }) =&gt; {
@@ -53,16 +63,29 @@ setup('авторизація', async ({ page }) =&gt; {
   // зберегти сесію у файл
   await page.context().storageState({ path: 'playwright/.auth/user.json' });
 });</code></pre>
-<pre class="language-js"><code class="language-js">// playwright.config.ts — підхопити збережений стан
+        <pre
+          class="language-js"
+        ><code class="language-js">// playwright.config.ts — підхопити збережений стан
 use: { storageState: 'playwright/.auth/user.json' }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Це різко пришвидшує набір тестів: сесія зберігається один раз, і всі тести
-стартують уже залогіненими. Той самий підхід — для різних ролей (admin, звичайний
-користувач) через окремі файли стану.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Це різко пришвидшує набір тестів: сесія зберігається один раз, і всі тести стартують
+              уже залогіненими. Той самий підхід — для різних ролей (admin, звичайний користувач)
+              через окремі файли стану.
+            </p>
+          </div>
+        </div>
 
-<h1 id="mock">4. Мокання мережі</h1>
-<p>Щоб тест був <strong>стабільним і швидким</strong>, зовнішні запити часто підміняють фіктивною
-відповіддю через <code>page.route</code> — не залежиш від реального API:</p>
-<pre class="language-js"><code class="language-js">test('показ товарів зі стабільними даними', async ({ page }) =&gt; {
+        <h1 id="mock">4. Мокання мережі</h1>
+        <p>
+          Щоб тест був <strong>стабільним і швидким</strong>, зовнішні запити часто підміняють
+          фіктивною відповіддю через <code>page.route</code> — не залежиш від реального API:
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">test('показ товарів зі стабільними даними', async ({ page }) =&gt; {
   await page.route('**/api/products', async (route) =&gt; {
     await route.fulfill({
       json: [{ id: 1, title: 'Молоко' }, { id: 2, title: 'Хліб' }],
@@ -72,14 +95,25 @@ use: { storageState: 'playwright/.auth/user.json' }</code></pre>
   await page.goto('/shop');
   await expect(page.getByText('Молоко')).toBeVisible();
 });</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Для <em>компонентних та інтеграційних</em> тестів (Vitest + Testing Library) ту саму
-роль грає <strong>MSW (Mock Service Worker)</strong> — перехоплює <code>fetch</code> на рівні мережі.
-У E2E зручніший вбудований <code>page.route</code>. Обидва дають детерміновані дані.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Для <em>компонентних та інтеграційних</em> тестів (Vitest + Testing Library) ту саму
+              роль грає <strong>MSW (Mock Service Worker)</strong> — перехоплює
+              <code>fetch</code> на рівні мережі. У E2E зручніший вбудований
+              <code>page.route</code>. Обидва дають детерміновані дані.
+            </p>
+          </div>
+        </div>
 
-<h1 id="pom">5. Page Object — порядок у великому наборі</h1>
-<p>Коли тестів багато, локатори й дії однієї сторінки виносять у клас — <strong>Page
-Object</strong>. Тести стають читабельними, а зміни в UI правляться в одному місці.</p>
-<pre class="language-js"><code class="language-js">class LoginPage {
+        <h1 id="pom">5. Page Object — порядок у великому наборі</h1>
+        <p>
+          Коли тестів багато, локатори й дії однієї сторінки виносять у клас —
+          <strong>Page Object</strong>. Тести стають читабельними, а зміни в UI правляться в одному
+          місці.
+        </p>
+        <pre class="language-js"><code class="language-js">class LoginPage {
   constructor(page) { this.page = page; }
   async login(email, pass) {
     await this.page.getByLabel('Email').fill(email);
@@ -88,23 +122,29 @@ Object</strong>. Тести стають читабельними, а зміни
   }
 }</code></pre>
 
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://playwright.dev/docs/auth" target="_blank">Playwright — Authentication</a></li>
-<li><a href="https://playwright.dev/docs/mock" target="_blank">Playwright — Mock APIs</a></li>
-<li><a href="https://mswjs.io/" target="_blank">MSW — Mock Service Worker</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://playwright.dev/docs/auth" target="_blank"
+              >Playwright — Authentication</a
+            >
+          </li>
+          <li>
+            <a href="https://playwright.dev/docs/mock" target="_blank">Playwright — Mock APIs</a>
+          </li>
+          <li><a href="https://mswjs.io/" target="_blank">MSW — Mock Service Worker</a></li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

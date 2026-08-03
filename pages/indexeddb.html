@@ -1,40 +1,59 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IndexedDB · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="навіщо">1. Коли localStorage замало</h1>
-<p><code>localStorage</code> простий, але обмежений: лише <strong>рядки</strong>, ~5&nbsp;МБ,
-<strong>синхронний</strong> (блокує потік) і без пошуку. Для великих обсягів структурованих
-даних, офлайн-кешу чи складних запитів потрібна повноцінна база — <strong>IndexedDB</strong>.</p>
-<ul>
-<li>зберігає <strong>обʼєкти</strong> (не лише рядки), включно з <code>Blob</code>/файлами;</li>
-<li><strong>асинхронна</strong> — не блокує UI;</li>
-<li>великий обсяг (сотні МБ і більше);</li>
-<li><strong>індекси</strong> для пошуку за полями.</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>«Сирий» IndexedDB API — багатослівний (події, транзакції). На практиці майже
-завжди беруть тонку обгортку <strong>idb</strong> (промісами замість подій) — приклад нижче.
-Але корисно розуміти, як воно влаштоване під капотом.</p></div></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IndexedDB · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="навіщо">1. Коли localStorage замало</h1>
+        <p>
+          <code>localStorage</code> простий, але обмежений: лише <strong>рядки</strong>, ~5&nbsp;МБ,
+          <strong>синхронний</strong> (блокує потік) і без пошуку. Для великих обсягів
+          структурованих даних, офлайн-кешу чи складних запитів потрібна повноцінна база —
+          <strong>IndexedDB</strong>.
+        </p>
+        <ul>
+          <li>
+            зберігає <strong>обʼєкти</strong> (не лише рядки), включно з <code>Blob</code>/файлами;
+          </li>
+          <li><strong>асинхронна</strong> — не блокує UI;</li>
+          <li>великий обсяг (сотні МБ і більше);</li>
+          <li><strong>індекси</strong> для пошуку за полями.</li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              «Сирий» IndexedDB API — багатослівний (події, транзакції). На практиці майже завжди
+              беруть тонку обгортку <strong>idb</strong> (промісами замість подій) — приклад нижче.
+              Але корисно розуміти, як воно влаштоване під капотом.
+            </p>
+          </div>
+        </div>
 
-<h1 id="поняття">2. Поняття</h1>
-<ul>
-<li><strong>база</strong> має <em>версію</em>; зміна схеми — через підвищення версії;</li>
-<li><strong>object store</strong> — аналог таблиці/колекції; зберігає обʼєкти за ключем;</li>
-<li><strong>транзакція</strong> — усі читання/записи йдуть у межах транзакції;</li>
-<li><strong>індекс</strong> — для пошуку за не-ключовим полем.</li>
-</ul>
+        <h1 id="поняття">2. Поняття</h1>
+        <ul>
+          <li><strong>база</strong> має <em>версію</em>; зміна схеми — через підвищення версії;</li>
+          <li>
+            <strong>object store</strong> — аналог таблиці/колекції; зберігає обʼєкти за ключем;
+          </li>
+          <li><strong>транзакція</strong> — усі читання/записи йдуть у межах транзакції;</li>
+          <li><strong>індекс</strong> — для пошуку за не-ключовим полем.</li>
+        </ul>
 
-<h1 id="сирий">3. Створення бази (сирий API)</h1>
-<pre class="language-js"><code class="language-js">const request = indexedDB.open('notes-db', 1);
+        <h1 id="сирий">3. Створення бази (сирий API)</h1>
+        <pre
+          class="language-js"
+        ><code class="language-js">const request = indexedDB.open('notes-db', 1);
 
 request.onupgradeneeded = (e) =&gt; {
   const db = e.target.result;
@@ -48,9 +67,9 @@ request.onsuccess = (e) =&gt; {
   // працюємо з db...
 };</code></pre>
 
-<h1 id="idb">4. Простіше з бібліотекою <code>idb</code></h1>
-<pre class="language-js"><code class="language-js">npm install idb</code></pre>
-<pre class="language-js"><code class="language-js">import { openDB } from 'idb';
+        <h1 id="idb">4. Простіше з бібліотекою <code>idb</code></h1>
+        <pre class="language-js"><code class="language-js">npm install idb</code></pre>
+        <pre class="language-js"><code class="language-js">import { openDB } from 'idb';
 
 const db = await openDB('notes-db', 1, {
   upgrade(db) {
@@ -72,33 +91,53 @@ const home = await db.getAllFromIndex('notes', 'by_tag', 'побут');
 await db.put('notes', { id: 1, text: 'Оновлено', tag: 'побут' });
 await db.delete('notes', 1);</code></pre>
 
-<h1 id="коли">5. Типові застосування</h1>
-<ul>
-<li><strong>офлайн-дані</strong>: кеш API-відповідей, чернетки, черга дій для відправки при
-поверненні мережі;</li>
-<li><strong>важкі дані</strong>: збережені файли, зображення, великі списки;</li>
-<li><strong>PWA</strong>: разом із Service Worker дає повноцінну офлайн-роботу (наступні уроки).</li>
-</ul>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>IndexedDB живе <strong>у браузері користувача</strong> й не синхронізується сама. Це кеш/
-локальне сховище, а не заміна серверній БД. Чутливих даних без шифрування там не
-тримай — інші скрипти сайту й користувач мають доступ.</p></div></div>
+        <h1 id="коли">5. Типові застосування</h1>
+        <ul>
+          <li>
+            <strong>офлайн-дані</strong>: кеш API-відповідей, чернетки, черга дій для відправки при
+            поверненні мережі;
+          </li>
+          <li><strong>важкі дані</strong>: збережені файли, зображення, великі списки;</li>
+          <li>
+            <strong>PWA</strong>: разом із Service Worker дає повноцінну офлайн-роботу (наступні
+            уроки).
+          </li>
+        </ul>
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              IndexedDB живе <strong>у браузері користувача</strong> й не синхронізується сама. Це
+              кеш/ локальне сховище, а не заміна серверній БД. Чутливих даних без шифрування там не
+              тримай — інші скрипти сайту й користувач мають доступ.
+            </p>
+          </div>
+        </div>
 
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB" target="_blank">MDN — Using IndexedDB</a></li>
-<li><a href="https://github.com/jakearchibald/idb" target="_blank">idb — проміс-обгортка</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB"
+              target="_blank"
+              >MDN — Using IndexedDB</a
+            >
+          </li>
+          <li>
+            <a href="https://github.com/jakearchibald/idb" target="_blank">idb — проміс-обгортка</a>
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

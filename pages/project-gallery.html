@@ -1,34 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Проєкт: галерея · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="проєкт">Проєкт: галерея зображень із лайтбоксом</h1>
-<p><strong>Рівень:</strong> середній. <strong>Етап:</strong> після CSS Grid, DOM, подій. Тренує сітку,
-модальні вікна й делегування.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Проєкт: галерея · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="проєкт">Проєкт: галерея зображень із лайтбоксом</h1>
+        <p>
+          <strong>Рівень:</strong> середній. <strong>Етап:</strong> після CSS Grid, DOM, подій.
+          Тренує сітку, модальні вікна й делегування.
+        </p>
 
-<h1 id="що-зробити">Що зробити</h1>
-<p>Адаптивна сітка мініатюр; клік по зображенню відкриває його на весь екран
-(лайтбокс) з навігацією «попереднє / наступне».</p>
+        <h1 id="що-зробити">Що зробити</h1>
+        <p>
+          Адаптивна сітка мініатюр; клік по зображенню відкриває його на весь екран (лайтбокс) з
+          навігацією «попереднє / наступне».
+        </p>
 
-<h1 id="вимоги">Вимоги</h1>
-<ul>
-<li>адаптивна сітка (<code>grid-template-columns: repeat(auto-fit, minmax(...))</code>);</li>
-<li>лайтбокс — модальне вікно з затемненим тлом;</li>
-<li>перемикання зображень стрілками й клавіатурою (<code>←</code>/<code>→</code>, <code>Esc</code>);</li>
-<li>делегування кліків по мініатюрах;</li>
-<li>плавні переходи (<code>transition</code>).</li>
-</ul>
+        <h1 id="вимоги">Вимоги</h1>
+        <ul>
+          <li>
+            адаптивна сітка (<code>grid-template-columns: repeat(auto-fit, minmax(...))</code>);
+          </li>
+          <li>лайтбокс — модальне вікно з затемненим тлом;</li>
+          <li>
+            перемикання зображень стрілками й клавіатурою (<code>←</code>/<code>→</code>,
+            <code>Esc</code>);
+          </li>
+          <li>делегування кліків по мініатюрах;</li>
+          <li>плавні переходи (<code>transition</code>).</li>
+        </ul>
 
-<pre class="language-js"><code class="language-js">const grid = document.querySelector('.gallery');
+        <pre
+          class="language-js"
+        ><code class="language-js">const grid = document.querySelector('.gallery');
 const lightbox = document.querySelector('.lightbox');
 let currentIndex = 0;
 
@@ -45,24 +59,34 @@ document.addEventListener('keydown', (e) =&gt; {
   if (e.key === 'ArrowLeft') showPrev();
 });</code></pre>
 
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Зображення для тесту бери з <a href="https://picsum.photos/" target="_blank">Lorem Picsum</a>
-(<code>https://picsum.photos/400/300?random=1</code>). Не забудь <code>loading="lazy"</code>.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Зображення для тесту бери з
+              <a href="https://picsum.photos/" target="_blank">Lorem Picsum</a>
+              (<code>https://picsum.photos/400/300?random=1</code>). Не забудь
+              <code>loading="lazy"</code>.
+            </p>
+          </div>
+        </div>
 
-<h1 id="далі">Розвиток</h1>
-<p>Фільтри за категоріями, підвантаження при прокрутці (IntersectionObserver),
-завантаження зображень з API (Unsplash).</p>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="далі">Розвиток</h1>
+        <p>
+          Фільтри за категоріями, підвантаження при прокрутці (IntersectionObserver), завантаження
+          зображень з API (Unsplash).
+        </p>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

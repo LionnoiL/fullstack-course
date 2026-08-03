@@ -1,23 +1,32 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Основні оператори · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="математичні-оператори">1. Математичні оператори</h1>
-<p>Нічим не відрізняються від шкільного курсу математики. Оператори повертають
-значення на місце операції. Порядок обчислення математичних виразів і т. п. Це
-всім звична алгебра.</p>
-<p>Важливо запам'ятати правильне іменування складових виразу. <code>+ - * / %</code>
-називаються <strong>операторами</strong>, а то на чому вони застосовуються <strong>операндами</strong>.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">// Операції з числами</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Основні оператори · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="математичні-оператори">1. Математичні оператори</h1>
+        <p>
+          Нічим не відрізняються від шкільного курсу математики. Оператори повертають значення на
+          місце операції. Порядок обчислення математичних виразів і т. п. Це всім звична алгебра.
+        </p>
+        <p>
+          Важливо запам'ятати правильне іменування складових виразу.
+          <code>+ - * / %</code> називаються <strong>операторами</strong>, а то на чому вони
+          застосовуються <strong>операндами</strong>.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">// Операції з числами</span>
 <span class="token keyword">const</span> x <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> y <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
 
@@ -43,18 +52,22 @@ console<span class="token punctuation">.</span><span class="token function">log<
 value <span class="token operator">+=</span> <span class="token number">10</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 15</span>
 </code></pre>
-<h1 id="оператори-порівняння">2. Оператори порівняння</h1>
-<p>Використовуються для порівняння значень. Результатом свого виконання повертають
-були, <code>true</code> або <code>false</code>.</p>
-<ul>
-<li><code>a > b</code> і <code>a < b</code> - більше / менше</li>
-<li><code>a >= b</code> і <code>a <= b</code> - більше / менше або дорівнює</li>
-<li><code>a == b</code> - рівність</li>
-<li><code>a != b</code> - нерівність</li>
-<li><code>a === b</code> - строга рівність</li>
-<li><code>a !== b</code> - строга нерівність</li>
-</ul>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> x <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+        <h1 id="оператори-порівняння">2. Оператори порівняння</h1>
+        <p>
+          Використовуються для порівняння значень. Результатом свого виконання повертають були,
+          <code>true</code> або <code>false</code>.
+        </p>
+        <ul>
+          <li><code>a > b</code> і <code>a < b</code> - більше / менше</li>
+          <li><code>a >= b</code> і <code>a <= b</code> - більше / менше або дорівнює</li>
+          <li><code>a == b</code> - рівність</li>
+          <li><code>a != b</code> - нерівність</li>
+          <li><code>a === b</code> - строга рівність</li>
+          <li><code>a !== b</code> - строга нерівність</li>
+        </ul>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> x <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> y <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> z <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
 
@@ -67,27 +80,34 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'x !== y:'</span><span class="token punctuation">,</span> x <span class="token operator">!==</span> y<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'x !== z:'</span><span class="token punctuation">,</span> x <span class="token operator">!==</span> z<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
 </code></pre>
-<h1 id="і-">3. == і ===</h1>
-<p>Завжди використовуйте строгу рівність <code>===</code> і строгу нерівність <code>!==</code>. Оператори
-<code>==</code> і <code>!=</code> виконують перетворення типів порівнюваних значень, що може призвести
-до помилок, особливо у початківців. На зображеннях нижче показані таблиці
-порівняння значень використовуючи оператори <code>==</code> і <code>===</code>.</p>
-<p>При використанні <code>===</code> для перевірки рівності, все одно тільки собі. Перед
-оцінкою нічого не перетвориться.</p>
-<p><img src="images/strict-equality.png" alt="strict equality"></p>
-<p>При використанні <code>==</code> для перевірки рівності, відбувається приведення типів
-операндів.</p>
-<p><img src="images/not-strict-equality.png" alt="not strict equality"></p>
-  </main>
-</div>
+        <h1 id="і-">3. == і ===</h1>
+        <p>
+          Завжди використовуйте строгу рівність <code>===</code> і строгу нерівність
+          <code>!==</code>. Оператори <code>==</code> і <code>!=</code> виконують перетворення типів
+          порівнюваних значень, що може призвести до помилок, особливо у початківців. На зображеннях
+          нижче показані таблиці порівняння значень використовуючи оператори <code>==</code> і
+          <code>===</code>.
+        </p>
+        <p>
+          При використанні <code>===</code> для перевірки рівності, все одно тільки собі. Перед
+          оцінкою нічого не перетвориться.
+        </p>
+        <p><img src="images/strict-equality.png" alt="strict equality" /></p>
+        <p>
+          При використанні <code>==</code> для перевірки рівності, відбувається приведення типів
+          операндів.
+        </p>
+        <p><img src="images/not-strict-equality.png" alt="not strict equality" /></p>
+      </main>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

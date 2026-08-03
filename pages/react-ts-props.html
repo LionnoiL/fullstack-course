@@ -1,20 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Типізація props · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="базово">1. Опис пропсів</h1>
-<p>Пропси описують окремим типом (через <code>type</code> або <code>interface</code>) і вказують його
-в сигнатурі компонента.</p>
-<pre class="language-js"><code class="language-js">type UserCardProps = {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Типізація props · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="базово">1. Опис пропсів</h1>
+        <p>
+          Пропси описують окремим типом (через <code>type</code> або <code>interface</code>) і
+          вказують його в сигнатурі компонента.
+        </p>
+        <pre class="language-js"><code class="language-js">type UserCardProps = {
   name: string;
   age: number;
   city: string;
@@ -28,11 +33,18 @@ function UserCard({ name, age, city }: UserCardProps) {
     &lt;/div&gt;
   );
 }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>type</code> чи <code>interface</code> для пропсів — питання смаку; обидва працюють. Часта
-угода: <code>interface</code> для публічних API-компонентів, <code>type</code> — для локальних. Головне
-— однаково в межах проєкту.</p></div></div>
-<h1 id="необовязкові">2. Необов'язкові та значення за замовчуванням</h1>
-<pre class="language-js"><code class="language-js">type ButtonProps = {
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>type</code> чи <code>interface</code> для пропсів — питання смаку; обидва
+              працюють. Часта угода: <code>interface</code> для публічних API-компонентів,
+              <code>type</code> — для локальних. Головне — однаково в межах проєкту.
+            </p>
+          </div>
+        </div>
+        <h1 id="необовязкові">2. Необов'язкові та значення за замовчуванням</h1>
+        <pre class="language-js"><code class="language-js">type ButtonProps = {
   label: string;
   type?: 'button' | 'submit';   // ? — необов'язковий
   disabled?: boolean;
@@ -41,12 +53,16 @@ function UserCard({ name, age, city }: UserCardProps) {
 function Button({ label, type = 'button', disabled = false }: ButtonProps) {
   return &lt;button type={type} disabled={disabled}&gt;{label}&lt;/button&gt;;
 }</code></pre>
-<p><code>'button' | 'submit'</code> — <strong>об'єднання літералів</strong>: TS дозволить лише ці два
-рядки, і редактор підкаже варіанти.</p>
-<h1 id="children">3. children</h1>
-<p>Найзручніший тип для вмісту компонента — <code>React.ReactNode</code> (він охоплює рядки,
-числа, елементи, масиви, <code>null</code>).</p>
-<pre class="language-js"><code class="language-js">type CardProps = {
+        <p>
+          <code>'button' | 'submit'</code> — <strong>об'єднання літералів</strong>: TS дозволить
+          лише ці два рядки, і редактор підкаже варіанти.
+        </p>
+        <h1 id="children">3. children</h1>
+        <p>
+          Найзручніший тип для вмісту компонента — <code>React.ReactNode</code> (він охоплює рядки,
+          числа, елементи, масиви, <code>null</code>).
+        </p>
+        <pre class="language-js"><code class="language-js">type CardProps = {
   title: string;
   children: React.ReactNode;
 };
@@ -59,15 +75,19 @@ function Card({ title, children }: CardProps) {
     &lt;/section&gt;
   );
 }</code></pre>
-<h1 id="функції">4. Пропси-функції (колбеки)</h1>
-<pre class="language-js"><code class="language-js">type SearchProps = {
+        <h1 id="функції">4. Пропси-функції (колбеки)</h1>
+        <pre class="language-js"><code class="language-js">type SearchProps = {
   onSearch: (query: string) =&gt; void;   // нічого не повертає
   onClose?: () =&gt; void;
 };</code></pre>
-<h1 id="події-html">5. Розширення пропсів HTML-елемента</h1>
-<p>Щоб компонент-обгортка приймав усі стандартні атрибути (напр. кнопки), успадкуй
-їх через <code>ComponentProps</code>:</p>
-<pre class="language-js"><code class="language-js">type Props = React.ComponentProps&lt;'button'&gt; &amp; {
+        <h1 id="події-html">5. Розширення пропсів HTML-елемента</h1>
+        <p>
+          Щоб компонент-обгортка приймав усі стандартні атрибути (напр. кнопки), успадкуй їх через
+          <code>ComponentProps</code>:
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">type Props = React.ComponentProps&lt;'button'&gt; &amp; {
   variant: 'primary' | 'ghost';
 };
 
@@ -75,21 +95,27 @@ function MyButton({ variant, ...rest }: Props) {
   return &lt;button className={variant} {...rest} /&gt;;
 }
 // тепер працюють onClick, disabled, type — усе, що має &lt;button&gt;</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/basic_type_example" target="_blank">Typing props — Cheatsheet</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/basic_type_example"
+              target="_blank"
+              >Typing props — Cheatsheet</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

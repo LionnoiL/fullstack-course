@@ -1,71 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grid · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="grid">1. Що таке CSS Grid</h1>
-<p><strong>Grid</strong> — двовимірна система розкладки: керує <em>рядками і стовпцями одночасно</em>.
-Найкраще підходить для складних макетів сторінки й сіток карток.</p>
-<p><img src="images/grid-lines.svg" alt="Сітка Grid: стовпці й рядки"></p>
-<pre class="language-css"><code class="language-css">.container {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grid · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="grid">1. Що таке CSS Grid</h1>
+        <p>
+          <strong>Grid</strong> — двовимірна система розкладки: керує
+          <em>рядками і стовпцями одночасно</em>. Найкраще підходить для складних макетів сторінки й
+          сіток карток.
+        </p>
+        <p><img src="images/grid-lines.svg" alt="Сітка Grid: стовпці й рядки" /></p>
+        <pre class="language-css"><code class="language-css">.container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr; /* 3 рівні стовпці */
   gap: 16px;
 }</code></pre>
-<h1 id="одиниця-fr">2. Одиниця fr та repeat</h1>
-<p><code>fr</code> — частка вільного простору. <code>repeat()</code> скорочує повтори.</p>
-<pre class="language-css"><code class="language-css">grid-template-columns: repeat(3, 1fr);       /* 3 рівні */
+        <h1 id="одиниця-fr">2. Одиниця fr та repeat</h1>
+        <p><code>fr</code> — частка вільного простору. <code>repeat()</code> скорочує повтори.</p>
+        <pre
+          class="language-css"
+        ><code class="language-css">grid-template-columns: repeat(3, 1fr);       /* 3 рівні */
 grid-template-columns: 200px 1fr;            /* фіксований + гнучкий */
 grid-template-columns: repeat(4, 1fr);
 grid-template-rows: auto 1fr auto;</code></pre>
-<h1 id="адаптивна-сітка">3. Адаптивна сітка без media queries</h1>
-<p>Комбінація <code>auto-fill</code>/<code>auto-fit</code> із <code>minmax</code> сама переносить картки залежно
-від ширини.</p>
-<pre class="language-css"><code class="language-css">.gallery {
+        <h1 id="адаптивна-сітка">3. Адаптивна сітка без media queries</h1>
+        <p>
+          Комбінація <code>auto-fill</code>/<code>auto-fit</code> із <code>minmax</code> сама
+          переносить картки залежно від ширини.
+        </p>
+        <pre class="language-css"><code class="language-css">.gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
 }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Цей один рядок <code>repeat(auto-fit, minmax(200px, 1fr))</code> робить повністю
-адаптивну сітку карток — кількість стовпців змінюється сама. Один із
-найкорисніших прийомів сучасного CSS.</p></div></div>
-<h1 id="розміщення">4. Розміщення елементів</h1>
-<pre class="language-css"><code class="language-css">.featured {
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Цей один рядок <code>repeat(auto-fit, minmax(200px, 1fr))</code> робить повністю
+              адаптивну сітку карток — кількість стовпців змінюється сама. Один із найкорисніших
+              прийомів сучасного CSS.
+            </p>
+          </div>
+        </div>
+        <h1 id="розміщення">4. Розміщення елементів</h1>
+        <pre class="language-css"><code class="language-css">.featured {
   grid-column: 1 / 3;  /* зайняти стовпці з 1 по 3 */
   grid-row: 1 / 2;
 }
 /* або через span */
 .wide { grid-column: span 2; }</code></pre>
-<h1 id="grid-vs-flex">5. Grid чи Flexbox?</h1>
-<ul>
-<li><strong>Flexbox</strong> — коли елементи в одну лінію (меню, ряд кнопок);</li>
-<li><strong>Grid</strong> — коли потрібні і рядки, і стовпці (макет сторінки, галерея).</li>
-</ul>
-<p>Їх часто поєднують: Grid для загального макета, Flexbox — усередині блоків.</p>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://css-tricks.com/snippets/css/complete-guide-grid/" target="_blank">A Complete Guide to Grid — CSS-Tricks</a></li>
-<li><a href="https://cssgridgarden.com/#uk" target="_blank">Grid Garden — гра-тренажер</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="grid-vs-flex">5. Grid чи Flexbox?</h1>
+        <ul>
+          <li><strong>Flexbox</strong> — коли елементи в одну лінію (меню, ряд кнопок);</li>
+          <li>
+            <strong>Grid</strong> — коли потрібні і рядки, і стовпці (макет сторінки, галерея).
+          </li>
+        </ul>
+        <p>Їх часто поєднують: Grid для загального макета, Flexbox — усередині блоків.</p>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://css-tricks.com/snippets/css/complete-guide-grid/" target="_blank"
+              >A Complete Guide to Grid — CSS-Tricks</a
+            >
+          </li>
+          <li>
+            <a href="https://cssgridgarden.com/#uk" target="_blank">Grid Garden — гра-тренажер</a>
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

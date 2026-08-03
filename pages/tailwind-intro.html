@@ -1,81 +1,118 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Що таке Tailwind CSS · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="tailwind">1. Що таке Tailwind CSS</h1>
-<p><strong>Tailwind CSS</strong> — це <strong>utility-first</strong> CSS-фреймворк. Замість готових
-компонентів (як у Bootstrap) він дає велику бібліотеку маленьких класів-утиліт, кожен
-з яких відповідає за одну властивість: <code>p-4</code> — це <code>padding: 1rem</code>,
-<code>flex</code> — це <code>display: flex</code>, <code>text-center</code> — це <code>text-align: center</code>.
-Дизайн ви збираєте прямо в розмітці, комбінуючи ці класи.</p>
-<pre class="language-markup"><code class="language-markup">&lt;button class="px-4 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700"&gt;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Що таке Tailwind CSS · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="tailwind">1. Що таке Tailwind CSS</h1>
+        <p>
+          <strong>Tailwind CSS</strong> — це <strong>utility-first</strong> CSS-фреймворк. Замість
+          готових компонентів (як у Bootstrap) він дає велику бібліотеку маленьких класів-утиліт,
+          кожен з яких відповідає за одну властивість: <code>p-4</code> — це
+          <code>padding: 1rem</code>, <code>flex</code> — це <code>display: flex</code>,
+          <code>text-center</code> — це <code>text-align: center</code>. Дизайн ви збираєте прямо в
+          розмітці, комбінуючи ці класи.
+        </p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;button class="px-4 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700"&gt;
   Кнопка
 &lt;/button&gt;</code></pre>
-<h1 id="чому">2. Чим відрізняється від звичайного CSS і Bootstrap</h1>
-<ul>
-<li><strong>vs звичайний CSS:</strong> не треба вигадувати назви класів і перемикатися між
-HTML і <code>.css</code>-файлом — стилі живуть поруч із розміткою.</li>
-<li><strong>vs Bootstrap:</strong> Bootstrap дає готові <em>компоненти</em> (кнопки, картки), і
-сайти виглядають схоже. Tailwind дає <em>будівельні блоки</em> — унікальний дизайн без
-боротьби з чужими стилями.</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Tailwind не генерує «зайвого» CSS: під час збірки він сканує ваші файли й лишає
-у фінальному файлі лише ті класи, які ви реально використали. Тому продакшн-CSS
-зазвичай важить кілька кілобайтів. Приклади нижче — для актуальної версії 4.</p></div></div>
-<h1 id="встановлення">3. Встановлення</h1>
-<p>Найпоширеніший спосіб — плагін для <strong>Vite</strong>:</p>
-<pre class="language-js"><code class="language-js">npm install tailwindcss @tailwindcss/vite</code></pre>
-<pre class="language-js"><code class="language-js">// vite.config.js
+        <h1 id="чому">2. Чим відрізняється від звичайного CSS і Bootstrap</h1>
+        <ul>
+          <li>
+            <strong>vs звичайний CSS:</strong> не треба вигадувати назви класів і перемикатися між
+            HTML і <code>.css</code>-файлом — стилі живуть поруч із розміткою.
+          </li>
+          <li>
+            <strong>vs Bootstrap:</strong> Bootstrap дає готові <em>компоненти</em> (кнопки,
+            картки), і сайти виглядають схоже. Tailwind дає <em>будівельні блоки</em> — унікальний
+            дизайн без боротьби з чужими стилями.
+          </li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Tailwind не генерує «зайвого» CSS: під час збірки він сканує ваші файли й лишає у
+              фінальному файлі лише ті класи, які ви реально використали. Тому продакшн-CSS зазвичай
+              важить кілька кілобайтів. Приклади нижче — для актуальної версії 4.
+            </p>
+          </div>
+        </div>
+        <h1 id="встановлення">3. Встановлення</h1>
+        <p>Найпоширеніший спосіб — плагін для <strong>Vite</strong>:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">npm install tailwindcss @tailwindcss/vite</code></pre>
+        <pre class="language-js"><code class="language-js">// vite.config.js
 import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   plugins: [tailwindcss()],
 });</code></pre>
-<p>Далі в головному CSS-файлі один рядок імпорту — і все:</p>
-<pre class="language-css"><code class="language-css">/* src/style.css */
+        <p>Далі в головному CSS-файлі один рядок імпорту — і все:</p>
+        <pre class="language-css"><code class="language-css">/* src/style.css */
 @import "tailwindcss";</code></pre>
-<h1 id="cdn">4. Швидкий старт без збірки (CDN)</h1>
-<p>Щоб просто спробувати, підключіть браузерну версію — збірка не потрібна:</p>
-<pre class="language-markup"><code class="language-markup">&lt;script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"&gt;&lt;/script&gt;
+        <h1 id="cdn">4. Швидкий старт без збірки (CDN)</h1>
+        <p>Щоб просто спробувати, підключіть браузерну версію — збірка не потрібна:</p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"&gt;&lt;/script&gt;
 
 &lt;div class="p-8 text-center"&gt;
   &lt;h1 class="text-3xl font-bold text-blue-600"&gt;Привіт, Tailwind!&lt;/h1&gt;
 &lt;/div&gt;</code></pre>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>CDN зручний лише для експериментів і прототипів. Для реальних проєктів
-використовуйте збірку (Vite) — тоді Tailwind вирізає невикористані класи й
-дозволяє кастомізацію.</p></div></div>
-<h1 id="плюси-мінуси">5. Коли брати, а коли ні</h1>
-<ul>
-<li><strong>Плюси:</strong> швидка розробка, узгоджена шкала відступів/кольорів, малий
-фінальний CSS, легко робити адаптив і теми.</li>
-<li><strong>Мінуси:</strong> розмітка з довгим списком класів лякає спершу; потрібне
-розуміння базового CSS — Tailwind його не замінює, а лише пришвидшує.</li>
-</ul>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://tailwindcss.com/docs" target="_blank">Офіційна документація Tailwind CSS</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              CDN зручний лише для експериментів і прототипів. Для реальних проєктів використовуйте
+              збірку (Vite) — тоді Tailwind вирізає невикористані класи й дозволяє кастомізацію.
+            </p>
+          </div>
+        </div>
+        <h1 id="плюси-мінуси">5. Коли брати, а коли ні</h1>
+        <ul>
+          <li>
+            <strong>Плюси:</strong> швидка розробка, узгоджена шкала відступів/кольорів, малий
+            фінальний CSS, легко робити адаптив і теми.
+          </li>
+          <li>
+            <strong>Мінуси:</strong> розмітка з довгим списком класів лякає спершу; потрібне
+            розуміння базового CSS — Tailwind його не замінює, а лише пришвидшує.
+          </li>
+        </ul>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://tailwindcss.com/docs" target="_blank"
+              >Офіційна документація Tailwind CSS</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

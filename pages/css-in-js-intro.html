@@ -1,29 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSS-in-JS: styled-components та Emotion · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="що-таке">1. Що таке CSS-in-JS</h1>
-<p><strong>CSS-in-JS</strong> — підхід, де стилі описуються <strong>прямо в JS/JSX</strong>, а не в
-окремих CSS-файлах. Бібліотека генерує унікальні класи й вставляє стилі в сторінку.
-Найвідоміші — <strong>styled-components</strong> та <strong>Emotion</strong> (API дуже схожі).</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Мета та сама, що в CSS Modules — <strong>локальний scope</strong> — але досягається інакше:
-стилі живуть поряд із компонентом, у тому ж файлі, і можуть <em>залежати від пропсів
-та стану</em> засобами JS.</p></div></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS-in-JS: styled-components та Emotion · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="що-таке">1. Що таке CSS-in-JS</h1>
+        <p>
+          <strong>CSS-in-JS</strong> — підхід, де стилі описуються <strong>прямо в JS/JSX</strong>,
+          а не в окремих CSS-файлах. Бібліотека генерує унікальні класи й вставляє стилі в сторінку.
+          Найвідоміші — <strong>styled-components</strong> та <strong>Emotion</strong> (API дуже
+          схожі).
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Мета та сама, що в CSS Modules — <strong>локальний scope</strong> — але досягається
+              інакше: стилі живуть поряд із компонентом, у тому ж файлі, і можуть
+              <em>залежати від пропсів та стану</em> засобами JS.
+            </p>
+          </div>
+        </div>
 
-<h1 id="встановлення">2. Встановлення й перший компонент</h1>
-<pre class="language-js"><code class="language-js">npm install styled-components</code></pre>
-<p><code>styled.button</code> повертає <strong>React-компонент</strong>, який рендерить <code>&lt;button&gt;</code>
-із заданими стилями. Стилі пишуть у шаблонному рядку — це звичайний CSS.</p>
-<pre class="language-js"><code class="language-js">import styled from 'styled-components';
+        <h1 id="встановлення">2. Встановлення й перший компонент</h1>
+        <pre
+          class="language-js"
+        ><code class="language-js">npm install styled-components</code></pre>
+        <p>
+          <code>styled.button</code> повертає <strong>React-компонент</strong>, який рендерить
+          <code>&lt;button&gt;</code> із заданими стилями. Стилі пишуть у шаблонному рядку — це
+          звичайний CSS.
+        </p>
+        <pre class="language-js"><code class="language-js">import styled from 'styled-components';
 
 const Button = styled.button`
   padding: 0.6rem 1.2rem;
@@ -40,11 +58,12 @@ export default function App() {
   return &lt;Button&gt;Натисни&lt;/Button&gt;;
 }</code></pre>
 
-<h1 id="props">3. Стилі за пропсами</h1>
-<p>Головна перевага — стилі можуть <strong>читати пропси</strong>: передаєш функцію, що
-повертає значення залежно від пропа. Один компонент — різні варіанти без зайвих
-класів.</p>
-<pre class="language-js"><code class="language-js">const Button = styled.button`
+        <h1 id="props">3. Стилі за пропсами</h1>
+        <p>
+          Головна перевага — стилі можуть <strong>читати пропси</strong>: передаєш функцію, що
+          повертає значення залежно від пропа. Один компонент — різні варіанти без зайвих класів.
+        </p>
+        <pre class="language-js"><code class="language-js">const Button = styled.button`
   padding: 0.6rem 1.2rem;
   border-radius: 6px;
   color: #fff;
@@ -54,14 +73,25 @@ export default function App() {
 
 &lt;Button $variant="danger"&gt;Видалити&lt;/Button&gt;
 &lt;Button disabled&gt;Зачекайте&lt;/Button&gt;</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Кастомні пропси лише для стилю префіксуй <code>$</code> (<code>$variant</code>) — так
-styled-components не передасть їх у реальний DOM-атрибут. Звичайні (<code>disabled</code>)
-підуть і в стилі, і в елемент.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Кастомні пропси лише для стилю префіксуй <code>$</code> (<code>$variant</code>) — так
+              styled-components не передасть їх у реальний DOM-атрибут. Звичайні
+              (<code>disabled</code>) підуть і в стилі, і в елемент.
+            </p>
+          </div>
+        </div>
 
-<h1 id="theme">4. Теми через ThemeProvider</h1>
-<p>Обгортка <code>ThemeProvider</code> роздає обʼєкт теми всім стильованим компонентам —
-зручно для дизайн-системи (кольори, відступи в одному місці).</p>
-<pre class="language-js"><code class="language-js">import { ThemeProvider } from 'styled-components';
+        <h1 id="theme">4. Теми через ThemeProvider</h1>
+        <p>
+          Обгортка <code>ThemeProvider</code> роздає обʼєкт теми всім стильованим компонентам —
+          зручно для дизайн-системи (кольори, відступи в одному місці).
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">import { ThemeProvider } from 'styled-components';
 
 const theme = { colors: { accent: '#2563eb' }, radius: '6px' };
 
@@ -74,32 +104,44 @@ const Button = styled.button`
   &lt;Button&gt;OK&lt;/Button&gt;
 &lt;/ThemeProvider&gt;</code></pre>
 
-<h1 id="плюси-мінуси">5. Плюси й мінуси</h1>
-<ul>
-<li>➕ стилі й логіка поряд; динаміка за пропсами/станом; теми; немає окремих файлів;</li>
-<li>➕ автоматичний scope й видалення невикористаного;</li>
-<li>➖ <strong>рантайм-вартість</strong> — стилі генеруються в браузері під час роботи;</li>
-<li>➖ гірша сумісність із <strong>React Server Components</strong> (styled-components працює
-лише в клієнтських компонентах).</li>
-</ul>
-<p>Саме про рантайм і сучасні zero-runtime рішення — наступний урок.</p>
+        <h1 id="плюси-мінуси">5. Плюси й мінуси</h1>
+        <ul>
+          <li>➕ стилі й логіка поряд; динаміка за пропсами/станом; теми; немає окремих файлів;</li>
+          <li>➕ автоматичний scope й видалення невикористаного;</li>
+          <li>
+            ➖ <strong>рантайм-вартість</strong> — стилі генеруються в браузері під час роботи;
+          </li>
+          <li>
+            ➖ гірша сумісність із <strong>React Server Components</strong> (styled-components
+            працює лише в клієнтських компонентах).
+          </li>
+        </ul>
+        <p>Саме про рантайм і сучасні zero-runtime рішення — наступний урок.</p>
 
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://styled-components.com/docs" target="_blank">styled-components — документація</a></li>
-<li><a href="https://emotion.sh/docs/introduction" target="_blank">Emotion — документація</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://styled-components.com/docs" target="_blank"
+              >styled-components — документація</a
+            >
+          </li>
+          <li>
+            <a href="https://emotion.sh/docs/introduction" target="_blank"
+              >Emotion — документація</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

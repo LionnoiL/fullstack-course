@@ -1,68 +1,101 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Навіщо лінтери й форматери · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="проблема">1. Яку проблему вони вирішують</h1>
-<p>У командному (і навіть сольному) проєкті код швидко стає різнобійним: різні
-відступи, лапки, забуті змінні, потенційні баги. Два інструменти автоматизують
-чистоту коду:</p>
-<ul>
-<li><strong>ESLint</strong> — <em>лінтер</em>: шукає помилки та сумнівні місця (невикористані
-змінні, <code>==</code> замість <code>===</code>, недосяжний код) і стежить за дотриманням правил.</li>
-<li><strong>Prettier</strong> — <em>форматер</em>: приводить <em>вигляд</em> коду до єдиного стилю
-(відступи, лапки, перенесення, крапки з комою).</li>
-</ul>
-<h1 id="різниця">2. У чому різниця</h1>
-<p>Це різні задачі, і вони доповнюють одна одну:</p>
-<ul>
-<li>ESLint відповідає на питання <strong>«чи правильний код?»</strong> — про якість і помилки.</li>
-<li>Prettier — на питання <strong>«як він виглядає?»</strong> — про форматування.</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Золоте правило: <strong>форматування віддають Prettier, а якість — ESLint</strong>. Не
-змушуйте ESLint сперечатися про відступи — це робота Prettier. Тоді інструменти
-не конфліктують, і кожен робить своє.</p></div></div>
-<h1 id="навіщо">3. Що це дає</h1>
-<ul>
-<li>Єдиний стиль коду незалежно від автора — рев'ю не про «пробіли, а не таби».</li>
-<li>Помилки ловляться ще до запуску коду, прямо в редакторі.</li>
-<li>Автовиправлення: більшість проблем чиняться однією командою.</li>
-</ul>
-<h1 id="інструменти">4. Наш набір</h1>
-<p>У цьому розділі ми:</p>
-<ul>
-<li>налаштуємо <strong>ESLint 9</strong> із сучасним «плоским» конфігом <code>eslint.config.js</code>;</li>
-<li>додамо <strong>Prettier</strong> для форматування;</li>
-<li>подружимо їх, щоб не сварилися;</li>
-<li>інтегруємо все з редактором, Git-хуками й CI.</li>
-</ul>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Інструменти не замінюють знання: вони автоматизують рутину, але писати логічний
-і читабельний код усе одно доводиться самому. Лінтер підкаже проблему — та
-зрозуміти, <em>чому</em> це проблема, маєш ти.</p></div></div>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://eslint.org/docs/latest/use/getting-started" target="_blank">ESLint — Getting Started</a></li>
-<li><a href="https://prettier.io/docs/" target="_blank">Prettier — документація</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Навіщо лінтери й форматери · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="проблема">1. Яку проблему вони вирішують</h1>
+        <p>
+          У командному (і навіть сольному) проєкті код швидко стає різнобійним: різні відступи,
+          лапки, забуті змінні, потенційні баги. Два інструменти автоматизують чистоту коду:
+        </p>
+        <ul>
+          <li>
+            <strong>ESLint</strong> — <em>лінтер</em>: шукає помилки та сумнівні місця
+            (невикористані змінні, <code>==</code> замість <code>===</code>, недосяжний код) і
+            стежить за дотриманням правил.
+          </li>
+          <li>
+            <strong>Prettier</strong> — <em>форматер</em>: приводить <em>вигляд</em> коду до єдиного
+            стилю (відступи, лапки, перенесення, крапки з комою).
+          </li>
+        </ul>
+        <h1 id="різниця">2. У чому різниця</h1>
+        <p>Це різні задачі, і вони доповнюють одна одну:</p>
+        <ul>
+          <li>
+            ESLint відповідає на питання <strong>«чи правильний код?»</strong> — про якість і
+            помилки.
+          </li>
+          <li>Prettier — на питання <strong>«як він виглядає?»</strong> — про форматування.</li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Золоте правило: <strong>форматування віддають Prettier, а якість — ESLint</strong>. Не
+              змушуйте ESLint сперечатися про відступи — це робота Prettier. Тоді інструменти не
+              конфліктують, і кожен робить своє.
+            </p>
+          </div>
+        </div>
+        <h1 id="навіщо">3. Що це дає</h1>
+        <ul>
+          <li>Єдиний стиль коду незалежно від автора — рев'ю не про «пробіли, а не таби».</li>
+          <li>Помилки ловляться ще до запуску коду, прямо в редакторі.</li>
+          <li>Автовиправлення: більшість проблем чиняться однією командою.</li>
+        </ul>
+        <h1 id="інструменти">4. Наш набір</h1>
+        <p>У цьому розділі ми:</p>
+        <ul>
+          <li>
+            налаштуємо <strong>ESLint 9</strong> із сучасним «плоским» конфігом
+            <code>eslint.config.js</code>;
+          </li>
+          <li>додамо <strong>Prettier</strong> для форматування;</li>
+          <li>подружимо їх, щоб не сварилися;</li>
+          <li>інтегруємо все з редактором, Git-хуками й CI.</li>
+        </ul>
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Інструменти не замінюють знання: вони автоматизують рутину, але писати логічний і
+              читабельний код усе одно доводиться самому. Лінтер підкаже проблему — та зрозуміти,
+              <em>чому</em> це проблема, маєш ти.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://eslint.org/docs/latest/use/getting-started" target="_blank"
+              >ESLint — Getting Started</a
+            >
+          </li>
+          <li><a href="https://prettier.io/docs/" target="_blank">Prettier — документація</a></li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

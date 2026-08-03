@@ -1,27 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Практика: React · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="практика">Практика: React</h1>
-<p>Найшвидше — створити пісочницю на
-<a href="https://stackblitz.com/fork/react" target="_blank">StackBlitz (шаблон React)</a>.
-Спробуй сам, потім звір із рішенням.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: React · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: React</h1>
+        <p>
+          Найшвидше — створити пісочницю на
+          <a href="https://stackblitz.com/fork/react" target="_blank">StackBlitz (шаблон React)</a>.
+          Спробуй сам, потім звір із рішенням.
+        </p>
 
-<div class="task">
-<h2>Завдання 1. Лічильник</h2>
-<p class="task-goal">Зроби компонент з кнопками «+» і «−» та скиданням, що керує
-станом через <code>useState</code>.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">import { useState } from 'react';
+        <div class="task">
+          <h2>Завдання 1. Лічильник</h2>
+          <p class="task-goal">
+            Зроби компонент з кнопками «+» і «−» та скиданням, що керує станом через
+            <code>useState</code>.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">import { useState } from 'react';
 
 export default function Counter() {
   const [count, setCount] = useState(0);
@@ -34,15 +42,18 @@ export default function Counter() {
     &lt;/div&gt;
   );
 }</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 2. Список задач (To-Do)</h2>
-<p class="task-goal">Поле вводу + кнопка додають задачу до списку; кожну задачу можна
-видалити. Використай <code>key</code> та імутабельне оновлення стану.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">import { useState } from 'react';
+        <div class="task">
+          <h2>Завдання 2. Список задач (To-Do)</h2>
+          <p class="task-goal">
+            Поле вводу + кнопка додають задачу до списку; кожну задачу можна видалити. Використай
+            <code>key</code> та імутабельне оновлення стану.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">import { useState } from 'react';
 
 export default function Todo() {
   const [items, setItems] = useState([]);
@@ -69,30 +80,30 @@ export default function Todo() {
     &lt;/div&gt;
   );
 }</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 3. Завантаження даних (виклик)</h2>
-<p class="task-goal">У <code>useEffect</code> завантаж список постів з API (напр.
-JSONPlaceholder) і покажи <strong>три стани</strong>: «завантаження…», список даних і
-повідомлення про помилку. Далі <strong>винеси</strong> цю логіку в кастомний хук
-<code>useFetch(url)</code>, що повертає <code>{ data, loading, error }</code> — і використай його
-в компоненті. Зверни увагу на масив залежностей <code>useEffect</code>, щоб не було
-зайвих повторних запитів.</p>
-</div>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="task">
+          <h2>Завдання 3. Завантаження даних (виклик)</h2>
+          <p class="task-goal">
+            У <code>useEffect</code> завантаж список постів з API (напр. JSONPlaceholder) і покажи
+            <strong>три стани</strong>: «завантаження…», список даних і повідомлення про помилку.
+            Далі <strong>винеси</strong> цю логіку в кастомний хук <code>useFetch(url)</code>, що
+            повертає <code>{ data, loading, error }</code> — і використай його в компоненті. Зверни
+            увагу на масив залежностей <code>useEffect</code>, щоб не було зайвих повторних запитів.
+          </p>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

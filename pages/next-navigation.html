@@ -1,21 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Навігація · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="link">1. Компонент Link</h1>
-<p>Для переходів між сторінками використовують <code>&lt;Link&gt;</code> замість звичайного
-<code>&lt;a&gt;</code>. Він виконує клієнтську навігацію без повного перезавантаження і
-попередньо підвантажує сторінку.</p>
-<pre class="language-js"><code class="language-js">import Link from 'next/link';
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Навігація · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="link">1. Компонент Link</h1>
+        <p>
+          Для переходів між сторінками використовують <code>&lt;Link&gt;</code> замість звичайного
+          <code>&lt;a&gt;</code>. Він виконує клієнтську навігацію без повного перезавантаження і
+          попередньо підвантажує сторінку.
+        </p>
+        <pre class="language-js"><code class="language-js">import Link from 'next/link';
 
 export default function Nav() {
   return (
@@ -26,12 +31,21 @@ export default function Nav() {
     &lt;/nav&gt;
   );
 }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>&lt;Link&gt;</code> автоматично «префетчить» сторінки, посилання на які потрапили у
-видиму область — тому переходи здаються миттєвими.</p></div></div>
-<h1 id="програмна">2. Програмна навігація</h1>
-<p>Щоб перейти з коду (напр., після відправлення форми), беруть хук <code>useRouter</code> —
-лише у клієнтських компонентах.</p>
-<pre class="language-js"><code class="language-js">'use client';
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>&lt;Link&gt;</code> автоматично «префетчить» сторінки, посилання на які
+              потрапили у видиму область — тому переходи здаються миттєвими.
+            </p>
+          </div>
+        </div>
+        <h1 id="програмна">2. Програмна навігація</h1>
+        <p>
+          Щоб перейти з коду (напр., після відправлення форми), беруть хук <code>useRouter</code> —
+          лише у клієнтських компонентах.
+        </p>
+        <pre class="language-js"><code class="language-js">'use client';
 import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
@@ -44,15 +58,15 @@ export default function LoginForm() {
 
   return &lt;button onClick={handleLogin}&gt;Увійти&lt;/button&gt;;
 }</code></pre>
-<h1 id="хуки">3. Хуки навігації</h1>
-<pre class="language-js"><code class="language-js">'use client';
+        <h1 id="хуки">3. Хуки навігації</h1>
+        <pre class="language-js"><code class="language-js">'use client';
 import { usePathname, useSearchParams, useParams } from 'next/navigation';
 
 const pathname = usePathname();       // '/blog/hello'
 const searchParams = useSearchParams(); // ?page=2
 const params = useParams();           // { slug: 'hello' }</code></pre>
-<h1 id="активне-посилання">4. Підсвічування активного посилання</h1>
-<pre class="language-js"><code class="language-js">'use client';
+        <h1 id="активне-посилання">4. Підсвічування активного посилання</h1>
+        <pre class="language-js"><code class="language-js">'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -65,21 +79,27 @@ export default function NavLink({ href, children }) {
     &lt;/Link&gt;
   );
 }</code></pre>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating" target="_blank">Linking and Navigating — Next.js docs</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating"
+              target="_blank"
+              >Linking and Navigating — Next.js docs</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

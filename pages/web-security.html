@@ -1,70 +1,94 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Веббезпека · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="безпека">1. Основне правило</h1>
-<p>Головний принцип безпеки: <strong>ніколи не довіряй даним від клієнта</strong>. Будь-який
-ввід може бути шкідливим. Розглянемо найпоширеніші вразливості й захист від них.</p>
-<h1 id="xss">2. XSS (міжсайтовий скриптинг)</h1>
-<p>Атака, коли зловмисник вставляє свій JS-код через поля вводу, і той виконується
-у браузерах інших користувачів.</p>
-<pre class="language-js"><code class="language-js">// ❌ небезпечно: вставляємо ввід користувача як HTML
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Веббезпека · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="безпека">1. Основне правило</h1>
+        <p>
+          Головний принцип безпеки: <strong>ніколи не довіряй даним від клієнта</strong>. Будь-який
+          ввід може бути шкідливим. Розглянемо найпоширеніші вразливості й захист від них.
+        </p>
+        <h1 id="xss">2. XSS (міжсайтовий скриптинг)</h1>
+        <p>
+          Атака, коли зловмисник вставляє свій JS-код через поля вводу, і той виконується у
+          браузерах інших користувачів.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">// ❌ небезпечно: вставляємо ввід користувача як HTML
 element.innerHTML = userInput; // може містити &lt;script&gt;
 
 // ✅ безпечно: як текст
 element.textContent = userInput;</code></pre>
-<p>Захист: екранування виводу, <code>textContent</code> замість <code>innerHTML</code>, а на сервері —
-заголовок <code>Content-Security-Policy</code>.</p>
-<h1 id="sql-injection">3. SQL-інʼєкції</h1>
-<p>Коли ввід підставляють прямо в SQL-запит, зловмисник може змінити його логіку.</p>
-<pre class="language-js"><code class="language-js">// ❌ вразливо
+        <p>
+          Захист: екранування виводу, <code>textContent</code> замість <code>innerHTML</code>, а на
+          сервері — заголовок <code>Content-Security-Policy</code>.
+        </p>
+        <h1 id="sql-injection">3. SQL-інʼєкції</h1>
+        <p>Коли ввід підставляють прямо в SQL-запит, зловмисник може змінити його логіку.</p>
+        <pre class="language-js"><code class="language-js">// ❌ вразливо
 db.query(`SELECT * FROM users WHERE name = '${userInput}'`);
 
 // ✅ параметризований запит (або ORM)
 db.query('SELECT * FROM users WHERE name = $1', [userInput]);</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>ORM (як Prisma з попереднього розділу) захищає від SQL-інʼєкцій за
-замовчуванням, бо завжди параметризує запити.</p></div></div>
-<h1 id="csrf">4. CSRF</h1>
-<p>Підробка запиту: сторонній сайт змушує браузер користувача виконати дію на
-сайті, де той авторизований. Захист: CSRF-токени, <code>SameSite</code>-cookie.</p>
-<h1 id="паролі-секрети">5. Паролі, секрети, HTTPS</h1>
-<ul>
-<li>паролі — лише хешовані (bcrypt), ніколи у відкритому вигляді;</li>
-<li>секрети — у змінних оточення, не в коді й не в git;</li>
-<li>завжди <strong>HTTPS</strong> — шифрує трафік між клієнтом і сервером;</li>
-<li>оновлюйте залежності (<code>npm audit</code>) — уразливості часто в пакетах.</li>
-</ul>
-<h1 id="інше">6. Додатковий захист</h1>
-<ul>
-<li>валідація й обмеження вводу на сервері;</li>
-<li>rate limiting проти перебору й DoS;</li>
-<li><code>helmet</code> для безпечних HTTP-заголовків;</li>
-<li>коректне налаштування CORS.</li>
-</ul>
-<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://owasp.org/www-project-top-ten/" target="_blank">OWASP Top 10 — головні вразливості</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              ORM (як Prisma з попереднього розділу) захищає від SQL-інʼєкцій за замовчуванням, бо
+              завжди параметризує запити.
+            </p>
+          </div>
+        </div>
+        <h1 id="csrf">4. CSRF</h1>
+        <p>
+          Підробка запиту: сторонній сайт змушує браузер користувача виконати дію на сайті, де той
+          авторизований. Захист: CSRF-токени, <code>SameSite</code>-cookie.
+        </p>
+        <h1 id="паролі-секрети">5. Паролі, секрети, HTTPS</h1>
+        <ul>
+          <li>паролі — лише хешовані (bcrypt), ніколи у відкритому вигляді;</li>
+          <li>секрети — у змінних оточення, не в коді й не в git;</li>
+          <li>завжди <strong>HTTPS</strong> — шифрує трафік між клієнтом і сервером;</li>
+          <li>оновлюйте залежності (<code>npm audit</code>) — уразливості часто в пакетах.</li>
+        </ul>
+        <h1 id="інше">6. Додатковий захист</h1>
+        <ul>
+          <li>валідація й обмеження вводу на сервері;</li>
+          <li>rate limiting проти перебору й DoS;</li>
+          <li><code>helmet</code> для безпечних HTTP-заголовків;</li>
+          <li>коректне налаштування CORS.</li>
+        </ul>
+        <h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://owasp.org/www-project-top-ten/" target="_blank"
+              >OWASP Top 10 — головні вразливості</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

@@ -1,36 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ES6 класи · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="es6-класи">1. ES6 класи</h1>
-<p>JavaScript є єдиною масовою мовою програмування з успадкуванням, заснованим не
-на класах, а на прототипах. Величезне число розробників, які володіють технікою
-використання класів, постійно намагалися переробити JavaScript під свої вміння,
-а головне, під наявні напрацювання в області ООП. У ES6 зробили крок назустріч і
-ввели клас схожий на такий у мовах Java, C # і т. п. Це все ті ж прототипи,
-тільки в красивій обгортці.</p>
-<h1 id="оголошення-класу">2. Оголошення класу</h1>
-<p><strong>Клас</strong> — це зручний спосіб для завдання конструктора разом з прототипом.</p>
-<p>Переваги використання класів:</p>
-<ul>
-<li>Весь код всередині класу виконується в строгому режимі.</li>
-<li>Всі методи є неперерахованими.</li>
-<li>У всіх методів класу відсутній внутрішній метод <code>[[Construct]]</code>, що    означає
-появу помилки при спробі використовувати ці методи з оператором    <code>new</code>.</li>
-<li>Виклик конструктора класу без оператора <code>new</code> викличе помилку.</li>
-</ul>
-<p>Припустимо, ми запустили готель і хочемо, щоб об'єкт з методами представляв
-кожного гостя.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">//class declaration</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ES6 класи · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="es6-класи">1. ES6 класи</h1>
+        <p>
+          JavaScript є єдиною масовою мовою програмування з успадкуванням, заснованим не на класах,
+          а на прототипах. Величезне число розробників, які володіють технікою використання класів,
+          постійно намагалися переробити JavaScript під свої вміння, а головне, під наявні
+          напрацювання в області ООП. У ES6 зробили крок назустріч і ввели клас схожий на такий у
+          мовах Java, C # і т. п. Це все ті ж прототипи, тільки в красивій обгортці.
+        </p>
+        <h1 id="оголошення-класу">2. Оголошення класу</h1>
+        <p>
+          <strong>Клас</strong> — це зручний спосіб для завдання конструктора разом з прототипом.
+        </p>
+        <p>Переваги використання класів:</p>
+        <ul>
+          <li>Весь код всередині класу виконується в строгому режимі.</li>
+          <li>Всі методи є неперерахованими.</li>
+          <li>
+            У всіх методів класу відсутній внутрішній метод <code>[[Construct]]</code>, що означає
+            появу помилки при спробі використовувати ці методи з оператором <code>new</code>.
+          </li>
+          <li>Виклик конструктора класу без оператора <code>new</code> викличе помилку.</li>
+        </ul>
+        <p>
+          Припустимо, ми запустили готель і хочемо, щоб об'єкт з методами представляв кожного гостя.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">//class declaration</span>
 <span class="token keyword">class</span> <span class="token class-name">Guest</span> <span class="token punctuation">{</span>
   <span class="token comment">//...</span>
 <span class="token punctuation">}</span>
@@ -42,20 +53,30 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token keyword">const</span> guest <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Guest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>guest<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Guest {}</span>
 </code></pre>
-<p>Як будувати клас, залежить від того, що вам потрібно. У нашому випадку, клас
-являє собою гостя готелю, тому ми додамо туди поля для імені, кількості днів
-проживання та номера кімнати.</p>
-<p>Клас використовує аналог функції-конструктора - метод <code>constructor</code>. це
-особливий метод, він повинен бути присутнім в оголошенні класу обов'язково.
-Призначення конструктора - створювати власні властивості екземпляра класу.</p>
-<ul>
-<li>Функція <code>constructor</code> запускається при виклику <code>new Guest</code>, інші методи
-  записуються в <code>Guest.prototype</code>.</li>
-<li>Властивість <code>prototype</code> класу є тільки для читання, тобто цю властивість   не
-можна змінити.</li>
-<li>У класі повинен бути тільки один конструктор, інакше нічого не вийде.</li>
-</ul>
-<pre class="language-"><code class="lang-js"><span class="token keyword">class</span> <span class="token class-name">Guest</span> <span class="token punctuation">{</span>
+        <p>
+          Як будувати клас, залежить від того, що вам потрібно. У нашому випадку, клас являє собою
+          гостя готелю, тому ми додамо туди поля для імені, кількості днів проживання та номера
+          кімнати.
+        </p>
+        <p>
+          Клас використовує аналог функції-конструктора - метод <code>constructor</code>. це
+          особливий метод, він повинен бути присутнім в оголошенні класу обов'язково. Призначення
+          конструктора - створювати власні властивості екземпляра класу.
+        </p>
+        <ul>
+          <li>
+            Функція <code>constructor</code> запускається при виклику <code>new Guest</code>, інші
+            методи записуються в <code>Guest.prototype</code>.
+          </li>
+          <li>
+            Властивість <code>prototype</code> класу є тільки для читання, тобто цю властивість не
+            можна змінити.
+          </li>
+          <li>У класі повинен бути тільки один конструктор, інакше нічого не вийде.</li>
+        </ul>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">class</span> <span class="token class-name">Guest</span> <span class="token punctuation">{</span>
   <span class="token comment">// аналог функції-конструктора</span>
   <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> roomNumber</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
@@ -69,13 +90,19 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>mango <span class="token keyword">instanceof</span> <span class="token class-name">Guest</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>mango <span class="token keyword">instanceof</span> <span class="token class-name">Object</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
 </code></pre>
-<p>Сьогодні в концепції JavaScript-класів відсутні приватні властивості. Тобто, всі
-властивості та методи класу доступні зовні. Але ведеться робота над їх
-імплементацією в майбутніх редакціях стандарту.</p>
-<h1 id="методи">3. Методи</h1>
-<p>Додамо функцію <code>getFullInfo</code>. Функції певні таким чином називатися <strong>методами
-класу</strong> і доступні всім екземплярам через <code>prototype</code>.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">class</span> <span class="token class-name">Guest</span> <span class="token punctuation">{</span>
+        <p>
+          Сьогодні в концепції JavaScript-класів відсутні приватні властивості. Тобто, всі
+          властивості та методи класу доступні зовні. Але ведеться робота над їх імплементацією в
+          майбутніх редакціях стандарту.
+        </p>
+        <h1 id="методи">3. Методи</h1>
+        <p>
+          Додамо функцію <code>getFullInfo</code>. Функції певні таким чином називатися
+          <strong>методами класу</strong> і доступні всім екземплярам через <code>prototype</code>.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">class</span> <span class="token class-name">Guest</span> <span class="token punctuation">{</span>
   <span class="token comment">// Аналог функції-конструктора</span>
   <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> roomNumber</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
@@ -97,12 +124,16 @@ mango<span class="token punctuation">.</span><span class="token function">getFul
 <span class="token comment">// Guest Mango</span>
 <span class="token comment">// Room number 26</span>
 </code></pre>
-<h1 id="геттери-і-сеттери">4. Геттери і сеттери</h1>
-<p>Власні властивості класу бажано зберігати в <code>constructor</code>. Але існує і інший
-варіант - розмістити в тілі класу методи <code>set</code> і <code>get</code>. Ці методи використовують
-особливий синтаксис, а при їх виклику, після імені об'єкта слід написати тільки
-ім'я геттера або сетера без виклику функції, тобто без круглих дужок.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">class</span> <span class="token class-name">Guest</span> <span class="token punctuation">{</span>
+        <h1 id="геттери-і-сеттери">4. Геттери і сеттери</h1>
+        <p>
+          Власні властивості класу бажано зберігати в <code>constructor</code>. Але існує і інший
+          варіант - розмістити в тілі класу методи <code>set</code> і <code>get</code>. Ці методи
+          використовують особливий синтаксис, а при їх виклику, після імені об'єкта слід написати
+          тільки ім'я геттера або сетера без виклику функції, тобто без круглих дужок.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">class</span> <span class="token class-name">Guest</span> <span class="token punctuation">{</span>
   <span class="token comment">// Власні властивості класу розміщуємо в конструкторі</span>
   <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">name<span class="token punctuation">,</span> roomNumber</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>_name <span class="token operator">=</span> name<span class="token punctuation">;</span>
@@ -127,17 +158,21 @@ console<span class="token punctuation">.</span><span class="token function">log<
 mango<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'Mango the Fluffy'</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>mango<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Mango the Fluffy</span>
 </code></pre>
-<p>Зверніть увагу - ім'я геттера і сеттера не може збігатися з ім'ям поля
-майбутнього примірника. Якщо в прикладі вище замінити <code>this._name</code> на
-<code>this.name</code>, то буде помилка.</p>
-<h1 id="статичні-властивості-і-методи">5. Статичні властивості і методи</h1>
-<p>Можна створювати власні властивості класу і власні методи класу для виклику на
-ім'я класу, без створення об'єкта. Такі властивості й методи називають
-статичними. Для їх створення в класі перед властивістю або методом потрібно
-додати службове слово <code>static</code>.</p>
-<p>Конструктор класу теж метод, але його не можна робити статичним, це викличе
-помилку.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">// Клас зі статичними властивостями й методами</span>
+        <p>
+          Зверніть увагу - ім'я геттера і сеттера не може збігатися з ім'ям поля майбутнього
+          примірника. Якщо в прикладі вище замінити <code>this._name</code> на
+          <code>this.name</code>, то буде помилка.
+        </p>
+        <h1 id="статичні-властивості-і-методи">5. Статичні властивості і методи</h1>
+        <p>
+          Можна створювати власні властивості класу і власні методи класу для виклику на ім'я класу,
+          без створення об'єкта. Такі властивості й методи називають статичними. Для їх створення в
+          класі перед властивістю або методом потрібно додати службове слово <code>static</code>.
+        </p>
+        <p>Конструктор класу теж метод, але його не можна робити статичним, це викличе помилку.</p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">// Клас зі статичними властивостями й методами</span>
 <span class="token keyword">class</span> <span class="token class-name">Calc</span> <span class="token punctuation">{</span>
   <span class="token comment">// Клас-калькулятор для двох аргументів</span>
   <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
@@ -162,11 +197,13 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Calc<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 9</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Calc<span class="token punctuation">.</span><span class="token function">mult</span><span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 144</span>
 </code></pre>
-<h1 id="спадкування">6. Спадкування</h1>
-<p>JavaScript дозволяє реалізувати спадкування класів. Це означає, що ми можемо
-створювати нові класи, які успадковують все від іншого класу, але при цьому
-додають унікальну інформацію для себе.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">/*
+        <h1 id="спадкування">6. Спадкування</h1>
+        <p>
+          JavaScript дозволяє реалізувати спадкування класів. Це означає, що ми можемо створювати
+          нові класи, які успадковують все від іншого класу, але при цьому додають унікальну
+          інформацію для себе.
+        </p>
+        <pre class="language-"><code class="lang-js"><span class="token comment">/*
  * Ключове слово extends вказує на батьківський клас,
  * чиї властивості будуть успадковані.
  */</span>
@@ -174,8 +211,13 @@ console<span class="token punctuation">.</span><span class="token function">log<
   <span class="token comment">// ...</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>Створення базовий клас-батько <code>Animal</code>, від якого клас <code>Dog</code> буде успадковувати.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">class</span> <span class="token class-name">Animal</span> <span class="token punctuation">{</span>
+        <p>
+          Створення базовий клас-батько <code>Animal</code>, від якого клас <code>Dog</code> буде
+          успадковувати.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">class</span> <span class="token class-name">Animal</span> <span class="token punctuation">{</span>
   <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
@@ -208,39 +250,61 @@ dog<span class="token punctuation">.</span><span class="token function">move</sp
 dog<span class="token punctuation">.</span><span class="token function">bark</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// woof!</span>
 dog<span class="token punctuation">.</span><span class="token function">moveAndMakeSound</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// I, Mango, am moving! woof!</span>
 </code></pre>
-<p>При спадкуванні через <code>extends</code> формується стандартний ланцюжок прототипів:
-методи <code>Dog</code> знаходяться в <code>Dog.prototype</code>, методи <code>Animal</code> в
-<code>Animal.prototype</code>, і вони пов'язані через <code>__proto__</code>.</p>
-<p>Конструктор батька успадковується автоматично. Тобто, якщо в нащадку не вказано
-свій <code>constructor</code>, то використовується батьківський. Якщо ж у нащадка свій
-<code>Constructor</code>, то, щоб в ньому викликати конструктор батька, використовується
-метод <code>Super()</code> з аргументами для <code>constructor</code> батька.</p>
-<ul>
-<li>Викликати конструктор батька можна тільки зсередини конструктора нащадка.
-  Зокрема, <code>super()</code> не можна викликати з довільного методу.</li>
-<li>У конструкторі нащадка ми зобов'язані викликати <code>super()</code> до першого звернення
-до   ключового слова <code>this</code>. До виклику <code>super ()</code> не існує <code>this</code>, через те,
-що по специфікації в цьому випадку саме <code>super</code> ініціалізує <code>this</code>.</li>
-<li><code>super ()</code> можна викликати тільки в спадковому класі, інакше нічого не вийде.</li>
-<li>При спадкуванні, виклик конструктора батька здійснюється через
-  <code>Super (... args)</code>, виклик батьківських методів через
-<code>super.method (... args)</code>.</li>
-</ul>
-<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developers.google.com/web/updates/2018/12/class-fields" target="_blank">Public and private class fields</a></li>
-<li><a href="http://exploringjs.com/es6/ch_classes.html" target="_blank">Dr. Axel Rauschmayer - Exploring ES6, classes</a></li>
-</ul>
-  </main>
-</div>
+        <p>
+          При спадкуванні через <code>extends</code> формується стандартний ланцюжок прототипів:
+          методи <code>Dog</code> знаходяться в <code>Dog.prototype</code>, методи
+          <code>Animal</code> в <code>Animal.prototype</code>, і вони пов'язані через
+          <code>__proto__</code>.
+        </p>
+        <p>
+          Конструктор батька успадковується автоматично. Тобто, якщо в нащадку не вказано свій
+          <code>constructor</code>, то використовується батьківський. Якщо ж у нащадка свій
+          <code>Constructor</code>, то, щоб в ньому викликати конструктор батька, використовується
+          метод <code>Super()</code> з аргументами для <code>constructor</code> батька.
+        </p>
+        <ul>
+          <li>
+            Викликати конструктор батька можна тільки зсередини конструктора нащадка. Зокрема,
+            <code>super()</code> не можна викликати з довільного методу.
+          </li>
+          <li>
+            У конструкторі нащадка ми зобов'язані викликати <code>super()</code> до першого
+            звернення до ключового слова <code>this</code>. До виклику <code>super ()</code> не
+            існує <code>this</code>, через те, що по специфікації в цьому випадку саме
+            <code>super</code> ініціалізує <code>this</code>.
+          </li>
+          <li>
+            <code>super ()</code> можна викликати тільки в спадковому класі, інакше нічого не вийде.
+          </li>
+          <li>
+            При спадкуванні, виклик конструктора батька здійснюється через
+            <code>Super (... args)</code>, виклик батьківських методів через
+            <code>super.method (... args)</code>.
+          </li>
+        </ul>
+        <h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://developers.google.com/web/updates/2018/12/class-fields" target="_blank"
+              >Public and private class fields</a
+            >
+          </li>
+          <li>
+            <a href="http://exploringjs.com/es6/ch_classes.html" target="_blank"
+              >Dr. Axel Rauschmayer - Exploring ES6, classes</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

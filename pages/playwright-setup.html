@@ -1,52 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Playwright: встановлення та запуск · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="встановлення">1. Встановлення</h1>
-<p>Playwright має власний генератор проєкту, який ставить пакет, завантажує браузери й
-створює приклад тесту та конфіг:</p>
-<pre class="language-js"><code class="language-js">npm init playwright@latest</code></pre>
-<p>Він спитає мову (обери TypeScript або JavaScript), теку тестів (<code>tests/</code>) і чи
-додати GitHub Actions. Браузери (Chromium, Firefox, WebKit) завантажаться автоматично.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playwright: встановлення та запуск · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="встановлення">1. Встановлення</h1>
+        <p>
+          Playwright має власний генератор проєкту, який ставить пакет, завантажує браузери й
+          створює приклад тесту та конфіг:
+        </p>
+        <pre class="language-js"><code class="language-js">npm init playwright@latest</code></pre>
+        <p>
+          Він спитає мову (обери TypeScript або JavaScript), теку тестів (<code>tests/</code>) і чи
+          додати GitHub Actions. Браузери (Chromium, Firefox, WebKit) завантажаться автоматично.
+        </p>
 
-<h1 id="структура">2. Структура тесту</h1>
-<p>Тест — це виклик <code>test()</code> з назвою й асинхронною функцією. У неї Playwright
-передає <strong>фікстури</strong>, найголовніша — <code>page</code> (вкладка браузера).</p>
-<pre class="language-js"><code class="language-js">// tests/home.spec.ts
+        <h1 id="структура">2. Структура тесту</h1>
+        <p>
+          Тест — це виклик <code>test()</code> з назвою й асинхронною функцією. У неї Playwright
+          передає <strong>фікстури</strong>, найголовніша — <code>page</code> (вкладка браузера).
+        </p>
+        <pre class="language-js"><code class="language-js">// tests/home.spec.ts
 import { test, expect } from '@playwright/test';
 
 test('головна відкривається', async ({ page }) =&gt; {
   await page.goto('/');                         // перейти на сторінку
   await expect(page).toHaveTitle(/Мій застосунок/); // перевірка
 });</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Майже все у Playwright — <strong>асинхронне</strong>: дії й перевірки повертають проміси,
-тож майже перед кожним викликом стоїть <code>await</code>. Забув <code>await</code> — тест поводиться
-непередбачувано.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Майже все у Playwright — <strong>асинхронне</strong>: дії й перевірки повертають
+              проміси, тож майже перед кожним викликом стоїть <code>await</code>. Забув
+              <code>await</code> — тест поводиться непередбачувано.
+            </p>
+          </div>
+        </div>
 
-<h1 id="запуск">3. Запуск тестів</h1>
-<pre class="language-js"><code class="language-js">npx playwright test              # усі тести (headless, усі браузери)
+        <h1 id="запуск">3. Запуск тестів</h1>
+        <pre
+          class="language-js"
+        ><code class="language-js">npx playwright test              # усі тести (headless, усі браузери)
 npx playwright test home.spec.ts # конкретний файл
 npx playwright test --headed     # з видимим вікном браузера
 npx playwright test --ui         # інтерактивний UI-режим (найзручніший для дебагу)
 npx playwright show-report       # HTML-звіт після прогону</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><strong>UI-режим</strong> (<code>--ui</code>) — must-have на старті: видно кожен крок, стан
-сторінки в часі й помилки. За замовчуванням тести йдуть <em>без вікна</em> (headless) і
-паралельно — так швидше.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <strong>UI-режим</strong> (<code>--ui</code>) — must-have на старті: видно кожен крок,
+              стан сторінки в часі й помилки. За замовчуванням тести йдуть
+              <em>без вікна</em> (headless) і паралельно — так швидше.
+            </p>
+          </div>
+        </div>
 
-<h1 id="конфіг">4. Конфіг</h1>
-<p>Налаштування живуть у <code>playwright.config.ts</code>. Найкорисніше — <code>baseURL</code> (щоб
-писати <code>page.goto('/')</code>) і <code>webServer</code> (Playwright сам підніме твій dev-сервер
-перед тестами).</p>
-<pre class="language-js"><code class="language-js">import { defineConfig } from '@playwright/test';
+        <h1 id="конфіг">4. Конфіг</h1>
+        <p>
+          Налаштування живуть у <code>playwright.config.ts</code>. Найкорисніше —
+          <code>baseURL</code> (щоб писати <code>page.goto('/')</code>) і
+          <code>webServer</code> (Playwright сам підніме твій dev-сервер перед тестами).
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
@@ -61,28 +90,40 @@ export default defineConfig({
   },
 });</code></pre>
 
-<h1 id="проєкти">5. Браузери як «projects»</h1>
-<p>У конфігу браузери задають масивом <code>projects</code> — той самий тест ганяється в
-кожному. Можна тимчасово лишити один для швидкості:</p>
-<pre class="language-js"><code class="language-js">npx playwright test --project=chromium</code></pre>
-<p>Готово — середовище налаштоване. Далі навчимося знаходити елементи й діяти з ними.</p>
+        <h1 id="проєкти">5. Браузери як «projects»</h1>
+        <p>
+          У конфігу браузери задають масивом <code>projects</code> — той самий тест ганяється в
+          кожному. Можна тимчасово лишити один для швидкості:
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">npx playwright test --project=chromium</code></pre>
+        <p>Готово — середовище налаштоване. Далі навчимося знаходити елементи й діяти з ними.</p>
 
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://playwright.dev/docs/intro" target="_blank">Playwright — Installation</a></li>
-<li><a href="https://playwright.dev/docs/test-configuration" target="_blank">Playwright — Configuration</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://playwright.dev/docs/intro" target="_blank"
+              >Playwright — Installation</a
+            >
+          </li>
+          <li>
+            <a href="https://playwright.dev/docs/test-configuration" target="_blank"
+              >Playwright — Configuration</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

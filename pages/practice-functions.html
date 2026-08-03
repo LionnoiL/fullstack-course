@@ -1,140 +1,203 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Практика: функції · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-<script src="../js/practice.js"></script>
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="практика">Практика: функції</h1>
-<p>Замикання, рекурсія, функції вищого порядку. Пиши код і тисни <strong>«Запустити»</strong>.</p>
-<div id="tasks"></div>
-<script>
-Practice.load('tasks', [
-  {
-    title: 'Фабрика множників (замикання)',
-    desc: '<code>makeMultiplier(factor)</code> → функцію, що множить аргумент на factor.',
-    entry: 'makeMultiplier',
-    starter: 'function makeMultiplier(factor) {\n  \n}',
-    solution: 'function makeMultiplier(factor) {\n  return (n) => n * factor;\n}',
-    tests: [
-      { name: 'makeMultiplier(3)(5) === 15', test: (e) => e.makeMultiplier(3)(5) === 15 },
-      { name: 'double(8) === 16', test: (e) => { const d = e.makeMultiplier(2); return d(8) === 16; } },
-    ],
-  },
-  {
-    title: 'Факторіал (рекурсія)',
-    desc: '<code>factorial(n)</code> через рекурсію.',
-    entry: 'factorial',
-    starter: 'function factorial(n) {\n  \n}',
-    solution: 'function factorial(n) {\n  if (n <= 1) return 1;\n  return n * factorial(n - 1);\n}',
-    tests: [
-      { name: 'factorial(0) === 1', test: (e) => e.factorial(0) === 1 },
-      { name: 'factorial(5) === 120', test: (e) => e.factorial(5) === 120 },
-    ],
-  },
-  {
-    title: 'once — виклик лише раз',
-    desc: '<code>once(fn)</code> → функція, що викликає fn один раз і потім повертає перший результат.',
-    entry: 'once',
-    starter: 'function once(fn) {\n  \n}',
-    solution: 'function once(fn) {\n  let called = false;\n  let result;\n  return (...args) => {\n    if (!called) {\n      called = true;\n      result = fn(...args);\n    }\n    return result;\n  };\n}',
-    tests: [
-      { name: 'fn викликається лише раз', test: (e) => { let c = 0; const f = e.once(() => { c += 1; return 42; }); f(); f(); f(); return c === 1; } },
-      { name: 'повертає перший результат', test: (e) => { let x = 1; const f = e.once(() => x++); return f() === 1 && f() === 1; } },
-    ],
-  },
-  {
-    title: 'Композиція pipe (зліва направо)',
-    desc: '<code>pipe(...fns)</code> → функція, що пропускає аргумент через усі функції.',
-    entry: 'pipe',
-    starter: 'function pipe(...fns) {\n  \n}',
-    solution: 'function pipe(...fns) {\n  return (x) => fns.reduce((acc, fn) => fn(acc), x);\n}',
-    tests: [
-      { name: 'pipe(inc,dbl)(3) === 8', test: (e) => e.pipe((x) => x + 1, (x) => x * 2)(3) === 8 },
-    ],
-  },
-  {
-    title: 'Композиція compose (справа наліво)',
-    desc: '<code>compose(f, g)(x)</code> === <code>f(g(x))</code>.',
-    entry: 'compose',
-    starter: 'function compose(...fns) {\n  \n}',
-    solution: 'function compose(...fns) {\n  return (x) => fns.reduceRight((acc, fn) => fn(acc), x);\n}',
-    tests: [
-      { name: 'compose(dbl,inc)(3) === 8', test: (e) => e.compose((x) => x * 2, (x) => x + 1)(3) === 8 },
-    ],
-  },
-  {
-    title: 'Повторити N разів',
-    desc: '<code>times(n, fn)</code> → масив [fn(0), …, fn(n-1)].',
-    entry: 'times',
-    starter: 'function times(n, fn) {\n  \n}',
-    solution: 'function times(n, fn) {\n  const result = [];\n  for (let i = 0; i < n; i += 1) result.push(fn(i));\n  return result;\n}',
-    tests: [
-      { name: 'times(3, i=>i*2) === [0,2,4]', test: (e) => JSON.stringify(e.times(3, (i) => i * 2)) === JSON.stringify([0,2,4]) },
-    ],
-  },
-  {
-    title: 'Каррування додавання',
-    desc: '<code>add(a)(b)(c)</code> → a + b + c.',
-    entry: 'add',
-    starter: 'function add(a) {\n  \n}',
-    solution: 'function add(a) {\n  return (b) => (c) => a + b + c;\n}',
-    tests: [
-      { name: 'add(1)(2)(3) === 6', test: (e) => e.add(1)(2)(3) === 6 },
-    ],
-  },
-  {
-    title: 'Заперечення предиката',
-    desc: '<code>negate(fn)</code> → функція, що повертає протилежний булевий результат.',
-    entry: 'negate',
-    starter: 'function negate(fn) {\n  \n}',
-    solution: 'function negate(fn) {\n  return (...args) => !fn(...args);\n}',
-    tests: [
-      { name: 'negate(isEven)(3) === true', test: (e) => e.negate((x) => x % 2 === 0)(3) === true },
-      { name: 'negate(isEven)(4) === false', test: (e) => e.negate((x) => x % 2 === 0)(4) === false },
-    ],
-  },
-  {
-    title: 'Поміняти аргументи місцями',
-    desc: '<code>flip(fn)</code> → функція, що викликає fn зі зміненим порядком двох аргументів.',
-    entry: 'flip',
-    starter: 'function flip(fn) {\n  \n}',
-    solution: 'function flip(fn) {\n  return (a, b) => fn(b, a);\n}',
-    tests: [
-      { name: 'flip(sub)(2,10) === 8', test: (e) => e.flip((a, b) => a - b)(2, 10) === 8 },
-    ],
-  },
-  {
-    title: 'Сума діапазону (рекурсія)',
-    desc: '<code>sumRange(n)</code> → сума чисел від 1 до n через рекурсію.',
-    entry: 'sumRange',
-    starter: 'function sumRange(n) {\n  \n}',
-    solution: 'function sumRange(n) {\n  if (n <= 0) return 0;\n  return n + sumRange(n - 1);\n}',
-    tests: [
-      { name: 'sumRange(5) === 15', test: (e) => e.sumRange(5) === 15 },
-      { name: 'sumRange(1) === 1', test: (e) => e.sumRange(1) === 1 },
-    ],
-  },
-]);
-</script>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: функції · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+    <script src="../js/practice.js"></script>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: функції</h1>
+        <p>
+          Замикання, рекурсія, функції вищого порядку. Пиши код і тисни
+          <strong>«Запустити»</strong>.
+        </p>
+        <div id="tasks"></div>
+        <script>
+          Practice.load("tasks", [
+            {
+              title: "Фабрика множників (замикання)",
+              desc: "<code>makeMultiplier(factor)</code> → функцію, що множить аргумент на factor.",
+              entry: "makeMultiplier",
+              starter: "function makeMultiplier(factor) {\n  \n}",
+              solution: "function makeMultiplier(factor) {\n  return (n) => n * factor;\n}",
+              tests: [
+                { name: "makeMultiplier(3)(5) === 15", test: (e) => e.makeMultiplier(3)(5) === 15 },
+                {
+                  name: "double(8) === 16",
+                  test: (e) => {
+                    const d = e.makeMultiplier(2);
+                    return d(8) === 16;
+                  },
+                },
+              ],
+            },
+            {
+              title: "Факторіал (рекурсія)",
+              desc: "<code>factorial(n)</code> через рекурсію.",
+              entry: "factorial",
+              starter: "function factorial(n) {\n  \n}",
+              solution:
+                "function factorial(n) {\n  if (n <= 1) return 1;\n  return n * factorial(n - 1);\n}",
+              tests: [
+                { name: "factorial(0) === 1", test: (e) => e.factorial(0) === 1 },
+                { name: "factorial(5) === 120", test: (e) => e.factorial(5) === 120 },
+              ],
+            },
+            {
+              title: "once — виклик лише раз",
+              desc: "<code>once(fn)</code> → функція, що викликає fn один раз і потім повертає перший результат.",
+              entry: "once",
+              starter: "function once(fn) {\n  \n}",
+              solution:
+                "function once(fn) {\n  let called = false;\n  let result;\n  return (...args) => {\n    if (!called) {\n      called = true;\n      result = fn(...args);\n    }\n    return result;\n  };\n}",
+              tests: [
+                {
+                  name: "fn викликається лише раз",
+                  test: (e) => {
+                    let c = 0;
+                    const f = e.once(() => {
+                      c += 1;
+                      return 42;
+                    });
+                    f();
+                    f();
+                    f();
+                    return c === 1;
+                  },
+                },
+                {
+                  name: "повертає перший результат",
+                  test: (e) => {
+                    let x = 1;
+                    const f = e.once(() => x++);
+                    return f() === 1 && f() === 1;
+                  },
+                },
+              ],
+            },
+            {
+              title: "Композиція pipe (зліва направо)",
+              desc: "<code>pipe(...fns)</code> → функція, що пропускає аргумент через усі функції.",
+              entry: "pipe",
+              starter: "function pipe(...fns) {\n  \n}",
+              solution:
+                "function pipe(...fns) {\n  return (x) => fns.reduce((acc, fn) => fn(acc), x);\n}",
+              tests: [
+                {
+                  name: "pipe(inc,dbl)(3) === 8",
+                  test: (e) =>
+                    e.pipe(
+                      (x) => x + 1,
+                      (x) => x * 2
+                    )(3) === 8,
+                },
+              ],
+            },
+            {
+              title: "Композиція compose (справа наліво)",
+              desc: "<code>compose(f, g)(x)</code> === <code>f(g(x))</code>.",
+              entry: "compose",
+              starter: "function compose(...fns) {\n  \n}",
+              solution:
+                "function compose(...fns) {\n  return (x) => fns.reduceRight((acc, fn) => fn(acc), x);\n}",
+              tests: [
+                {
+                  name: "compose(dbl,inc)(3) === 8",
+                  test: (e) =>
+                    e.compose(
+                      (x) => x * 2,
+                      (x) => x + 1
+                    )(3) === 8,
+                },
+              ],
+            },
+            {
+              title: "Повторити N разів",
+              desc: "<code>times(n, fn)</code> → масив [fn(0), …, fn(n-1)].",
+              entry: "times",
+              starter: "function times(n, fn) {\n  \n}",
+              solution:
+                "function times(n, fn) {\n  const result = [];\n  for (let i = 0; i < n; i += 1) result.push(fn(i));\n  return result;\n}",
+              tests: [
+                {
+                  name: "times(3, i=>i*2) === [0,2,4]",
+                  test: (e) =>
+                    JSON.stringify(e.times(3, (i) => i * 2)) === JSON.stringify([0, 2, 4]),
+                },
+              ],
+            },
+            {
+              title: "Каррування додавання",
+              desc: "<code>add(a)(b)(c)</code> → a + b + c.",
+              entry: "add",
+              starter: "function add(a) {\n  \n}",
+              solution: "function add(a) {\n  return (b) => (c) => a + b + c;\n}",
+              tests: [{ name: "add(1)(2)(3) === 6", test: (e) => e.add(1)(2)(3) === 6 }],
+            },
+            {
+              title: "Заперечення предиката",
+              desc: "<code>negate(fn)</code> → функція, що повертає протилежний булевий результат.",
+              entry: "negate",
+              starter: "function negate(fn) {\n  \n}",
+              solution: "function negate(fn) {\n  return (...args) => !fn(...args);\n}",
+              tests: [
+                {
+                  name: "negate(isEven)(3) === true",
+                  test: (e) => e.negate((x) => x % 2 === 0)(3) === true,
+                },
+                {
+                  name: "negate(isEven)(4) === false",
+                  test: (e) => e.negate((x) => x % 2 === 0)(4) === false,
+                },
+              ],
+            },
+            {
+              title: "Поміняти аргументи місцями",
+              desc: "<code>flip(fn)</code> → функція, що викликає fn зі зміненим порядком двох аргументів.",
+              entry: "flip",
+              starter: "function flip(fn) {\n  \n}",
+              solution: "function flip(fn) {\n  return (a, b) => fn(b, a);\n}",
+              tests: [
+                {
+                  name: "flip(sub)(2,10) === 8",
+                  test: (e) => e.flip((a, b) => a - b)(2, 10) === 8,
+                },
+              ],
+            },
+            {
+              title: "Сума діапазону (рекурсія)",
+              desc: "<code>sumRange(n)</code> → сума чисел від 1 до n через рекурсію.",
+              entry: "sumRange",
+              starter: "function sumRange(n) {\n  \n}",
+              solution:
+                "function sumRange(n) {\n  if (n <= 0) return 0;\n  return n + sumRange(n - 1);\n}",
+              tests: [
+                { name: "sumRange(5) === 15", test: (e) => e.sumRange(5) === 15 },
+                { name: "sumRange(1) === 1", test: (e) => e.sumRange(1) === 1 },
+              ],
+            },
+          ]);
+        </script>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

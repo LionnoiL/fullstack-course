@@ -1,42 +1,59 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Регулярні вирази · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="регулярні-вирази">1. Регулярні вирази</h1>
-<p><strong>Регулярний вираз (regular expression, RegExp)</strong> — це шаблон для пошуку та
-заміни підрядків у тексті. Замість того, щоб перебирати рядок вручну, ми
-описуємо <em>яким має бути</em> фрагмент, а рушій сам знаходить збіги.</p>
-<p>У JavaScript регулярку можна створити двома способами:</p>
-<pre class="language-js"><code class="language-js">// Літерал (шаблон між слешами) — коли патерн відомий заздалегідь
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Регулярні вирази · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="регулярні-вирази">1. Регулярні вирази</h1>
+        <p>
+          <strong>Регулярний вираз (regular expression, RegExp)</strong> — це шаблон для пошуку та
+          заміни підрядків у тексті. Замість того, щоб перебирати рядок вручну, ми описуємо
+          <em>яким має бути</em> фрагмент, а рушій сам знаходить збіги.
+        </p>
+        <p>У JavaScript регулярку можна створити двома способами:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">// Літерал (шаблон між слешами) — коли патерн відомий заздалегідь
 const re1 = /\d+/;
 
 // Конструктор — коли патерн збирається з рядка динамічно
 const word = 'cat';
 const re2 = new RegExp(word, 'gi');</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Літерал компілюється один раз під час парсингу коду і працює трохи
-швидше. Конструктор потрібен, коли патерн формується з даних.</p></div></div>
-<h1 id="прапорці">2. Прапорці (flags)</h1>
-<p>Прапорці змінюють поведінку пошуку і вказуються після закривального слеша:</p>
-<ul>
-<li><code>g</code> — глобальний пошук (усі збіги, а не лише перший);</li>
-<li><code>i</code> — ігнорувати регістр;</li>
-<li><code>m</code> — багаторядковий режим (<code>^</code> і <code>$</code> для кожного рядка);</li>
-<li><code>s</code> — крапка <code>.</code> також збігається з переносом рядка;</li>
-<li><code>u</code> — підтримка Unicode;</li>
-<li><code>y</code> — «липкий» пошук від конкретної позиції.</li>
-</ul>
-<h1 id="базовий-синтаксис">3. Базовий синтаксис</h1>
-<p>Найчастіші будівельні блоки шаблону:</p>
-<pre class="language-js"><code class="language-js">\d   // будь-яка цифра, те саме що [0-9]
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Літерал компілюється один раз під час парсингу коду і працює трохи швидше. Конструктор
+              потрібен, коли патерн формується з даних.
+            </p>
+          </div>
+        </div>
+        <h1 id="прапорці">2. Прапорці (flags)</h1>
+        <p>Прапорці змінюють поведінку пошуку і вказуються після закривального слеша:</p>
+        <ul>
+          <li><code>g</code> — глобальний пошук (усі збіги, а не лише перший);</li>
+          <li><code>i</code> — ігнорувати регістр;</li>
+          <li>
+            <code>m</code> — багаторядковий режим (<code>^</code> і <code>$</code> для кожного
+            рядка);
+          </li>
+          <li><code>s</code> — крапка <code>.</code> також збігається з переносом рядка;</li>
+          <li><code>u</code> — підтримка Unicode;</li>
+          <li><code>y</code> — «липкий» пошук від конкретної позиції.</li>
+        </ul>
+        <h1 id="базовий-синтаксис">3. Базовий синтаксис</h1>
+        <p>Найчастіші будівельні блоки шаблону:</p>
+        <pre class="language-js"><code class="language-js">\d   // будь-яка цифра, те саме що [0-9]
 \D   // будь-який символ, крім цифри
 \w   // літера, цифра або _
 \s   // пробільний символ (пробіл, таб, перенос)
@@ -49,30 +66,34 @@ const re2 = new RegExp(word, 'gi');</code></pre>
 ^   // початок рядка
 $   // кінець рядка
 \b  // межа слова</code></pre>
-<p>Квантифікатори задають, скільки разів повторюється попередній елемент:</p>
-<pre class="language-js"><code class="language-js">a*      // 0 або більше
+        <p>Квантифікатори задають, скільки разів повторюється попередній елемент:</p>
+        <pre class="language-js"><code class="language-js">a*      // 0 або більше
 a+      // 1 або більше
 a?      // 0 або 1 (необовʼязково)
 a{3}    // рівно 3
 a{2,5}  // від 2 до 5
 a{2,}   // 2 або більше</code></pre>
-<h1 id="методи">4. Методи для роботи з регулярками</h1>
-<p>Методи самої регулярки:</p>
-<pre class="language-js"><code class="language-js">const re = /\d+/;
+        <h1 id="методи">4. Методи для роботи з регулярками</h1>
+        <p>Методи самої регулярки:</p>
+        <pre class="language-js"><code class="language-js">const re = /\d+/;
 
 re.test('year 2026');   // true — чи є хоча б один збіг
 'year 2026'.match(re);  // ['2026', index: 5, ...]</code></pre>
-<p>Методи рядка, які приймають регулярку:</p>
-<pre class="language-js"><code class="language-js">const text = 'ціна: 100 грн, знижка 20 грн';
+        <p>Методи рядка, які приймають регулярку:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">const text = 'ціна: 100 грн, знижка 20 грн';
 
 text.match(/\d+/g);            // ['100', '20'] — усі збіги
 text.replace(/\d+/g, '#');     // 'ціна: # грн, знижка # грн'
 text.split(/,\s*/);            // ['ціна: 100 грн', 'знижка 20 грн']
 text.search(/\d/);             // 6 — індекс першого збігу</code></pre>
-<h1 id="групи">5. Групи та захоплення</h1>
-<p>Круглі дужки <code>(...)</code> створюють групу, значення якої можна дістати окремо.
-Іменовані групи <code>(?&lt;name&gt;...)</code> роблять код читабельнішим.</p>
-<pre class="language-js"><code class="language-js">const date = '2026-07-31';
+        <h1 id="групи">5. Групи та захоплення</h1>
+        <p>
+          Круглі дужки <code>(...)</code> створюють групу, значення якої можна дістати окремо.
+          Іменовані групи <code>(?&lt;name&gt;...)</code> роблять код читабельнішим.
+        </p>
+        <pre class="language-js"><code class="language-js">const date = '2026-07-31';
 const re = /(?&lt;year&gt;\d{4})-(?&lt;month&gt;\d{2})-(?&lt;day&gt;\d{2})/;
 
 const { groups } = date.match(re);
@@ -81,8 +102,10 @@ console.log(groups.day);   // '31'
 
 // Заміна з посиланням на групи
 date.replace(re, '$&lt;day&gt;.$&lt;month&gt;.$&lt;year&gt;'); // '31.07.2026'</code></pre>
-<h1 id="приклади">6. Практичні приклади</h1>
-<pre class="language-js"><code class="language-js">const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        <h1 id="приклади">6. Практичні приклади</h1>
+        <pre
+          class="language-js"
+        ><code class="language-js">const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 emailRe.test('user@example.com'); // true
 
 // Прибрати зайві пробіли всередині рядка
@@ -90,26 +113,42 @@ emailRe.test('user@example.com'); // true
 
 // Розбити camelCase на слова
 'getUserName'.replace(/([a-z])([A-Z])/g, '$1 $2'); // 'get User Name'</code></pre>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Не варто валідувати складні формати (email, URL) занадто «строгими»
-регулярками — вони стають нечитабельними і все одно не покривають усіх випадків.
-Для критичних перевірок використовуйте спеціалізовані бібліотеки або серверну
-валідацію.</p></div></div>
-<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/uk/docs/Web/JavaScript/Guide/Regular_expressions" target="_blank">Регулярні вирази — MDN</a></li>
-<li><a href="https://regex101.com/" target="_blank">regex101 — інтерактивний тренажер регулярок</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Не варто валідувати складні формати (email, URL) занадто «строгими» регулярками — вони
+              стають нечитабельними і все одно не покривають усіх випадків. Для критичних перевірок
+              використовуйте спеціалізовані бібліотеки або серверну валідацію.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://developer.mozilla.org/uk/docs/Web/JavaScript/Guide/Regular_expressions"
+              target="_blank"
+              >Регулярні вирази — MDN</a
+            >
+          </li>
+          <li>
+            <a href="https://regex101.com/" target="_blank"
+              >regex101 — інтерактивний тренажер регулярок</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

@@ -183,9 +183,7 @@
   }
 
   function removeHighlight(mark) {
-    const firstText = document
-      .createTreeWalker(mark, NodeFilter.SHOW_TEXT, null)
-      .nextNode();
+    const firstText = document.createTreeWalker(mark, NodeFilter.SHOW_TEXT, null).nextNode();
     const start = firstText ? globalOffset(firstText, 0) : -1;
     const parent = mark.parentNode;
     while (mark.firstChild) {

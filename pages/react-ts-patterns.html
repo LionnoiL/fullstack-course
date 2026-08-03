@@ -1,20 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Патерни типізації React · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="generic-component">1. Узагальнені (generic) компоненти</h1>
-<p>Компонент-список може працювати з будь-яким типом елемента. Дженерик робить його
-типобезпечним для кожного випадку.</p>
-<pre class="language-js"><code class="language-js">type ListProps&lt;T&gt; = {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Патерни типізації React · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="generic-component">1. Узагальнені (generic) компоненти</h1>
+        <p>
+          Компонент-список може працювати з будь-яким типом елемента. Дженерик робить його
+          типобезпечним для кожного випадку.
+        </p>
+        <pre class="language-js"><code class="language-js">type ListProps&lt;T&gt; = {
   items: T[];
   render: (item: T) =&gt; React.ReactNode;
 };
@@ -25,10 +30,12 @@ function List&lt;T&gt;({ items, render }: ListProps&lt;T&gt;) {
 
 // T виведеться як User — render отримає саме User
 &lt;List items={users} render={(u) =&gt; u.name} /&gt;;</code></pre>
-<h1 id="union-props">2. Об'єднання пропсів (дискриміновані)</h1>
-<p>Коли набір пропсів залежить від «режиму», описують об'єднання — TS не дасть
-змішати несумісні варіанти.</p>
-<pre class="language-js"><code class="language-js">type Props =
+        <h1 id="union-props">2. Об'єднання пропсів (дискриміновані)</h1>
+        <p>
+          Коли набір пропсів залежить від «режиму», описують об'єднання — TS не дасть змішати
+          несумісні варіанти.
+        </p>
+        <pre class="language-js"><code class="language-js">type Props =
   | { as: 'link'; href: string }
   | { as: 'button'; onClick: () =&gt; void };
 
@@ -36,9 +43,11 @@ function Action(props: Props) {
   if (props.as === 'link') return &lt;a href={props.href}&gt;Лінк&lt;/a&gt;;
   return &lt;button onClick={props.onClick}&gt;Кнопка&lt;/button&gt;;
 }</code></pre>
-<h1 id="utility">3. Utility-типи на службі</h1>
-<p>Типи з розділу TypeScript особливо корисні в React:</p>
-<pre class="language-js"><code class="language-js">type User = { id: number; name: string; email: string };
+        <h1 id="utility">3. Utility-типи на службі</h1>
+        <p>Типи з розділу TypeScript особливо корисні в React:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">type User = { id: number; name: string; email: string };
 
 // форма редагування без id
 type EditProps = Omit&lt;User, 'id'&gt;;
@@ -48,37 +57,56 @@ function update(patch: Partial&lt;User&gt;) { /* ... */ }
 
 // дістати тип пропсів чужого компонента
 type BtnProps = React.ComponentProps&lt;typeof MyButton&gt;;</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>Omit</code>, <code>Partial</code>, <code>Pick</code> дозволяють <strong>виводити</strong> типи пропсів з уже
-наявних, а не дублювати їх. Одне джерело правди для типу <code>User</code> — і всі похідні
-оновляться автоматично.</p></div></div>
-<h1 id="api">4. Типи для даних із API</h1>
-<p>Описуй форму відповіді сервера окремим типом і приводь дані одразу після
-<code>fetch</code> — далі весь компонент працює з відомою структурою.</p>
-<pre class="language-js"><code class="language-js">type Todo = { id: number; title: string; done: boolean };
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>Omit</code>, <code>Partial</code>, <code>Pick</code> дозволяють
+              <strong>виводити</strong> типи пропсів з уже наявних, а не дублювати їх. Одне джерело
+              правди для типу <code>User</code> — і всі похідні оновляться автоматично.
+            </p>
+          </div>
+        </div>
+        <h1 id="api">4. Типи для даних із API</h1>
+        <p>
+          Описуй форму відповіді сервера окремим типом і приводь дані одразу після
+          <code>fetch</code> — далі весь компонент працює з відомою структурою.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">type Todo = { id: number; title: string; done: boolean };
 
 async function loadTodos(): Promise&lt;Todo[]&gt; {
   const res = await fetch('/api/todos');
   return res.json() as Promise&lt;Todo[]&gt;;
 }</code></pre>
-<h1 id="return">5. Тип, що повертає компонент</h1>
-<p>Явно анотувати повернення компонента зазвичай не треба — TS виведе його сам.
-Уникай застарілого <code>React.FC</code>: він додає неочевидні нюанси, а звичайна функція з
-типізованими пропсами читабельніша.</p>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://react-typescript-cheatsheet.netlify.app/docs/advanced/patterns_by_usecase/" target="_blank">Patterns by use case — Cheatsheet</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="return">5. Тип, що повертає компонент</h1>
+        <p>
+          Явно анотувати повернення компонента зазвичай не треба — TS виведе його сам. Уникай
+          застарілого <code>React.FC</code>: він додає неочевидні нюанси, а звичайна функція з
+          типізованими пропсами читабельніша.
+        </p>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://react-typescript-cheatsheet.netlify.app/docs/advanced/patterns_by_usecase/"
+              target="_blank"
+              >Patterns by use case — Cheatsheet</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

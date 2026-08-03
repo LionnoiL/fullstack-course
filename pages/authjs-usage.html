@@ -1,20 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Сесія, колбеки та захист роутів · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="сесія-сервер">1. Читання сесії на сервері</h1>
-<p>У серверному компоненті (Next.js App Router) сесію дістаємо викликом <code>auth()</code>.
-Якщо користувач не залогінений, повернеться <code>null</code>.</p>
-<pre class="language-js"><code class="language-js">// app/page.tsx — серверний компонент
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Сесія, колбеки та захист роутів · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="сесія-сервер">1. Читання сесії на сервері</h1>
+        <p>
+          У серверному компоненті (Next.js App Router) сесію дістаємо викликом <code>auth()</code>.
+          Якщо користувач не залогінений, повернеться <code>null</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">// app/page.tsx — серверний компонент
 import { auth } from '@/auth';
 
 export default async function Home() {
@@ -23,10 +28,12 @@ export default async function Home() {
   return &lt;p&gt;Привіт, {session.user?.name}!&lt;/p&gt;;
 }</code></pre>
 
-<h1 id="сесія-клієнт">2. Сесія в клієнтських компонентах</h1>
-<p>Для клієнтських компонентів є хук <code>useSession</code> — але він потребує
-<code>SessionProvider</code> угорі дерева.</p>
-<pre class="language-js"><code class="language-js">'use client';
+        <h1 id="сесія-клієнт">2. Сесія в клієнтських компонентах</h1>
+        <p>
+          Для клієнтських компонентів є хук <code>useSession</code> — але він потребує
+          <code>SessionProvider</code> угорі дерева.
+        </p>
+        <pre class="language-js"><code class="language-js">'use client';
 import { SessionProvider, useSession } from 'next-auth/react';
 
 function Profile() {
@@ -35,22 +42,33 @@ function Profile() {
   if (!session) return &lt;a href="/login"&gt;Увійти&lt;/a&gt;;
   return &lt;p&gt;{session.user?.email}&lt;/p&gt;;
 }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>У серверних компонентах віддавай перевагу <code>auth()</code> — менше клієнтського JS і
-жодного «мерехтіння» стану входу. <code>useSession</code> — коли інтерактив справді на
-клієнті.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              У серверних компонентах віддавай перевагу <code>auth()</code> — менше клієнтського JS
+              і жодного «мерехтіння» стану входу. <code>useSession</code> — коли інтерактив справді
+              на клієнті.
+            </p>
+          </div>
+        </div>
 
-<h1 id="middleware">3. Захист роутів через middleware</h1>
-<p>Щоб закрити цілі ділянки сайту (напр. <code>/dashboard</code>), використовують
-<code>middleware.ts</code> у корені проєкту. Він виконується <em>до</em> рендера сторінки.</p>
-<pre class="language-js"><code class="language-js">// middleware.ts
+        <h1 id="middleware">3. Захист роутів через middleware</h1>
+        <p>
+          Щоб закрити цілі ділянки сайту (напр. <code>/dashboard</code>), використовують
+          <code>middleware.ts</code> у корені проєкту. Він виконується <em>до</em> рендера сторінки.
+        </p>
+        <pre class="language-js"><code class="language-js">// middleware.ts
 export { auth as middleware } from '@/auth';
 
 export const config = {
   matcher: ['/dashboard/:path*', '/settings/:path*'],
 };</code></pre>
-<p>Тонший контроль — через <code>authorized</code>-колбек: пускати лише залогінених, інакше
-редіректити на сторінку входу:</p>
-<pre class="language-js"><code class="language-js">// auth.ts
+        <p>
+          Тонший контроль — через <code>authorized</code>-колбек: пускати лише залогінених, інакше
+          редіректити на сторінку входу:
+        </p>
+        <pre class="language-js"><code class="language-js">// auth.ts
 callbacks: {
   authorized({ auth, request }) {
     const isLoggedIn = !!auth?.user;
@@ -60,11 +78,13 @@ callbacks: {
   },
 },</code></pre>
 
-<h1 id="callbacks">4. Колбеки jwt і session</h1>
-<p>Колбеки дають змогу <strong>покласти в токен/сесію додаткові дані</strong> — наприклад роль
-користувача. <code>jwt</code> виконується при створенні/оновленні токена, <code>session</code> —
-коли клієнт читає сесію.</p>
-<pre class="language-js"><code class="language-js">callbacks: {
+        <h1 id="callbacks">4. Колбеки jwt і session</h1>
+        <p>
+          Колбеки дають змогу <strong>покласти в токен/сесію додаткові дані</strong> — наприклад
+          роль користувача. <code>jwt</code> виконується при створенні/оновленні токена,
+          <code>session</code> — коли клієнт читає сесію.
+        </p>
+        <pre class="language-js"><code class="language-js">callbacks: {
   async jwt({ token, user }) {
     if (user) token.role = user.role; // при вході додаємо роль у токен
     return token;
@@ -74,15 +94,26 @@ callbacks: {
     return session;
   },
 },</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Саме тут «зшивається» автентифікація з <strong>авторизацією</strong>: провайдер сказав
-<em>хто</em> користувач, а роль із твоєї БД визначає, <em>що йому можна</em>. Далі перевіряєш
-<code>session.user.role</code> у сторінках і server actions.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Саме тут «зшивається» автентифікація з <strong>авторизацією</strong>: провайдер сказав
+              <em>хто</em> користувач, а роль із твоєї БД визначає, <em>що йому можна</em>. Далі
+              перевіряєш <code>session.user.role</code> у сторінках і server actions.
+            </p>
+          </div>
+        </div>
 
-<h1 id="adapter">5. Зберігання користувачів (adapter)</h1>
-<p>За замовчуванням Auth.js тримає сесію в cookie й не пише в БД. Якщо треба
-зберігати користувачів і сесії у своїй базі — підключають <strong>adapter</strong> (Prisma,
-Drizzle, Supabase):</p>
-<pre class="language-js"><code class="language-js">import { PrismaAdapter } from '@auth/prisma-adapter';
+        <h1 id="adapter">5. Зберігання користувачів (adapter)</h1>
+        <p>
+          За замовчуванням Auth.js тримає сесію в cookie й не пише в БД. Якщо треба зберігати
+          користувачів і сесії у своїй базі — підключають <strong>adapter</strong> (Prisma, Drizzle,
+          Supabase):
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/lib/prisma';
 
 export const { handlers, auth } = NextAuth({
@@ -90,22 +121,32 @@ export const { handlers, auth } = NextAuth({
   providers: [GitHub],
 });</code></pre>
 
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://authjs.dev/getting-started/session-management/protecting" target="_blank">Auth.js — Protecting Resources</a></li>
-<li><a href="https://authjs.dev/guides/role-based-access-control" target="_blank">Auth.js — Role-Based Access Control</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://authjs.dev/getting-started/session-management/protecting"
+              target="_blank"
+              >Auth.js — Protecting Resources</a
+            >
+          </li>
+          <li>
+            <a href="https://authjs.dev/guides/role-based-access-control" target="_blank"
+              >Auth.js — Role-Based Access Control</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

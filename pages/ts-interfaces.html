@@ -1,20 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Інтерфейси та type · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="інтерфейси">1. Інтерфейси</h1>
-<p><strong>Інтерфейс</strong> описує форму обʼєкта — які поля він має і якого типу. Це основний
-спосіб типізувати обʼєкти в TypeScript.</p>
-<pre class="language-js"><code class="language-js">interface User {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Інтерфейси та type · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="інтерфейси">1. Інтерфейси</h1>
+        <p>
+          <strong>Інтерфейс</strong> описує форму обʼєкта — які поля він має і якого типу. Це
+          основний спосіб типізувати обʼєкти в TypeScript.
+        </p>
+        <pre class="language-js"><code class="language-js">interface User {
   id: number;
   name: string;
   email?: string;      // необовʼязкове поле
@@ -29,9 +34,9 @@ const user: User = {
 
 user.id = 2;        // ✅
 user.createdAt = new Date(); // ❌ readonly</code></pre>
-<h1 id="type">2. type — псевдонім типу</h1>
-<p><code>type</code> дозволяє дати імʼя будь-якому типу: обʼєкту, обʼєднанню, примітиву.</p>
-<pre class="language-js"><code class="language-js">type ID = number | string;
+        <h1 id="type">2. type — псевдонім типу</h1>
+        <p><code>type</code> дозволяє дати імʼя будь-якому типу: обʼєкту, обʼєднанню, примітиву.</p>
+        <pre class="language-js"><code class="language-js">type ID = number | string;
 
 type Point = {
   x: number;
@@ -40,16 +45,26 @@ type Point = {
 
 const id: ID = 'abc';
 const p: Point = { x: 1, y: 2 };</code></pre>
-<h1 id="interface-vs-type">3. interface чи type?</h1>
-<ul>
-<li><code>interface</code> — для опису форми обʼєктів; можна розширювати (<code>extends</code>) і доповнювати;</li>
-<li><code>type</code> — універсальніший: обʼєднання, перетини, примітиви, кортежі.</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Загальне правило: для форми обʼєктів беріть <code>interface</code>, для всього іншого
-(обʼєднання, псевдоніми примітивів) — <code>type</code>. У більшості випадків це справа
-смаку і команда обирає щось одне для консистентності.</p></div></div>
-<h1 id="розширення">4. Розширення та композиція</h1>
-<pre class="language-js"><code class="language-js">interface Animal {
+        <h1 id="interface-vs-type">3. interface чи type?</h1>
+        <ul>
+          <li>
+            <code>interface</code> — для опису форми обʼєктів; можна розширювати
+            (<code>extends</code>) і доповнювати;
+          </li>
+          <li><code>type</code> — універсальніший: обʼєднання, перетини, примітиви, кортежі.</li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Загальне правило: для форми обʼєктів беріть <code>interface</code>, для всього іншого
+              (обʼєднання, псевдоніми примітивів) — <code>type</code>. У більшості випадків це
+              справа смаку і команда обирає щось одне для консистентності.
+            </p>
+          </div>
+        </div>
+        <h1 id="розширення">4. Розширення та композиція</h1>
+        <pre class="language-js"><code class="language-js">interface Animal {
   name: string;
 }
 
@@ -61,27 +76,31 @@ const rex: Dog = { name: 'Rex', breed: 'Хаскі' };
 
 // Те саме через type і перетин (&amp;)
 type Cat = Animal &amp; { indoor: boolean };</code></pre>
-<h1 id="функції-та-індекси">5. Методи та індексні сигнатури</h1>
-<pre class="language-js"><code class="language-js">interface Repository {
+        <h1 id="функції-та-індекси">5. Методи та індексні сигнатури</h1>
+        <pre class="language-js"><code class="language-js">interface Repository {
   save(item: string): void;       // метод
   count: number;                  // властивість
   [key: string]: unknown;         // індексна сигнатура — довільні ключі
 }</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://www.typescriptlang.org/docs/handbook/2/objects.html" target="_blank">Object Types — TypeScript Handbook</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://www.typescriptlang.org/docs/handbook/2/objects.html" target="_blank"
+              >Object Types — TypeScript Handbook</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

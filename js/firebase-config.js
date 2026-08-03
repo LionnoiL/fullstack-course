@@ -1,8 +1,3 @@
-// ============================================================
-//  Firebase конфігурація
-//  Заповніть своїми значеннями з Firebase Console →
-//  Project Settings → General → Your apps → Web app
-// ============================================================
 const firebaseConfig = {
   apiKey: "AIzaSyCMdduxPPZtBNHizlv7SzvRiIfGY8kFZ2I",
   authDomain: "fullstack-course-48abe.firebaseapp.com",
@@ -16,8 +11,4 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 window._auth = firebase.auth();
-window._db   = firebase.firestore();
-
-// enablePersistence навмисно прибрано: воно утримує постійне WebChannel-з'єднання,
-// що блокується ad-блокерами та породжує хибне "client is offline".
-// Наша localStorage-стратегія вже забезпечує кешування між сесіями.
+window._db = firebase.firestore();

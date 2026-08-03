@@ -1,378 +1,470 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Вхід · Fullstack Course</title>
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Вхід · Fullstack Course</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: #1a1b26;
-  color: #c0caf5;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
+      body {
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background: #1a1b26;
+        color: #c0caf5;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
 
-.card {
-  background: #24283b;
-  border: 1px solid #414868;
-  border-radius: 16px;
-  padding: 2.5rem 2rem;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 20px 60px rgba(0,0,0,.5);
-}
+      .card {
+        background: #24283b;
+        border: 1px solid #414868;
+        border-radius: 16px;
+        padding: 2.5rem 2rem;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      }
 
-.logo {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-.logo-icon {
-  font-size: 2.5rem;
-  display: block;
-  margin-bottom: .5rem;
-}
-.logo h1 {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #c0caf5;
-  letter-spacing: -.02em;
-}
-.logo p {
-  font-size: .85rem;
-  color: #565f89;
-  margin-top: .25rem;
-}
+      .logo {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      .logo-icon {
+        font-size: 2.5rem;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      .logo h1 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #c0caf5;
+        letter-spacing: -0.02em;
+      }
+      .logo p {
+        font-size: 0.85rem;
+        color: #565f89;
+        margin-top: 0.25rem;
+      }
 
-/* Google button */
-.btn-google {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .75rem;
-  width: 100%;
-  padding: .8rem 1rem;
-  background: #fff;
-  color: #3c4043;
-  border: none;
-  border-radius: 8px;
-  font-size: .95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background .15s, box-shadow .15s;
-  font-family: inherit;
-}
-.btn-google:hover { background: #f8f8f8; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
-.btn-google:active { background: #f0f0f0; }
-.btn-google svg { flex-shrink: 0; }
+      /* Google button */
+      .btn-google {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        width: 100%;
+        padding: 0.8rem 1rem;
+        background: #fff;
+        color: #3c4043;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          box-shadow 0.15s;
+        font-family: inherit;
+      }
+      .btn-google:hover {
+        background: #f8f8f8;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+      .btn-google:active {
+        background: #f0f0f0;
+      }
+      .btn-google svg {
+        flex-shrink: 0;
+      }
 
-/* Divider */
-.divider {
-  display: flex;
-  align-items: center;
-  gap: .75rem;
-  margin: 1.5rem 0;
-  color: #414868;
-  font-size: .8rem;
-}
-.divider::before, .divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: #414868;
-}
+      /* Divider */
+      .divider {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin: 1.5rem 0;
+        color: #414868;
+        font-size: 0.8rem;
+      }
+      .divider::before,
+      .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #414868;
+      }
 
-/* Tabs */
-.tabs {
-  display: flex;
-  background: #1a1b26;
-  border-radius: 8px;
-  padding: 3px;
-  margin-bottom: 1.25rem;
-}
-.tab-btn {
-  flex: 1;
-  padding: .45rem;
-  background: none;
-  border: none;
-  color: #565f89;
-  font-size: .85rem;
-  font-family: inherit;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background .15s, color .15s;
-}
-.tab-btn.active {
-  background: #24283b;
-  color: #7aa2f7;
-  font-weight: 600;
-}
+      /* Tabs */
+      .tabs {
+        display: flex;
+        background: #1a1b26;
+        border-radius: 8px;
+        padding: 3px;
+        margin-bottom: 1.25rem;
+      }
+      .tab-btn {
+        flex: 1;
+        padding: 0.45rem;
+        background: none;
+        border: none;
+        color: #565f89;
+        font-size: 0.85rem;
+        font-family: inherit;
+        cursor: pointer;
+        border-radius: 6px;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .tab-btn.active {
+        background: #24283b;
+        color: #7aa2f7;
+        font-weight: 600;
+      }
 
-/* Form */
-.field { margin-bottom: 1rem; }
-.field label {
-  display: block;
-  font-size: .8rem;
-  color: #7982a9;
-  margin-bottom: .4rem;
-}
-.field input {
-  width: 100%;
-  padding: .65rem .85rem;
-  background: #1a1b26;
-  border: 1px solid #414868;
-  border-radius: 8px;
-  color: #c0caf5;
-  font-size: .9rem;
-  font-family: inherit;
-  outline: none;
-  transition: border-color .15s;
-}
-.field input:focus { border-color: #7aa2f7; }
+      /* Form */
+      .field {
+        margin-bottom: 1rem;
+      }
+      .field label {
+        display: block;
+        font-size: 0.8rem;
+        color: #7982a9;
+        margin-bottom: 0.4rem;
+      }
+      .field input {
+        width: 100%;
+        padding: 0.65rem 0.85rem;
+        background: #1a1b26;
+        border: 1px solid #414868;
+        border-radius: 8px;
+        color: #c0caf5;
+        font-size: 0.9rem;
+        font-family: inherit;
+        outline: none;
+        transition: border-color 0.15s;
+      }
+      .field input:focus {
+        border-color: #7aa2f7;
+      }
 
-.btn-primary {
-  width: 100%;
-  padding: .75rem;
-  background: #7aa2f7;
-  color: #1a1b26;
-  border: none;
-  border-radius: 8px;
-  font-size: .95rem;
-  font-weight: 700;
-  font-family: inherit;
-  cursor: pointer;
-  transition: background .15s, opacity .15s;
-}
-.btn-primary:hover { background: #89b4fa; }
-.btn-primary:disabled { opacity: .5; cursor: default; }
+      .btn-primary {
+        width: 100%;
+        padding: 0.75rem;
+        background: #7aa2f7;
+        color: #1a1b26;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        font-family: inherit;
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          opacity 0.15s;
+      }
+      .btn-primary:hover {
+        background: #89b4fa;
+      }
+      .btn-primary:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
 
-/* Error/info messages */
-.msg {
-  padding: .7rem .9rem;
-  border-radius: 8px;
-  font-size: .85rem;
-  margin-top: 1rem;
-  display: none;
-}
-.msg.error { background: #2d1a2d; border: 1px solid #f7768e; color: #f7768e; display: block; }
-.msg.info  { background: #1a2d1a; border: 1px solid #9ece6a; color: #9ece6a; display: block; }
+      /* Error/info messages */
+      .msg {
+        padding: 0.7rem 0.9rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        margin-top: 1rem;
+        display: none;
+      }
+      .msg.error {
+        background: #2d1a2d;
+        border: 1px solid #f7768e;
+        color: #f7768e;
+        display: block;
+      }
+      .msg.info {
+        background: #1a2d1a;
+        border: 1px solid #9ece6a;
+        color: #9ece6a;
+        display: block;
+      }
 
-/* Loading state */
-.spinner {
-  width: 18px; height: 18px;
-  border: 2px solid rgba(26,27,38,.3);
-  border-top-color: #1a1b26;
-  border-radius: 50%;
-  animation: spin .6s linear infinite;
-  display: inline-block;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+      /* Loading state */
+      .spinner {
+        width: 18px;
+        height: 18px;
+        border: 2px solid rgba(26, 27, 38, 0.3);
+        border-top-color: #1a1b26;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+        display: inline-block;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
 
-/* Hidden helper */
-.hidden { display: none !important; }
-</style>
-</head>
-<body>
+      /* Hidden helper */
+      .hidden {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <h1>Fullstack Course</h1>
+        <p>Увійдіть, щоб продовжити навчання</p>
+      </div>
 
-<div class="card">
-  <div class="logo">
-    <span class="logo-icon">⚡</span>
-    <h1>Fullstack Course</h1>
-    <p>Увійдіть, щоб продовжити навчання</p>
-  </div>
+      <!-- Google Sign-In -->
+      <button class="btn-google" id="btn-google">
+        <svg width="20" height="20" viewBox="0 0 48 48">
+          <path
+            fill="#EA4335"
+            d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
+          />
+          <path
+            fill="#4285F4"
+            d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
+          />
+          <path
+            fill="#FBBC05"
+            d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"
+          />
+          <path
+            fill="#34A853"
+            d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
+          />
+          <path fill="none" d="M0 0h48v48H0z" />
+        </svg>
+        <span>Увійти через Google</span>
+      </button>
 
-  <!-- Google Sign-In -->
-  <button class="btn-google" id="btn-google">
-    <svg width="20" height="20" viewBox="0 0 48 48">
-      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-      <path fill="none" d="M0 0h48v48H0z"/>
-    </svg>
-    <span>Увійти через Google</span>
-  </button>
+      <div class="divider">або</div>
 
-  <div class="divider">або</div>
+      <!-- Tabs: Вхід / Реєстрація -->
+      <div class="tabs">
+        <button class="tab-btn active" id="tab-login">Вхід</button>
+        <button class="tab-btn" id="tab-register">Реєстрація</button>
+      </div>
 
-  <!-- Tabs: Вхід / Реєстрація -->
-  <div class="tabs">
-    <button class="tab-btn active" id="tab-login">Вхід</button>
-    <button class="tab-btn" id="tab-register">Реєстрація</button>
-  </div>
+      <!-- Login form -->
+      <form id="form-login">
+        <div class="field">
+          <label for="login-email">Email</label>
+          <input
+            type="email"
+            id="login-email"
+            placeholder="you@example.com"
+            required
+            autocomplete="email"
+          />
+        </div>
+        <div class="field">
+          <label for="login-password">Пароль</label>
+          <input
+            type="password"
+            id="login-password"
+            placeholder="••••••••"
+            required
+            autocomplete="current-password"
+          />
+        </div>
+        <button type="submit" class="btn-primary" id="btn-login">Увійти</button>
+      </form>
 
-  <!-- Login form -->
-  <form id="form-login">
-    <div class="field">
-      <label for="login-email">Email</label>
-      <input type="email" id="login-email" placeholder="you@example.com" required autocomplete="email">
+      <!-- Register form -->
+      <form id="form-register" class="hidden">
+        <div class="field">
+          <label for="reg-name">Ім'я</label>
+          <input type="text" id="reg-name" placeholder="Ваше ім'я" required />
+        </div>
+        <div class="field">
+          <label for="reg-email">Email</label>
+          <input
+            type="email"
+            id="reg-email"
+            placeholder="you@example.com"
+            required
+            autocomplete="email"
+          />
+        </div>
+        <div class="field">
+          <label for="reg-password">Пароль</label>
+          <input
+            type="password"
+            id="reg-password"
+            placeholder="Мінімум 6 символів"
+            required
+            autocomplete="new-password"
+            minlength="6"
+          />
+        </div>
+        <button type="submit" class="btn-primary" id="btn-register">Зареєструватися</button>
+      </form>
+
+      <div class="msg" id="msg"></div>
     </div>
-    <div class="field">
-      <label for="login-password">Пароль</label>
-      <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password">
-    </div>
-    <button type="submit" class="btn-primary" id="btn-login">Увійти</button>
-  </form>
 
-  <!-- Register form -->
-  <form id="form-register" class="hidden">
-    <div class="field">
-      <label for="reg-name">Ім'я</label>
-      <input type="text" id="reg-name" placeholder="Ваше ім'я" required>
-    </div>
-    <div class="field">
-      <label for="reg-email">Email</label>
-      <input type="email" id="reg-email" placeholder="you@example.com" required autocomplete="email">
-    </div>
-    <div class="field">
-      <label for="reg-password">Пароль</label>
-      <input type="password" id="reg-password" placeholder="Мінімум 6 символів" required autocomplete="new-password" minlength="6">
-    </div>
-    <button type="submit" class="btn-primary" id="btn-register">Зареєструватися</button>
-  </form>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script>
+      (function () {
+        "use strict";
 
-  <div class="msg" id="msg"></div>
-</div>
+        var auth = window._auth;
+        var msg = document.getElementById("msg");
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script src="../js/firebase-config.js"></script>
-<script>
-(function () {
-  'use strict';
+        function showMsg(text, type) {
+          msg.textContent = text;
+          msg.className = "msg " + type;
+        }
+        function clearMsg() {
+          msg.className = "msg";
+          msg.textContent = "";
+        }
+        function setLoading(btn, loading) {
+          if (loading) {
+            btn.dataset.orig = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner"></span>';
+            btn.disabled = true;
+          } else {
+            btn.innerHTML = btn.dataset.orig;
+            btn.disabled = false;
+          }
+        }
 
-  var auth = window._auth;
-  var msg  = document.getElementById('msg');
+        // Якщо вже авторизований — одразу редирект
+        auth.onAuthStateChanged(function (user) {
+          if (user) {
+            redirect();
+          }
+        });
 
-  function showMsg(text, type) {
-    msg.textContent = text;
-    msg.className   = 'msg ' + type;
-  }
-  function clearMsg() {
-    msg.className = 'msg';
-    msg.textContent = '';
-  }
-  function setLoading(btn, loading) {
-    if (loading) {
-      btn.dataset.orig = btn.innerHTML;
-      btn.innerHTML = '<span class="spinner"></span>';
-      btn.disabled = true;
-    } else {
-      btn.innerHTML = btn.dataset.orig;
-      btn.disabled = false;
-    }
-  }
+        function redirect() {
+          var ret = "";
+          try {
+            ret = sessionStorage.getItem("jscourse.returnUrl") || "";
+          } catch (e) {}
+          try {
+            sessionStorage.removeItem("jscourse.returnUrl");
+          } catch (e) {}
+          if (ret && ret.indexOf("login.html") === -1) {
+            window.location.href = ret;
+          } else {
+            window.location.href = "intro.html";
+          }
+        }
 
-  // Якщо вже авторизований — одразу редирект
-  auth.onAuthStateChanged(function (user) {
-    if (user) {
-      redirect();
-    }
-  });
+        // Перемикання вкладок
+        var tabLogin = document.getElementById("tab-login");
+        var tabRegister = document.getElementById("tab-register");
+        var formLogin = document.getElementById("form-login");
+        var formReg = document.getElementById("form-register");
 
-  function redirect() {
-    var ret = '';
-    try { ret = sessionStorage.getItem('jscourse.returnUrl') || ''; } catch (e) {}
-    try { sessionStorage.removeItem('jscourse.returnUrl'); } catch (e) {}
-    if (ret && ret.indexOf('login.html') === -1) {
-      window.location.href = ret;
-    } else {
-      window.location.href = 'intro.html';
-    }
-  }
+        tabLogin.addEventListener("click", function () {
+          tabLogin.classList.add("active");
+          tabRegister.classList.remove("active");
+          formLogin.classList.remove("hidden");
+          formReg.classList.add("hidden");
+          clearMsg();
+        });
+        tabRegister.addEventListener("click", function () {
+          tabRegister.classList.add("active");
+          tabLogin.classList.remove("active");
+          formReg.classList.remove("hidden");
+          formLogin.classList.add("hidden");
+          clearMsg();
+        });
 
-  // Перемикання вкладок
-  var tabLogin    = document.getElementById('tab-login');
-  var tabRegister = document.getElementById('tab-register');
-  var formLogin   = document.getElementById('form-login');
-  var formReg     = document.getElementById('form-register');
+        // Google Sign-In
+        document.getElementById("btn-google").addEventListener("click", function () {
+          var provider = new firebase.auth.GoogleAuthProvider();
+          setLoading(this, true);
+          var self = this;
+          auth
+            .signInWithPopup(provider)
+            .then(redirect)
+            .catch(function (err) {
+              setLoading(self, false);
+              showMsg(translateError(err.code), "error");
+            });
+        });
 
-  tabLogin.addEventListener('click', function () {
-    tabLogin.classList.add('active');
-    tabRegister.classList.remove('active');
-    formLogin.classList.remove('hidden');
-    formReg.classList.add('hidden');
-    clearMsg();
-  });
-  tabRegister.addEventListener('click', function () {
-    tabRegister.classList.add('active');
-    tabLogin.classList.remove('active');
-    formReg.classList.remove('hidden');
-    formLogin.classList.add('hidden');
-    clearMsg();
-  });
+        // Email/Password — Вхід
+        formLogin.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var email = document.getElementById("login-email").value;
+          var pass = document.getElementById("login-password").value;
+          var btn = document.getElementById("btn-login");
+          setLoading(btn, true);
+          clearMsg();
+          auth
+            .signInWithEmailAndPassword(email, pass)
+            .then(redirect)
+            .catch(function (err) {
+              setLoading(btn, false);
+              showMsg(translateError(err.code), "error");
+            });
+        });
 
-  // Google Sign-In
-  document.getElementById('btn-google').addEventListener('click', function () {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    setLoading(this, true);
-    var self = this;
-    auth.signInWithPopup(provider)
-      .then(redirect)
-      .catch(function (err) {
-        setLoading(self, false);
-        showMsg(translateError(err.code), 'error');
-      });
-  });
+        // Email/Password — Реєстрація
+        formReg.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var name = document.getElementById("reg-name").value.trim();
+          var email = document.getElementById("reg-email").value;
+          var pass = document.getElementById("reg-password").value;
+          var btn = document.getElementById("btn-register");
+          setLoading(btn, true);
+          clearMsg();
+          auth
+            .createUserWithEmailAndPassword(email, pass)
+            .then(function (cred) {
+              return cred.user.updateProfile({ displayName: name });
+            })
+            .then(redirect)
+            .catch(function (err) {
+              setLoading(btn, false);
+              showMsg(translateError(err.code), "error");
+            });
+        });
 
-  // Email/Password — Вхід
-  formLogin.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var email = document.getElementById('login-email').value;
-    var pass  = document.getElementById('login-password').value;
-    var btn   = document.getElementById('btn-login');
-    setLoading(btn, true);
-    clearMsg();
-    auth.signInWithEmailAndPassword(email, pass)
-      .then(redirect)
-      .catch(function (err) {
-        setLoading(btn, false);
-        showMsg(translateError(err.code), 'error');
-      });
-  });
-
-  // Email/Password — Реєстрація
-  formReg.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var name  = document.getElementById('reg-name').value.trim();
-    var email = document.getElementById('reg-email').value;
-    var pass  = document.getElementById('reg-password').value;
-    var btn   = document.getElementById('btn-register');
-    setLoading(btn, true);
-    clearMsg();
-    auth.createUserWithEmailAndPassword(email, pass)
-      .then(function (cred) {
-        return cred.user.updateProfile({ displayName: name });
-      })
-      .then(redirect)
-      .catch(function (err) {
-        setLoading(btn, false);
-        showMsg(translateError(err.code), 'error');
-      });
-  });
-
-  function translateError(code) {
-    var map = {
-      'auth/user-not-found':      'Користувача з таким email не знайдено.',
-      'auth/wrong-password':      'Невірний пароль.',
-      'auth/invalid-email':       'Некоректний email.',
-      'auth/email-already-in-use':'Цей email вже зареєстровано.',
-      'auth/weak-password':       'Пароль надто слабкий (мінімум 6 символів).',
-      'auth/popup-closed-by-user':'Вікно входу було закрите.',
-      'auth/network-request-failed': 'Помилка мережі. Перевірте з\'єднання.',
-      'auth/invalid-credential':  'Невірний email або пароль.',
-    };
-    return map[code] || 'Помилка: ' + code;
-  }
-
-})();
-</script>
-</body>
+        function translateError(code) {
+          var map = {
+            "auth/user-not-found": "Користувача з таким email не знайдено.",
+            "auth/wrong-password": "Невірний пароль.",
+            "auth/invalid-email": "Некоректний email.",
+            "auth/email-already-in-use": "Цей email вже зареєстровано.",
+            "auth/weak-password": "Пароль надто слабкий (мінімум 6 символів).",
+            "auth/popup-closed-by-user": "Вікно входу було закрите.",
+            "auth/network-request-failed": "Помилка мережі. Перевірте з'єднання.",
+            "auth/invalid-credential": "Невірний email або пароль.",
+          };
+          return map[code] || "Помилка: " + code;
+        }
+      })();
+    </script>
+  </body>
 </html>

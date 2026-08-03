@@ -1,41 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Практика: Next.js · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="практика">Практика: Next.js</h1>
-<p>Створи застосунок командою <code>npx create-next-app@latest</code> або відкрий шаблон на
-<a href="https://stackblitz.com/fork/nextjs" target="_blank">StackBlitz (Next.js)</a>.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: Next.js · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: Next.js</h1>
+        <p>
+          Створи застосунок командою <code>npx create-next-app@latest</code> або відкрий шаблон на
+          <a href="https://stackblitz.com/fork/nextjs" target="_blank">StackBlitz (Next.js)</a>.
+        </p>
 
-<div class="task">
-<h2>Завдання 1. Кілька сторінок</h2>
-<p class="task-goal">Додай маршрути <code>/</code>, <code>/about</code> і <code>/blog</code> через App Router та
-спільну навігацію у кореневому лейауті з компонентом <code>Link</code>.</p>
-<details class="solution"><summary>Рішення (структура)</summary>
-<pre class="language-js"><code class="language-js">app/
+        <div class="task">
+          <h2>Завдання 1. Кілька сторінок</h2>
+          <p class="task-goal">
+            Додай маршрути <code>/</code>, <code>/about</code> і <code>/blog</code> через App Router
+            та спільну навігацію у кореневому лейауті з компонентом <code>Link</code>.
+          </p>
+          <details class="solution">
+            <summary>Рішення (структура)</summary>
+            <pre class="language-js"><code class="language-js">app/
 ├─ layout.jsx      // &lt;nav&gt; з &lt;Link&gt; + {children}
 ├─ page.jsx        // /
 ├─ about/page.jsx  // /about
 └─ blog/page.jsx   // /blog</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 2. Динамічний маршрут із даними</h2>
-<p class="task-goal">Зроби динамічний маршрут <code>/blog/[slug]</code> (серверний компонент),
-що бере <code>slug</code> із <code>params</code>, серверно завантажує відповідний пост через
-<code>fetch</code> і показує його заголовок і текст. Переконайся, що дані тягнуться <em>на
-сервері</em> (без <code>useEffect</code>), а різні <code>slug</code> дають різні сторінки.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">// app/blog/[slug]/page.jsx
+        <div class="task">
+          <h2>Завдання 2. Динамічний маршрут із даними</h2>
+          <p class="task-goal">
+            Зроби динамічний маршрут <code>/blog/[slug]</code> (серверний компонент), що бере
+            <code>slug</code> із <code>params</code>, серверно завантажує відповідний пост через
+            <code>fetch</code> і показує його заголовок і текст. Переконайся, що дані тягнуться
+            <em>на сервері</em> (без <code>useEffect</code>), а різні <code>slug</code> дають різні
+            сторінки.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">// app/blog/[slug]/page.jsx
 export default async function Post({ params }) {
   const res = await fetch(`https://api.example.com/posts/${params.slug}`);
   const post = await res.json();
@@ -46,26 +58,27 @@ export default async function Post({ params }) {
     &lt;/article&gt;
   );
 }</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 3. API + мутація (виклик)</h2>
-<p class="task-goal">Додай <code>Route Handler</code> <code>/api/notes</code> (GET/POST) і форму, що
-створює нотатку через Server Action. Це місток до fullstack-проєкту.</p>
-</div>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="task">
+          <h2>Завдання 3. API + мутація (виклик)</h2>
+          <p class="task-goal">
+            Додай <code>Route Handler</code> <code>/api/notes</code> (GET/POST) і форму, що створює
+            нотатку через Server Action. Це місток до fullstack-проєкту.
+          </p>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

@@ -1,31 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Socket.io · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="що-таке">1. Навіщо Socket.io</h1>
-<p><strong>Socket.io</strong> — популярна бібліотека поверх WebSocket, що додає те, чого «голому»
-протоколу бракує: <strong>автоперепідключення</strong>, <strong>кімнати</strong>, <strong>іменовані події</strong>,
-підтвердження доставки й <strong>fallback</strong> на HTTP long-polling, якщо WebSocket
-недоступний. Має узгоджений API на сервері й клієнті.</p>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Socket.io — <strong>не</strong> чистий WebSocket: у нього власний протокол поверх. Клієнт
-Socket.io працює лише із сервером Socket.io (і навпаки). Для «сирого» WebSocket
-бери браузерний <code>WebSocket</code> + <code>ws</code> з попереднього уроку.</p></div></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socket.io · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="що-таке">1. Навіщо Socket.io</h1>
+        <p>
+          <strong>Socket.io</strong> — популярна бібліотека поверх WebSocket, що додає те, чого
+          «голому» протоколу бракує: <strong>автоперепідключення</strong>, <strong>кімнати</strong>,
+          <strong>іменовані події</strong>, підтвердження доставки й <strong>fallback</strong> на
+          HTTP long-polling, якщо WebSocket недоступний. Має узгоджений API на сервері й клієнті.
+        </p>
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Socket.io — <strong>не</strong> чистий WebSocket: у нього власний протокол поверх.
+              Клієнт Socket.io працює лише із сервером Socket.io (і навпаки). Для «сирого» WebSocket
+              бери браузерний <code>WebSocket</code> + <code>ws</code> з попереднього уроку.
+            </p>
+          </div>
+        </div>
 
-<h1 id="встановлення">2. Встановлення</h1>
-<pre class="language-js"><code class="language-js">npm install socket.io        // сервер
+        <h1 id="встановлення">2. Встановлення</h1>
+        <pre class="language-js"><code class="language-js">npm install socket.io        // сервер
 npm install socket.io-client // клієнт</code></pre>
 
-<h1 id="сервер">3. Сервер</h1>
-<pre class="language-js"><code class="language-js">import { Server } from 'socket.io';
+        <h1 id="сервер">3. Сервер</h1>
+        <pre class="language-js"><code class="language-js">import { Server } from 'socket.io';
 
 const io = new Server(3000, { cors: { origin: 'http://localhost:5173' } });
 
@@ -41,8 +53,8 @@ io.on('connection', (socket) =&gt; {
   socket.on('disconnect', () =&gt; console.log('відключився', socket.id));
 });</code></pre>
 
-<h1 id="клієнт">4. Клієнт</h1>
-<pre class="language-js"><code class="language-js">import { io } from 'socket.io-client';
+        <h1 id="клієнт">4. Клієнт</h1>
+        <pre class="language-js"><code class="language-js">import { io } from 'socket.io-client';
 
 const socket = io('http://localhost:3000');
 
@@ -51,14 +63,24 @@ socket.on('message', (msg) =&gt; render(msg));
 
 // надіслати подію на сервер
 socket.emit('message', 'Привіт усім!');</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Модель Socket.io — <strong>іменовані події</strong>: <code>emit('назва', дані)</code> надсилає,
-<code>on('назва', cb)</code> слухає. Це зручніше за один <code>onmessage</code> з ручним полем
-<code>type</code>, як у сирого WebSocket.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Модель Socket.io — <strong>іменовані події</strong>:
+              <code>emit('назва', дані)</code> надсилає, <code>on('назва', cb)</code> слухає. Це
+              зручніше за один <code>onmessage</code> з ручним полем <code>type</code>, як у сирого
+              WebSocket.
+            </p>
+          </div>
+        </div>
 
-<h1 id="кімнати">5. Кімнати (rooms)</h1>
-<p><strong>Кімната</strong> — довільна група сокетів, якій можна адресувати повідомлення. Ідеально
-для чат-кімнат, дощок, ігрових столів:</p>
-<pre class="language-js"><code class="language-js">// сервер
+        <h1 id="кімнати">5. Кімнати (rooms)</h1>
+        <p>
+          <strong>Кімната</strong> — довільна група сокетів, якій можна адресувати повідомлення.
+          Ідеально для чат-кімнат, дощок, ігрових столів:
+        </p>
+        <pre class="language-js"><code class="language-js">// сервер
 socket.on('join', (room) =&gt; {
   socket.join(room);
   io.to(room).emit('system', `${socket.id} приєднався`);
@@ -68,32 +90,36 @@ socket.on('room-message', ({ room, text }) =&gt; {
   io.to(room).emit('message', { text }); // лише учасникам кімнати
 });</code></pre>
 
-<h1 id="ack-namespaces">6. Підтвердження та namespaces</h1>
-<p><strong>Acknowledgement</strong> — колбек, який спрацьовує, коли інша сторона підтвердила
-отримання (зручно для «доставлено»):</p>
-<pre class="language-js"><code class="language-js">// клієнт
+        <h1 id="ack-namespaces">6. Підтвердження та namespaces</h1>
+        <p>
+          <strong>Acknowledgement</strong> — колбек, який спрацьовує, коли інша сторона підтвердила
+          отримання (зручно для «доставлено»):
+        </p>
+        <pre class="language-js"><code class="language-js">// клієнт
 socket.emit('save', data, (res) =&gt; console.log('сервер підтвердив:', res.ok));
 // сервер
 socket.on('save', (data, ack) =&gt; { store(data); ack({ ok: true }); });</code></pre>
-<p><strong>Namespace</strong> (<code>io.of('/admin')</code>) — розділення логіки на незалежні канали в
-межах одного з'єднання. Кімнати живуть <em>усередині</em> namespace.</p>
+        <p>
+          <strong>Namespace</strong> (<code>io.of('/admin')</code>) — розділення логіки на незалежні
+          канали в межах одного з'єднання. Кімнати живуть <em>усередині</em> namespace.
+        </p>
 
-<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://socket.io/docs/v4/" target="_blank">Socket.io — документація</a></li>
-<li><a href="https://socket.io/docs/v4/rooms/" target="_blank">Socket.io — Rooms</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+        <ul>
+          <li><a href="https://socket.io/docs/v4/" target="_blank">Socket.io — документація</a></li>
+          <li><a href="https://socket.io/docs/v4/rooms/" target="_blank">Socket.io — Rooms</a></li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

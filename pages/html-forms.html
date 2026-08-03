@@ -1,30 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Форми (HTML) · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="форми">1. Елемент form</h1>
-<p>Форми збирають дані від користувача. Контейнер <code>&lt;form&gt;</code> має атрибути
-<code>action</code> (куди надіслати) і <code>method</code> (<code>GET</code> або <code>POST</code>).</p>
-<pre class="language-markup"><code class="language-markup">&lt;form action="/submit" method="post"&gt;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Форми (HTML) · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="форми">1. Елемент form</h1>
+        <p>
+          Форми збирають дані від користувача. Контейнер <code>&lt;form&gt;</code> має атрибути
+          <code>action</code> (куди надіслати) і <code>method</code> (<code>GET</code> або
+          <code>POST</code>).
+        </p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;form action="/submit" method="post"&gt;
   &lt;!-- поля --&gt;
   &lt;button type="submit"&gt;Надіслати&lt;/button&gt;
 &lt;/form&gt;</code></pre>
-<h1 id="поля">2. Поля вводу та мітки</h1>
-<p>Кожне поле варто підписати міткою <code>&lt;label&gt;</code>. Звʼязок через <code>for</code>/<code>id</code> робить
-клік по мітці фокусом на полі й важливий для доступності.</p>
-<pre class="language-markup"><code class="language-markup">&lt;label for="email"&gt;Email&lt;/label&gt;
+        <h1 id="поля">2. Поля вводу та мітки</h1>
+        <p>
+          Кожне поле варто підписати міткою <code>&lt;label&gt;</code>. Звʼязок через
+          <code>for</code>/<code>id</code> робить клік по мітці фокусом на полі й важливий для
+          доступності.
+        </p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;label for="email"&gt;Email&lt;/label&gt;
 &lt;input type="email" id="email" name="email" placeholder="you@site.com"&gt;</code></pre>
-<h1 id="типи-input">3. Типи input</h1>
-<pre class="language-markup"><code class="language-markup">&lt;input type="text"&gt;
+        <h1 id="типи-input">3. Типи input</h1>
+        <pre class="language-markup"><code class="language-markup">&lt;input type="text"&gt;
 &lt;input type="password"&gt;
 &lt;input type="email"&gt;
 &lt;input type="number"&gt;
@@ -34,36 +47,51 @@
 &lt;input type="file"&gt;
 &lt;input type="range" min="0" max="100"&gt;
 &lt;input type="color"&gt;</code></pre>
-<h1 id="інші-елементи">4. Textarea та select</h1>
-<pre class="language-markup"><code class="language-markup">&lt;textarea name="message" rows="4"&gt;&lt;/textarea&gt;
+        <h1 id="інші-елементи">4. Textarea та select</h1>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;textarea name="message" rows="4"&gt;&lt;/textarea&gt;
 
 &lt;select name="city"&gt;
   &lt;option value="kyiv"&gt;Київ&lt;/option&gt;
   &lt;option value="lviv"&gt;Львів&lt;/option&gt;
 &lt;/select&gt;</code></pre>
-<h1 id="валідація">5. Вбудована валідація</h1>
-<p>Браузер сам перевіряє поля за атрибутами — без жодного JavaScript.</p>
-<pre class="language-markup"><code class="language-markup">&lt;input type="email" required&gt;
+        <h1 id="валідація">5. Вбудована валідація</h1>
+        <p>Браузер сам перевіряє поля за атрибутами — без жодного JavaScript.</p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;input type="email" required&gt;
 &lt;input type="text" minlength="3" maxlength="20"&gt;
 &lt;input type="number" min="1" max="10"&gt;
 &lt;input type="text" pattern="[0-9]{6}" title="6 цифр"&gt;</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Групуйте повʼязані поля в <code>&lt;fieldset&gt;</code> із заголовком <code>&lt;legend&gt;</code> —
-це покращує структуру й доступність великих форм.</p></div></div>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/uk/docs/Learn/Forms" target="_blank">Форми — MDN</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Групуйте повʼязані поля в <code>&lt;fieldset&gt;</code> із заголовком
+              <code>&lt;legend&gt;</code> — це покращує структуру й доступність великих форм.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://developer.mozilla.org/uk/docs/Learn/Forms" target="_blank"
+              >Форми — MDN</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

@@ -12,10 +12,7 @@
   });
 
   function escapeHtml(s) {
-    return String(s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
   function escapeReg(s) {
     return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -154,8 +151,7 @@
         e.preventDefault();
         setActive(activeIndex - 1);
       } else if (e.key === "Enter") {
-        const target =
-          activeIndex >= 0 ? currentResults[activeIndex] : currentResults[0];
+        const target = activeIndex >= 0 ? currentResults[activeIndex] : currentResults[0];
         if (target) location.href = target.h;
       } else if (e.key === "Escape") {
         input.value = "";
@@ -168,8 +164,7 @@
   }
 
   function ensureBox() {
-    const sidebar =
-      document.getElementById("sidebar") || document.querySelector(".sidebar");
+    const sidebar = document.getElementById("sidebar") || document.querySelector(".sidebar");
     if (!sidebar || sidebar.querySelector(".search-box")) return;
     sidebar.insertBefore(buildBox(), sidebar.firstChild);
   }

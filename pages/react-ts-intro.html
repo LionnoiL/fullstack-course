@@ -1,37 +1,57 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Навіщо TypeScript у React · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="навіщо">1. Навіщо TypeScript у React</h1>
-<p>React відмінно працює й на чистому JS (саме так ми його проходили). Але тільки-но
-компонентів стає багато, TypeScript починає економити години:</p>
-<ul>
-<li><strong>Props під контролем</strong> — забув передати проп або передав рядок замість
-числа? Помилка підсвітиться ще в редакторі, а не в рантаймі.</li>
-<li><strong>Автодоповнення</strong> — редактор знає, які пропси приймає компонент і які
-поля має об'єкт стану.</li>
-<li><strong>Безпечний рефакторинг</strong> — перейменував проп, і TS покаже всі місця, де
-його треба оновити.</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Цей розділ спирається на два попередні: <strong>TypeScript</strong> (типи, інтерфейси,
-дженерики) і <strong>React</strong> (компоненти, стан, хуки). Тут ми з'єднуємо їх — тож
-якщо якийсь тип незрозумілий, зазирни в розділ TypeScript.</p></div></div>
-<h1 id="проєкт">2. Створення проєкту</h1>
-<p>Найпростіше — стартер Vite з шаблоном <code>react-ts</code> (Vite ми теж проходили):</p>
-<pre class="language-js"><code class="language-js">npm create vite@latest my-app -- --template react-ts
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Навіщо TypeScript у React · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="навіщо">1. Навіщо TypeScript у React</h1>
+        <p>
+          React відмінно працює й на чистому JS (саме так ми його проходили). Але тільки-но
+          компонентів стає багато, TypeScript починає економити години:
+        </p>
+        <ul>
+          <li>
+            <strong>Props під контролем</strong> — забув передати проп або передав рядок замість
+            числа? Помилка підсвітиться ще в редакторі, а не в рантаймі.
+          </li>
+          <li>
+            <strong>Автодоповнення</strong> — редактор знає, які пропси приймає компонент і які поля
+            має об'єкт стану.
+          </li>
+          <li>
+            <strong>Безпечний рефакторинг</strong> — перейменував проп, і TS покаже всі місця, де
+            його треба оновити.
+          </li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Цей розділ спирається на два попередні: <strong>TypeScript</strong> (типи, інтерфейси,
+              дженерики) і <strong>React</strong> (компоненти, стан, хуки). Тут ми з'єднуємо їх —
+              тож якщо якийсь тип незрозумілий, зазирни в розділ TypeScript.
+            </p>
+          </div>
+        </div>
+        <h1 id="проєкт">2. Створення проєкту</h1>
+        <p>Найпростіше — стартер Vite з шаблоном <code>react-ts</code> (Vite ми теж проходили):</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">npm create vite@latest my-app -- --template react-ts
 cd my-app &amp;&amp; npm install &amp;&amp; npm run dev</code></pre>
-<p>Компоненти тепер живуть у файлах <code>.tsx</code> — це JSX із підтримкою типів.</p>
-<h1 id="перший">3. Перший типізований компонент</h1>
-<pre class="language-js"><code class="language-js">// Greeting.tsx
+        <p>Компоненти тепер живуть у файлах <code>.tsx</code> — це JSX із підтримкою типів.</p>
+        <h1 id="перший">3. Перший типізований компонент</h1>
+        <pre class="language-js"><code class="language-js">// Greeting.tsx
 type GreetingProps = {
   name: string;
 };
@@ -42,32 +62,41 @@ function Greeting({ name }: GreetingProps) {
 
 // &lt;Greeting name="Ada" /&gt;   ✅
 // &lt;Greeting /&gt;              ❌ помилка: пропущено name</code></pre>
-<h1 id="inference">4. Виведення типів</h1>
-<p>Не треба анотувати геть усе — TypeScript багато <strong>виводить сам</strong>. Наприклад,
-тип значення, повернутого компонентом, або результат хука визначаються
-автоматично. Явно типізуй те, що приходить ззовні (пропси, дані з API), а решту
-лиши висновку типів.</p>
-<h1 id="tsx">5. .ts чи .tsx</h1>
-<ul>
-<li><code>.tsx</code> — файли, де є JSX (компоненти);</li>
-<li><code>.ts</code> — звичайна логіка без JSX (утиліти, типи, хелпери).</li>
-</ul>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://react.dev/learn/typescript" target="_blank">Using TypeScript — React</a></li>
-<li><a href="https://react-typescript-cheatsheet.netlify.app/" target="_blank">React TypeScript Cheatsheet</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="inference">4. Виведення типів</h1>
+        <p>
+          Не треба анотувати геть усе — TypeScript багато <strong>виводить сам</strong>. Наприклад,
+          тип значення, повернутого компонентом, або результат хука визначаються автоматично. Явно
+          типізуй те, що приходить ззовні (пропси, дані з API), а решту лиши висновку типів.
+        </p>
+        <h1 id="tsx">5. .ts чи .tsx</h1>
+        <ul>
+          <li><code>.tsx</code> — файли, де є JSX (компоненти);</li>
+          <li><code>.ts</code> — звичайна логіка без JSX (утиліти, типи, хелпери).</li>
+        </ul>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://react.dev/learn/typescript" target="_blank"
+              >Using TypeScript — React</a
+            >
+          </li>
+          <li>
+            <a href="https://react-typescript-cheatsheet.netlify.app/" target="_blank"
+              >React TypeScript Cheatsheet</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

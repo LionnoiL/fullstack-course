@@ -1,30 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Практика: TanStack Query · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="практика">Практика: TanStack Query</h1>
-<p>Створи React-проєкт (Vite), встанови <code>@tanstack/react-query</code> і обгорни застосунок
-у <code>QueryClientProvider</code>. Як API візьми
-<a href="https://jsonplaceholder.typicode.com" target="_blank">JSONPlaceholder</a>
-(<code>/todos</code>, <code>/posts</code>). Постав і Devtools — стеж за станом кешу.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: TanStack Query · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: TanStack Query</h1>
+        <p>
+          Створи React-проєкт (Vite), встанови <code>@tanstack/react-query</code> і обгорни
+          застосунок у <code>QueryClientProvider</code>. Як API візьми
+          <a href="https://jsonplaceholder.typicode.com" target="_blank">JSONPlaceholder</a>
+          (<code>/todos</code>, <code>/posts</code>). Постав і Devtools — стеж за станом кешу.
+        </p>
 
-<div class="task">
-<h2>Завдання 1. Список через useQuery</h2>
-<p class="task-goal">Загорни застосунок у <code>QueryClientProvider</code>, тоді хуком
-<code>useQuery</code> завантаж <code>/todos</code> (задай <code>queryKey</code> і <code>queryFn</code>) і
-виведи список. Обовʼязково обробі стани <code>isPending</code> (показати «завантаження…») та
-<code>isError</code> (показати помилку) — не звертайся до <code>data</code>, поки він не готовий.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">const { data, isPending, isError } = useQuery({
+        <div class="task">
+          <h2>Завдання 1. Список через useQuery</h2>
+          <p class="task-goal">
+            Загорни застосунок у <code>QueryClientProvider</code>, тоді хуком
+            <code>useQuery</code> завантаж <code>/todos</code> (задай <code>queryKey</code> і
+            <code>queryFn</code>) і виведи список. Обовʼязково обробі стани
+            <code>isPending</code> (показати «завантаження…») та <code>isError</code> (показати
+            помилку) — не звертайся до <code>data</code>, поки він не готовий.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre
+              class="language-js"
+            ><code class="language-js">const { data, isPending, isError } = useQuery({
   queryKey: ['todos'],
   queryFn: () =&gt;
     fetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
@@ -34,22 +45,34 @@
 if (isPending) return &lt;p&gt;Завантаження…&lt;/p&gt;;
 if (isError) return &lt;p&gt;Помилка&lt;/p&gt;;
 return &lt;ul&gt;{data.map((t) =&gt; &lt;li key={t.id}&gt;{t.title}&lt;/li&gt;)}&lt;/ul&gt;;</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 2. Деталі за параметром</h2>
-<p class="task-goal">Зроби компонент, що приймає <code>id</code> і завантажує один запис.
-Переконайся, що <code>id</code> входить у <code>queryKey</code> і зміна <code>id</code> перезавантажує дані.</p>
-<details class="hint"><summary>Підказка</summary><p>Ключ виду <code>['todo', id]</code>; при потребі використай <code>enabled: !!id</code>.</p></details>
-</div>
+        <div class="task">
+          <h2>Завдання 2. Деталі за параметром</h2>
+          <p class="task-goal">
+            Зроби компонент, що приймає <code>id</code> і завантажує один запис. Переконайся, що
+            <code>id</code> входить у <code>queryKey</code> і зміна <code>id</code> перезавантажує
+            дані.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Ключ виду <code>['todo', id]</code>; при потребі використай
+              <code>enabled: !!id</code>.
+            </p>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 3. Мутація + інвалідація</h2>
-<p class="task-goal">Додай форму створення запису через <code>useMutation</code>. Після успіху
-інвалідуй ключ списку, щоб він оновився. Блокуй кнопку під час <code>isPending</code>.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">const queryClient = useQueryClient();
+        <div class="task">
+          <h2>Завдання 3. Мутація + інвалідація</h2>
+          <p class="task-goal">
+            Додай форму створення запису через <code>useMutation</code>. Після успіху інвалідуй ключ
+            списку, щоб він оновився. Блокуй кнопку під час <code>isPending</code>.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">const queryClient = useQueryClient();
 const mutation = useMutation({
   mutationFn: (title) =&gt;
     fetch('https://jsonplaceholder.typicode.com/todos', {
@@ -58,31 +81,39 @@ const mutation = useMutation({
     }).then((r) =&gt; r.json()),
   onSuccess: () =&gt; queryClient.invalidateQueries({ queryKey: ['todos'] }),
 });</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 4. Пагінація (виклик)</h2>
-<p class="task-goal">Додай кнопки «Назад/Далі» зі станом <code>page</code>, вклади <code>page</code> у ключ
-і застосуй <code>placeholderData: keepPreviousData</code>, щоб список не блимав при
-перемиканні сторінок.</p>
-</div>
+        <div class="task">
+          <h2>Завдання 4. Пагінація (виклик)</h2>
+          <p class="task-goal">
+            Додай кнопки «Назад/Далі» зі станом <code>page</code>, вклади <code>page</code> у ключ і
+            застосуй <code>placeholderData: keepPreviousData</code>, щоб список не блимав при
+            перемиканні сторінок.
+          </p>
+        </div>
 
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Візьми свій проєкт «Погода з API» або To-Do й переведи завантаження даних на
-TanStack Query. Прибери ручні <code>useState</code> для loading/error — і побач, наскільки
-менше коду лишається.</p></div></div>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Візьми свій проєкт «Погода з API» або To-Do й переведи завантаження даних на TanStack
+              Query. Прибери ручні <code>useState</code> для loading/error — і побач, наскільки
+              менше коду лишається.
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

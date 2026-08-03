@@ -1,104 +1,152 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Практика: Web APIs та PWA · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="практика">Практика: Web APIs та PWA</h1>
-<p>Зроби невеликий застосунок на Vite (Service Worker і PWA потребують HTTPS або
-<code>localhost</code>). Пройди від простого Canvas до офлайн-PWA з локальним сховищем.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: Web APIs та PWA · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: Web APIs та PWA</h1>
+        <p>
+          Зроби невеликий застосунок на Vite (Service Worker і PWA потребують HTTPS або
+          <code>localhost</code>). Пройди від простого Canvas до офлайн-PWA з локальним сховищем.
+        </p>
 
-<div class="task">
-<h2>Завдання 1. Малюнок на Canvas</h2>
-<p class="task-goal">Додай <code>&lt;canvas&gt;</code> і намалюй на ньому кілька фігур
-(прямокутник, коло) та підпис. Отримай 2D-контекст через <code>getContext('2d')</code> і
-використай <code>fillRect</code>, <code>arc</code>, <code>fillText</code>.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">const ctx = document.querySelector('#c').getContext('2d');
+        <div class="task">
+          <h2>Завдання 1. Малюнок на Canvas</h2>
+          <p class="task-goal">
+            Додай <code>&lt;canvas&gt;</code> і намалюй на ньому кілька фігур (прямокутник, коло) та
+            підпис. Отримай 2D-контекст через <code>getContext('2d')</code> і використай
+            <code>fillRect</code>, <code>arc</code>, <code>fillText</code>.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre
+              class="language-js"
+            ><code class="language-js">const ctx = document.querySelector('#c').getContext('2d');
 ctx.fillStyle = '#2563eb';
 ctx.fillRect(20, 20, 80, 50);
 ctx.beginPath(); ctx.arc(160, 45, 30, 0, Math.PI * 2); ctx.fill();
 ctx.fillStyle = '#000'; ctx.fillText('Canvas', 20, 100);</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 2. Важке обчислення у Web Worker</h2>
-<p class="task-goal">Винеси повільну функцію (напр. суму чисел до 1e9 або пошук простих)
-у <strong>Web Worker</strong>. Надішли вхідні дані через <code>postMessage</code>, а результат
-покажи на сторінці. Переконайся, що під час обчислення кнопка/анімація на сторінці
-<strong>лишаються чуйними</strong>.</p>
-<details class="hint"><summary>Підказка</summary><p>Worker: <code>onmessage = (e) =&gt; postMessage(heavy(e.data))</code>. Сторінка: <code>worker.onmessage = (e) =&gt; render(e.data)</code>. У Vite — <code>new Worker(new URL('./worker.js', import.meta.url), { type: 'module' })</code>.</p></details>
-</div>
+        <div class="task">
+          <h2>Завдання 2. Важке обчислення у Web Worker</h2>
+          <p class="task-goal">
+            Винеси повільну функцію (напр. суму чисел до 1e9 або пошук простих) у
+            <strong>Web Worker</strong>. Надішли вхідні дані через <code>postMessage</code>, а
+            результат покажи на сторінці. Переконайся, що під час обчислення кнопка/анімація на
+            сторінці <strong>лишаються чуйними</strong>.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Worker: <code>onmessage = (e) =&gt; postMessage(heavy(e.data))</code>. Сторінка:
+              <code>worker.onmessage = (e) =&gt; render(e.data)</code>. У Vite —
+              <code>new Worker(new URL('./worker.js', import.meta.url), { type: 'module' })</code>.
+            </p>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 3. Нотатки в IndexedDB</h2>
-<p class="task-goal">Через бібліотеку <code>idb</code> створи базу з обʼєкт-сховищем
-<code>notes</code>. Реалізуй додавання нотатки, вивід усіх і видалення. Перезавантаж
-сторінку — дані мають зберегтися.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">import { openDB } from 'idb';
+        <div class="task">
+          <h2>Завдання 3. Нотатки в IndexedDB</h2>
+          <p class="task-goal">
+            Через бібліотеку <code>idb</code> створи базу з обʼєкт-сховищем <code>notes</code>.
+            Реалізуй додавання нотатки, вивід усіх і видалення. Перезавантаж сторінку — дані мають
+            зберегтися.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">import { openDB } from 'idb';
 const db = await openDB('notes', 1, {
   upgrade(db) { db.createObjectStore('notes', { keyPath: 'id', autoIncrement: true }); },
 });
 await db.add('notes', { text: 'Привіт' });
 const all = await db.getAll('notes');
 await db.delete('notes', 1);</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 4. Форматування через Intl</h2>
-<p class="task-goal">Виведи ціну як гривневу валюту (<code>Intl.NumberFormat</code>), дату — у
-довгому українському форматі (<code>Intl.DateTimeFormat</code>) і правильну форму множини
-для «товар/товари/товарів» через <code>Intl.PluralRules</code>.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">new Intl.NumberFormat('uk-UA', { style: 'currency', currency: 'UAH' }).format(499);
+        <div class="task">
+          <h2>Завдання 4. Форматування через Intl</h2>
+          <p class="task-goal">
+            Виведи ціну як гривневу валюту (<code>Intl.NumberFormat</code>), дату — у довгому
+            українському форматі (<code>Intl.DateTimeFormat</code>) і правильну форму множини для
+            «товар/товари/товарів» через <code>Intl.PluralRules</code>.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre
+              class="language-js"
+            ><code class="language-js">new Intl.NumberFormat('uk-UA', { style: 'currency', currency: 'UAH' }).format(499);
 new Intl.DateTimeFormat('uk-UA', { dateStyle: 'long' }).format(new Date());
 const forms = { one: 'товар', few: 'товари', many: 'товарів' };
 const n = 5;
 `${n} ${forms[new Intl.PluralRules('uk-UA').select(n)]}`; // "5 товарів"</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 5. Власний елемент (Web Component)</h2>
-<p class="task-goal">Створи <code>&lt;user-card&gt;</code> через <code>customElements.define</code> з
-<strong>Shadow DOM</strong>: усередині — картка зі стилями, що <em>не</em> течуть назовні, і
-<code>&lt;slot&gt;</code> для вмісту. Використай тег кілька разів на сторінці.</p>
-<details class="hint"><summary>Підказка</summary><p>Імʼя тега — обовʼязково з дефісом. У <code>connectedCallback</code>: <code>this.attachShadow({ mode: 'open' }).innerHTML = '&lt;style&gt;...&lt;/style&gt;&lt;div class="card"&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;'</code>.</p></details>
-</div>
+        <div class="task">
+          <h2>Завдання 5. Власний елемент (Web Component)</h2>
+          <p class="task-goal">
+            Створи <code>&lt;user-card&gt;</code> через <code>customElements.define</code> з
+            <strong>Shadow DOM</strong>: усередині — картка зі стилями, що <em>не</em> течуть
+            назовні, і <code>&lt;slot&gt;</code> для вмісту. Використай тег кілька разів на
+            сторінці.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Імʼя тега — обовʼязково з дефісом. У <code>connectedCallback</code>:
+              <code
+                >this.attachShadow({ mode: 'open' }).innerHTML =
+                '&lt;style&gt;...&lt;/style&gt;&lt;div
+                class="card"&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;'</code
+              >.
+            </p>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 6. Перетворити застосунок на PWA (виклик)</h2>
-<p class="task-goal">Додай <code>vite-plugin-pwa</code> (або власний <code>manifest.json</code> +
-Service Worker): маніфест з іконками, кешування статики (cache-first), офлайн-старт.
-Перевір у DevTools → Application і аудитом Lighthouse, що застосунок встановлюваний і
-працює без мережі.</p>
-</div>
+        <div class="task">
+          <h2>Завдання 6. Перетворити застосунок на PWA (виклик)</h2>
+          <p class="task-goal">
+            Додай <code>vite-plugin-pwa</code> (або власний <code>manifest.json</code> + Service
+            Worker): маніфест з іконками, кешування статики (cache-first), офлайн-старт. Перевір у
+            DevTools → Application і аудитом Lighthouse, що застосунок встановлюваний і працює без
+            мережі.
+          </p>
+        </div>
 
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Зʼєднай усе у своєму fullstack-проєкті: нотатки в IndexedDB як офлайн-кеш, Service
-Worker для роботи без мережі, PWA-маніфест для встановлення. Так навчальний проєкт
-стає схожим на справжній продукт.</p></div></div>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Зʼєднай усе у своєму fullstack-проєкті: нотатки в IndexedDB як офлайн-кеш, Service
+              Worker для роботи без мережі, PWA-маніфест для встановлення. Так навчальний проєкт
+              стає схожим на справжній продукт.
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

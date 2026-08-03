@@ -1,142 +1,202 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Практика: масиви · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-<script src="../js/practice.js"></script>
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="практика">Практика: масиви</h1>
-<p>Методи масивів: <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>slice</code> та інші. Пиши код і
-тисни <strong>«Запустити»</strong>.</p>
-<div id="tasks"></div>
-<script>
-Practice.load('tasks', [
-  {
-    title: 'Сума додатних',
-    desc: '<code>sumPositive(arr)</code> → сума лише додатних чисел.',
-    entry: 'sumPositive',
-    starter: 'function sumPositive(arr) {\n  \n}',
-    solution: 'function sumPositive(arr) {\n  return arr.filter((n) => n > 0).reduce((acc, n) => acc + n, 0);\n}',
-    tests: [
-      { name: 'sumPositive([1,-2,3,-4,5]) === 9', test: (e) => e.sumPositive([1,-2,3,-4,5]) === 9 },
-      { name: 'sumPositive([-1,-2]) === 0', test: (e) => e.sumPositive([-1,-2]) === 0 },
-    ],
-  },
-  {
-    title: 'Унікальні значення',
-    desc: '<code>unique(arr)</code> → масив без дублікатів, порядок збережено.',
-    entry: 'unique',
-    starter: 'function unique(arr) {\n  \n}',
-    hint: '[...new Set(arr)].',
-    solution: 'function unique(arr) {\n  return [...new Set(arr)];\n}',
-    tests: [
-      { name: 'unique([1,2,2,3,3,3]) === [1,2,3]', test: (e) => JSON.stringify(e.unique([1,2,2,3,3,3])) === JSON.stringify([1,2,3]) },
-    ],
-  },
-  {
-    title: 'Групування',
-    desc: '<code>groupBy(arr, key)</code> → об’єкт: групи об’єктів за значенням поля key.',
-    entry: 'groupBy',
-    starter: 'function groupBy(arr, key) {\n  \n}',
-    solution: 'function groupBy(arr, key) {\n  return arr.reduce((acc, item) => {\n    const k = item[key];\n    (acc[k] = acc[k] || []).push(item);\n    return acc;\n  }, {});\n}',
-    tests: [
-      { name: "групує за 'type'", test: (e) => { const r = e.groupBy([{type:'a',v:1},{type:'b',v:2},{type:'a',v:3}], 'type'); return r.a.length === 2 && r.b.length === 1; } },
-    ],
-  },
-  {
-    title: 'Розбити на частини',
-    desc: '<code>chunk(arr, size)</code> → підмасиви завдовжки size.',
-    entry: 'chunk',
-    starter: 'function chunk(arr, size) {\n  \n}',
-    solution: 'function chunk(arr, size) {\n  const result = [];\n  for (let i = 0; i < arr.length; i += size) {\n    result.push(arr.slice(i, i + size));\n  }\n  return result;\n}',
-    tests: [
-      { name: 'chunk([1,2,3,4,5],2)', test: (e) => JSON.stringify(e.chunk([1,2,3,4,5],2)) === JSON.stringify([[1,2],[3,4],[5]]) },
-    ],
-  },
-  {
-    title: 'Розгортання (1 рівень)',
-    desc: '<code>flatten(arr)</code> → розгортає вкладені масиви на один рівень.',
-    entry: 'flatten',
-    starter: 'function flatten(arr) {\n  \n}',
-    solution: 'function flatten(arr) {\n  return arr.reduce((acc, item) => acc.concat(item), []);\n}',
-    tests: [
-      { name: 'flatten([1,[2,3],[4]]) === [1,2,3,4]', test: (e) => JSON.stringify(e.flatten([1,[2,3],[4]])) === JSON.stringify([1,2,3,4]) },
-    ],
-  },
-  {
-    title: 'Середнє арифметичне',
-    desc: '<code>average(arr)</code> → середнє значення (порожній масив → 0).',
-    entry: 'average',
-    starter: 'function average(arr) {\n  \n}',
-    solution: 'function average(arr) {\n  if (arr.length === 0) return 0;\n  return arr.reduce((a, n) => a + n, 0) / arr.length;\n}',
-    tests: [
-      { name: 'average([2,4]) === 3', test: (e) => e.average([2,4]) === 3 },
-      { name: 'average([1,2,3,4]) === 2.5', test: (e) => e.average([1,2,3,4]) === 2.5 },
-      { name: 'average([]) === 0', test: (e) => e.average([]) === 0 },
-    ],
-  },
-  {
-    title: 'Максимум масиву',
-    desc: '<code>maxValue(arr)</code> → найбільше число масиву.',
-    entry: 'maxValue',
-    starter: 'function maxValue(arr) {\n  \n}',
-    solution: 'function maxValue(arr) {\n  return Math.max(...arr);\n}',
-    tests: [
-      { name: 'maxValue([1,5,2]) === 5', test: (e) => e.maxValue([1,5,2]) === 5 },
-      { name: 'maxValue([-3,-1,-2]) === -1', test: (e) => e.maxValue([-3,-1,-2]) === -1 },
-    ],
-  },
-  {
-    title: 'Перетин масивів',
-    desc: '<code>intersection(a, b)</code> → елементи, що є в обох (унікальні, порядок з a).',
-    entry: 'intersection',
-    starter: 'function intersection(a, b) {\n  \n}',
-    solution: 'function intersection(a, b) {\n  return [...new Set(a)].filter((x) => b.includes(x));\n}',
-    tests: [
-      { name: 'intersection([1,2,3],[2,3,4]) === [2,3]', test: (e) => JSON.stringify(e.intersection([1,2,3],[2,3,4])) === JSON.stringify([2,3]) },
-    ],
-  },
-  {
-    title: 'Різниця масивів',
-    desc: '<code>difference(a, b)</code> → елементи з a, яких немає в b.',
-    entry: 'difference',
-    starter: 'function difference(a, b) {\n  \n}',
-    solution: 'function difference(a, b) {\n  return a.filter((x) => !b.includes(x));\n}',
-    tests: [
-      { name: 'difference([1,2,3],[2]) === [1,3]', test: (e) => JSON.stringify(e.difference([1,2,3],[2])) === JSON.stringify([1,3]) },
-    ],
-  },
-  {
-    title: 'Перші N елементів',
-    desc: '<code>take(arr, n)</code> → перші n елементів масиву.',
-    entry: 'take',
-    starter: 'function take(arr, n) {\n  \n}',
-    solution: 'function take(arr, n) {\n  return arr.slice(0, n);\n}',
-    tests: [
-      { name: 'take([1,2,3,4],2) === [1,2]', test: (e) => JSON.stringify(e.take([1,2,3,4],2)) === JSON.stringify([1,2]) },
-      { name: 'take([1],5) === [1]', test: (e) => JSON.stringify(e.take([1],5)) === JSON.stringify([1]) },
-    ],
-  },
-]);
-</script>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: масиви · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+    <script src="../js/practice.js"></script>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: масиви</h1>
+        <p>
+          Методи масивів: <code>map</code>, <code>filter</code>, <code>reduce</code>,
+          <code>slice</code> та інші. Пиши код і тисни <strong>«Запустити»</strong>.
+        </p>
+        <div id="tasks"></div>
+        <script>
+          Practice.load("tasks", [
+            {
+              title: "Сума додатних",
+              desc: "<code>sumPositive(arr)</code> → сума лише додатних чисел.",
+              entry: "sumPositive",
+              starter: "function sumPositive(arr) {\n  \n}",
+              solution:
+                "function sumPositive(arr) {\n  return arr.filter((n) => n > 0).reduce((acc, n) => acc + n, 0);\n}",
+              tests: [
+                {
+                  name: "sumPositive([1,-2,3,-4,5]) === 9",
+                  test: (e) => e.sumPositive([1, -2, 3, -4, 5]) === 9,
+                },
+                { name: "sumPositive([-1,-2]) === 0", test: (e) => e.sumPositive([-1, -2]) === 0 },
+              ],
+            },
+            {
+              title: "Унікальні значення",
+              desc: "<code>unique(arr)</code> → масив без дублікатів, порядок збережено.",
+              entry: "unique",
+              starter: "function unique(arr) {\n  \n}",
+              hint: "[...new Set(arr)].",
+              solution: "function unique(arr) {\n  return [...new Set(arr)];\n}",
+              tests: [
+                {
+                  name: "unique([1,2,2,3,3,3]) === [1,2,3]",
+                  test: (e) =>
+                    JSON.stringify(e.unique([1, 2, 2, 3, 3, 3])) === JSON.stringify([1, 2, 3]),
+                },
+              ],
+            },
+            {
+              title: "Групування",
+              desc: "<code>groupBy(arr, key)</code> → об’єкт: групи об’єктів за значенням поля key.",
+              entry: "groupBy",
+              starter: "function groupBy(arr, key) {\n  \n}",
+              solution:
+                "function groupBy(arr, key) {\n  return arr.reduce((acc, item) => {\n    const k = item[key];\n    (acc[k] = acc[k] || []).push(item);\n    return acc;\n  }, {});\n}",
+              tests: [
+                {
+                  name: "групує за 'type'",
+                  test: (e) => {
+                    const r = e.groupBy(
+                      [
+                        { type: "a", v: 1 },
+                        { type: "b", v: 2 },
+                        { type: "a", v: 3 },
+                      ],
+                      "type"
+                    );
+                    return r.a.length === 2 && r.b.length === 1;
+                  },
+                },
+              ],
+            },
+            {
+              title: "Розбити на частини",
+              desc: "<code>chunk(arr, size)</code> → підмасиви завдовжки size.",
+              entry: "chunk",
+              starter: "function chunk(arr, size) {\n  \n}",
+              solution:
+                "function chunk(arr, size) {\n  const result = [];\n  for (let i = 0; i < arr.length; i += size) {\n    result.push(arr.slice(i, i + size));\n  }\n  return result;\n}",
+              tests: [
+                {
+                  name: "chunk([1,2,3,4,5],2)",
+                  test: (e) =>
+                    JSON.stringify(e.chunk([1, 2, 3, 4, 5], 2)) ===
+                    JSON.stringify([[1, 2], [3, 4], [5]]),
+                },
+              ],
+            },
+            {
+              title: "Розгортання (1 рівень)",
+              desc: "<code>flatten(arr)</code> → розгортає вкладені масиви на один рівень.",
+              entry: "flatten",
+              starter: "function flatten(arr) {\n  \n}",
+              solution:
+                "function flatten(arr) {\n  return arr.reduce((acc, item) => acc.concat(item), []);\n}",
+              tests: [
+                {
+                  name: "flatten([1,[2,3],[4]]) === [1,2,3,4]",
+                  test: (e) =>
+                    JSON.stringify(e.flatten([1, [2, 3], [4]])) === JSON.stringify([1, 2, 3, 4]),
+                },
+              ],
+            },
+            {
+              title: "Середнє арифметичне",
+              desc: "<code>average(arr)</code> → середнє значення (порожній масив → 0).",
+              entry: "average",
+              starter: "function average(arr) {\n  \n}",
+              solution:
+                "function average(arr) {\n  if (arr.length === 0) return 0;\n  return arr.reduce((a, n) => a + n, 0) / arr.length;\n}",
+              tests: [
+                { name: "average([2,4]) === 3", test: (e) => e.average([2, 4]) === 3 },
+                {
+                  name: "average([1,2,3,4]) === 2.5",
+                  test: (e) => e.average([1, 2, 3, 4]) === 2.5,
+                },
+                { name: "average([]) === 0", test: (e) => e.average([]) === 0 },
+              ],
+            },
+            {
+              title: "Максимум масиву",
+              desc: "<code>maxValue(arr)</code> → найбільше число масиву.",
+              entry: "maxValue",
+              starter: "function maxValue(arr) {\n  \n}",
+              solution: "function maxValue(arr) {\n  return Math.max(...arr);\n}",
+              tests: [
+                { name: "maxValue([1,5,2]) === 5", test: (e) => e.maxValue([1, 5, 2]) === 5 },
+                {
+                  name: "maxValue([-3,-1,-2]) === -1",
+                  test: (e) => e.maxValue([-3, -1, -2]) === -1,
+                },
+              ],
+            },
+            {
+              title: "Перетин масивів",
+              desc: "<code>intersection(a, b)</code> → елементи, що є в обох (унікальні, порядок з a).",
+              entry: "intersection",
+              starter: "function intersection(a, b) {\n  \n}",
+              solution:
+                "function intersection(a, b) {\n  return [...new Set(a)].filter((x) => b.includes(x));\n}",
+              tests: [
+                {
+                  name: "intersection([1,2,3],[2,3,4]) === [2,3]",
+                  test: (e) =>
+                    JSON.stringify(e.intersection([1, 2, 3], [2, 3, 4])) === JSON.stringify([2, 3]),
+                },
+              ],
+            },
+            {
+              title: "Різниця масивів",
+              desc: "<code>difference(a, b)</code> → елементи з a, яких немає в b.",
+              entry: "difference",
+              starter: "function difference(a, b) {\n  \n}",
+              solution: "function difference(a, b) {\n  return a.filter((x) => !b.includes(x));\n}",
+              tests: [
+                {
+                  name: "difference([1,2,3],[2]) === [1,3]",
+                  test: (e) =>
+                    JSON.stringify(e.difference([1, 2, 3], [2])) === JSON.stringify([1, 3]),
+                },
+              ],
+            },
+            {
+              title: "Перші N елементів",
+              desc: "<code>take(arr, n)</code> → перші n елементів масиву.",
+              entry: "take",
+              starter: "function take(arr, n) {\n  \n}",
+              solution: "function take(arr, n) {\n  return arr.slice(0, n);\n}",
+              tests: [
+                {
+                  name: "take([1,2,3,4],2) === [1,2]",
+                  test: (e) => JSON.stringify(e.take([1, 2, 3, 4], 2)) === JSON.stringify([1, 2]),
+                },
+                {
+                  name: "take([1],5) === [1]",
+                  test: (e) => JSON.stringify(e.take([1], 5)) === JSON.stringify([1]),
+                },
+              ],
+            },
+          ]);
+        </script>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

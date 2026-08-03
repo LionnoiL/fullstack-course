@@ -1,140 +1,148 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Мої нотатки · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="нотатки">Мої нотатки</h1>
-<p class="notes-count" id="notes-count"></p>
-<p class="notes-empty" id="notes-empty" style="display:none">
-  Ти ще не додав жодної нотатки. Відкрий будь-який урок, натисни кнопку
-  «Нотатки» внизу праворуч і запиши свої думки — усі вони зберуться тут, і
-  звідси можна буде швидко перейти до відповідного уроку.
-</p>
-<div class="notes-list" id="notes-list"></div>
-  </main>
-</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Мої нотатки · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="нотатки">Мої нотатки</h1>
+        <p class="notes-count" id="notes-count"></p>
+        <p class="notes-empty" id="notes-empty" style="display: none">
+          Ти ще не додав жодної нотатки. Відкрий будь-який урок, натисни кнопку «Нотатки» внизу
+          праворуч і запиши свої думки — усі вони зберуться тут, і звідси можна буде швидко перейти
+          до відповідного уроку.
+        </p>
+        <div class="notes-list" id="notes-list"></div>
+      </main>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-<script>
-(function () {
-  "use strict";
-  const NOTES_KEY = "jscourse.notes";
-  const listEl  = document.getElementById("notes-list");
-  const emptyEl = document.getElementById("notes-empty");
-  const countEl = document.getElementById("notes-count");
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+    <script>
+      (function () {
+        "use strict";
+        const NOTES_KEY = "jscourse.notes";
+        const listEl = document.getElementById("notes-list");
+        const emptyEl = document.getElementById("notes-empty");
+        const countEl = document.getElementById("notes-count");
 
-  // Довідник href → { title, section, order } зі структури курсу.
-  const lookup = {};
-  let order = 0;
-  (window.COURSE_SECTIONS || []).forEach((s) => {
-    s.lessons.forEach(([href, title]) => {
-      lookup[href] = { title: title, section: s.title, order: order++ };
-    });
-  });
+        // Довідник href → { title, section, order } зі структури курсу.
+        const lookup = {};
+        let order = 0;
+        (window.COURSE_SECTIONS || []).forEach((s) => {
+          s.lessons.forEach(([href, title]) => {
+            lookup[href] = { title: title, section: s.title, order: order++ };
+          });
+        });
 
-  function getNotes() {
-    try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; }
-    catch (e) { return {}; }
-  }
+        function getNotes() {
+          try {
+            return JSON.parse(localStorage.getItem(NOTES_KEY)) || {};
+          } catch (e) {
+            return {};
+          }
+        }
 
-  function deleteNote(href) {
-    const n = getNotes();
-    delete n[href];
-    try { localStorage.setItem(NOTES_KEY, JSON.stringify(n)); } catch (e) {}
-    // Синхронізуємо видалення з Firestore
-    if (window.CourseFirebase) {
-      window.CourseFirebase.onWrite(NOTES_KEY, n);
-    }
-  }
+        function deleteNote(href) {
+          const n = getNotes();
+          delete n[href];
+          try {
+            localStorage.setItem(NOTES_KEY, JSON.stringify(n));
+          } catch (e) {}
+          // Синхронізуємо видалення з Firestore
+          if (window.CourseFirebase) {
+            window.CourseFirebase.onWrite(NOTES_KEY, n);
+          }
+        }
 
-  function updateCount(count) {
-    if (count === 0) {
-      countEl.textContent = "Поки що порожньо.";
-      emptyEl.style.display = "block";
-    } else {
-      countEl.textContent = "Збережено нотаток: " + count;
-      emptyEl.style.display = "none";
-    }
-  }
+        function updateCount(count) {
+          if (count === 0) {
+            countEl.textContent = "Поки що порожньо.";
+            emptyEl.style.display = "block";
+          } else {
+            countEl.textContent = "Збережено нотаток: " + count;
+            emptyEl.style.display = "none";
+          }
+        }
 
-  function render() {
-    const notes = getNotes();
-    const entries = Object.keys(notes)
-      .filter((href) => notes[href] && notes[href].trim() && lookup[href])
-      .sort((a, b) => lookup[a].order - lookup[b].order);
+        function render() {
+          const notes = getNotes();
+          const entries = Object.keys(notes)
+            .filter((href) => notes[href] && notes[href].trim() && lookup[href])
+            .sort((a, b) => lookup[a].order - lookup[b].order);
 
-    listEl.innerHTML = "";
-    updateCount(entries.length);
+          listEl.innerHTML = "";
+          updateCount(entries.length);
 
-    entries.forEach((href) => {
-      const info = lookup[href];
+          entries.forEach((href) => {
+            const info = lookup[href];
 
-      const card = document.createElement("div");
-      card.className = "note-card";
+            const card = document.createElement("div");
+            card.className = "note-card";
 
-      const head = document.createElement("div");
-      head.className = "note-card-head";
+            const head = document.createElement("div");
+            head.className = "note-card-head";
 
-      const section = document.createElement("span");
-      section.className = "note-card-section";
-      section.textContent = info.section;
+            const section = document.createElement("span");
+            section.className = "note-card-section";
+            section.textContent = info.section;
 
-      const title = document.createElement("a");
-      title.className = "note-card-title";
-      title.href = href;
-      title.textContent = info.title;
+            const title = document.createElement("a");
+            title.className = "note-card-title";
+            title.href = href;
+            title.textContent = info.title;
 
-      const go = document.createElement("a");
-      go.className = "note-card-go";
-      go.href = href;
-      go.textContent = "Перейти до уроку →";
+            const go = document.createElement("a");
+            go.className = "note-card-go";
+            go.href = href;
+            go.textContent = "Перейти до уроку →";
 
-      const delBtn = document.createElement("button");
-      delBtn.type = "button";
-      delBtn.className = "note-card-delete";
-      delBtn.title = "Видалити нотатку";
-      delBtn.textContent = "✕";
-      delBtn.addEventListener("click", function () {
-        deleteNote(href);
-        card.remove();
-        const remaining = listEl.querySelectorAll(".note-card").length;
-        updateCount(remaining);
-      });
+            const delBtn = document.createElement("button");
+            delBtn.type = "button";
+            delBtn.className = "note-card-delete";
+            delBtn.title = "Видалити нотатку";
+            delBtn.textContent = "✕";
+            delBtn.addEventListener("click", function () {
+              deleteNote(href);
+              card.remove();
+              const remaining = listEl.querySelectorAll(".note-card").length;
+              updateCount(remaining);
+            });
 
-      head.appendChild(section);
-      head.appendChild(title);
-      head.appendChild(go);
-      head.appendChild(delBtn);
+            head.appendChild(section);
+            head.appendChild(title);
+            head.appendChild(go);
+            head.appendChild(delBtn);
 
-      const text = document.createElement("p");
-      text.className = "note-card-text";
-      text.textContent = notes[href];
+            const text = document.createElement("p");
+            text.className = "note-card-text";
+            text.textContent = notes[href];
 
-      card.appendChild(head);
-      card.appendChild(text);
-      listEl.appendChild(card);
-    });
-  }
+            card.appendChild(head);
+            card.appendChild(text);
+            listEl.appendChild(card);
+          });
+        }
 
-  render();
+        render();
 
-  // Оновлюємо список якщо Firestore підтягнув свіжі дані
-  window.addEventListener("jscourse:datasynced", render);
-})();
-</script>
-</body>
+        // Оновлюємо список якщо Firestore підтягнув свіжі дані
+        window.addEventListener("jscourse:datasynced", render);
+      })();
+    </script>
+  </body>
 </html>

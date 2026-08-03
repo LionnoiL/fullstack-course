@@ -1,23 +1,30 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Компоненти та @apply у Tailwind · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="повторюваність">1. Проблема повторення</h1>
-<p>Коли той самий довгий набір класів повторюється в багатьох місцях, його стає
-важко підтримувати. Є два способи прибрати дублювання.</p>
-<h1 id="компоненти">2. Компонент розмітки (найкращий спосіб)</h1>
-<p>Якщо ви на React/Vue чи у шаблонізаторі — винесіть повторюваний блок у компонент,
-а класи лишіть у розмітці. Тоді стилі й структура в одному місці.</p>
-<pre class="language-js"><code class="language-js">function Button({ children }) {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Компоненти та @apply у Tailwind · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="повторюваність">1. Проблема повторення</h1>
+        <p>
+          Коли той самий довгий набір класів повторюється в багатьох місцях, його стає важко
+          підтримувати. Є два способи прибрати дублювання.
+        </p>
+        <h1 id="компоненти">2. Компонент розмітки (найкращий спосіб)</h1>
+        <p>
+          Якщо ви на React/Vue чи у шаблонізаторі — винесіть повторюваний блок у компонент, а класи
+          лишіть у розмітці. Тоді стилі й структура в одному місці.
+        </p>
+        <pre class="language-js"><code class="language-js">function Button({ children }) {
   return (
     &lt;button className="px-4 py-2 rounded-lg bg-blue-600 text-white
                        font-medium hover:bg-blue-700"&gt;
@@ -25,10 +32,12 @@
     &lt;/button&gt;
   );
 }</code></pre>
-<h1 id="apply">3. @apply для власного класу</h1>
-<p>Якщо компонентів немає (звичайний HTML), повторювані утиліти можна зібрати в один
-клас через директиву <code>@apply</code> у CSS.</p>
-<pre class="language-css"><code class="language-css">@layer components {
+        <h1 id="apply">3. @apply для власного класу</h1>
+        <p>
+          Якщо компонентів немає (звичайний HTML), повторювані утиліти можна зібрати в один клас
+          через директиву <code>@apply</code> у CSS.
+        </p>
+        <pre class="language-css"><code class="language-css">@layer components {
   .btn-primary {
     @apply px-4 py-2 rounded-lg bg-blue-600 text-white font-medium;
   }
@@ -36,35 +45,56 @@
     @apply bg-blue-700;
   }
 }</code></pre>
-<pre class="language-markup"><code class="language-markup">&lt;button class="btn-primary"&gt;Зберегти&lt;/button&gt;</code></pre>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Не зловживайте <code>@apply</code>: якщо загорнути в нього все підряд, ви фактично
-повернетесь до звичайного CSS і втратите переваги utility-first. Використовуйте
-його точково — для дійсно частих елементів (кнопки, поля вводу).</p></div></div>
-<h1 id="плагіни">4. Офіційні плагіни</h1>
-<p>Готові набори утиліт для типових задач підключають одним рядком у CSS:</p>
-<pre class="language-css"><code class="language-css">@import "tailwindcss";
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;button class="btn-primary"&gt;Зберегти&lt;/button&gt;</code></pre>
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Не зловживайте <code>@apply</code>: якщо загорнути в нього все підряд, ви фактично
+              повернетесь до звичайного CSS і втратите переваги utility-first. Використовуйте його
+              точково — для дійсно частих елементів (кнопки, поля вводу).
+            </p>
+          </div>
+        </div>
+        <h1 id="плагіни">4. Офіційні плагіни</h1>
+        <p>Готові набори утиліт для типових задач підключають одним рядком у CSS:</p>
+        <pre class="language-css"><code class="language-css">@import "tailwindcss";
 @plugin "@tailwindcss/forms";      /* акуратні стилі полів форм */
 @plugin "@tailwindcss/typography"; /* клас prose для статей/markdown */</code></pre>
-<pre class="language-markup"><code class="language-markup">&lt;article class="prose lg:prose-xl"&gt;
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;article class="prose lg:prose-xl"&gt;
   &lt;h1&gt;Заголовок статті&lt;/h1&gt;
   &lt;p&gt;Автоматично гарна типографіка для контенту...&lt;/p&gt;
 &lt;/article&gt;</code></pre>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://tailwindcss.com/docs/functions-and-directives#apply-directive" target="_blank">@apply — Tailwind</a></li>
-<li><a href="https://github.com/tailwindlabs/tailwindcss-typography" target="_blank">Плагін Typography (prose)</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://tailwindcss.com/docs/functions-and-directives#apply-directive"
+              target="_blank"
+              >@apply — Tailwind</a
+            >
+          </li>
+          <li>
+            <a href="https://github.com/tailwindlabs/tailwindcss-typography" target="_blank"
+              >Плагін Typography (prose)</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

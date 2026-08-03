@@ -1,34 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ітератори та генератори · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="ітератори">1. Протокол ітерації</h1>
-<p>Багато конструкцій JavaScript (<code>for...of</code>, spread <code>...</code>, деструктуризація)
-працюють з будь-яким <strong>перебиральним (iterable)</strong> обʼєктом. Перебиральним є
-той, у кого є метод <code>Symbol.iterator</code>, що повертає <strong>ітератор</strong> — обʼєкт із
-методом <code>next()</code>.</p>
-<pre class="language-js"><code class="language-js">const arr = ['a', 'b'];
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ітератори та генератори · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="ітератори">1. Протокол ітерації</h1>
+        <p>
+          Багато конструкцій JavaScript (<code>for...of</code>, spread <code>...</code>,
+          деструктуризація) працюють з будь-яким <strong>перебиральним (iterable)</strong> обʼєктом.
+          Перебиральним є той, у кого є метод <code>Symbol.iterator</code>, що повертає
+          <strong>ітератор</strong> — обʼєкт із методом <code>next()</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">const arr = ['a', 'b'];
 const it = arr[Symbol.iterator]();
 
 it.next(); // { value: 'a', done: false }
 it.next(); // { value: 'b', done: false }
 it.next(); // { value: undefined, done: true }</code></pre>
-<p>Масиви, рядки, <code>Map</code>, <code>Set</code> вже перебиральні. Свій обʼєкт можна зробити таким,
-реалізувавши <code>Symbol.iterator</code> вручну (як у попередньому уроці про Symbol).</p>
-<h1 id="генератори">2. Генератори</h1>
-<p><strong>Генератор</strong> — це особлива функція (позначена <code>function*</code>), виконання якої
-можна <em>ставити на паузу</em> й <em>відновлювати</em>. Кожен <code>yield</code> віддає значення і
-призупиняє функцію до наступного виклику <code>next()</code>.</p>
-<pre class="language-js"><code class="language-js">function* count() {
+        <p>
+          Масиви, рядки, <code>Map</code>, <code>Set</code> вже перебиральні. Свій обʼєкт можна
+          зробити таким, реалізувавши <code>Symbol.iterator</code> вручну (як у попередньому уроці
+          про Symbol).
+        </p>
+        <h1 id="генератори">2. Генератори</h1>
+        <p>
+          <strong>Генератор</strong> — це особлива функція (позначена <code>function*</code>),
+          виконання якої можна <em>ставити на паузу</em> й <em>відновлювати</em>. Кожен
+          <code>yield</code> віддає значення і призупиняє функцію до наступного виклику
+          <code>next()</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">function* count() {
   yield 1;
   yield 2;
   yield 3;
@@ -41,13 +52,22 @@ gen.next(); // { value: 2, done: false }
 // Генератор одразу є перебиральним:
 [...count()];          // [1, 2, 3]
 for (const n of count()) console.log(n);</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Генератор повертає обʼєкт, який одночасно є і ітератором, і
-перебиральним. Тому його зручно використовувати всюди, де очікується
-iterable — без ручної реалізації <code>Symbol.iterator</code>.</p></div></div>
-<h1 id="нескінченні">3. Ліниві та нескінченні послідовності</h1>
-<p>Оскільки генератор обчислює значення «на вимогу», ним можна описати
-потенційно нескінченну послідовність, не займаючи памʼять.</p>
-<pre class="language-js"><code class="language-js">function* ids() {
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Генератор повертає обʼєкт, який одночасно є і ітератором, і перебиральним. Тому його
+              зручно використовувати всюди, де очікується iterable — без ручної реалізації
+              <code>Symbol.iterator</code>.
+            </p>
+          </div>
+        </div>
+        <h1 id="нескінченні">3. Ліниві та нескінченні послідовності</h1>
+        <p>
+          Оскільки генератор обчислює значення «на вимогу», ним можна описати потенційно нескінченну
+          послідовність, не займаючи памʼять.
+        </p>
+        <pre class="language-js"><code class="language-js">function* ids() {
   let id = 1;
   while (true) {
     yield id++;
@@ -58,10 +78,12 @@ const nextId = ids();
 nextId.next().value; // 1
 nextId.next().value; // 2
 nextId.next().value; // 3 ...</code></pre>
-<h1 id="делегування">4. Делегування yield*</h1>
-<p>Конструкція <code>yield*</code> передає керування іншому генератору чи перебиральному
-обʼєкту — зручно для композиції.</p>
-<pre class="language-js"><code class="language-js">function* letters() {
+        <h1 id="делегування">4. Делегування yield*</h1>
+        <p>
+          Конструкція <code>yield*</code> передає керування іншому генератору чи перебиральному
+          обʼєкту — зручно для композиції.
+        </p>
+        <pre class="language-js"><code class="language-js">function* letters() {
   yield 'a';
   yield 'b';
 }
@@ -72,22 +94,32 @@ function* all() {
 }
 
 [...all()]; // ['a', 'b', 1, 2]</code></pre>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://uk.javascript.info/generators" target="_blank">Генератори — javascript.info</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_generators" target="_blank">Iterators and generators — MDN</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://uk.javascript.info/generators" target="_blank"
+              >Генератори — javascript.info</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_generators"
+              target="_blank"
+              >Iterators and generators — MDN</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

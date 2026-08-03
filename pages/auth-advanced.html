@@ -1,102 +1,156 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Refresh-токени, ролі та безпека · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="refresh">1. Access- vs refresh-токени</h1>
-<p>Access-токен роблять <strong>короткоживучим</strong> (напр. 15 хв): якщо його вкрадуть, вікно
-шкоди мале. Але не змушувати ж користувача логінитися щочверть години — тож поряд
-видають <strong>refresh-токен</strong> з довгим строком, яким тихо отримують новий access.</p>
-<ul>
-<li><strong>access_token</strong> — короткий, шлеться з кожним запитом до API;</li>
-<li><strong>refresh_token</strong> — довгий, зберігається безпечно й використовується лише для
-оновлення access.</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Auth.js і Supabase роблять оновлення <strong>автоматично</strong>. Знати механізм усе одно
-варто: так ти розумієш, чому сесія «живе» довше за access-токен і де може піти не
-так.</p></div></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Refresh-токени, ролі та безпека · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="refresh">1. Access- vs refresh-токени</h1>
+        <p>
+          Access-токен роблять <strong>короткоживучим</strong> (напр. 15 хв): якщо його вкрадуть,
+          вікно шкоди мале. Але не змушувати ж користувача логінитися щочверть години — тож поряд
+          видають <strong>refresh-токен</strong> з довгим строком, яким тихо отримують новий access.
+        </p>
+        <ul>
+          <li><strong>access_token</strong> — короткий, шлеться з кожним запитом до API;</li>
+          <li>
+            <strong>refresh_token</strong> — довгий, зберігається безпечно й використовується лише
+            для оновлення access.
+          </li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Auth.js і Supabase роблять оновлення <strong>автоматично</strong>. Знати механізм усе
+              одно варто: так ти розумієш, чому сесія «живе» довше за access-токен і де може піти не
+              так.
+            </p>
+          </div>
+        </div>
 
-<h1 id="ротація">2. Ротація refresh-токенів</h1>
-<p>Сучасна практика — <strong>rotation</strong>: при кожному оновленні видається новий
-refresh-токен, а старий негайно анулюється. Якщо той самий refresh використали двічі —
-це ознака крадіжки, і вся сесія відкликається. Supabase застосовує ротацію з коробки.</p>
+        <h1 id="ротація">2. Ротація refresh-токенів</h1>
+        <p>
+          Сучасна практика — <strong>rotation</strong>: при кожному оновленні видається новий
+          refresh-токен, а старий негайно анулюється. Якщо той самий refresh використали двічі — це
+          ознака крадіжки, і вся сесія відкликається. Supabase застосовує ротацію з коробки.
+        </p>
 
-<h1 id="зберігання">3. Де зберігати токени (найважливіше)</h1>
-<ul>
-<li><strong><code>httpOnly</code>-cookie</strong> — <em>рекомендовано</em>: JavaScript до неї не має доступу,
-тож XSS не вкраде токен. Додай <code>Secure</code> і <code>SameSite</code>;</li>
-<li><strong><code>localStorage</code></strong> — зручно, але <em>вразливо до XSS</em>: будь-який сторонній
-скрипт прочитає токен. Уникай для чутливих токенів.</li>
-</ul>
-<pre class="language-js"><code class="language-js">// приклад безпечної cookie на сервері
+        <h1 id="зберігання">3. Де зберігати токени (найважливіше)</h1>
+        <ul>
+          <li>
+            <strong><code>httpOnly</code>-cookie</strong> — <em>рекомендовано</em>: JavaScript до
+            неї не має доступу, тож XSS не вкраде токен. Додай <code>Secure</code> і
+            <code>SameSite</code>;
+          </li>
+          <li>
+            <strong><code>localStorage</code></strong> — зручно, але <em>вразливо до XSS</em>:
+            будь-який сторонній скрипт прочитає токен. Уникай для чутливих токенів.
+          </li>
+        </ul>
+        <pre class="language-js"><code class="language-js">// приклад безпечної cookie на сервері
 res.cookie('session', token, {
   httpOnly: true,   // недоступна для document.cookie
   secure: true,     // лише через HTTPS
   sameSite: 'lax',  // захист від CSRF на крос-сайт запитах
   maxAge: 60 * 60 * 1000,
 });</code></pre>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Компроміс безпеки: <strong>XSS б'є по localStorage</strong>, <strong>CSRF б'є по cookie</strong>.
-Тому cookie роблять <code>httpOnly</code> + <code>SameSite</code>, а застосунок захищають від XSS
-(екранування, CSP). Auth.js зберігає сесію саме в захищеній cookie.</p></div></div>
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Компроміс безпеки: <strong>XSS б'є по localStorage</strong>,
+              <strong>CSRF б'є по cookie</strong>. Тому cookie роблять <code>httpOnly</code> +
+              <code>SameSite</code>, а застосунок захищають від XSS (екранування, CSP). Auth.js
+              зберігає сесію саме в захищеній cookie.
+            </p>
+          </div>
+        </div>
 
-<h1 id="csrf">4. CSRF коротко</h1>
-<p><strong>CSRF</strong> — чужий сайт змушує браузер надіслати запит із твоєю cookie. Захист:
-атрибут <code>SameSite</code> на cookie, CSRF-токени для форм (Auth.js додає їх сам) і
-перевірка <code>Origin</code>. Для суто токен-API (Authorization-заголовок, не cookie) CSRF
-менш актуальний.</p>
+        <h1 id="csrf">4. CSRF коротко</h1>
+        <p>
+          <strong>CSRF</strong> — чужий сайт змушує браузер надіслати запит із твоєю cookie. Захист:
+          атрибут <code>SameSite</code> на cookie, CSRF-токени для форм (Auth.js додає їх сам) і
+          перевірка <code>Origin</code>. Для суто токен-API (Authorization-заголовок, не cookie)
+          CSRF менш актуальний.
+        </p>
 
-<h1 id="rbac">5. Ролі та права (RBAC)</h1>
-<p>Автентифікація сказала <em>хто</em> — авторизація вирішує <em>що можна</em>. Роль зручно
-покласти в токен/сесію (як у колбеках Auth.js) і перевіряти на сервері перед дією:</p>
-<pre class="language-js"><code class="language-js">// server action / route
+        <h1 id="rbac">5. Ролі та права (RBAC)</h1>
+        <p>
+          Автентифікація сказала <em>хто</em> — авторизація вирішує <em>що можна</em>. Роль зручно
+          покласти в токен/сесію (як у колбеках Auth.js) і перевіряти на сервері перед дією:
+        </p>
+        <pre class="language-js"><code class="language-js">// server action / route
 const session = await auth();
 if (session?.user?.role !== 'admin') {
   throw new Error('Немає прав'); // 403
 }
 await deletePost(id);</code></pre>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Перевірку прав роби <strong>на сервері</strong>, а не лише ховаючи кнопки в UI. Приховати
-кнопку — це зручність; захист — це серверна перевірка на кожній чутливій дії.</p></div></div>
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Перевірку прав роби <strong>на сервері</strong>, а не лише ховаючи кнопки в UI.
+              Приховати кнопку — це зручність; захист — це серверна перевірка на кожній чутливій
+              дії.
+            </p>
+          </div>
+        </div>
 
-<h1 id="платформи">6. Готові платформи: Clerk, Auth0</h1>
-<p>Якщо не хочеться будувати навіть сторінки входу — є платні платформи <strong>Clerk</strong> та
-<strong>Auth0</strong>: готові UI-компоненти входу/реєстрації, керування користувачами,
-MFA, організації/команди. Швидко й надійно, ціна — вендор-лок і оплата за
-користувачів.</p>
+        <h1 id="платформи">6. Готові платформи: Clerk, Auth0</h1>
+        <p>
+          Якщо не хочеться будувати навіть сторінки входу — є платні платформи
+          <strong>Clerk</strong> та <strong>Auth0</strong>: готові UI-компоненти входу/реєстрації,
+          керування користувачами, MFA, організації/команди. Швидко й надійно, ціна — вендор-лок і
+          оплата за користувачів.
+        </p>
 
-<h1 id="чеклист">7. Чеклист безпеки автентифікації</h1>
-<ul>
-<li>паролі — лише хеш (bcrypt/argon2), ніколи у відкритому вигляді;</li>
-<li>секрети (<code>client_secret</code>, <code>service_role</code>) — тільки на сервері й у <code>.env</code>;</li>
-<li>токени — у <code>httpOnly</code>+<code>Secure</code>+<code>SameSite</code> cookie;</li>
-<li>короткий access + refresh із ротацією;</li>
-<li>усе тільки через HTTPS; перевірка прав — на сервері;</li>
-<li>не винаходити криптографію — використовувати перевірені бібліотеки.</li>
-</ul>
+        <h1 id="чеклист">7. Чеклист безпеки автентифікації</h1>
+        <ul>
+          <li>паролі — лише хеш (bcrypt/argon2), ніколи у відкритому вигляді;</li>
+          <li>
+            секрети (<code>client_secret</code>, <code>service_role</code>) — тільки на сервері й у
+            <code>.env</code>;
+          </li>
+          <li>
+            токени — у <code>httpOnly</code>+<code>Secure</code>+<code>SameSite</code> cookie;
+          </li>
+          <li>короткий access + refresh із ротацією;</li>
+          <li>усе тільки через HTTPS; перевірка прав — на сервері;</li>
+          <li>не винаходити криптографію — використовувати перевірені бібліотеки.</li>
+        </ul>
 
-<h1 id="додаткові-матеріали">8. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html" target="_blank">OWASP — Authentication Cheat Sheet</a></li>
-<li><a href="https://clerk.com/docs" target="_blank">Clerk — документація</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">8. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html"
+              target="_blank"
+              >OWASP — Authentication Cheat Sheet</a
+            >
+          </li>
+          <li><a href="https://clerk.com/docs" target="_blank">Clerk — документація</a></li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

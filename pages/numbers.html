@@ -1,27 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Числа · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="вступ">1. Вступ</h1>
-<p>Всі числа в JavaScript, як цілі так і дробові, мають тип <code>Number</code> і записувати
-їх можна не тільки в десятковій системі числення.</p>
-<h1 id="приведення-до-числа">2. Приведення до числа</h1>
-<p>Більшість арифметичних операцій і математичних функцій перетворять значення в
-число автоматично. Для того щоб зробити це явно, використовуйте функцію
-<code>Number(val)</code>, передаючи їй в <code>val</code> те, що треба привести до числа.</p>
-<p>Якщо значення неможливо привести до числа, результатом буде спеціальне значення
-N<code>NaN (Not a Number)</code>. Аналогічним чином відбувається перетворення і в інших
-математичних операторах і функціях.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> valueA <span class="token operator">=</span> <span class="token string">'5'</span><span class="token punctuation">;</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Числа · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="вступ">1. Вступ</h1>
+        <p>
+          Всі числа в JavaScript, як цілі так і дробові, мають тип <code>Number</code> і записувати
+          їх можна не тільки в десятковій системі числення.
+        </p>
+        <h1 id="приведення-до-числа">2. Приведення до числа</h1>
+        <p>
+          Більшість арифметичних операцій і математичних функцій перетворять значення в число
+          автоматично. Для того щоб зробити це явно, використовуйте функцію
+          <code>Number(val)</code>, передаючи їй в <code>val</code> те, що треба привести до числа.
+        </p>
+        <p>
+          Якщо значення неможливо привести до числа, результатом буде спеціальне значення N<code
+            >NaN (Not a Number)</code
+          >. Аналогічним чином відбувається перетворення і в інших математичних операторах і
+          функціях.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> valueA <span class="token operator">=</span> <span class="token string">'5'</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">Number</span><span class="token punctuation">(</span>valueA<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> <span class="token function">Number</span><span class="token punctuation">(</span>valueA<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 'number'</span>
 
@@ -29,10 +41,14 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">Number</span><span class="token punctuation">(</span>valueB<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// NaN</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> <span class="token function">Number</span><span class="token punctuation">(</span>valueB<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 'number'</span>
 </code></pre>
-<h1 id="numberparseint-і-numberparsefloat">3. Number.parseInt() і Number.parseFloat()</h1>
-<p>Методи перетворять рядок символ за символом, поки це можливо. При виникненні
-помилки повертається число, яке вийшло.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">// Парсить з рядка ціле число</span>
+        <h1 id="numberparseint-і-numberparsefloat">3. Number.parseInt() і Number.parseFloat()</h1>
+        <p>
+          Методи перетворять рядок символ за символом, поки це можливо. При виникненні помилки
+          повертається число, яке вийшло.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">// Парсить з рядка ціле число</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Number<span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span><span class="token string">'5px'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Number<span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span><span class="token string">'12qwe74'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 12</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Number<span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span><span class="token string">'12.46qwe79'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 12</span>
@@ -44,46 +60,72 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Number<span class="token punctuation">.</span><span class="token function">parseFloat</span><span class="token punctuation">(</span><span class="token string">'12.46qwe79'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 12.46</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Number<span class="token punctuation">.</span><span class="token function">parseFloat</span><span class="token punctuation">(</span><span class="token string">'qweqwe'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// NaN</span>
 </code></pre>
-<h1 id="перевірка-на-число">4. Перевірка на число</h1>
-<p>Для перевірки на число можна використовувати метод <code>Number.isNaN(val)</code>. Він
-перевіряє, чи є вказане значення <code>NaN</code> чи ні. Цей метод відповідає на питання
-"Це Not A Number?", І повертає:</p>
-<ul>
-<li><code>true</code> — якщо значення <code>val</code> це <code>NaN</code></li>
-<li><code>false</code> — якщо значення <code>val</code> це не <code>NaN</code></li>
-</ul>
-<p>Для всіх значень <code>val</code> крім <code>NaN</code>, при передачі в <code>Number.isNaN(val)</code> поверне
-<code>false</code>. Цей метод не виробляє спробу перетворити <code>val</code> до числа, а просто
-виконує перевірку на <code>NaN</code>.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> validNumber <span class="token operator">=</span> <span class="token function">Number</span><span class="token punctuation">(</span><span class="token string">'51'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 51</span>
+        <h1 id="перевірка-на-число">4. Перевірка на число</h1>
+        <p>
+          Для перевірки на число можна використовувати метод <code>Number.isNaN(val)</code>. Він
+          перевіряє, чи є вказане значення <code>NaN</code> чи ні. Цей метод відповідає на питання
+          "Це Not A Number?", І повертає:
+        </p>
+        <ul>
+          <li><code>true</code> — якщо значення <code>val</code> це <code>NaN</code></li>
+          <li><code>false</code> — якщо значення <code>val</code> це не <code>NaN</code></li>
+        </ul>
+        <p>
+          Для всіх значень <code>val</code> крім <code>NaN</code>, при передачі в
+          <code>Number.isNaN(val)</code> поверне <code>false</code>. Цей метод не виробляє спробу
+          перетворити <code>val</code> до числа, а просто виконує перевірку на <code>NaN</code>.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> validNumber <span class="token operator">=</span> <span class="token function">Number</span><span class="token punctuation">(</span><span class="token string">'51'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 51</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Number<span class="token punctuation">.</span><span class="token function">isNaN</span><span class="token punctuation">(</span>validNumber<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
 
 <span class="token keyword">const</span> invalidNumber <span class="token operator">=</span> <span class="token function">Number</span><span class="token punctuation">(</span><span class="token string">'qweqwe'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// NaN</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Number<span class="token punctuation">.</span><span class="token function">isNaN</span><span class="token punctuation">(</span>invalidNumber<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
 </code></pre>
-<h1 id="додавання-чисел-з-плаваючою-точкою">5. Додавання чисел з плаваючою точкою</h1>
-<p>При складанні не цілих чисел в JavaScript, та інших мовах програмування, є особливість. Якщо коротко, то <code>0.1 + 0.2</code> не дорівнює <code>0.3</code>, результат складання більше ніж <code>0.3</code>. Все від того, що машина рахує у двійковій системі.</p>
-<p>Число <code>0.1</code> у двійковій системі числення це нескінченний дріб, оскільки одиниця на десять у двійковій системі не ділиться. Також нескінченним дробом є <code>0.2</code>.
-Двійкове значення нескінченних дробів зберігається тільки до певного знака, тому виникає неточність. При додаванні <code>0.1</code> і <code>0.2</code>, дві неточності складаються, виходить незначна, але все ж помилка в обчисленнях.</p>
-<pre class="language-"><code class="lang-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.2</span> <span class="token operator">===</span> <span class="token number">0.3</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+        <h1 id="додавання-чисел-з-плаваючою-точкою">5. Додавання чисел з плаваючою точкою</h1>
+        <p>
+          При складанні не цілих чисел в JavaScript, та інших мовах програмування, є особливість.
+          Якщо коротко, то <code>0.1 + 0.2</code> не дорівнює <code>0.3</code>, результат складання
+          більше ніж <code>0.3</code>. Все від того, що машина рахує у двійковій системі.
+        </p>
+        <p>
+          Число <code>0.1</code> у двійковій системі числення це нескінченний дріб, оскільки одиниця
+          на десять у двійковій системі не ділиться. Також нескінченним дробом є <code>0.2</code>.
+          Двійкове значення нескінченних дробів зберігається тільки до певного знака, тому виникає
+          неточність. При додаванні <code>0.1</code> і <code>0.2</code>, дві неточності складаються,
+          виходить незначна, але все ж помилка в обчисленнях.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.2</span> <span class="token operator">===</span> <span class="token number">0.3</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token number">0.1</span> <span class="token operator">+</span> <span class="token number">0.2</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 0.30000000000000004</span>
 </code></pre>
-<p>Звичайно, це не означає, що точні обчислення для таких чисел неможливі. Є кілька методів розв'язання цієї проблеми:</p>
-<ul>
-<li>Зробити їх цілими, помноживши на 10, скласти, а потім результат розділити на
-10</li>
-<li>Додати, а потім округлити до розумного знака після коми.</li>
-<li>Округлення до 10-го знака зазвичай буває достатньо, щоб відсікти помилку
-обчислень</li>
-</ul>
-<pre class="language-"><code class="lang-js"><span class="token comment">// Зробити їх цілими, помноживши на 10, скласти, а результат розділити на 10</span>
+        <p>
+          Звичайно, це не означає, що точні обчислення для таких чисел неможливі. Є кілька методів
+          розв'язання цієї проблеми:
+        </p>
+        <ul>
+          <li>Зробити їх цілими, помноживши на 10, скласти, а потім результат розділити на 10</li>
+          <li>Додати, а потім округлити до розумного знака після коми.</li>
+          <li>
+            Округлення до 10-го знака зазвичай буває достатньо, щоб відсікти помилку обчислень
+          </li>
+        </ul>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">// Зробити їх цілими, помноживши на 10, скласти, а результат розділити на 10</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">0.1</span> <span class="token operator">*</span> <span class="token number">10</span> <span class="token operator">+</span> <span class="token number">0.2</span> <span class="token operator">*</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<h1 id="обєкт-math">6. Об'єкт Math</h1>
-<p>Один з вбудованих об'єктів в мову. Надає набір методів для роботи з числами.
-Знання всіх методів на пам'ять не потрібно, тільки деяких, найбільш корисних.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">//  Math.floor(num) - повертає найбільше ціле число, менше, або дорівнює вказаному</span>
+        <h1 id="обєкт-math">6. Об'єкт Math</h1>
+        <p>
+          Один з вбудованих об'єктів в мову. Надає набір методів для роботи з числами. Знання всіх
+          методів на пам'ять не потрібно, тільки деяких, найбільш корисних.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">//  Math.floor(num) - повертає найбільше ціле число, менше, або дорівнює вказаному</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">floor</span><span class="token punctuation">(</span><span class="token number">1.7</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1</span>
 
 <span class="token comment">// Math.ceil(num) - повертає найменше ціле число,</span>
@@ -107,17 +149,23 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// випадкове число між 0 и 1</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span><span class="token number">10</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// випадкове число від 1 до 10</span>
 </code></pre>
-<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math" target="_blank">Документація Math на MDN</a></p>
-  </main>
-</div>
+        <p>
+          <a
+            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math"
+            target="_blank"
+            >Документація Math на MDN</a
+          >
+        </p>
+      </main>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

@@ -1,20 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Форми Bootstrap · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="форми">1. Стилізовані поля</h1>
-<p>Bootstrap оформлює поля класами <code>form-control</code>, <code>form-label</code>,
-<code>form-select</code> — і форма одразу виглядає охайно та адаптивно.</p>
-<pre class="language-markup"><code class="language-markup">&lt;div class="mb-3"&gt;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Форми Bootstrap · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="форми">1. Стилізовані поля</h1>
+        <p>
+          Bootstrap оформлює поля класами <code>form-control</code>, <code>form-label</code>,
+          <code>form-select</code> — і форма одразу виглядає охайно та адаптивно.
+        </p>
+        <pre class="language-markup"><code class="language-markup">&lt;div class="mb-3"&gt;
   &lt;label for="email" class="form-label"&gt;Email&lt;/label&gt;
   &lt;input type="email" class="form-control" id="email" placeholder="you@site.com"&gt;
 &lt;/div&gt;
@@ -26,8 +31,8 @@
     &lt;option&gt;Львів&lt;/option&gt;
   &lt;/select&gt;
 &lt;/div&gt;</code></pre>
-<h1 id="чекбокси">2. Чекбокси та перемикачі</h1>
-<pre class="language-markup"><code class="language-markup">&lt;div class="form-check"&gt;
+        <h1 id="чекбокси">2. Чекбокси та перемикачі</h1>
+        <pre class="language-markup"><code class="language-markup">&lt;div class="form-check"&gt;
   &lt;input class="form-check-input" type="checkbox" id="agree"&gt;
   &lt;label class="form-check-label" for="agree"&gt;Приймаю умови&lt;/label&gt;
 &lt;/div&gt;
@@ -36,21 +41,30 @@
   &lt;input class="form-check-input" type="checkbox" id="dark"&gt;
   &lt;label class="form-check-label" for="dark"&gt;Темна тема&lt;/label&gt;
 &lt;/div&gt;</code></pre>
-<h1 id="групи">3. Групи вводу (input group)</h1>
-<pre class="language-markup"><code class="language-markup">&lt;div class="input-group"&gt;
+        <h1 id="групи">3. Групи вводу (input group)</h1>
+        <pre class="language-markup"><code class="language-markup">&lt;div class="input-group"&gt;
   &lt;span class="input-group-text"&gt;@&lt;/span&gt;
   &lt;input type="text" class="form-control" placeholder="нікнейм"&gt;
 &lt;/div&gt;</code></pre>
-<h1 id="валідація">4. Стани валідації</h1>
-<pre class="language-markup"><code class="language-markup">&lt;input class="form-control is-valid"&gt;
+        <h1 id="валідація">4. Стани валідації</h1>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;input class="form-control is-valid"&gt;
 &lt;div class="valid-feedback"&gt;Виглядає добре!&lt;/div&gt;
 
 &lt;input class="form-control is-invalid"&gt;
 &lt;div class="invalid-feedback"&gt;Заповніть це поле.&lt;/div&gt;</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Класи <code>is-valid</code>/<code>is-invalid</code> зручно перемикати з JavaScript після
-власної перевірки (див. розділ «Форми та валідація»).</p></div></div>
-<h1 id="сітка-форми">5. Форма на сітці</h1>
-<pre class="language-markup"><code class="language-markup">&lt;form class="row g-3"&gt;
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Класи <code>is-valid</code>/<code>is-invalid</code> зручно перемикати з JavaScript
+              після власної перевірки (див. розділ «Форми та валідація»).
+            </p>
+          </div>
+        </div>
+        <h1 id="сітка-форми">5. Форма на сітці</h1>
+        <pre class="language-markup"><code class="language-markup">&lt;form class="row g-3"&gt;
   &lt;div class="col-md-6"&gt;
     &lt;label class="form-label"&gt;Ім'я&lt;/label&gt;
     &lt;input class="form-control"&gt;
@@ -63,21 +77,25 @@
     &lt;button class="btn btn-primary"&gt;Надіслати&lt;/button&gt;
   &lt;/div&gt;
 &lt;/form&gt;</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://getbootstrap.com/docs/5.3/forms/overview/" target="_blank">Forms — Bootstrap docs</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://getbootstrap.com/docs/5.3/forms/overview/" target="_blank"
+              >Forms — Bootstrap docs</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

@@ -1,84 +1,127 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Навіщо типобезпечний API (tRPC) · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="проблема">1. Проблема: типи живуть двічі</h1>
-<p>Коли фронтенд і бекенд спілкуються через REST, тип відповіді описано <em>двічі</em>: раз
-на сервері (що ми віддаємо) і раз на клієнті (що ми очікуємо). Ці два описи ніщо не
-тримає в синхроні — змінили поле на бекенді, а на фронті воно ще старе, і TypeScript
-мовчить, бо через мережу типи «не переходять».</p>
-<pre class="language-js"><code class="language-js">// бекенд повертає { id, title, done }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Навіщо типобезпечний API (tRPC) · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="проблема">1. Проблема: типи живуть двічі</h1>
+        <p>
+          Коли фронтенд і бекенд спілкуються через REST, тип відповіді описано <em>двічі</em>: раз
+          на сервері (що ми віддаємо) і раз на клієнті (що ми очікуємо). Ці два описи ніщо не тримає
+          в синхроні — змінили поле на бекенді, а на фронті воно ще старе, і TypeScript мовчить, бо
+          через мережу типи «не переходять».
+        </p>
+        <pre class="language-js"><code class="language-js">// бекенд повертає { id, title, done }
 app.get('/api/todos', (req, res) =&gt; res.json(getTodos()));
 
 // клієнт вгадує форму відповіді вручну — і легко помиляється
 type Todo = { id: number; title: string; completed: boolean }; // ← поле насправді `done`
 const todos: Todo[] = await fetch('/api/todos').then((r) =&gt; r.json());</code></pre>
-<p>Класичні ліки — генерувати клієнт зі схеми (OpenAPI/Swagger, GraphQL codegen). Це
-працює, але додає крок кодогенерації, окремі схеми й тулінг.</p>
+        <p>
+          Класичні ліки — генерувати клієнт зі схеми (OpenAPI/Swagger, GraphQL codegen). Це працює,
+          але додає крок кодогенерації, окремі схеми й тулінг.
+        </p>
 
-<h1 id="що-таке">2. Що таке tRPC</h1>
-<p><strong>tRPC</strong> (TypeScript Remote Procedure Call) дає змогу викликати серверні
-функції з клієнта так, ніби вони локальні — і при цьому <strong>типи переходять
-автоматично</strong>, без жодної кодогенерації. Ти експортуєш із сервера лише <em>тип</em>
-головного роутера, а клієнт із нього виводить назви процедур, їхні аргументи й
-результати.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Ключова ідея: <strong>сервер і клієнт — в одному TypeScript-проєкті (монорепо)</strong>,
-тож клієнт може імпортувати <code>import type</code> сервера. Це <em>тип</em>, а не код — на
-збірці він стирається, у бандл нічого серверного не потрапляє.</p></div></div>
+        <h1 id="що-таке">2. Що таке tRPC</h1>
+        <p>
+          <strong>tRPC</strong> (TypeScript Remote Procedure Call) дає змогу викликати серверні
+          функції з клієнта так, ніби вони локальні — і при цьому
+          <strong>типи переходять автоматично</strong>, без жодної кодогенерації. Ти експортуєш із
+          сервера лише <em>тип</em> головного роутера, а клієнт із нього виводить назви процедур,
+          їхні аргументи й результати.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Ключова ідея:
+              <strong>сервер і клієнт — в одному TypeScript-проєкті (монорепо)</strong>, тож клієнт
+              може імпортувати <code>import type</code> сервера. Це <em>тип</em>, а не код — на
+              збірці він стирається, у бандл нічого серверного не потрапляє.
+            </p>
+          </div>
+        </div>
 
-<h1 id="як-працює">3. Як це працює</h1>
-<p>tRPC не вигадує нову мову схем. Вхідні дані валідуються <strong>Zod</strong>-схемою (той самий
-Zod, що й у формах), а типи результату виводяться з самих функцій. Один тип
-<code>AppRouter</code> зв'язує обидві сторони.</p>
-<p><img src="images/trpc-flow.svg" alt="Сервер з appRouter та Zod-процедурами експортує лише type AppRouter; клієнт виводить типи й автодоповнення без кодогенерації" loading="lazy"></p>
+        <h1 id="як-працює">3. Як це працює</h1>
+        <p>
+          tRPC не вигадує нову мову схем. Вхідні дані валідуються <strong>Zod</strong>-схемою (той
+          самий Zod, що й у формах), а типи результату виводяться з самих функцій. Один тип
+          <code>AppRouter</code> зв'язує обидві сторони.
+        </p>
+        <p>
+          <img
+            src="images/trpc-flow.svg"
+            alt="Сервер з appRouter та Zod-процедурами експортує лише type AppRouter; клієнт виводить типи й автодоповнення без кодогенерації"
+            loading="lazy"
+          />
+        </p>
 
-<h1 id="коли">4. Коли доречно, а коли ні</h1>
-<ul>
-<li><strong>Ідеально:</strong> ти пишеш і фронт, і бек на TypeScript в одному репозиторії
-(Next.js, монорепо) і хочеш end-to-end типобезпеку без зусиль.</li>
-<li><strong>Не про це:</strong> публічний API для сторонніх клієнтів (мобілки на іншій мові,
-партнери) — там потрібен стабільний контракт: REST або GraphQL.</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><strong>tRPC vs GraphQL.</strong> GraphQL — мовно-нейтральний протокол зі своєю схемою (SDL),
-чудовий для великих публічних API й різних клієнтів. tRPC не має окремої схеми й
-працює тільки в TypeScript, зате нульова кодогенерація та миттєве автодоповнення.
-Для внутрішнього TS-фулстеку tRPC зазвичай простіший.</p></div></div>
+        <h1 id="коли">4. Коли доречно, а коли ні</h1>
+        <ul>
+          <li>
+            <strong>Ідеально:</strong> ти пишеш і фронт, і бек на TypeScript в одному репозиторії
+            (Next.js, монорепо) і хочеш end-to-end типобезпеку без зусиль.
+          </li>
+          <li>
+            <strong>Не про це:</strong> публічний API для сторонніх клієнтів (мобілки на іншій мові,
+            партнери) — там потрібен стабільний контракт: REST або GraphQL.
+          </li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <strong>tRPC vs GraphQL.</strong> GraphQL — мовно-нейтральний протокол зі своєю схемою
+              (SDL), чудовий для великих публічних API й різних клієнтів. tRPC не має окремої схеми
+              й працює тільки в TypeScript, зате нульова кодогенерація та миттєве автодоповнення.
+              Для внутрішнього TS-фулстеку tRPC зазвичай простіший.
+            </p>
+          </div>
+        </div>
 
-<h1 id="стек">5. Що входить у стек</h1>
-<ul>
-<li><code>@trpc/server</code> — опис роутерів і процедур на бекенді;</li>
-<li><code>@trpc/client</code> — типізований клієнт;</li>
-<li><code>@trpc/react-query</code> — інтеграція з TanStack Query (хуки <code>useQuery</code>/<code>useMutation</code>);</li>
-<li><code>zod</code> — валідація входів.</li>
-</ul>
-<p>Далі в розділі складемо цей конвеєр по кроках: сервер → процедури → роутер і
-контекст → клієнт із React Query → middleware й захищені процедури.</p>
+        <h1 id="стек">5. Що входить у стек</h1>
+        <ul>
+          <li><code>@trpc/server</code> — опис роутерів і процедур на бекенді;</li>
+          <li><code>@trpc/client</code> — типізований клієнт;</li>
+          <li>
+            <code>@trpc/react-query</code> — інтеграція з TanStack Query (хуки
+            <code>useQuery</code>/<code>useMutation</code>);
+          </li>
+          <li><code>zod</code> — валідація входів.</li>
+        </ul>
+        <p>
+          Далі в розділі складемо цей конвеєр по кроках: сервер → процедури → роутер і контекст →
+          клієнт із React Query → middleware й захищені процедури.
+        </p>
 
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://trpc.io/docs" target="_blank">tRPC — офіційна документація</a></li>
-<li><a href="https://trpc.io/docs/concepts" target="_blank">tRPC — основні концепції</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li><a href="https://trpc.io/docs" target="_blank">tRPC — офіційна документація</a></li>
+          <li>
+            <a href="https://trpc.io/docs/concepts" target="_blank">tRPC — основні концепції</a>
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

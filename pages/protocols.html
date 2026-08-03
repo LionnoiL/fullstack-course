@@ -1,97 +1,160 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Протоколи передачі даних · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="протоколи-передачі-даних">1. Протоколи передачі даних</h1>
-<p><strong>Протокол</strong> — набір правил і угод, що використовуються при передачі даних в
-мережі.</p>
-<p>Перед тим, як користувач побачить вміст сайту на екрані, браузер робить запит на
-сервер, щоб отримати цей самий вміст. HTML-файл, зображення, стилі, скрипти -
-кожен елемент приходить з сервера.</p>
-<h1 id="tcpip">2. TCP/IP</h1>
-<p>Основний протокол мережі <code>Internet</code>. Це два протоколи тісно пов'язаних між
-собою.</p>
-<ul>
-<li><strong>TCP (Transmission Control Protocol)</strong> — протокол управління передачею.<br>Визначає, яким чином інформація повинна бути розбита на пакети і<br>відправлена по каналах зв'язку. TCP має пакети в потрібному порядку, а також
-перевіряє кожен пакет на наявність помилок при передачі.</li>
-<li><strong>IP (Internet Protocol)</strong> — кожен інформаційний пакет містить IP-адреси<br>комп'ютера-відправника і комп'ютера-одержувача. Спеціальні комп'ютери,<br>звані маршрутизаторами, використовуючи IP-адреси, направляють інформаційні<br>пакети в потрібну сторону, тобто до зазначеного в них одержувачу.</li>
-</ul>
-<h1 id="hypertext-transfer-protocol-http">3. HyperText Transfer Protocol (HTTP)</h1>
-<p>Браузер запитує і отримує дані через HTTP-протокол, тому браузер ще називають
-HTTP-клієнтом.</p>
-<p><strong>Протокол передачі гіпертексту (HTTP)</strong> — спеціально розроблений протокол як
-основа World Wide Web, використовується для передачі всіх необхідних типів
-даних: html, зображень, аудіо та відео, css, javascript і т. д. Дефолтний
-TCP-порт - <code>80</code>.</p>
-<p>HTTP заснований на моделі <strong>клієнт-сервер</strong> і протоколі <strong>запит-відповідь</strong>,
-який працює шляхом обміну повідомленнями через надійне TCP/IP з'єднання.</p>
-<p><img src="images/req-res-cycle.jpg" alt="req res cycle"></p>
-<p>Є клієнт, який ініціює з'єднання і посилає запит, і сервер, який очікує
-з'єднання для отримання запиту, проводить необхідні дії і повертає назад
-повідомлення з результатом. Зв'язок між нею здійснюється за допомогою низки
-перемежовуючих HTTP-запитів і HTTP-відповідей.</p>
-<h2 id="hypertext-transfer-protocol-secure-https">3.1. HyperText Transfer Protocol Secure (HTTPS)</h2>
-<p><strong>HTTPS</strong> — це надбудова над HTTP-протоколом, в якій всі сполучення між клієнтом
-і сервером шифруються з метою підвищення безпеки. забезпечує захист від атак,
-заснованих на прослуховуванні з'єднання. Дані передаються поверх криптографічних
-протоколів SSL або TLS. Дефолтний TCP-порт — <code>443</code>.</p>
-<p><img src="images/ssl.jpg" alt="ssl"></p>
-<p>При спілкуванні через звичайне HTTP-з'єднання всі дані передаються у вигляді
-тексту і можуть бути прочитані всіма, хто отримав доступ до з'єднання між
-клієнтом і сервером. Якщо користувач робить покупки онлайн і заповнює форму
-замовлення, що містить інформацію про кредитну картку, їх фінансові дані
-набагато легше вкрасти, якщо вони передаються у вигляді тексту. З HTTPS дані
-будуть зашифровані, і хакер не зможе їх розшифрувати, тому що для розшифровки
-необхідний доступ до закритого ключа, який зберігається на сервері.</p>
-<p><img src="images/http-https.png" alt="http https protocols"></p>
-<ul>
-<li>Інформація про клієнта, наприклад номери кредитних карт, зашифрована і не може
-бути перехоплена в розшифрованому вигляді.</li>
-<li>Відвідувачі можуть підтвердити, що сайт безпечний, подивившись на іконку зліва
-від адресного рядка, захищені з'єднання позначаються та іконкою замку.</li>
-<li>Клієнти з більшою ймовірністю будуть довіряти і здійснювати покупки з сайтів,
-які використовують HTTPS.</li>
-</ul>
-<h2 id="на-що-витрачає-час-http-запит">3.2. На що витрачає час HTTP-запит</h2>
-<p>Запит відбувається в кілька етапів:</p>
-<ul>
-<li><strong><a href="https://youtu.be/72snZctFFtA" target="_blank">DNS-запит</a></strong> — пошук найближчого DNS-сервера,
-щоб перетворити адресу (наприклад google.com) в його числове уявлення,
-IP-адрес (74.125.87.99).</li>
-<li><strong>З'єднання</strong> — установка з'єднання з сервером за отриманим IP-адресом.</li>
-<li><strong>Відправка даних</strong> — пересилання пакетів з клієнта на сервер.</li>
-<li><strong>Очікування відповіді</strong> — чекаємо поки пакети даних дійдуть до сервера, він
-їх обробить і відповідь повернеться назад.</li>
-<li><strong>Отримання даних</strong> — пакети прийшли, можна отримувати з них дані.</li>
-</ul>
-<h1 id="http11-і-http2">4. HTTP/1.1 і HTTP/2</h1>
-<p><img src="images/http-versions.png" alt="http versions"></p>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://www.youtube.com/playlist?list=PLzdnOPI1iJNfMRZm5DDxco3UdsFegvuB7" target="_blank">Плейлист - How The Internet Works</a></li>
-<li><a href="https://youtu.be/AEaKrq3SpW8?list=PL8dPuuaLjXtNlUrzyH5r6jN9ulIgZBpdo" target="_blank">The Internet: Crash Course Computer Science #29</a></li>
-<li><a href="https://youtu.be/guvsH5OFizE?list=PL8dPuuaLjXtNlUrzyH5r6jN9ulIgZBpdo" target="_blank">The World Wide Web: Crash Course Computer Science #30</a></li>
-<li><a href="http://infocisco.ru/network_model_osi.html" target="_blank">Мережева модель</a></li>
-</ul>
-  </main>
-</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Протоколи передачі даних · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="протоколи-передачі-даних">1. Протоколи передачі даних</h1>
+        <p>
+          <strong>Протокол</strong> — набір правил і угод, що використовуються при передачі даних в
+          мережі.
+        </p>
+        <p>
+          Перед тим, як користувач побачить вміст сайту на екрані, браузер робить запит на сервер,
+          щоб отримати цей самий вміст. HTML-файл, зображення, стилі, скрипти - кожен елемент
+          приходить з сервера.
+        </p>
+        <h1 id="tcpip">2. TCP/IP</h1>
+        <p>
+          Основний протокол мережі <code>Internet</code>. Це два протоколи тісно пов'язаних між
+          собою.
+        </p>
+        <ul>
+          <li>
+            <strong>TCP (Transmission Control Protocol)</strong> — протокол управління передачею.<br />Визначає,
+            яким чином інформація повинна бути розбита на пакети і<br />відправлена по каналах
+            зв'язку. TCP має пакети в потрібному порядку, а також перевіряє кожен пакет на наявність
+            помилок при передачі.
+          </li>
+          <li>
+            <strong>IP (Internet Protocol)</strong> — кожен інформаційний пакет містить IP-адреси<br />комп'ютера-відправника
+            і комп'ютера-одержувача. Спеціальні комп'ютери,<br />звані маршрутизаторами,
+            використовуючи IP-адреси, направляють інформаційні<br />пакети в потрібну сторону, тобто
+            до зазначеного в них одержувачу.
+          </li>
+        </ul>
+        <h1 id="hypertext-transfer-protocol-http">3. HyperText Transfer Protocol (HTTP)</h1>
+        <p>
+          Браузер запитує і отримує дані через HTTP-протокол, тому браузер ще називають
+          HTTP-клієнтом.
+        </p>
+        <p>
+          <strong>Протокол передачі гіпертексту (HTTP)</strong> — спеціально розроблений протокол як
+          основа World Wide Web, використовується для передачі всіх необхідних типів даних: html,
+          зображень, аудіо та відео, css, javascript і т. д. Дефолтний TCP-порт - <code>80</code>.
+        </p>
+        <p>
+          HTTP заснований на моделі <strong>клієнт-сервер</strong> і протоколі
+          <strong>запит-відповідь</strong>, який працює шляхом обміну повідомленнями через надійне
+          TCP/IP з'єднання.
+        </p>
+        <p><img src="images/req-res-cycle.jpg" alt="req res cycle" /></p>
+        <p>
+          Є клієнт, який ініціює з'єднання і посилає запит, і сервер, який очікує з'єднання для
+          отримання запиту, проводить необхідні дії і повертає назад повідомлення з результатом.
+          Зв'язок між нею здійснюється за допомогою низки перемежовуючих HTTP-запитів і
+          HTTP-відповідей.
+        </p>
+        <h2 id="hypertext-transfer-protocol-secure-https">
+          3.1. HyperText Transfer Protocol Secure (HTTPS)
+        </h2>
+        <p>
+          <strong>HTTPS</strong> — це надбудова над HTTP-протоколом, в якій всі сполучення між
+          клієнтом і сервером шифруються з метою підвищення безпеки. забезпечує захист від атак,
+          заснованих на прослуховуванні з'єднання. Дані передаються поверх криптографічних
+          протоколів SSL або TLS. Дефолтний TCP-порт — <code>443</code>.
+        </p>
+        <p><img src="images/ssl.jpg" alt="ssl" /></p>
+        <p>
+          При спілкуванні через звичайне HTTP-з'єднання всі дані передаються у вигляді тексту і
+          можуть бути прочитані всіма, хто отримав доступ до з'єднання між клієнтом і сервером. Якщо
+          користувач робить покупки онлайн і заповнює форму замовлення, що містить інформацію про
+          кредитну картку, їх фінансові дані набагато легше вкрасти, якщо вони передаються у вигляді
+          тексту. З HTTPS дані будуть зашифровані, і хакер не зможе їх розшифрувати, тому що для
+          розшифровки необхідний доступ до закритого ключа, який зберігається на сервері.
+        </p>
+        <p><img src="images/http-https.png" alt="http https protocols" /></p>
+        <ul>
+          <li>
+            Інформація про клієнта, наприклад номери кредитних карт, зашифрована і не може бути
+            перехоплена в розшифрованому вигляді.
+          </li>
+          <li>
+            Відвідувачі можуть підтвердити, що сайт безпечний, подивившись на іконку зліва від
+            адресного рядка, захищені з'єднання позначаються та іконкою замку.
+          </li>
+          <li>
+            Клієнти з більшою ймовірністю будуть довіряти і здійснювати покупки з сайтів, які
+            використовують HTTPS.
+          </li>
+        </ul>
+        <h2 id="на-що-витрачає-час-http-запит">3.2. На що витрачає час HTTP-запит</h2>
+        <p>Запит відбувається в кілька етапів:</p>
+        <ul>
+          <li>
+            <strong><a href="https://youtu.be/72snZctFFtA" target="_blank">DNS-запит</a></strong> —
+            пошук найближчого DNS-сервера, щоб перетворити адресу (наприклад google.com) в його
+            числове уявлення, IP-адрес (74.125.87.99).
+          </li>
+          <li>
+            <strong>З'єднання</strong> — установка з'єднання з сервером за отриманим IP-адресом.
+          </li>
+          <li><strong>Відправка даних</strong> — пересилання пакетів з клієнта на сервер.</li>
+          <li>
+            <strong>Очікування відповіді</strong> — чекаємо поки пакети даних дійдуть до сервера,
+            він їх обробить і відповідь повернеться назад.
+          </li>
+          <li><strong>Отримання даних</strong> — пакети прийшли, можна отримувати з них дані.</li>
+        </ul>
+        <h1 id="http11-і-http2">4. HTTP/1.1 і HTTP/2</h1>
+        <p><img src="images/http-versions.png" alt="http versions" /></p>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://www.youtube.com/playlist?list=PLzdnOPI1iJNfMRZm5DDxco3UdsFegvuB7"
+              target="_blank"
+              >Плейлист - How The Internet Works</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://youtu.be/AEaKrq3SpW8?list=PL8dPuuaLjXtNlUrzyH5r6jN9ulIgZBpdo"
+              target="_blank"
+              >The Internet: Crash Course Computer Science #29</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://youtu.be/guvsH5OFizE?list=PL8dPuuaLjXtNlUrzyH5r6jN9ulIgZBpdo"
+              target="_blank"
+              >The World Wide Web: Crash Course Computer Science #30</a
+            >
+          </li>
+          <li>
+            <a href="http://infocisco.ru/network_model_osi.html" target="_blank">Мережева модель</a>
+          </li>
+        </ul>
+      </main>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

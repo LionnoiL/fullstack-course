@@ -1,21 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Роутери та контекст · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="вкладені">1. Вкладені роутери</h1>
-<p>Тримати всі процедури в одному роутері незручно. Роутери <strong>вкладаються</strong>: кожну
-предметну область (користувачі, пости, todo) описуємо окремим роутером, а тоді
-збираємо в кореневий <code>appRouter</code>.</p>
-<pre class="language-js"><code class="language-js">// server/routers/todo.ts
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Роутери та контекст · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="вкладені">1. Вкладені роутери</h1>
+        <p>
+          Тримати всі процедури в одному роутері незручно. Роутери <strong>вкладаються</strong>:
+          кожну предметну область (користувачі, пости, todo) описуємо окремим роутером, а тоді
+          збираємо в кореневий <code>appRouter</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">// server/routers/todo.ts
 export const todoRouter = router({
   list: publicProcedure.query(() =&gt; db.todos.findMany()),
   add: publicProcedure
@@ -29,14 +34,18 @@ export const appRouter = router({
   user: userRouter,
 });
 export type AppRouter = typeof appRouter;</code></pre>
-<p>На клієнті шлях повторює структуру: <code>trpc.todo.add.useMutation()</code>,
-<code>trpc.user.byId.useQuery(...)</code>. Вкладеність роутерів = простір імен процедур.</p>
+        <p>
+          На клієнті шлях повторює структуру: <code>trpc.todo.add.useMutation()</code>,
+          <code>trpc.user.byId.useQuery(...)</code>. Вкладеність роутерів = простір імен процедур.
+        </p>
 
-<h1 id="контекст">2. Контекст (<code>context</code>)</h1>
-<p><strong>Контекст</strong> — це об'єкт, який tRPC створює на <em>кожен запит</em> і передає в
-<em>усі</em> процедури. Сюди кладуть те, що потрібно всім: підключення до БД, дані про
-поточного користувача (з cookie/токена), заголовки запиту.</p>
-<pre class="language-js"><code class="language-js">// server/context.ts
+        <h1 id="контекст">2. Контекст (<code>context</code>)</h1>
+        <p>
+          <strong>Контекст</strong> — це об'єкт, який tRPC створює на <em>кожен запит</em> і передає
+          в <em>усі</em> процедури. Сюди кладуть те, що потрібно всім: підключення до БД, дані про
+          поточного користувача (з cookie/токена), заголовки запиту.
+        </p>
+        <pre class="language-js"><code class="language-js">// server/context.ts
 import type { CreateExpressContextOptions } from '@trpc/server/adapters/express';
 
 export function createContext({ req, res }: CreateExpressContextOptions) {
@@ -45,14 +54,23 @@ export function createContext({ req, res }: CreateExpressContextOptions) {
 }
 
 export type Context = typeof createContext extends (...a: any) =&gt; infer R ? R : never;</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Контекст — це місце для <strong>автентифікації</strong>. Тут ми один раз розбираємо токен і
-кладемо <code>user</code> у контекст, а процедури лише читають <code>ctx.user</code>. У наступному
-уроці на цьому збудуємо «захищені процедури».</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Контекст — це місце для <strong>автентифікації</strong>. Тут ми один раз розбираємо
+              токен і кладемо <code>user</code> у контекст, а процедури лише читають
+              <code>ctx.user</code>. У наступному уроці на цьому збудуємо «захищені процедури».
+            </p>
+          </div>
+        </div>
 
-<h1 id="типізація-контексту">3. Прив'язка контексту до tRPC</h1>
-<p>Щоб <code>ctx</code> був типізований у процедурах, тип контексту передають у
-<code>initTRPC</code> ще на ініціалізації:</p>
-<pre class="language-js"><code class="language-js">// server/trpc.ts
+        <h1 id="типізація-контексту">3. Прив'язка контексту до tRPC</h1>
+        <p>
+          Щоб <code>ctx</code> був типізований у процедурах, тип контексту передають у
+          <code>initTRPC</code> ще на ініціалізації:
+        </p>
+        <pre class="language-js"><code class="language-js">// server/trpc.ts
 import { initTRPC } from '@trpc/server';
 import type { Context } from './context';
 
@@ -60,42 +78,55 @@ const t = initTRPC.context&lt;Context&gt;().create();
 
 export const router = t.router;
 export const publicProcedure = t.procedure;</code></pre>
-<p>Тепер у будь-якій процедурі <code>ctx</code> знає про <code>db</code> та <code>user</code>:</p>
-<pre class="language-js"><code class="language-js">me: publicProcedure.query(({ ctx }) =&gt; {
+        <p>
+          Тепер у будь-якій процедурі <code>ctx</code> знає про <code>db</code> та
+          <code>user</code>:
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">me: publicProcedure.query(({ ctx }) =&gt; {
   return ctx.user; // тип виведено з Context
 }),</code></pre>
 
-<h1 id="підключення-контексту">4. Передати <code>createContext</code> адаптеру</h1>
-<p>Лишилось сказати адаптеру, як будувати контекст на кожен запит:</p>
-<pre class="language-js"><code class="language-js">app.use('/trpc', createExpressMiddleware({
+        <h1 id="підключення-контексту">4. Передати <code>createContext</code> адаптеру</h1>
+        <p>Лишилось сказати адаптеру, як будувати контекст на кожен запит:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">app.use('/trpc', createExpressMiddleware({
   router: appRouter,
   createContext, // ← викликається на кожен запит
 }));</code></pre>
 
-<h1 id="підсумок">5. Підсумок</h1>
-<ul>
-<li>вкладені роутери групують процедури й задають простір імен;</li>
-<li>контекст — спільні для запиту дані (БД, користувач), доступні як <code>ctx</code>;</li>
-<li>тип контексту прив'язується через <code>initTRPC.context&lt;Context&gt;()</code>.</li>
-</ul>
-<p>Серверна частина готова. Далі — типізований клієнт і хуки TanStack Query.</p>
+        <h1 id="підсумок">5. Підсумок</h1>
+        <ul>
+          <li>вкладені роутери групують процедури й задають простір імен;</li>
+          <li>
+            контекст — спільні для запиту дані (БД, користувач), доступні як <code>ctx</code>;
+          </li>
+          <li>тип контексту прив'язується через <code>initTRPC.context&lt;Context&gt;()</code>.</li>
+        </ul>
+        <p>Серверна частина готова. Далі — типізований клієнт і хуки TanStack Query.</p>
 
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://trpc.io/docs/server/context" target="_blank">tRPC — Context</a></li>
-<li><a href="https://trpc.io/docs/server/merging-routers" target="_blank">tRPC — Merging Routers</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li><a href="https://trpc.io/docs/server/context" target="_blank">tRPC — Context</a></li>
+          <li>
+            <a href="https://trpc.io/docs/server/merging-routers" target="_blank"
+              >tRPC — Merging Routers</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

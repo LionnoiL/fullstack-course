@@ -1,62 +1,97 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Модульність коду · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="модульність-коду">1. Модульність коду</h1>
-<p>Концепція модулів як способу організації коду існувала давно. З ростом проєкту і
-його кодової бази, її намагаються розбити на файли, у кожному з яких описується
-окремий функціонал.</p>
-<p>Модульний код допомагає в організації, обслуговуванні, тестуванні й, саме
-головне, управлінні залежностями. Найбільш важливі переваги модулів це
-підтримувані, простір імен і повторне використання.</p>
-<ul>
-<li><strong>Підтримування</strong> — добре розроблений модуль покликаний максимально знизити<br>залежність від інших частин коду. Це дозволить розширювати функціонал<br>додатка не побоюючись порушити його роботу в цілому. Оновлення одного модуля
-   набагато простіше, якщо модуль самодостатній.</li>
-<li><strong>Простір імен</strong> — змінні, що не входять в зону видимості функції,    є
-глобальними. Через це зазвичай відбувається забруднення простору    імен, де
-повністю непов'язаний код розділяє глобальні змінні. Модулі    дозволяють
-уникнути забруднення простору імен, створюючи окрему область    видимості для
-змінних.</li>
-<li><strong>Повторне використання</strong> — всі розробники копіювали готовий код в нові<br>проєкти, змінюючи його під специфіку проєкту. Це, очевидно, величезна трата<br>часу. Набагато краще коли є модуль, який можна повторно використовувати<br>знову і знову без необхідності знати що-небудь про оточення в якому він<br>використовується.</li>
-</ul>
-<h2 id="збірка-модулів">1.1. Збірка модулів</h2>
-<p><strong>Збірка модулів</strong> — це процес конкатенації групи модулів, і їх залежностей, в
-один або групу файлів.</p>
-<p>Зазвичай код ділять на папки і файли, до того ж необхідно підключити зовнішні
-бібліотеки. В результаті, кожен з цих файлів потрібно включити в основний
-HTML-файл в тезі <code>script</code>, який потім завантажується браузером.</p>
-<p>Наявність окремих тегів <code>script</code> для кожного файлу означає, що браузер буде
-завантажувати кожен файл окремо, що негативно позначається на швидкості
-завантаження сторінки (HTTP / 2 трохи допомагає з розв'язання цієї проблеми).
-щоб обійти цю проблему, файли об'єднуються в один або пару файлів, щоб зменшити
-кількість запитів. Але залишається проблема управління залежностями між
-модулями.</p>
-<p>Якщо використовуються системи модулів які браузери не підтримують, такі як
-<code>CommonJS</code> або <code>ESM</code>, необхідно використовувати інструмент для їх перетворення в
-правильно впорядкований, доступний браузеру код. Саме тут вступають в дію
-<code>Webpack</code> і інші бандлери (від англійського bundle).</p>
-<h1 id="commonjs-модулі">2. CommonJS модулі</h1>
-<p><strong>CommonJS</strong> — модульна система використовується в Node.js. Модулі мають
-компактний синтаксис, призначені для синхронного завантаження і, в основному,
-використовуються на сервері і не працюють в браузері за замовчуванням.</p>
-<p>CommonJS-модуль це багаторазово використовуваний фрагмент JS-коду, який
-експортує певні об'єкти, роблячи їх доступними для інших модулів.</p>
-<p>Кожен JS-файл зберігає код в унікальному контексті модуля. Для того щоб описати
-інтерфейс модуля використовується об'єкт <code>module.exports</code>, значення якого буде
-доступно для використання іншими модулями при імпорті.</p>
-<p>Для того щоб отримати інтерфейс модуля в коді (імпортувати), використовується
-функція <code>require('шлях-до-модуля')</code>. Результатом свого виконання <code>require</code>
-поверне інтерфейс модуля - то що в модулі зазначено в <code>module.exports</code>.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">// В файлі greeter.js</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Модульність коду · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="модульність-коду">1. Модульність коду</h1>
+        <p>
+          Концепція модулів як способу організації коду існувала давно. З ростом проєкту і його
+          кодової бази, її намагаються розбити на файли, у кожному з яких описується окремий
+          функціонал.
+        </p>
+        <p>
+          Модульний код допомагає в організації, обслуговуванні, тестуванні й, саме головне,
+          управлінні залежностями. Найбільш важливі переваги модулів це підтримувані, простір імен і
+          повторне використання.
+        </p>
+        <ul>
+          <li>
+            <strong>Підтримування</strong> — добре розроблений модуль покликаний максимально
+            знизити<br />залежність від інших частин коду. Це дозволить розширювати функціонал<br />додатка
+            не побоюючись порушити його роботу в цілому. Оновлення одного модуля набагато простіше,
+            якщо модуль самодостатній.
+          </li>
+          <li>
+            <strong>Простір імен</strong> — змінні, що не входять в зону видимості функції, є
+            глобальними. Через це зазвичай відбувається забруднення простору імен, де повністю
+            непов'язаний код розділяє глобальні змінні. Модулі дозволяють уникнути забруднення
+            простору імен, створюючи окрему область видимості для змінних.
+          </li>
+          <li>
+            <strong>Повторне використання</strong> — всі розробники копіювали готовий код в нові<br />проєкти,
+            змінюючи його під специфіку проєкту. Це, очевидно, величезна трата<br />часу. Набагато
+            краще коли є модуль, який можна повторно використовувати<br />знову і знову без
+            необхідності знати що-небудь про оточення в якому він<br />використовується.
+          </li>
+        </ul>
+        <h2 id="збірка-модулів">1.1. Збірка модулів</h2>
+        <p>
+          <strong>Збірка модулів</strong> — це процес конкатенації групи модулів, і їх залежностей,
+          в один або групу файлів.
+        </p>
+        <p>
+          Зазвичай код ділять на папки і файли, до того ж необхідно підключити зовнішні бібліотеки.
+          В результаті, кожен з цих файлів потрібно включити в основний HTML-файл в тезі
+          <code>script</code>, який потім завантажується браузером.
+        </p>
+        <p>
+          Наявність окремих тегів <code>script</code> для кожного файлу означає, що браузер буде
+          завантажувати кожен файл окремо, що негативно позначається на швидкості завантаження
+          сторінки (HTTP / 2 трохи допомагає з розв'язання цієї проблеми). щоб обійти цю проблему,
+          файли об'єднуються в один або пару файлів, щоб зменшити кількість запитів. Але залишається
+          проблема управління залежностями між модулями.
+        </p>
+        <p>
+          Якщо використовуються системи модулів які браузери не підтримують, такі як
+          <code>CommonJS</code> або <code>ESM</code>, необхідно використовувати інструмент для їх
+          перетворення в правильно впорядкований, доступний браузеру код. Саме тут вступають в дію
+          <code>Webpack</code> і інші бандлери (від англійського bundle).
+        </p>
+        <h1 id="commonjs-модулі">2. CommonJS модулі</h1>
+        <p>
+          <strong>CommonJS</strong> — модульна система використовується в Node.js. Модулі мають
+          компактний синтаксис, призначені для синхронного завантаження і, в основному,
+          використовуються на сервері і не працюють в браузері за замовчуванням.
+        </p>
+        <p>
+          CommonJS-модуль це багаторазово використовуваний фрагмент JS-коду, який експортує певні
+          об'єкти, роблячи їх доступними для інших модулів.
+        </p>
+        <p>
+          Кожен JS-файл зберігає код в унікальному контексті модуля. Для того щоб описати інтерфейс
+          модуля використовується об'єкт <code>module.exports</code>, значення якого буде доступно
+          для використання іншими модулями при імпорті.
+        </p>
+        <p>
+          Для того щоб отримати інтерфейс модуля в коді (імпортувати), використовується функція
+          <code>require('шлях-до-модуля')</code>. Результатом свого виконання
+          <code>require</code> поверне інтерфейс модуля - то що в модулі зазначено в
+          <code>module.exports</code>.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">// В файлі greeter.js</span>
 <span class="token keyword">const</span> helloMessage <span class="token operator">=</span> <span class="token string">'hello!'</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> goodbyeMessage <span class="token operator">=</span> <span class="token string">'goodbye!'</span><span class="token punctuation">;</span>
 
@@ -74,37 +109,52 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>greeter<span class="token punctuation">.</span><span class="token function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 'hello!'</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>greeter<span class="token punctuation">.</span><span class="token function">goodbye</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 'goodbye!'</span>
 </code></pre>
-<p>Є дві очевидні переваги цього підходу:</p>
-<ul>
-<li>Запобігання забрудненню глобального простору імен</li>
-<li>Явна вказівка залежностей</li>
-</ul>
-<h1 id="ecmascript-modules-esm">3. ECMAScript Modules (ESM)</h1>
-<p>До недавнього часу в мові не було вбудованої модульної системи. ESM мають
-декларативний синтаксис і можливість асинхронного завантаження.</p>
-<p>Нова система модулів відрізняється від CommonJS і інших, перш за все тим, що це
-стандарт. А значить, з часом, буде підтримуватися браузерами нативно, без
-додаткових інструментів. Однак зараз браузерна підтримка слабка, тому ESM
-використовуються в поєднанні з інструментами збірки модулів, такими як
-<a href="https://webpack.js.org/" target="_blank">Webpack</a>, <a href="https://parceljs.org/" target="_blank">Parcel</a>,
-<a href="https://rollupjs.org/guide/en" target="_blank">Rollup</a> та іншими.</p>
-<p>Найважливіша відмінність ESM полягає в тому, що вони розроблені з урахуванням
-статичного аналізу. Це означає, що при імпорті модулів, імпорт обробляється під
-час компіляції, тобто до запуску скрипта. Це дозволяє видаляти експорт, який не
-використовується іншими модулями, перш ніж запускати скрипт, що може привести до
-значної економії ваги JS-файлу, зменшивши навантаження на браузер.</p>
-<h2 id="синтаксис">3.1. Синтаксис</h2>
-<p>Кожен модуль імпортує необхідні йому залежності і експортує все, що має бути
-імпортовано іншими модулями. Операції експорту сутностей і імпорту інтерфейсу
-модуля реалізовані конструкціями <code>import from</code> і <code>export</code>.</p>
-<h2 id="named-export">3.2. Named export</h2>
-<p>Модуль може експортувати кілька сутностей, які відрізняються своїми іменами і
-називаються <strong>іменованими експортами</strong>. Щоб імпортувати їх в інший модуль,
-необхідно знати імена експортованих сутностей, які ми хочемо імпортувати.</p>
-<p>Перший спосіб це використовувати ключове слово <code>export</code> перед усіма сутностями
-які необхідно експортувати. Вони будуть додані як властивості в експортований
-об'єкт. При імпорті ми деструктуризуємо властивості з імпортованого об'єкта.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">// myModule.js</span>
+        <p>Є дві очевидні переваги цього підходу:</p>
+        <ul>
+          <li>Запобігання забрудненню глобального простору імен</li>
+          <li>Явна вказівка залежностей</li>
+        </ul>
+        <h1 id="ecmascript-modules-esm">3. ECMAScript Modules (ESM)</h1>
+        <p>
+          До недавнього часу в мові не було вбудованої модульної системи. ESM мають декларативний
+          синтаксис і можливість асинхронного завантаження.
+        </p>
+        <p>
+          Нова система модулів відрізняється від CommonJS і інших, перш за все тим, що це стандарт.
+          А значить, з часом, буде підтримуватися браузерами нативно, без додаткових інструментів.
+          Однак зараз браузерна підтримка слабка, тому ESM використовуються в поєднанні з
+          інструментами збірки модулів, такими як
+          <a href="https://webpack.js.org/" target="_blank">Webpack</a>,
+          <a href="https://parceljs.org/" target="_blank">Parcel</a>,
+          <a href="https://rollupjs.org/guide/en" target="_blank">Rollup</a> та іншими.
+        </p>
+        <p>
+          Найважливіша відмінність ESM полягає в тому, що вони розроблені з урахуванням статичного
+          аналізу. Це означає, що при імпорті модулів, імпорт обробляється під час компіляції, тобто
+          до запуску скрипта. Це дозволяє видаляти експорт, який не використовується іншими
+          модулями, перш ніж запускати скрипт, що може привести до значної економії ваги JS-файлу,
+          зменшивши навантаження на браузер.
+        </p>
+        <h2 id="синтаксис">3.1. Синтаксис</h2>
+        <p>
+          Кожен модуль імпортує необхідні йому залежності і експортує все, що має бути імпортовано
+          іншими модулями. Операції експорту сутностей і імпорту інтерфейсу модуля реалізовані
+          конструкціями <code>import from</code> і <code>export</code>.
+        </p>
+        <h2 id="named-export">3.2. Named export</h2>
+        <p>
+          Модуль може експортувати кілька сутностей, які відрізняються своїми іменами і називаються
+          <strong>іменованими експортами</strong>. Щоб імпортувати їх в інший модуль, необхідно
+          знати імена експортованих сутностей, які ми хочемо імпортувати.
+        </p>
+        <p>
+          Перший спосіб це використовувати ключове слово <code>export</code> перед усіма сутностями
+          які необхідно експортувати. Вони будуть додані як властивості в експортований об'єкт. При
+          імпорті ми деструктуризуємо властивості з імпортованого об'єкта.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">// myModule.js</span>
 <span class="token keyword">const</span> sqrt <span class="token operator">=</span> Math<span class="token punctuation">.</span>sqrt<span class="token punctuation">;</span>
 <span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">square</span> <span class="token operator">=</span> <span class="token parameter">x</span> <span class="token operator">=></span> x <span class="token operator">*</span> x<span class="token punctuation">;</span>
 <span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">diag</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">x<span class="token punctuation">,</span> y</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">sqrt</span><span class="token punctuation">(</span><span class="token function">square</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">square</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -115,8 +165,10 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">square</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 121</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">diag</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span>
 </code></pre>
-<p>Другий спосіб - це явно вказати об'єкт з властивостями для експорту.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">// myModule.js</span>
+        <p>Другий спосіб - це явно вказати об'єкт з властивостями для експорту.</p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">// myModule.js</span>
 <span class="token keyword">const</span> sqrt <span class="token operator">=</span> Math<span class="token punctuation">.</span>sqrt<span class="token punctuation">;</span>
 <span class="token keyword">const</span> <span class="token function-variable function">square</span> <span class="token operator">=</span> <span class="token parameter">x</span> <span class="token operator">=></span> x <span class="token operator">*</span> x<span class="token punctuation">;</span>
 <span class="token keyword">const</span> <span class="token function-variable function">diag</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">x<span class="token punctuation">,</span> y</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token function">sqrt</span><span class="token punctuation">(</span><span class="token function">square</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">square</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -129,18 +181,20 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">square</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 121</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">diag</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span>
 </code></pre>
-<p>Наступний синтаксис імпортує всі експорти модуля, як об'єкт із зазначеним ім'ям.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">// main.js</span>
+        <p>Наступний синтаксис імпортує всі експорти модуля, як об'єкт із зазначеним ім'ям.</p>
+        <pre class="language-"><code class="lang-js"><span class="token comment">// main.js</span>
 <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> myModule <span class="token keyword">from</span> <span class="token string">'./path/to/myModule'</span><span class="token punctuation">;</span>
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>myModule<span class="token punctuation">.</span><span class="token function">square</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 121</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>myModule<span class="token punctuation">.</span><span class="token function">diag</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span>
 </code></pre>
-<h2 id="default-export">3.3. Default export</h2>
-<p>Часто модуль експортує всього одну сутність, такий експорт зручний для імпорту.
-<strong>Експорт за замовчуванням</strong> — найголовніше експортоване значення, яке може бути
-чим завгодно: змінною, функцією, класом і т. д.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">// myFunc.js</span>
+        <h2 id="default-export">3.3. Default export</h2>
+        <p>
+          Часто модуль експортує всього одну сутність, такий експорт зручний для імпорту.
+          <strong>Експорт за замовчуванням</strong> — найголовніше експортоване значення, яке може
+          бути чим завгодно: змінною, функцією, класом і т. д.
+        </p>
+        <pre class="language-"><code class="lang-js"><span class="token comment">// myFunc.js</span>
 <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">myFunc</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token operator">...</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
 <span class="token comment">// myClass.js</span>
@@ -154,25 +208,37 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 <span class="token keyword">const</span> inst <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MyClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<p>Використовуйте іменований експорт, коли необхідно експортувати кілька сутностей,
-а експорт за замовчуванням, при експорті однієї сутності. Хоча і можна
-використовувати експорт за замовчуванням і іменований експорт в одному файлі,
-хорошою практикою буде вибрати тільки один стиль для кожного модуля.</p>
-<h1 id="додаткові-матеріали">4. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://ponyfoo.com/articles/es6-modules-in-depth" target="_blank">ES6 Modules in Depth</a></li>
-<li><a href="https://youtu.be/kTlcu16rSLc?list=PLV5CVI1eNcJgNqzNwcs4UKrlJdhfDjshf" target="_blank">More than you want to know about ES6 Modules</a></li>
-</ul>
-  </main>
-</div>
+        <p>
+          Використовуйте іменований експорт, коли необхідно експортувати кілька сутностей, а експорт
+          за замовчуванням, при експорті однієї сутності. Хоча і можна використовувати експорт за
+          замовчуванням і іменований експорт в одному файлі, хорошою практикою буде вибрати тільки
+          один стиль для кожного модуля.
+        </p>
+        <h1 id="додаткові-матеріали">4. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://ponyfoo.com/articles/es6-modules-in-depth" target="_blank"
+              >ES6 Modules in Depth</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://youtu.be/kTlcu16rSLc?list=PLV5CVI1eNcJgNqzNwcs4UKrlJdhfDjshf"
+              target="_blank"
+              >More than you want to know about ES6 Modules</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

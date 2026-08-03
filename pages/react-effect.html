@@ -1,24 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>useEffect і побічні ефекти · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="побічні-ефекти">1. Побічні ефекти</h1>
-<p><strong>Побічний ефект</strong> — це взаємодія із зовнішнім світом поза рендером: запити до
-сервера, підписки, таймери, робота з DOM напряму. Такий код не можна виконувати
-під час рендеру — для нього є хук <code>useEffect</code>.</p>
-<h1 id="useeffect">2. Хук useEffect</h1>
-<p><code>useEffect</code> приймає функцію-ефект і <strong>масив залежностей</strong>. Ефект виконується
-після рендеру.</p>
-<pre class="language-js"><code class="language-js">import { useState, useEffect } from 'react';
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>useEffect і побічні ефекти · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="побічні-ефекти">1. Побічні ефекти</h1>
+        <p>
+          <strong>Побічний ефект</strong> — це взаємодія із зовнішнім світом поза рендером: запити
+          до сервера, підписки, таймери, робота з DOM напряму. Такий код не можна виконувати під час
+          рендеру — для нього є хук <code>useEffect</code>.
+        </p>
+        <h1 id="useeffect">2. Хук useEffect</h1>
+        <p>
+          <code>useEffect</code> приймає функцію-ефект і <strong>масив залежностей</strong>. Ефект
+          виконується після рендеру.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">import { useState, useEffect } from 'react';
 
 function Title() {
   const [count, setCount] = useState(0);
@@ -29,28 +38,36 @@ function Title() {
 
   return &lt;button onClick={() =&gt; setCount(count + 1)}&gt;+&lt;/button&gt;;
 }</code></pre>
-<h1 id="залежності">3. Масив залежностей</h1>
-<ul>
-<li><code>[]</code> — ефект спрацює <strong>один раз</strong> після монтування;</li>
-<li><code>[a, b]</code> — щоразу, коли зміниться <code>a</code> або <code>b</code>;</li>
-<li>без масиву — після <strong>кожного</strong> рендеру (рідко потрібно).</li>
-</ul>
-<pre class="language-js"><code class="language-js">useEffect(() =&gt; {
+        <h1 id="залежності">3. Масив залежностей</h1>
+        <ul>
+          <li><code>[]</code> — ефект спрацює <strong>один раз</strong> після монтування;</li>
+          <li><code>[a, b]</code> — щоразу, коли зміниться <code>a</code> або <code>b</code>;</li>
+          <li>без масиву — після <strong>кожного</strong> рендеру (рідко потрібно).</li>
+        </ul>
+        <pre class="language-js"><code class="language-js">useEffect(() =&gt; {
   console.log('Компонент змонтовано');
 }, []); // лише при появі компонента</code></pre>
-<h1 id="очищення">4. Функція очищення</h1>
-<p>Якщо ефект щось «підписує» (таймер, слухач події), він має повернути функцію
-очищення — React викличе її перед наступним ефектом і при видаленні компонента.</p>
-<pre class="language-js"><code class="language-js">useEffect(() =&gt; {
+        <h1 id="очищення">4. Функція очищення</h1>
+        <p>
+          Якщо ефект щось «підписує» (таймер, слухач події), він має повернути функцію очищення —
+          React викличе її перед наступним ефектом і при видаленні компонента.
+        </p>
+        <pre class="language-js"><code class="language-js">useEffect(() =&gt; {
   const id = setInterval(() =&gt; console.log('tick'), 1000);
 
   return () =&gt; clearInterval(id); // прибрати таймер
 }, []);</code></pre>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Забута функція очищення — часта причина витоків памʼяті й «подвійних»
-підписок. Якщо ефект щось запускає у фоні — майже завжди його треба зупинити
-в поверненій функції.</p></div></div>
-<h1 id="запит">5. Завантаження даних</h1>
-<pre class="language-js"><code class="language-js">function Users() {
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Забута функція очищення — часта причина витоків памʼяті й «подвійних» підписок. Якщо
+              ефект щось запускає у фоні — майже завжди його треба зупинити в поверненій функції.
+            </p>
+          </div>
+        </div>
+        <h1 id="запит">5. Завантаження даних</h1>
+        <pre class="language-js"><code class="language-js">function Users() {
   const [users, setUsers] = useState([]);
 
   useEffect(() =&gt; {
@@ -61,22 +78,30 @@ function Title() {
 
   return &lt;ul&gt;{users.map((u) =&gt; &lt;li key={u.id}&gt;{u.name}&lt;/li&gt;)}&lt;/ul&gt;;
 }</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://react.dev/learn/synchronizing-with-effects" target="_blank">Synchronizing with Effects — react.dev</a></li>
-<li><a href="https://react.dev/learn/you-might-not-need-an-effect" target="_blank">You Might Not Need an Effect — react.dev</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://react.dev/learn/synchronizing-with-effects" target="_blank"
+              >Synchronizing with Effects — react.dev</a
+            >
+          </li>
+          <li>
+            <a href="https://react.dev/learn/you-might-not-need-an-effect" target="_blank"
+              >You Might Not Need an Effect — react.dev</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

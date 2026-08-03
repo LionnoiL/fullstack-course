@@ -1,30 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Container queries (@container) · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="ідея">1. Проблема медіазапитів</h1>
-<p>Медіазапити дивляться на розмір <strong>вікна</strong>. Але один і той самий компонент
-(картку) можна поставити і в широку колонку, і у вузький сайдбар — а вікно при
-цьому однакове. Медіазапит тут не допоможе.</p>
-<p><strong>Container queries</strong> дозволяють компоненту адаптуватися до розміру свого
-<em>контейнера</em>, а не екрана. Це робить компоненти по-справжньому переносними.</p>
-<h1 id="контейнер">2. Оголошення контейнера</h1>
-<p>Спершу елемент-обгортку позначають як контейнер запитів:</p>
-<pre class="language-css"><code class="language-css">.card-wrapper {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Container queries (@container) · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="ідея">1. Проблема медіазапитів</h1>
+        <p>
+          Медіазапити дивляться на розмір <strong>вікна</strong>. Але один і той самий компонент
+          (картку) можна поставити і в широку колонку, і у вузький сайдбар — а вікно при цьому
+          однакове. Медіазапит тут не допоможе.
+        </p>
+        <p>
+          <strong>Container queries</strong> дозволяють компоненту адаптуватися до розміру свого
+          <em>контейнера</em>, а не екрана. Це робить компоненти по-справжньому переносними.
+        </p>
+        <h1 id="контейнер">2. Оголошення контейнера</h1>
+        <p>Спершу елемент-обгортку позначають як контейнер запитів:</p>
+        <pre class="language-css"><code class="language-css">.card-wrapper {
   container-type: inline-size;   /* стежити за шириною */
   container-name: card;          /* ім'я (необов'язкове) */
 }</code></pre>
-<h1 id="запит">3. Запит @container</h1>
-<pre class="language-css"><code class="language-css">.card {
+        <h1 id="запит">3. Запит @container</h1>
+        <pre class="language-css"><code class="language-css">.card {
   display: grid;
   grid-template-columns: 1fr;
 }
@@ -35,36 +42,60 @@
     grid-template-columns: 150px 1fr; /* зображення + текст поруч */
   }
 }</code></pre>
-<p>Тепер картка сама вирішує, як виглядати, залежно від відведеного їй місця — де б
-її не поставили.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Стилі всередині <code>@container</code> застосовуються до <em>нащадків</em> контейнера, а не до
-самого контейнера. Тому контейнером роблять обгортку, а адаптують — вміст.</p></div></div>
-<h1 id="cqw">4. Контейнерні одиниці</h1>
-<p>Разом із container queries з'явилися одиниці, відносні до контейнера: <code>cqw</code>
-(1% ширини контейнера), <code>cqh</code>, <code>cqi</code>, <code>cqmin</code>, <code>cqmax</code>.</p>
-<pre class="language-css"><code class="language-css">.card .title {
+        <p>
+          Тепер картка сама вирішує, як виглядати, залежно від відведеного їй місця — де б її не
+          поставили.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Стилі всередині <code>@container</code> застосовуються до
+              <em>нащадків</em> контейнера, а не до самого контейнера. Тому контейнером роблять
+              обгортку, а адаптують — вміст.
+            </p>
+          </div>
+        </div>
+        <h1 id="cqw">4. Контейнерні одиниці</h1>
+        <p>
+          Разом із container queries з'явилися одиниці, відносні до контейнера: <code>cqw</code> (1%
+          ширини контейнера), <code>cqh</code>, <code>cqi</code>, <code>cqmin</code>,
+          <code>cqmax</code>.
+        </p>
+        <pre class="language-css"><code class="language-css">.card .title {
   font-size: clamp(1rem, 5cqi, 2rem); /* масштаб від ширини контейнера */
 }</code></pre>
-<h1 id="коли">5. Коли що</h1>
-<ul>
-<li><strong>Медіазапити</strong> — глобальний макет сторінки (загальна сітка, навігація).</li>
-<li><strong>Container queries</strong> — переносні компоненти, що трапляються в різних місцях.</li>
-</ul>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries" target="_blank">Container queries — MDN</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="коли">5. Коли що</h1>
+        <ul>
+          <li>
+            <strong>Медіазапити</strong> — глобальний макет сторінки (загальна сітка, навігація).
+          </li>
+          <li>
+            <strong>Container queries</strong> — переносні компоненти, що трапляються в різних
+            місцях.
+          </li>
+        </ul>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries"
+              target="_blank"
+              >Container queries — MDN</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

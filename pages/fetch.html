@@ -1,50 +1,78 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AJAX і Fetch API · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="asynchronous-javascript-and-xml">1. Asynchronous JavaScript and XML</h1>
-<p><strong>AJAX</strong> — метод відправки або запиту даних, з подальшим відновленням інтерфейсу
-за цими даними, без необхідності перезавантаження сторінки. За рахунок цього
-зменшується час відгуку і веб-сторінка стає більш інтерактивною.</p>
-<p>Незважаючи на те, що в назві технології присутній XML, використовувати його
-зовсім не обов'язково. Під AJAX мають на увазі будь-яке спілкування з сервером
-без перезавантаження сторінки.</p>
-<p>У приклад можна привести підзавантаження даних:</p>
-<ul>
-<li>На веб-сторінці відбувається подія (сторінка завантажується, натискається
-кнопка   "Показати більше", відправляється форма і т. п.).</li>
-<li>На клієнті, за допомогою JavaScript, реакцією на цю подію виконується функція
-для роботи з сервером де створюється і відправляється HTTP-запит.</li>
-<li>Сервер отримує і обробляє HTTP-запит, відправляючи назад у відповіді дані в
-JSON-форматі.</li>
-<li>На клієнті, за допомогою JavaScript, відповідь від сервера обробляється,
-зчитуються дані і оновлюється інтерфейс.</li>
-</ul>
-<h1 id="fetch-api">2. Fetch API</h1>
-<p><strong><a href="https://goo.gl/w17gH3" target="_blank">Fetch API</a></strong> — надає інтерфейс, набір методів і
-властивостей, для відправки, отримання та обробки ресурсів від сервера.</p>
-<p>Це
-<a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank">XMLHttpRequest</a>
-нового покоління. Він надає покращений інтерфейс для складання запитів до
-сервера і побудований на обіцянках (promise).</p>
-<pre class="language-"><code class="lang-bash">fetch<span class="token punctuation">(</span>url, options<span class="token punctuation">)</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AJAX і Fetch API · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="asynchronous-javascript-and-xml">1. Asynchronous JavaScript and XML</h1>
+        <p>
+          <strong>AJAX</strong> — метод відправки або запиту даних, з подальшим відновленням
+          інтерфейсу за цими даними, без необхідності перезавантаження сторінки. За рахунок цього
+          зменшується час відгуку і веб-сторінка стає більш інтерактивною.
+        </p>
+        <p>
+          Незважаючи на те, що в назві технології присутній XML, використовувати його зовсім не
+          обов'язково. Під AJAX мають на увазі будь-яке спілкування з сервером без перезавантаження
+          сторінки.
+        </p>
+        <p>У приклад можна привести підзавантаження даних:</p>
+        <ul>
+          <li>
+            На веб-сторінці відбувається подія (сторінка завантажується, натискається кнопка
+            "Показати більше", відправляється форма і т. п.).
+          </li>
+          <li>
+            На клієнті, за допомогою JavaScript, реакцією на цю подію виконується функція для роботи
+            з сервером де створюється і відправляється HTTP-запит.
+          </li>
+          <li>
+            Сервер отримує і обробляє HTTP-запит, відправляючи назад у відповіді дані в
+            JSON-форматі.
+          </li>
+          <li>
+            На клієнті, за допомогою JavaScript, відповідь від сервера обробляється, зчитуються дані
+            і оновлюється інтерфейс.
+          </li>
+        </ul>
+        <h1 id="fetch-api">2. Fetch API</h1>
+        <p>
+          <strong><a href="https://goo.gl/w17gH3" target="_blank">Fetch API</a></strong> — надає
+          інтерфейс, набір методів і властивостей, для відправки, отримання та обробки ресурсів від
+          сервера.
+        </p>
+        <p>
+          Це
+          <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank"
+            >XMLHttpRequest</a
+          >
+          нового покоління. Він надає покращений інтерфейс для складання запитів до сервера і
+          побудований на обіцянках (promise).
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-bash">fetch<span class="token punctuation">(</span>url, options<span class="token punctuation">)</span>
 </code></pre>
-<ul>
-<li><code>url</code> — обов'язковий, шлях до даних, які ви хочете отримати.</li>
-<li><code>options</code> — необов'язковий, об'єкт налаштувань запиту. Містить службову
-інформацію: метод (за замовчуванням <code>GET</code>), заголовки, тіло і т. д.</li>
-<li>Повертає проміс, який містить відповідь сервера.</li>
-</ul>
-<pre class="language-"><code class="lang-js"><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">'https://jsonplaceholder.typicode.com/users'</span><span class="token punctuation">)</span>
+        <ul>
+          <li><code>url</code> — обов'язковий, шлях до даних, які ви хочете отримати.</li>
+          <li>
+            <code>options</code> — необов'язковий, об'єкт налаштувань запиту. Містить службову
+            інформацію: метод (за замовчуванням <code>GET</code>), заголовки, тіло і т. д.
+          </li>
+          <li>Повертає проміс, який містить відповідь сервера.</li>
+        </ul>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">'https://jsonplaceholder.typicode.com/users'</span><span class="token punctuation">)</span>
   <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">response</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
     <span class="token comment">//response handling</span>
   <span class="token punctuation">}</span><span class="token punctuation">)</span>
@@ -55,22 +83,33 @@ JSON-форматі.</li>
     <span class="token comment">// error handling</span>
   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<h2 id="response">2.1. Response</h2>
-<p>В перший <code>then</code> передається екземпляр класу
-<a href="https://developer.mozilla.org/en-US/docs/Web/API/Response" target="_blank">Response</a>,
-забезпечений різними методами і властивостями. У ньому міститься службова
-інформація про стан відповіді сервера.</p>
-<p>Залежно від типу одержуваного контенту, використовується різний метод парса.</p>
-<ul>
-<li><code>Response.prototype.json()</code> - використовується, коли від бекенда очікуються
-дані в JSON-форматі.</li>
-<li><code>Response.prototype.text()</code> - використовується, коли від бекенда очікуються
-дані в простому текстовому форматі, наприклад <code>.csv</code> - формат зберігання
-табличних даних у вигляді текстового файлу.</li>
-<li><code>Response.prototype.blob()</code> - використовується, коли від бекенда очікуються
-дані, які описують файл, наприклад зображення, аудіо або відео.</li>
-</ul>
-<pre class="language-"><code class="lang-js"><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">'https://jsonplaceholder.typicode.com/users'</span><span class="token punctuation">)</span>
+        <h2 id="response">2.1. Response</h2>
+        <p>
+          В перший <code>then</code> передається екземпляр класу
+          <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response" target="_blank"
+            >Response</a
+          >, забезпечений різними методами і властивостями. У ньому міститься службова інформація
+          про стан відповіді сервера.
+        </p>
+        <p>Залежно від типу одержуваного контенту, використовується різний метод парса.</p>
+        <ul>
+          <li>
+            <code>Response.prototype.json()</code> - використовується, коли від бекенда очікуються
+            дані в JSON-форматі.
+          </li>
+          <li>
+            <code>Response.prototype.text()</code> - використовується, коли від бекенда очікуються
+            дані в простому текстовому форматі, наприклад <code>.csv</code> - формат зберігання
+            табличних даних у вигляді текстового файлу.
+          </li>
+          <li>
+            <code>Response.prototype.blob()</code> - використовується, коли від бекенда очікуються
+            дані, які описують файл, наприклад зображення, аудіо або відео.
+          </li>
+        </ul>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">'https://jsonplaceholder.typicode.com/users'</span><span class="token punctuation">)</span>
   <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">response</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span><span class="token punctuation">)</span>
@@ -81,12 +120,20 @@ JSON-форматі.</li>
     <span class="token comment">// error handling</span>
   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<h2 id="headers">2.2. Headers</h2>
-<p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/API/Headers" target="_blank">Headers</a></strong> —
-дозволяє виконувати різні дії в заголовках HTTP-запиту і відповіді. Ці дії
-включають в себе витяг, налаштування, додавання і видалення заголовків (методи
-<code>append</code>, <code>has</code>, <code>get</code>, <code>set</code>, <code>delete</code>).</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> headers <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Headers</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        <h2 id="headers">2.2. Headers</h2>
+        <p>
+          <strong
+            ><a href="https://developer.mozilla.org/en-US/docs/Web/API/Headers" target="_blank"
+              >Headers</a
+            ></strong
+          >
+          — дозволяє виконувати різні дії в заголовках HTTP-запиту і відповіді. Ці дії включають в
+          себе витяг, налаштування, додавання і видалення заголовків (методи <code>append</code>,
+          <code>has</code>, <code>get</code>, <code>set</code>, <code>delete</code>).
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> headers <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Headers</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   <span class="token string">'Content-Type'</span><span class="token punctuation">:</span> <span class="token string">'application/json'</span><span class="token punctuation">,</span>
   <span class="token string">'X-Custom-Header'</span><span class="token punctuation">:</span> <span class="token string">'custom value'</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -98,69 +145,104 @@ headers<span class="token punctuation">.</span><span class="token function">get<
 headers<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'Content-Type'</span><span class="token punctuation">,</span> <span class="token string">'application/json'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 headers<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token string">'X-Custom-Header'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<p>Для складання заголовків запиту можна використовувати просто буквальний об'єкт
-із властивостями. В такому випадку методів заголовків не буде, що найчастіше і
-не потрібно.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> headers <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <p>
+          Для складання заголовків запиту можна використовувати просто буквальний об'єкт із
+          властивостями. В такому випадку методів заголовків не буде, що найчастіше і не потрібно.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> headers <span class="token operator">=</span> <span class="token punctuation">{</span>
   <span class="token string">'Content-Type'</span><span class="token punctuation">:</span> <span class="token string">'application/json'</span><span class="token punctuation">,</span>
   <span class="token string">'X-Custom-Header'</span><span class="token punctuation">:</span> <span class="token string">'custom value'</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
-<p>Запит з використанням заголовків може виглядати так.</p>
-<pre class="language-"><code class="lang-js"><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">'https://jsonplaceholder.typicode.com/users'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        <p>Запит з використанням заголовків може виглядати так.</p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">'https://jsonplaceholder.typicode.com/users'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
   method<span class="token punctuation">:</span> <span class="token string">'GET'</span><span class="token punctuation">,</span>
   headers<span class="token punctuation">:</span> <span class="token punctuation">{</span>
     Accept<span class="token punctuation">:</span> <span class="token string">'application/json'</span><span class="token punctuation">,</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">response</span> <span class="token operator">=></span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<h2 id="помилка-при-роботі-з-асинхронним-кодом">2.3. Помилка при роботі з асинхронним кодом</h2>
-<p>Розберемо поширену помилку початківців-розробників, спробу використовувати дані
-поза методу <code>then</code>, використовуємо для цього попередній приклад.</p>
-<p><a href="https://codepen.io/goit-fe-adv/pen/veOrOa" target="_blank">Посилання на приклад в Codepen.io</a></p>
-<h1 id="вкладка-network">3. Вкладка Network</h1>
-<p>На вкладці <code>Network</code> відображаються всі запущені на сторінці HTTP-запити.
-Вибравши <code>XHR</code> (можна фільтрувати за типом запиту) залишаться тільки запити до
-бекенду, і після натискання кнопки, через деякий час, відобразиться запит.
-Вибравши його, можна подивитися службову інформацію і тіло відповіді на вкладках
-<code>Headers</code>, <code>Preview</code>, <code>Response</code> і <code>Timing</code>.</p>
-<p><a href="https://codepen.io/goit-fe-adv/pen/gGaaqg" target="_blank">Посилання на приклад в Codepen.io</a></p>
-<p><img src="images/http-request.png" alt="Вкладка Network"></p>
-<h1 id="робота-з-публічним-restful-api">4. Робота з публічним RESTful API</h1>
-<p>Кожен API унікальний, їх тисячі, неможливо завчити код для роботи з одним
-сервісом і використовувати його для спілкування з іншим. З іншого боку, RESTful
-API побудовані за принципами REST-архітектури, а це значить що можна зрозуміти
-принцип і методи роботи, після чого, все що потрібно зробити - це ознайомитися з
-документацією того сервісу, який необхідно використовувати.</p>
-<p>Для прикладу був обраний <a href="https://api.privatbank.ua/" target="_blank">API ПриватБанку</a>. З
-документації беремо URL для запиту інформації про поточний курс обміну валют.</p>
-<pre class="language-"><code class="lang-bash">https://api.privatbank.ua/p24api/pubinfo?exchange<span class="token operator">&</span>json<span class="token operator">&</span>coursid<span class="token operator">=</span>11
+        <h2 id="помилка-при-роботі-з-асинхронним-кодом">
+          2.3. Помилка при роботі з асинхронним кодом
+        </h2>
+        <p>
+          Розберемо поширену помилку початківців-розробників, спробу використовувати дані поза
+          методу <code>then</code>, використовуємо для цього попередній приклад.
+        </p>
+        <p>
+          <a href="https://codepen.io/goit-fe-adv/pen/veOrOa" target="_blank"
+            >Посилання на приклад в Codepen.io</a
+          >
+        </p>
+        <h1 id="вкладка-network">3. Вкладка Network</h1>
+        <p>
+          На вкладці <code>Network</code> відображаються всі запущені на сторінці HTTP-запити.
+          Вибравши <code>XHR</code> (можна фільтрувати за типом запиту) залишаться тільки запити до
+          бекенду, і після натискання кнопки, через деякий час, відобразиться запит. Вибравши його,
+          можна подивитися службову інформацію і тіло відповіді на вкладках <code>Headers</code>,
+          <code>Preview</code>, <code>Response</code> і <code>Timing</code>.
+        </p>
+        <p>
+          <a href="https://codepen.io/goit-fe-adv/pen/gGaaqg" target="_blank"
+            >Посилання на приклад в Codepen.io</a
+          >
+        </p>
+        <p><img src="images/http-request.png" alt="Вкладка Network" /></p>
+        <h1 id="робота-з-публічним-restful-api">4. Робота з публічним RESTful API</h1>
+        <p>
+          Кожен API унікальний, їх тисячі, неможливо завчити код для роботи з одним сервісом і
+          використовувати його для спілкування з іншим. З іншого боку, RESTful API побудовані за
+          принципами REST-архітектури, а це значить що можна зрозуміти принцип і методи роботи,
+          після чого, все що потрібно зробити - це ознайомитися з документацією того сервісу, який
+          необхідно використовувати.
+        </p>
+        <p>
+          Для прикладу був обраний
+          <a href="https://api.privatbank.ua/" target="_blank">API ПриватБанку</a>. З документації
+          беремо URL для запиту інформації про поточний курс обміну валют.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-bash">https://api.privatbank.ua/p24api/pubinfo?exchange<span class="token operator">&</span>json<span class="token operator">&</span>coursid<span class="token operator">=</span>11
 </code></pre>
-<p>Складається з:</p>
-<ul>
-<li><code>https://api.privatbank.ua/p24api</code> — endpoint, base URL, точка входу на API.</li>
-<li><code>/pubinfo</code> — ресурс до якого ми звертаємося</li>
-<li><code>?</code> — говорить про те, що далі йдуть параметри запиту</li>
-<li><code>&</code> — використовується для вказівки смислового <code>І</code>, пов'язує параметри запиту</li>
-</ul>
-<p>Параметри відповіді з документації:</p>
-<ul>
-<li><code>ccy</code> - код валюти</li>
-<li><code>base_ccy</code> - код національної валюти</li>
-<li><code>buy</code> - курс покупки</li>
-<li><code>sale</code> - курс продажу</li>
-</ul>
-<p><a href="https://codepen.io/goit-fe-adv/pen/JrYGVE" target="_blank">Посилання на приклад в Codepen.io</a></p>
-  </main>
-</div>
+        <p>Складається з:</p>
+        <ul>
+          <li>
+            <code>https://api.privatbank.ua/p24api</code> — endpoint, base URL, точка входу на API.
+          </li>
+          <li><code>/pubinfo</code> — ресурс до якого ми звертаємося</li>
+          <li><code>?</code> — говорить про те, що далі йдуть параметри запиту</li>
+          <li>
+            <code>&</code> — використовується для вказівки смислового <code>І</code>, пов'язує
+            параметри запиту
+          </li>
+        </ul>
+        <p>Параметри відповіді з документації:</p>
+        <ul>
+          <li><code>ccy</code> - код валюти</li>
+          <li><code>base_ccy</code> - код національної валюти</li>
+          <li><code>buy</code> - курс покупки</li>
+          <li><code>sale</code> - курс продажу</li>
+        </ul>
+        <p>
+          <a href="https://codepen.io/goit-fe-adv/pen/JrYGVE" target="_blank"
+            >Посилання на приклад в Codepen.io</a
+          >
+        </p>
+      </main>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

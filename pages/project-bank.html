@@ -1,105 +1,152 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Банк проєктів (ідеї) · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="банк">Банк проєктів</h1>
-<p>Список ідей для практики — від простих до складних. Обирай за своїм рівнем,
-роби у власному репозиторії й додавай до портфоліо. Поряд із кожним — ключові
-навички, які він тренує.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Банк проєктів (ідеї) · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="банк">Банк проєктів</h1>
+        <p>
+          Список ідей для практики — від простих до складних. Обирай за своїм рівнем, роби у
+          власному репозиторії й додавай до портфоліо. Поряд із кожним — ключові навички, які він
+          тренує.
+        </p>
 
-<h1 id="верстка">HTML / CSS (верстка)</h1>
-<ul>
-<li><strong>Персональне портфоліо</strong> — семантика, Grid, адаптивність.</li>
-<li><strong>Сторінка-меню кав'ярні</strong> — картки, типографіка, сітка.</li>
-<li><strong>Pricing-таблиця</strong> — Flexbox, hover-стани, «популярний» тариф.</li>
-<li><strong>Клон секції відомого сайту</strong> (hero Apple/Stripe) — точність до пікселя.</li>
-<li><strong>Форма реєстрації</strong> зі стилізованими полями та станами фокуса.</li>
-<li><strong>CSS-only акордеон/таби</strong> — <code>:checked</code>, <code>:target</code>, без JS.</li>
-<li><strong>Анімований лоадер/спінер</strong> — <code>@keyframes</code>.</li>
-</ul>
+        <h1 id="верстка">HTML / CSS (верстка)</h1>
+        <ul>
+          <li><strong>Персональне портфоліо</strong> — семантика, Grid, адаптивність.</li>
+          <li><strong>Сторінка-меню кав'ярні</strong> — картки, типографіка, сітка.</li>
+          <li><strong>Pricing-таблиця</strong> — Flexbox, hover-стани, «популярний» тариф.</li>
+          <li>
+            <strong>Клон секції відомого сайту</strong> (hero Apple/Stripe) — точність до пікселя.
+          </li>
+          <li><strong>Форма реєстрації</strong> зі стилізованими полями та станами фокуса.</li>
+          <li>
+            <strong>CSS-only акордеон/таби</strong> — <code>:checked</code>, <code>:target</code>,
+            без JS.
+          </li>
+          <li><strong>Анімований лоадер/спінер</strong> — <code>@keyframes</code>.</li>
+        </ul>
 
-<h1 id="js-початковий">JavaScript — початковий</h1>
-<ul>
-<li><strong>Калькулятор</strong> — стан, події, Grid.</li>
-<li><strong>To-Do лист</strong> — масиви, DOM, <code>localStorage</code>.</li>
-<li><strong>Секундомір і таймер</strong> — <code>setInterval</code>, форматування часу.</li>
-<li><strong>Гра «Вгадай число»</strong> — умови, <code>Math.random</code>.</li>
-<li><strong>Конвертер валют/одиниць</strong> — введення, обчислення.</li>
-<li><strong>Лічильник символів</strong> для поля з лімітом — подія <code>input</code>.</li>
-<li><strong>Генератор паролів</strong> — рядки, <code>Math.random</code>, буфер обміну.</li>
-<li><strong>Світлофор / перемикач тем</strong> — керування класами й станом.</li>
-</ul>
+        <h1 id="js-початковий">JavaScript — початковий</h1>
+        <ul>
+          <li><strong>Калькулятор</strong> — стан, події, Grid.</li>
+          <li><strong>To-Do лист</strong> — масиви, DOM, <code>localStorage</code>.</li>
+          <li>
+            <strong>Секундомір і таймер</strong> — <code>setInterval</code>, форматування часу.
+          </li>
+          <li><strong>Гра «Вгадай число»</strong> — умови, <code>Math.random</code>.</li>
+          <li><strong>Конвертер валют/одиниць</strong> — введення, обчислення.</li>
+          <li>
+            <strong>Лічильник символів</strong> для поля з лімітом — подія <code>input</code>.
+          </li>
+          <li>
+            <strong>Генератор паролів</strong> — рядки, <code>Math.random</code>, буфер обміну.
+          </li>
+          <li><strong>Світлофор / перемикач тем</strong> — керування класами й станом.</li>
+        </ul>
 
-<h1 id="js-середній">JavaScript — середній (DOM, події, API)</h1>
-<ul>
-<li><strong>Вікторина (Quiz)</strong> — рендер зі структури даних, кроки, бали.</li>
-<li><strong>Галерея з лайтбоксом</strong> — Grid, модалка, делегування, клавіатура.</li>
-<li><strong>Слайдер/карусель</strong> — таймери, переходи, свайпи.</li>
-<li><strong>Живий пошук фільмів</strong> (OMDb API) — <code>fetch</code>, debounce.</li>
-<li><strong>Погодний застосунок</strong> — API, стани завантаження/помилки.</li>
-<li><strong>Стрічка постів із пагінацією</strong> — <code>fetch</code>, «завантажити ще».</li>
-<li><strong>Кошик інтернет-магазину</strong> — стан, підрахунок, <code>localStorage</code>.</li>
-<li><strong>Гра «Пам'ять» (memory)</strong> — таймери, порівняння карток.</li>
-<li><strong>Гра «Хрестики-нулики»</strong> — стан поля, перевірка перемоги.</li>
-<li><strong>Kanban-дошка з drag-and-drop</strong> — Drag events, стан колонок.</li>
-<li><strong>Markdown-редактор</strong> із живим прев'ю — <code>input</code>, парсинг.</li>
-<li><strong>Нескінченна прокрутка</strong> — IntersectionObserver + API.</li>
-</ul>
+        <h1 id="js-середній">JavaScript — середній (DOM, події, API)</h1>
+        <ul>
+          <li><strong>Вікторина (Quiz)</strong> — рендер зі структури даних, кроки, бали.</li>
+          <li><strong>Галерея з лайтбоксом</strong> — Grid, модалка, делегування, клавіатура.</li>
+          <li><strong>Слайдер/карусель</strong> — таймери, переходи, свайпи.</li>
+          <li><strong>Живий пошук фільмів</strong> (OMDb API) — <code>fetch</code>, debounce.</li>
+          <li><strong>Погодний застосунок</strong> — API, стани завантаження/помилки.</li>
+          <li>
+            <strong>Стрічка постів із пагінацією</strong> — <code>fetch</code>, «завантажити ще».
+          </li>
+          <li>
+            <strong>Кошик інтернет-магазину</strong> — стан, підрахунок, <code>localStorage</code>.
+          </li>
+          <li><strong>Гра «Пам'ять» (memory)</strong> — таймери, порівняння карток.</li>
+          <li><strong>Гра «Хрестики-нулики»</strong> — стан поля, перевірка перемоги.</li>
+          <li><strong>Kanban-дошка з drag-and-drop</strong> — Drag events, стан колонок.</li>
+          <li><strong>Markdown-редактор</strong> із живим прев'ю — <code>input</code>, парсинг.</li>
+          <li><strong>Нескінченна прокрутка</strong> — IntersectionObserver + API.</li>
+        </ul>
 
-<h1 id="react">React</h1>
-<ul>
-<li><strong>To-Do з фільтрами</strong> — <code>useState</code>, списки, імутабельність.</li>
-<li><strong>Пошук з дебаунсом</strong> — <code>useEffect</code>, кастомний хук <code>useDebounce</code>.</li>
-<li><strong>Погодний/кіно-застосунок</strong> — <code>useFetch</code>, стани, обробка помилок.</li>
-<li><strong>Кошик товарів</strong> — Context для глобального стану.</li>
-<li><strong>Багатокрокова форма (wizard)</strong> — стан кроків, валідація.</li>
-<li><strong>Dashboard із графіками</strong> — дані з API, компоненти-картки.</li>
-<li><strong>Клон Trello (спрощений)</strong> — списки, картки, DnD.</li>
-</ul>
+        <h1 id="react">React</h1>
+        <ul>
+          <li>
+            <strong>To-Do з фільтрами</strong> — <code>useState</code>, списки, імутабельність.
+          </li>
+          <li>
+            <strong>Пошук з дебаунсом</strong> — <code>useEffect</code>, кастомний хук
+            <code>useDebounce</code>.
+          </li>
+          <li>
+            <strong>Погодний/кіно-застосунок</strong> — <code>useFetch</code>, стани, обробка
+            помилок.
+          </li>
+          <li><strong>Кошик товарів</strong> — Context для глобального стану.</li>
+          <li><strong>Багатокрокова форма (wizard)</strong> — стан кроків, валідація.</li>
+          <li><strong>Dashboard із графіками</strong> — дані з API, компоненти-картки.</li>
+          <li><strong>Клон Trello (спрощений)</strong> — списки, картки, DnD.</li>
+        </ul>
 
-<h1 id="fullstack">Fullstack / Next.js</h1>
-<ul>
-<li><strong>Нотатник з авторизацією</strong> — Next.js + Prisma + JWT (капстоун).</li>
-<li><strong>Блог із CMS</strong> — SSG/ISR, Route Handlers, markdown-пости.</li>
-<li><strong>Скорочувач посилань</strong> — БД, редіректи, статистика кліків.</li>
-<li><strong>Менеджер задач для команди</strong> — ролі, спільний доступ.</li>
-<li><strong>Інтернет-магазин</strong> — товари, кошик, оформлення, оплата (Stripe test).</li>
-<li><strong>Чат</strong> — WebSocket, кімнати, історія повідомлень.</li>
-<li><strong>URL-моніторинг</strong> — cron-перевірки, сповіщення.</li>
-</ul>
+        <h1 id="fullstack">Fullstack / Next.js</h1>
+        <ul>
+          <li><strong>Нотатник з авторизацією</strong> — Next.js + Prisma + JWT (капстоун).</li>
+          <li><strong>Блог із CMS</strong> — SSG/ISR, Route Handlers, markdown-пости.</li>
+          <li><strong>Скорочувач посилань</strong> — БД, редіректи, статистика кліків.</li>
+          <li><strong>Менеджер задач для команди</strong> — ролі, спільний доступ.</li>
+          <li>
+            <strong>Інтернет-магазин</strong> — товари, кошик, оформлення, оплата (Stripe test).
+          </li>
+          <li><strong>Чат</strong> — WebSocket, кімнати, історія повідомлень.</li>
+          <li><strong>URL-моніторинг</strong> — cron-перевірки, сповіщення.</li>
+        </ul>
 
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Не намагайся зробити ідеально з першого разу. Спочатку — робоча мінімальна
-версія (MVP), потім поступово додавай можливості. Кожен завершений проєкт
-цінніший за десять недороблених.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Не намагайся зробити ідеально з першого разу. Спочатку — робоча мінімальна версія
+              (MVP), потім поступово додавай можливості. Кожен завершений проєкт цінніший за десять
+              недороблених.
+            </p>
+          </div>
+        </div>
 
-<h1 id="джерела">Джерела даних і зображень</h1>
-<ul>
-<li><a href="https://jsonplaceholder.typicode.com/" target="_blank">JSONPlaceholder</a> — фейкове REST API;</li>
-<li><a href="https://open-meteo.com/" target="_blank">Open-Meteo</a> — погода без ключа;</li>
-<li><a href="https://www.omdbapi.com/" target="_blank">OMDb</a> — фільми; <a href="https://opentdb.com/" target="_blank">Open Trivia DB</a> — питання;</li>
-<li><a href="https://picsum.photos/" target="_blank">Lorem Picsum</a> — випадкові зображення.</li>
-</ul>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="джерела">Джерела даних і зображень</h1>
+        <ul>
+          <li>
+            <a href="https://jsonplaceholder.typicode.com/" target="_blank">JSONPlaceholder</a> —
+            фейкове REST API;
+          </li>
+          <li>
+            <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a> — погода без ключа;
+          </li>
+          <li>
+            <a href="https://www.omdbapi.com/" target="_blank">OMDb</a> — фільми;
+            <a href="https://opentdb.com/" target="_blank">Open Trivia DB</a> — питання;
+          </li>
+          <li>
+            <a href="https://picsum.photos/" target="_blank">Lorem Picsum</a> — випадкові
+            зображення.
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

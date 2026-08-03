@@ -1,37 +1,57 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Service Workers і кешування · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="що-таке">1. Що таке Service Worker</h1>
-<p><strong>Service Worker (SW)</strong> — особливий воркер, що працює як <strong>проксі між
-сторінкою й мережею</strong>. Він може перехоплювати всі мережеві запити й вирішувати:
-віддати з кешу, сходити в мережу чи скомбінувати. Це основа <strong>офлайн-режиму</strong> й
-PWA.</p>
-<p><img src="images/service-worker-cache.svg" alt="Service Worker перехоплює fetch зі сторінки: спершу шукає в Cache Storage, якщо немає — йде в мережу" loading="lazy"></p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>SW живе <strong>окремо від сторінки</strong> й переживає її закриття. Працює лише через
-<strong>HTTPS</strong> (і <code>localhost</code> для розробки) — бо перехоплення трафіку потребує
-безпечного контексту.</p></div></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Service Workers і кешування · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="що-таке">1. Що таке Service Worker</h1>
+        <p>
+          <strong>Service Worker (SW)</strong> — особливий воркер, що працює як
+          <strong>проксі між сторінкою й мережею</strong>. Він може перехоплювати всі мережеві
+          запити й вирішувати: віддати з кешу, сходити в мережу чи скомбінувати. Це основа
+          <strong>офлайн-режиму</strong> й PWA.
+        </p>
+        <p>
+          <img
+            src="images/service-worker-cache.svg"
+            alt="Service Worker перехоплює fetch зі сторінки: спершу шукає в Cache Storage, якщо немає — йде в мережу"
+            loading="lazy"
+          />
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              SW живе <strong>окремо від сторінки</strong> й переживає її закриття. Працює лише
+              через <strong>HTTPS</strong> (і <code>localhost</code> для розробки) — бо перехоплення
+              трафіку потребує безпечного контексту.
+            </p>
+          </div>
+        </div>
 
-<h1 id="реєстрація">2. Реєстрація</h1>
-<pre class="language-js"><code class="language-js">// main.js — на сторінці
+        <h1 id="реєстрація">2. Реєстрація</h1>
+        <pre class="language-js"><code class="language-js">// main.js — на сторінці
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js');
 }</code></pre>
 
-<h1 id="lifecycle">3. Життєвий цикл: install → activate → fetch</h1>
-<p>SW має три ключові події. На <code>install</code> — кладемо файли в кеш; на
-<code>activate</code> — чистимо старі кеші; на <code>fetch</code> — вирішуємо, звідки віддати
-відповідь.</p>
-<pre class="language-js"><code class="language-js">// sw.js
+        <h1 id="lifecycle">3. Життєвий цикл: install → activate → fetch</h1>
+        <p>
+          SW має три ключові події. На <code>install</code> — кладемо файли в кеш; на
+          <code>activate</code> — чистимо старі кеші; на <code>fetch</code> — вирішуємо, звідки
+          віддати відповідь.
+        </p>
+        <pre class="language-js"><code class="language-js">// sw.js
 const CACHE = 'app-v1';
 const ASSETS = ['/', '/index.html', '/styles.css', '/main.js'];
 
@@ -48,48 +68,76 @@ self.addEventListener('activate', (e) =&gt; {
   );
 });</code></pre>
 
-<h1 id="fetch">4. Перехоплення запитів</h1>
-<p>Найпростіша стратегія — <strong>cache-first</strong>: якщо є в кеші, віддай його; інакше
-сходи в мережу.</p>
-<pre class="language-js"><code class="language-js">self.addEventListener('fetch', (e) =&gt; {
+        <h1 id="fetch">4. Перехоплення запитів</h1>
+        <p>
+          Найпростіша стратегія — <strong>cache-first</strong>: якщо є в кеші, віддай його; інакше
+          сходи в мережу.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">self.addEventListener('fetch', (e) =&gt; {
   e.respondWith(
     caches.match(e.request).then((cached) =&gt; cached ?? fetch(e.request))
   );
 });</code></pre>
 
-<h1 id="стратегії">5. Стратегії кешування</h1>
-<ul>
-<li><strong>cache-first</strong> — спершу кеш (для статики: CSS, JS, шрифти, іконки);</li>
-<li><strong>network-first</strong> — спершу мережа, кеш як запасний (для свіжих даних/API);</li>
-<li><strong>stale-while-revalidate</strong> — віддати кеш одразу, а у фоні оновити його з
-мережі (баланс швидкості й свіжості).</li>
-</ul>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Найпоширеніша пастка — «застряглий» SW: користувач бачить стару версію після
-деплою. Тому <strong>версіонуй кеш</strong> (<code>app-v1</code> → <code>app-v2</code>) і чисти старі на
-<code>activate</code>. У продакшені зазвичай генерують SW інструментом <strong>Workbox</strong>.</p></div></div>
+        <h1 id="стратегії">5. Стратегії кешування</h1>
+        <ul>
+          <li><strong>cache-first</strong> — спершу кеш (для статики: CSS, JS, шрифти, іконки);</li>
+          <li>
+            <strong>network-first</strong> — спершу мережа, кеш як запасний (для свіжих даних/API);
+          </li>
+          <li>
+            <strong>stale-while-revalidate</strong> — віддати кеш одразу, а у фоні оновити його з
+            мережі (баланс швидкості й свіжості).
+          </li>
+        </ul>
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Найпоширеніша пастка — «застряглий» SW: користувач бачить стару версію після деплою.
+              Тому <strong>версіонуй кеш</strong> (<code>app-v1</code> → <code>app-v2</code>) і
+              чисти старі на <code>activate</code>. У продакшені зазвичай генерують SW інструментом
+              <strong>Workbox</strong>.
+            </p>
+          </div>
+        </div>
 
-<h1 id="workbox">6. Workbox і генерація</h1>
-<p>Писати SW руками помилконебезпечно (версії, стратегії, precache-маніфест). Тому
-беруть <strong>Workbox</strong> або плагіни збирача (<code>vite-plugin-pwa</code>) — вони генерують SW,
-підставляють список файлів і застосовують перевірені стратегії. Про це — в уроці про
-PWA.</p>
+        <h1 id="workbox">6. Workbox і генерація</h1>
+        <p>
+          Писати SW руками помилконебезпечно (версії, стратегії, precache-маніфест). Тому беруть
+          <strong>Workbox</strong> або плагіни збирача (<code>vite-plugin-pwa</code>) — вони
+          генерують SW, підставляють список файлів і застосовують перевірені стратегії. Про це — в
+          уроці про PWA.
+        </p>
 
-<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers" target="_blank">MDN — Using Service Workers</a></li>
-<li><a href="https://web.dev/learn/pwa/service-workers/" target="_blank">web.dev — Service Workers</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers"
+              target="_blank"
+              >MDN — Using Service Workers</a
+            >
+          </li>
+          <li>
+            <a href="https://web.dev/learn/pwa/service-workers/" target="_blank"
+              >web.dev — Service Workers</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

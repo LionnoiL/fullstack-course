@@ -1,51 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Проєкт: fullstack-нотатник · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="проєкт">Мілстоун 4: fullstack-нотатник (капстоун)</h1>
-<p><strong>Етап:</strong> фінальний — після React/Next, бекенду й супровідних тем. Мета —
-повноцінний застосунок із фронтендом, сервером, базою даних і авторизацією.
-Це проєкт рівня портфоліо.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Проєкт: fullstack-нотатник · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="проєкт">Мілстоун 4: fullstack-нотатник (капстоун)</h1>
+        <p>
+          <strong>Етап:</strong> фінальний — після React/Next, бекенду й супровідних тем. Мета —
+          повноцінний застосунок із фронтендом, сервером, базою даних і авторизацією. Це проєкт
+          рівня портфоліо.
+        </p>
 
-<h1 id="функції">Функціонал</h1>
-<ul>
-<li>реєстрація й вхід користувача;</li>
-<li>кожен користувач бачить лише свої нотатки;</li>
-<li>CRUD нотаток: створити, переглянути, редагувати, видалити;</li>
-<li>пошук/фільтр нотаток;</li>
-<li>захищені маршрути (без входу — редірект).</li>
-</ul>
+        <h1 id="функції">Функціонал</h1>
+        <ul>
+          <li>реєстрація й вхід користувача;</li>
+          <li>кожен користувач бачить лише свої нотатки;</li>
+          <li>CRUD нотаток: створити, переглянути, редагувати, видалити;</li>
+          <li>пошук/фільтр нотаток;</li>
+          <li>захищені маршрути (без входу — редірект).</li>
+        </ul>
 
-<h1 id="стек">Рекомендований стек</h1>
-<ul>
-<li><strong>фронтенд:</strong> Next.js (App Router) + React;</li>
-<li><strong>бекенд:</strong> Route Handlers або окремий Express;</li>
-<li><strong>база даних:</strong> PostgreSQL + Prisma;</li>
-<li><strong>авторизація:</strong> JWT або сесії, паролі через bcrypt;</li>
-<li><strong>TypeScript</strong> наскрізно.</li>
-</ul>
+        <h1 id="стек">Рекомендований стек</h1>
+        <ul>
+          <li><strong>фронтенд:</strong> Next.js (App Router) + React;</li>
+          <li><strong>бекенд:</strong> Route Handlers або окремий Express;</li>
+          <li><strong>база даних:</strong> PostgreSQL + Prisma;</li>
+          <li><strong>авторизація:</strong> JWT або сесії, паролі через bcrypt;</li>
+          <li><strong>TypeScript</strong> наскрізно.</li>
+        </ul>
 
-<h1 id="вимоги">Вимоги</h1>
-<ul>
-<li>REST-ендпоінти з правильними статусами й валідацією вводу;</li>
-<li>паролі зберігаються лише хешованими;</li>
-<li>секрети — у змінних оточення (<code>.env</code> у <code>.gitignore</code>);</li>
-<li>розділення відповідальності: маршрути / логіка / доступ до БД;</li>
-<li>щонайменше кілька тестів ключової логіки;</li>
-<li>задеплоєно (фронтенд + бекенд + БД).</li>
-</ul>
+        <h1 id="вимоги">Вимоги</h1>
+        <ul>
+          <li>REST-ендпоінти з правильними статусами й валідацією вводу;</li>
+          <li>паролі зберігаються лише хешованими;</li>
+          <li>секрети — у змінних оточення (<code>.env</code> у <code>.gitignore</code>);</li>
+          <li>розділення відповідальності: маршрути / логіка / доступ до БД;</li>
+          <li>щонайменше кілька тестів ключової логіки;</li>
+          <li>задеплоєно (фронтенд + бекенд + БД).</li>
+        </ul>
 
-<h1 id="модель">Приклад моделі даних (Prisma)</h1>
-<pre class="language-js"><code class="language-js">model User {
+        <h1 id="модель">Приклад моделі даних (Prisma)</h1>
+        <pre class="language-js"><code class="language-js">model User {
   id       Int    @id @default(autoincrement())
   email    String @unique
   password String
@@ -61,35 +66,43 @@ model Note {
   createdAt DateTime @default(now())
 }</code></pre>
 
-<h1 id="кроки">Порядок роботи</h1>
-<ul>
-<li>спроєктуй модель даних і API;</li>
-<li>підніми БД і Prisma, зроби міграцію;</li>
-<li>реалізуй реєстрацію/вхід і видачу токена;</li>
-<li>зроби захищені CRUD-ендпоінти нотаток;</li>
-<li>збудуй UI: сторінки входу, списку, редагування;</li>
-<li>додай обробку помилок і завантаження;</li>
-<li>напиши тести й задеплой.</li>
-</ul>
+        <h1 id="кроки">Порядок роботи</h1>
+        <ul>
+          <li>спроєктуй модель даних і API;</li>
+          <li>підніми БД і Prisma, зроби міграцію;</li>
+          <li>реалізуй реєстрацію/вхід і видачу токена;</li>
+          <li>зроби захищені CRUD-ендпоінти нотаток;</li>
+          <li>збудуй UI: сторінки входу, списку, редагування;</li>
+          <li>додай обробку помилок і завантаження;</li>
+          <li>напиши тести й задеплой.</li>
+        </ul>
 
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Не намагайся зробити все одразу. Спершу — «наскрізний зріз»: реєстрація →
-створення однієї нотатки → її показ. Коли працює повний ланцюг, нарощуй решту.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Не намагайся зробити все одразу. Спершу — «наскрізний зріз»: реєстрація → створення
+              однієї нотатки → її показ. Коли працює повний ланцюг, нарощуй решту.
+            </p>
+          </div>
+        </div>
 
-<h1 id="далі">Розвиток проєкту</h1>
-<p>Ролі й спільний доступ до нотаток, теги й папки, markdown-редактор, вкладення
-файлів, реалтайм-оновлення через WebSocket.</p>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="далі">Розвиток проєкту</h1>
+        <p>
+          Ролі й спільний доступ до нотаток, теги й папки, markdown-редактор, вкладення файлів,
+          реалтайм-оновлення через WebSocket.
+        </p>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

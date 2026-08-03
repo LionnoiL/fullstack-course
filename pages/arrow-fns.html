@@ -1,20 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Стрілкові функції · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="стрілкові-функції">1. Стрілкові функції</h1>
-<p>Стрілкові функції мають скорочений, більш лаконічний синтаксис, і деякі особливості. Подібно функціональним виразам вони присвоюються змінним або можуть бути анонімними. Їх використання дуже зручно і значно скорочує обсяги коду, особливо коли функція маленька.</p>
-<p>Всі стрілки створюються за допомогою функціонального вираження, якщо функції не анонімна, то вона повинна бути присвоєна змінної. Тому слід пам'ятати, що перед використанням стрілкові функції її завжди необхідно створити заздалегідь.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">// Звичайний функціональний вираз</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Стрілкові функції · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="стрілкові-функції">1. Стрілкові функції</h1>
+        <p>
+          Стрілкові функції мають скорочений, більш лаконічний синтаксис, і деякі особливості.
+          Подібно функціональним виразам вони присвоюються змінним або можуть бути анонімними. Їх
+          використання дуже зручно і значно скорочує обсяги коду, особливо коли функція маленька.
+        </p>
+        <p>
+          Всі стрілки створюються за допомогою функціонального вираження, якщо функції не анонімна,
+          то вона повинна бути присвоєна змінної. Тому слід пам'ятати, що перед використанням
+          стрілкові функції її завжди необхідно створити заздалегідь.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">// Звичайний функціональний вираз</span>
 <span class="token keyword">const</span> <span class="token function-variable function">add</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> a <span class="token operator">+</span> b <span class="token operator">+</span> c<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
@@ -22,8 +35,13 @@
 <span class="token comment">// Теж саме записано, як стрілкова функція</span>
 <span class="token keyword">const</span> <span class="token function-variable function">add</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c</span><span class="token punctuation">)</span> <span class="token operator">=></span> a <span class="token operator">+</span> b <span class="token operator">+</span> c<span class="token punctuation">;</span>
 </code></pre>
-<p>Слово <code>function</code> не використовується, замість цього відразу йде оголошення параметрів, за якими завжди слідує символ <code>=></code>.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">// Якщо параметрів кілька, то вони перераховуються через кому в круглих дужках.</span>
+        <p>
+          Слово <code>function</code> не використовується, замість цього відразу йде оголошення
+          параметрів, за якими завжди слідує символ <code>=></code>.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">// Якщо параметрів кілька, то вони перераховуються через кому в круглих дужках.</span>
 <span class="token keyword">const</span> <span class="token function-variable function">fn</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> a <span class="token operator">+</span> b <span class="token operator">+</span> c<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
@@ -38,8 +56,11 @@
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Hello! :]'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
-<p>Після <code>=></code> йде тіло функції. Тут може бути два варіанти: з фігурними дужками і без них.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">/*
+        <p>
+          Після <code>=></code> йде тіло функції. Тут може бути два варіанти: з фігурними дужками і
+          без них.
+        </p>
+        <pre class="language-"><code class="lang-js"><span class="token comment">/*
  * Якщо фігурні дужки після => є, значить необхідно явно вказати те,
  * що повинна повернути функція - поставити return і вираз.
  * Це називається явне повернення (explicit return)
@@ -55,25 +76,30 @@
  */</span>
 <span class="token keyword">const</span> <span class="token function-variable function">fn</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c</span><span class="token punctuation">)</span> <span class="token operator">=></span> a <span class="token operator">+</span> b <span class="token operator">+</span> c<span class="token punctuation">;</span>
 </code></pre>
-<h1 id="стрілкові-функції-і-arguments">2. Стрілкові функції і arguments</h1>
-<p>У стрілкових функцій немає локальної змінної <code>arguments</code>, що містить всі аргументи. Якщо необхідно зібрати всі аргументи в масив, використовується операція
-<code>rest</code>.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">add</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token operator">...</span>args</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <h1 id="стрілкові-функції-і-arguments">2. Стрілкові функції і arguments</h1>
+        <p>
+          У стрілкових функцій немає локальної змінної <code>arguments</code>, що містить всі
+          аргументи. Якщо необхідно зібрати всі аргументи в масив, використовується операція
+          <code>rest</code>.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">add</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token operator">...</span>args</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
 <span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [1, 2, 3]</span>
 </code></pre>
-  </main>
-</div>
+      </main>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

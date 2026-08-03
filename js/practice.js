@@ -14,10 +14,7 @@
   };
 
   function escapeHtml(s) {
-    return String(s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
   function renderError(output, message) {
@@ -30,22 +27,128 @@
 
   // Словник підказок: ключові слова + поширені вбудовані сутності й методи.
   const AC_WORDS = [
-    "const", "let", "var", "function", "return", "if", "else", "for", "while",
-    "do", "switch", "case", "break", "continue", "class", "extends", "new",
-    "this", "super", "typeof", "instanceof", "in", "of", "try", "catch",
-    "finally", "throw", "async", "await", "yield", "true", "false", "null",
-    "undefined", "console", "log", "error", "warn", "Math", "JSON", "Object",
-    "Array", "String", "Number", "Boolean", "Symbol", "Map", "Set", "WeakMap",
-    "Promise", "Date", "RegExp", "parseInt", "parseFloat", "isNaN", "Infinity",
-    "NaN", "setTimeout", "setInterval", "length", "push", "pop", "shift",
-    "unshift", "slice", "splice", "map", "filter", "reduce", "forEach", "find",
-    "findIndex", "indexOf", "includes", "join", "split", "concat", "reverse",
-    "sort", "some", "every", "flat", "keys", "values", "entries", "fromEntries",
-    "assign", "freeze", "stringify", "parse", "toFixed", "toString",
-    "toLowerCase", "toUpperCase", "trim", "replace", "repeat", "padStart",
-    "startsWith", "endsWith", "charAt", "abs", "floor", "ceil", "round", "max",
-    "min", "random", "pow", "sqrt", "then", "catch", "all", "resolve", "reject",
-    "has", "get", "set", "add", "delete", "clear", "size",
+    "const",
+    "let",
+    "var",
+    "function",
+    "return",
+    "if",
+    "else",
+    "for",
+    "while",
+    "do",
+    "switch",
+    "case",
+    "break",
+    "continue",
+    "class",
+    "extends",
+    "new",
+    "this",
+    "super",
+    "typeof",
+    "instanceof",
+    "in",
+    "of",
+    "try",
+    "catch",
+    "finally",
+    "throw",
+    "async",
+    "await",
+    "yield",
+    "true",
+    "false",
+    "null",
+    "undefined",
+    "console",
+    "log",
+    "error",
+    "warn",
+    "Math",
+    "JSON",
+    "Object",
+    "Array",
+    "String",
+    "Number",
+    "Boolean",
+    "Symbol",
+    "Map",
+    "Set",
+    "WeakMap",
+    "Promise",
+    "Date",
+    "RegExp",
+    "parseInt",
+    "parseFloat",
+    "isNaN",
+    "Infinity",
+    "NaN",
+    "setTimeout",
+    "setInterval",
+    "length",
+    "push",
+    "pop",
+    "shift",
+    "unshift",
+    "slice",
+    "splice",
+    "map",
+    "filter",
+    "reduce",
+    "forEach",
+    "find",
+    "findIndex",
+    "indexOf",
+    "includes",
+    "join",
+    "split",
+    "concat",
+    "reverse",
+    "sort",
+    "some",
+    "every",
+    "flat",
+    "keys",
+    "values",
+    "entries",
+    "fromEntries",
+    "assign",
+    "freeze",
+    "stringify",
+    "parse",
+    "toFixed",
+    "toString",
+    "toLowerCase",
+    "toUpperCase",
+    "trim",
+    "replace",
+    "repeat",
+    "padStart",
+    "startsWith",
+    "endsWith",
+    "charAt",
+    "abs",
+    "floor",
+    "ceil",
+    "round",
+    "max",
+    "min",
+    "random",
+    "pow",
+    "sqrt",
+    "then",
+    "catch",
+    "all",
+    "resolve",
+    "reject",
+    "has",
+    "get",
+    "set",
+    "add",
+    "delete",
+    "clear",
+    "size",
   ];
 
   const AC_PAIRS = { "(": ")", "{": "}", "[": "]", "'": "'", '"': '"', "`": "`" };
@@ -73,10 +176,24 @@
     const div = document.createElement("div");
     const cs = getComputedStyle(el);
     [
-      "boxSizing", "width", "paddingTop", "paddingRight", "paddingBottom",
-      "paddingLeft", "borderTopWidth", "borderRightWidth", "borderBottomWidth",
-      "borderLeftWidth", "fontFamily", "fontSize", "fontWeight", "fontStyle",
-      "letterSpacing", "lineHeight", "tabSize", "textIndent",
+      "boxSizing",
+      "width",
+      "paddingTop",
+      "paddingRight",
+      "paddingBottom",
+      "paddingLeft",
+      "borderTopWidth",
+      "borderRightWidth",
+      "borderBottomWidth",
+      "borderLeftWidth",
+      "fontFamily",
+      "fontSize",
+      "fontWeight",
+      "fontStyle",
+      "letterSpacing",
+      "lineHeight",
+      "tabSize",
+      "textIndent",
     ].forEach(function (p) {
       div.style[p] = cs[p];
     });
@@ -381,7 +498,7 @@
         const ret =
           "return {" +
           entries
-            .map((n) => n + ': (typeof ' + n + ' !== "undefined") ? ' + n + " : undefined")
+            .map((n) => n + ": (typeof " + n + ' !== "undefined") ? ' + n + " : undefined")
             .join(",") +
           "};";
         const fn = new Function("console", code + "\n" + ret);
@@ -428,10 +545,7 @@
       const allPass = passed === config.tests.length;
       summary.className = "runner-summary " + (allPass ? "all-pass" : "some-fail");
       summary.textContent =
-        (allPass ? "✓ Усі тести пройдено: " : "Пройдено ") +
-        passed +
-        " / " +
-        config.tests.length;
+        (allPass ? "✓ Усі тести пройдено: " : "Пройдено ") + passed + " / " + config.tests.length;
       output.appendChild(summary);
       output.appendChild(list);
     });
@@ -444,11 +558,7 @@
       return;
     }
     tasks.forEach(function (task, idx) {
-      const key = task.entry
-        ? Array.isArray(task.entry)
-          ? task.entry[0]
-          : task.entry
-        : "t" + idx;
+      const key = task.entry ? (Array.isArray(task.entry) ? task.entry[0] : task.entry) : "t" + idx;
       const id = mountId + "-" + key;
 
       const wrap = document.createElement("div");
@@ -505,7 +615,7 @@
         const d = document.createElement("details");
         d.className = "solution";
         d.innerHTML =
-          "<summary>Рішення</summary><pre class=\"language-js\"><code class=\"language-js\">" +
+          '<summary>Рішення</summary><pre class="language-js"><code class="language-js">' +
           escapeHtml(task.solution) +
           "</code></pre>";
         wrap.appendChild(d);

@@ -1,20 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Списки та умовний рендеринг · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="списки">1. Рендеринг списків</h1>
-<p>Щоб відобразити масив даних, його перетворюють на масив елементів методом
-<code>map</code>. React відрендерить кожен елемент.</p>
-<pre class="language-js"><code class="language-js">function TodoList() {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Списки та умовний рендеринг · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="списки">1. Рендеринг списків</h1>
+        <p>
+          Щоб відобразити масив даних, його перетворюють на масив елементів методом
+          <code>map</code>. React відрендерить кожен елемент.
+        </p>
+        <pre class="language-js"><code class="language-js">function TodoList() {
   const todos = ['Купити хліб', 'Прочитати книгу', 'Написати код'];
 
   return (
@@ -25,10 +30,12 @@
     &lt;/ul&gt;
   );
 }</code></pre>
-<h1 id="ключі">2. Атрибут key</h1>
-<p>Кожен елемент списку має унікальний <code>key</code> — він допомагає React відстежувати,
-що змінилось. Найкраще брати стабільний ідентифікатор із даних, а не індекс.</p>
-<pre class="language-js"><code class="language-js">const users = [
+        <h1 id="ключі">2. Атрибут key</h1>
+        <p>
+          Кожен елемент списку має унікальний <code>key</code> — він допомагає React відстежувати,
+          що змінилось. Найкраще брати стабільний ідентифікатор із даних, а не індекс.
+        </p>
+        <pre class="language-js"><code class="language-js">const users = [
   { id: 1, name: 'Ada' },
   { id: 2, name: 'Grace' },
 ];
@@ -38,21 +45,34 @@
     &lt;li key={user.id}&gt;{user.name}&lt;/li&gt;
   ))}
 &lt;/ul&gt;;</code></pre>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Індекс як <code>key</code> прийнятний лише для статичних списків. Якщо елементи
-додаються, видаляються чи сортуються — індекс призведе до багів рендеру.
-Використовуйте унікальний <code>id</code>.</p></div></div>
-<h1 id="умовний">3. Умовний рендеринг</h1>
-<p>Оскільки JSX — це вирази, для умов використовують тернарний оператор або <code>&amp;&amp;</code>.</p>
-<pre class="language-js"><code class="language-js">function Status({ isOnline }) {
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Індекс як <code>key</code> прийнятний лише для статичних списків. Якщо елементи
+              додаються, видаляються чи сортуються — індекс призведе до багів рендеру.
+              Використовуйте унікальний <code>id</code>.
+            </p>
+          </div>
+        </div>
+        <h1 id="умовний">3. Умовний рендеринг</h1>
+        <p>
+          Оскільки JSX — це вирази, для умов використовують тернарний оператор або
+          <code>&amp;&amp;</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">function Status({ isOnline }) {
   return (
     &lt;div&gt;
       {isOnline ? &lt;span&gt;В мережі&lt;/span&gt; : &lt;span&gt;Офлайн&lt;/span&gt;}
     &lt;/div&gt;
   );
 }</code></pre>
-<h1 id="коротке-замикання">4. Рендер за умовою через &amp;&amp;</h1>
-<p>Коли треба показати щось <em>лише за умовою</em> (без «інакше»), зручний оператор <code>&amp;&amp;</code>.</p>
-<pre class="language-js"><code class="language-js">function Cart({ items }) {
+        <h1 id="коротке-замикання">4. Рендер за умовою через &amp;&amp;</h1>
+        <p>
+          Коли треба показати щось <em>лише за умовою</em> (без «інакше»), зручний оператор
+          <code>&amp;&amp;</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">function Cart({ items }) {
   return (
     &lt;div&gt;
       &lt;h2&gt;Кошик&lt;/h2&gt;
@@ -61,24 +81,36 @@
     &lt;/div&gt;
   );
 }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Обережно з <code>&amp;&amp;</code> і числами: <code>{items.length &amp;&amp; ...}</code> при довжині 0
-відрендерить сам <code>0</code> на сторінці. Тому краще писати явну умову
-<code>items.length &gt; 0 &amp;&amp; ...</code>.</p></div></div>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://react.dev/learn/rendering-lists" target="_blank">Rendering Lists — react.dev</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Обережно з <code>&amp;&amp;</code> і числами:
+              <code>{items.length &amp;&amp; ...}</code> при довжині 0 відрендерить сам
+              <code>0</code> на сторінці. Тому краще писати явну умову
+              <code>items.length &gt; 0 &amp;&amp; ...</code>.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://react.dev/learn/rendering-lists" target="_blank"
+              >Rendering Lists — react.dev</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

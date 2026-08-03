@@ -1,27 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Практика: керування станом · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="практика">Практика: керування станом</h1>
-<p>Створи React-проєкт (Vite). Завдання 1–2 зроби на <strong>Zustand</strong>, 3 — на
-<strong>Redux Toolkit</strong>, щоб відчути обидва підходи на одній задачі.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: керування станом · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: керування станом</h1>
+        <p>
+          Створи React-проєкт (Vite). Завдання 1–2 зроби на <strong>Zustand</strong>, 3 — на
+          <strong>Redux Toolkit</strong>, щоб відчути обидва підходи на одній задачі.
+        </p>
 
-<div class="task">
-<h2>Завдання 1. Лічильник на Zustand</h2>
-<p class="task-goal">Створи стор із <code>count</code> та діями <code>increment</code>/<code>decrement</code>/<code>reset</code>.
-Виведи значення у двох різних компонентах — переконайся, що обидва бачать спільний
-стан.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">import { create } from 'zustand';
+        <div class="task">
+          <h2>Завдання 1. Лічильник на Zustand</h2>
+          <p class="task-goal">
+            Створи стор із <code>count</code> та діями
+            <code>increment</code>/<code>decrement</code>/<code>reset</code>. Виведи значення у двох
+            різних компонентах — переконайся, що обидва бачать спільний стан.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">import { create } from 'zustand';
 
 const useCounter = create((set) =&gt; ({
   count: 0,
@@ -34,23 +42,34 @@ function Counter() {
   const { count, increment } = useCounter();
   return &lt;button onClick={increment}&gt;{count}&lt;/button&gt;;
 }</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 2. Кошик із persist</h2>
-<p class="task-goal">Зроби стор кошика (<code>items</code>, <code>add</code>, <code>remove</code>) і обгорни його в
-<code>persist</code>, щоб уміст зберігався після перезавантаження сторінки.</p>
-<details class="hint"><summary>Підказка</summary><p><code>create(persist((set) =&gt; ({...}), &#123; name: 'cart' &#125;))</code>. Перевір ключ <code>cart</code> у DevTools → Application → Local Storage.</p></details>
-</div>
+        <div class="task">
+          <h2>Завдання 2. Кошик із persist</h2>
+          <p class="task-goal">
+            Зроби стор кошика (<code>items</code>, <code>add</code>, <code>remove</code>) і обгорни
+            його в <code>persist</code>, щоб уміст зберігався після перезавантаження сторінки.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              <code>create(persist((set) =&gt; ({...}), &#123; name: 'cart' &#125;))</code>. Перевір
+              ключ <code>cart</code> у DevTools → Application → Local Storage.
+            </p>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 3. Той самий лічильник на Redux Toolkit</h2>
-<p class="task-goal">Створи слайс <code>counter</code> через <code>createSlice</code>, налаштуй стор
-(<code>configureStore</code>), обгорни застосунок у <code>Provider</code> і використай
-<code>useSelector</code>/<code>useDispatch</code>. Порівняй обсяг коду з Zustand.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">const counterSlice = createSlice({
+        <div class="task">
+          <h2>Завдання 3. Той самий лічильник на Redux Toolkit</h2>
+          <p class="task-goal">
+            Створи слайс <code>counter</code> через <code>createSlice</code>, налаштуй стор
+            (<code>configureStore</code>), обгорни застосунок у <code>Provider</code> і використай
+            <code>useSelector</code>/<code>useDispatch</code>. Порівняй обсяг коду з Zustand.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">const counterSlice = createSlice({
   name: 'counter',
   initialState: { value: 0 },
   reducers: {
@@ -65,32 +84,40 @@ const store = configureStore({ reducer: { counter: counterSlice.reducer } });
 // у компоненті:
 const value = useSelector((s) =&gt; s.counter.value);
 const dispatch = useDispatch();</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 4. Асинхронне завантаження (виклик)</h2>
-<p class="task-goal">Додай <code>createAsyncThunk</code>, що вантажить список користувачів із
-<a href="https://jsonplaceholder.typicode.com" target="_blank">JSONPlaceholder</a>, і
-обробі стани <code>pending</code>/<code>fulfilled</code>/<code>rejected</code> в <code>extraReducers</code>. Виведи
-індикатор завантаження й список.</p>
-</div>
+        <div class="task">
+          <h2>Завдання 4. Асинхронне завантаження (виклик)</h2>
+          <p class="task-goal">
+            Додай <code>createAsyncThunk</code>, що вантажить список користувачів із
+            <a href="https://jsonplaceholder.typicode.com" target="_blank">JSONPlaceholder</a>, і
+            обробі стани <code>pending</code>/<code>fulfilled</code>/<code>rejected</code> в
+            <code>extraReducers</code>. Виведи індикатор завантаження й список.
+          </p>
+        </div>
 
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Зробивши однакову задачу двома способами, ти на практиці відчуєш різницю:
-Zustand — менше церемоній, Redux Toolkit — більше структури й потужні devtools.
-Пам'ятай: для <em>серверних</em> даних часто краще взагалі TanStack Query.</p></div></div>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Зробивши однакову задачу двома способами, ти на практиці відчуєш різницю: Zustand —
+              менше церемоній, Redux Toolkit — більше структури й потужні devtools. Пам'ятай: для
+              <em>серверних</em> даних часто краще взагалі TanStack Query.
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

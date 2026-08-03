@@ -1,28 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Server-Sent Events (SSE) · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="що-таке">1. Що таке SSE</h1>
-<p><strong>Server-Sent Events</strong> — стандартний спосіб тримати одне HTTP-з'єднання
-відкритим і <em>стрімити</em> через нього події від сервера до клієнта. Це звичайний
-<code>GET</code>-запит із особливим типом відповіді <code>text/event-stream</code>, який не
-закривається. Однобічно: сервер → клієнт.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Плюси SSE: працює поверх звичайного HTTP (проходить через проксі/файрволи),
-<strong>автоматично перепідключається</strong> і памʼятає останній <code>id</code> події. Мінус:
-лише в один бік і (у старих браузерів) ліміт з'єднань на домен.</p></div></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Server-Sent Events (SSE) · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="що-таке">1. Що таке SSE</h1>
+        <p>
+          <strong>Server-Sent Events</strong> — стандартний спосіб тримати одне HTTP-з'єднання
+          відкритим і <em>стрімити</em> через нього події від сервера до клієнта. Це звичайний
+          <code>GET</code>-запит із особливим типом відповіді <code>text/event-stream</code>, який
+          не закривається. Однобічно: сервер → клієнт.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Плюси SSE: працює поверх звичайного HTTP (проходить через проксі/файрволи),
+              <strong>автоматично перепідключається</strong> і памʼятає останній
+              <code>id</code> події. Мінус: лише в один бік і (у старих браузерів) ліміт з'єднань на
+              домен.
+            </p>
+          </div>
+        </div>
 
-<h1 id="клієнт">2. Клієнт: <code>EventSource</code></h1>
-<p>У браузері є вбудований <code>EventSource</code> — жодних бібліотек:</p>
-<pre class="language-js"><code class="language-js">const es = new EventSource('/api/stream');
+        <h1 id="клієнт">2. Клієнт: <code>EventSource</code></h1>
+        <p>У браузері є вбудований <code>EventSource</code> — жодних бібліотек:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">const es = new EventSource('/api/stream');
 
 es.onmessage = (event) =&gt; {
   const data = JSON.parse(event.data); // подія без імені
@@ -33,10 +48,12 @@ es.onerror = () =&gt; {
   // з'єднання впало — браузер сам спробує перепідключитись
 };</code></pre>
 
-<h1 id="сервер">3. Сервер (Express)</h1>
-<p>Сервер виставляє потрібні заголовки й пише події у відповідь, не закриваючи її.
-Формат кадру — рядки <code>data: ...\n\n</code> (порожній рядок завершує подію).</p>
-<pre class="language-js"><code class="language-js">app.get('/api/stream', (req, res) =&gt; {
+        <h1 id="сервер">3. Сервер (Express)</h1>
+        <p>
+          Сервер виставляє потрібні заголовки й пише події у відповідь, не закриваючи її. Формат
+          кадру — рядки <code>data: ...\n\n</code> (порожній рядок завершує подію).
+        </p>
+        <pre class="language-js"><code class="language-js">app.get('/api/stream', (req, res) =&gt; {
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
@@ -49,45 +66,62 @@ es.onerror = () =&gt; {
   req.on('close', () =&gt; clearInterval(timer)); // клієнт відключився — прибрати
 });</code></pre>
 
-<h1 id="named">4. Іменовані події та id</h1>
-<p>Можна надсилати різні <em>типи</em> подій полем <code>event:</code> і нумерувати їх
-<code>id:</code> (браузер поверне останній <code>id</code> у заголовку <code>Last-Event-ID</code> після
-перепідключення):</p>
-<pre class="language-js"><code class="language-js">// сервер
+        <h1 id="named">4. Іменовані події та id</h1>
+        <p>
+          Можна надсилати різні <em>типи</em> подій полем <code>event:</code> і нумерувати їх
+          <code>id:</code> (браузер поверне останній <code>id</code> у заголовку
+          <code>Last-Event-ID</code> після перепідключення):
+        </p>
+        <pre class="language-js"><code class="language-js">// сервер
 res.write(`event: message\n`);
 res.write(`id: 42\n`);
 res.write(`data: ${JSON.stringify(msg)}\n\n`);
 
 // клієнт — окремий обробник на іменовану подію
 es.addEventListener('message', (e) =&gt; render(JSON.parse(e.data)));</code></pre>
-<p>Через <code>retry: 5000\n\n</code> сервер може задати інтервал перепідключення в мс.</p>
+        <p>Через <code>retry: 5000\n\n</code> сервер може задати інтервал перепідключення в мс.</p>
 
-<h1 id="коли">5. Коли SSE — правильний вибір</h1>
-<ul>
-<li>стрічка сповіщень, live-лічильники, прогрес довгої задачі;</li>
-<li>оновлення дашборда, ціни, статуси;</li>
-<li><strong>стрімінг відповіді LLM</strong> по токенах — теж часто SSE.</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Якщо клієнту треба <em>надсилати</em> дані назад часто й миттєво (чат, курсори) — SSE
-не підійде, бо він однобічний. Тоді бери WebSocket з наступного уроку. Надіслати
-щось зрідка можна й окремим <code>fetch</code>-запитом поряд зі SSE.</p></div></div>
+        <h1 id="коли">5. Коли SSE — правильний вибір</h1>
+        <ul>
+          <li>стрічка сповіщень, live-лічильники, прогрес довгої задачі;</li>
+          <li>оновлення дашборда, ціни, статуси;</li>
+          <li><strong>стрімінг відповіді LLM</strong> по токенах — теж часто SSE.</li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Якщо клієнту треба <em>надсилати</em> дані назад часто й миттєво (чат, курсори) — SSE
+              не підійде, бо він однобічний. Тоді бери WebSocket з наступного уроку. Надіслати щось
+              зрідка можна й окремим <code>fetch</code>-запитом поряд зі SSE.
+            </p>
+          </div>
+        </div>
 
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/EventSource" target="_blank">MDN — EventSource</a></li>
-<li><a href="https://html.spec.whatwg.org/multipage/server-sent-events.html" target="_blank">Специфікація Server-Sent Events</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventSource" target="_blank"
+              >MDN — EventSource</a
+            >
+          </li>
+          <li>
+            <a href="https://html.spec.whatwg.org/multipage/server-sent-events.html" target="_blank"
+              >Специфікація Server-Sent Events</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

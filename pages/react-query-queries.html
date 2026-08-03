@@ -1,21 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>useQuery: отримання даних · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="usequery">1. Хук useQuery</h1>
-<p>Читання даних — це <code>useQuery</code>. Він приймає два ключові поля: <strong>queryKey</strong>
-(унікальний ключ для кешу) і <strong>queryFn</strong> (функція, що повертає проміс із
-даними).</p>
-<pre class="language-js"><code class="language-js">import { useQuery } from '@tanstack/react-query';
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>useQuery: отримання даних · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="usequery">1. Хук useQuery</h1>
+        <p>
+          Читання даних — це <code>useQuery</code>. Він приймає два ключові поля:
+          <strong>queryKey</strong> (унікальний ключ для кешу) і <strong>queryFn</strong> (функція,
+          що повертає проміс із даними).
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">import { useQuery } from '@tanstack/react-query';
 
 function Todos() {
   const { data, isPending, isError, error } = useQuery({
@@ -28,57 +35,82 @@ function Todos() {
 
   return &lt;ul&gt;{data.map((t) =&gt; &lt;li key={t.id}&gt;{t.title}&lt;/li&gt;)}&lt;/ul&gt;;
 }</code></pre>
-<h1 id="стани">2. Стани запиту</h1>
-<ul>
-<li><code>isPending</code> — даних ще немає (перше завантаження);</li>
-<li><code>isError</code> + <code>error</code> — запит впав;</li>
-<li><code>data</code> — успішно отримані дані;</li>
-<li><code>isFetching</code> — запит виконується <em>зараз</em> (зокрема фонове оновлення при
-вже наявних <code>data</code>).</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Розрізняй <code>isPending</code> і <code>isFetching</code>: <code>isPending</code> — «даних ще немає взагалі»,
-<code>isFetching</code> — «йде мережевий запит» (може бути <code>true</code> навіть коли <code>data</code> вже
-показані — під час фонового оновлення).</p></div></div>
-<h1 id="querykey">3. Ключ запиту (queryKey)</h1>
-<p>Ключ — це масив, що однозначно ідентифікує дані. Якщо запит залежить від
-параметра, параметр входить у ключ — при його зміні дані перезавантажаться
-автоматично.</p>
-<pre class="language-js"><code class="language-js">function Todo({ id }) {
+        <h1 id="стани">2. Стани запиту</h1>
+        <ul>
+          <li><code>isPending</code> — даних ще немає (перше завантаження);</li>
+          <li><code>isError</code> + <code>error</code> — запит впав;</li>
+          <li><code>data</code> — успішно отримані дані;</li>
+          <li>
+            <code>isFetching</code> — запит виконується <em>зараз</em> (зокрема фонове оновлення при
+            вже наявних <code>data</code>).
+          </li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Розрізняй <code>isPending</code> і <code>isFetching</code>: <code>isPending</code> —
+              «даних ще немає взагалі», <code>isFetching</code> — «йде мережевий запит» (може бути
+              <code>true</code> навіть коли <code>data</code> вже показані — під час фонового
+              оновлення).
+            </p>
+          </div>
+        </div>
+        <h1 id="querykey">3. Ключ запиту (queryKey)</h1>
+        <p>
+          Ключ — це масив, що однозначно ідентифікує дані. Якщо запит залежить від параметра,
+          параметр входить у ключ — при його зміні дані перезавантажаться автоматично.
+        </p>
+        <pre class="language-js"><code class="language-js">function Todo({ id }) {
   const { data } = useQuery({
     queryKey: ['todo', id],                 // id — частина ключа
     queryFn: () =&gt; fetchTodo(id),
   });
   // зміниться id → новий ключ → новий запит (старий лишиться в кеші)
 }</code></pre>
-<h1 id="enabled">4. Умовний запит (enabled)</h1>
-<p>Запит можна відкласти, поки не готові дані для нього — через опцію <code>enabled</code>:</p>
-<pre class="language-js"><code class="language-js">const { data } = useQuery({
+        <h1 id="enabled">4. Умовний запит (enabled)</h1>
+        <p>
+          Запит можна відкласти, поки не готові дані для нього — через опцію <code>enabled</code>:
+        </p>
+        <pre class="language-js"><code class="language-js">const { data } = useQuery({
   queryKey: ['user', userId],
   queryFn: () =&gt; fetchUser(userId),
   enabled: !!userId,   // не робити запит, поки немає userId
 });</code></pre>
-<h1 id="select">5. Перетворення даних (select)</h1>
-<pre class="language-js"><code class="language-js">const { data: titles } = useQuery({
+        <h1 id="select">5. Перетворення даних (select)</h1>
+        <pre class="language-js"><code class="language-js">const { data: titles } = useQuery({
   queryKey: ['todos'],
   queryFn: fetchTodos,
   select: (todos) =&gt; todos.map((t) =&gt; t.title), // тільки заголовки
 });</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://tanstack.com/query/latest/docs/framework/react/guides/queries" target="_blank">Queries — TanStack Query</a></li>
-<li><a href="https://tanstack.com/query/latest/docs/framework/react/guides/query-keys" target="_blank">Query Keys — TanStack Query</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://tanstack.com/query/latest/docs/framework/react/guides/queries"
+              target="_blank"
+              >Queries — TanStack Query</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://tanstack.com/query/latest/docs/framework/react/guides/query-keys"
+              target="_blank"
+              >Query Keys — TanStack Query</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

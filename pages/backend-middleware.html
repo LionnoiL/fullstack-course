@@ -1,33 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Middleware · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="middleware">1. Що таке middleware</h1>
-<p><strong>Middleware (проміжне ПЗ)</strong> — це функції, які виконуються <em>між</em> отриманням
-запиту і відправленням відповіді. Кожна має доступ до <code>req</code>, <code>res</code> і функції
-<code>next</code>, що передає керування далі по ланцюжку.</p>
-<pre class="language-js"><code class="language-js">app.use((req, res, next) =&gt; {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Middleware · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="middleware">1. Що таке middleware</h1>
+        <p>
+          <strong>Middleware (проміжне ПЗ)</strong> — це функції, які виконуються
+          <em>між</em> отриманням запиту і відправленням відповіді. Кожна має доступ до
+          <code>req</code>, <code>res</code> і функції <code>next</code>, що передає керування далі
+          по ланцюжку.
+        </p>
+        <pre class="language-js"><code class="language-js">app.use((req, res, next) =&gt; {
   console.log(`${req.method} ${req.url}`);
   next(); // передати керування наступному middleware
 });</code></pre>
-<h1 id="вбудоване">2. Вбудоване middleware</h1>
-<p>Найчастіше потрібне для читання тіла запиту та роздачі статичних файлів.</p>
-<pre class="language-js"><code class="language-js">app.use(express.json());                 // парсинг JSON у req.body
+        <h1 id="вбудоване">2. Вбудоване middleware</h1>
+        <p>Найчастіше потрібне для читання тіла запиту та роздачі статичних файлів.</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">app.use(express.json());                 // парсинг JSON у req.body
 app.use(express.urlencoded({ extended: true })); // дані форм
 app.use(express.static('public'));       // роздача файлів із папки public</code></pre>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Без <code>express.json()</code> поле <code>req.body</code> буде <code>undefined</code> для JSON-запитів.
-Це найпоширеніша помилка новачків у Express.</p></div></div>
-<h1 id="власне">3. Власне middleware</h1>
-<pre class="language-js"><code class="language-js">function requireAuth(req, res, next) {
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Без <code>express.json()</code> поле <code>req.body</code> буде
+              <code>undefined</code> для JSON-запитів. Це найпоширеніша помилка новачків у Express.
+            </p>
+          </div>
+        </div>
+        <h1 id="власне">3. Власне middleware</h1>
+        <pre class="language-js"><code class="language-js">function requireAuth(req, res, next) {
   if (!req.headers.authorization) {
     return res.status(401).json({ error: 'Потрібна авторизація' });
   }
@@ -38,37 +53,45 @@ app.use(express.static('public'));       // роздача файлів із п�
 app.get('/profile', requireAuth, (req, res) =&gt; {
   res.json({ user: 'Ada' });
 });</code></pre>
-<h1 id="порядок">4. Порядок має значення</h1>
-<p>Middleware виконуються в порядку оголошення. Тому спільні (логування, парсинг)
-підключають на початку, а обробник помилок — в самому кінці.</p>
-<h1 id="помилки">5. Middleware обробки помилок</h1>
-<p>Функція з <strong>чотирма</strong> аргументами вважається обробником помилок. Express
-викликає її, коли десь передали помилку в <code>next(err)</code>.</p>
-<pre class="language-js"><code class="language-js">app.use((err, req, res, next) =&gt; {
+        <h1 id="порядок">4. Порядок має значення</h1>
+        <p>
+          Middleware виконуються в порядку оголошення. Тому спільні (логування, парсинг) підключають
+          на початку, а обробник помилок — в самому кінці.
+        </p>
+        <h1 id="помилки">5. Middleware обробки помилок</h1>
+        <p>
+          Функція з <strong>чотирма</strong> аргументами вважається обробником помилок. Express
+          викликає її, коли десь передали помилку в <code>next(err)</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">app.use((err, req, res, next) =&gt; {
   console.error(err.stack);
   res.status(500).json({ error: 'Внутрішня помилка сервера' });
 });</code></pre>
-<h1 id="сторонні">6. Популярні сторонні пакети</h1>
-<ul>
-<li><code>cors</code> — дозвіл крос-доменних запитів;</li>
-<li><code>morgan</code> — логування запитів;</li>
-<li><code>helmet</code> — безпечні HTTP-заголовки.</li>
-</ul>
-<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://expressjs.com/uk/guide/using-middleware.html" target="_blank">Використання middleware — Express</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="сторонні">6. Популярні сторонні пакети</h1>
+        <ul>
+          <li><code>cors</code> — дозвіл крос-доменних запитів;</li>
+          <li><code>morgan</code> — логування запитів;</li>
+          <li><code>helmet</code> — безпечні HTTP-заголовки.</li>
+        </ul>
+        <h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://expressjs.com/uk/guide/using-middleware.html" target="_blank"
+              >Використання middleware — Express</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

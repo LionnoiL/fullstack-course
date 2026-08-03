@@ -1,20 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Класи в TypeScript · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="класи">1. Типізовані класи</h1>
-<p>TypeScript розширює класи JavaScript типами полів і <strong>модифікаторами доступу</strong>.
-Поля треба оголошувати з їхніми типами.</p>
-<pre class="language-js"><code class="language-js">class User {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Класи в TypeScript · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="класи">1. Типізовані класи</h1>
+        <p>
+          TypeScript розширює класи JavaScript типами полів і
+          <strong>модифікаторами доступу</strong>. Поля треба оголошувати з їхніми типами.
+        </p>
+        <pre class="language-js"><code class="language-js">class User {
   name: string;
   age: number;
 
@@ -27,14 +32,14 @@
     return `Привіт, я ${this.name}`;
   }
 }</code></pre>
-<h1 id="модифікатори">2. Модифікатори доступу</h1>
-<ul>
-<li><code>public</code> — доступне звідусіль (за замовчуванням);</li>
-<li><code>private</code> — лише всередині класу;</li>
-<li><code>protected</code> — усередині класу та нащадків;</li>
-<li><code>readonly</code> — лише для читання після ініціалізації.</li>
-</ul>
-<pre class="language-js"><code class="language-js">class Account {
+        <h1 id="модифікатори">2. Модифікатори доступу</h1>
+        <ul>
+          <li><code>public</code> — доступне звідусіль (за замовчуванням);</li>
+          <li><code>private</code> — лише всередині класу;</li>
+          <li><code>protected</code> — усередині класу та нащадків;</li>
+          <li><code>readonly</code> — лише для читання після ініціалізації.</li>
+        </ul>
+        <pre class="language-js"><code class="language-js">class Account {
   private balance = 0;
   readonly owner: string;
 
@@ -50,10 +55,12 @@
 const acc = new Account('Ada');
 acc.deposit(100);
 acc.balance; // ❌ private — недоступне ззовні</code></pre>
-<h1 id="скорочення">3. Короткий запис у конструкторі</h1>
-<p>Модифікатор перед параметром конструктора автоматично створює й ініціалізує
-поле — менше шаблонного коду.</p>
-<pre class="language-js"><code class="language-js">class Point {
+        <h1 id="скорочення">3. Короткий запис у конструкторі</h1>
+        <p>
+          Модифікатор перед параметром конструктора автоматично створює й ініціалізує поле — менше
+          шаблонного коду.
+        </p>
+        <pre class="language-js"><code class="language-js">class Point {
   constructor(
     public x: number,
     public y: number,
@@ -61,10 +68,12 @@ acc.balance; // ❌ private — недоступне ззовні</code></pre>
   ) {}
 }
 // x, y, label вже стали полями обʼєкта</code></pre>
-<h1 id="абстрактні">4. Абстрактні класи та implements</h1>
-<p>Абстрактний клас не можна створити напряму — лише успадкувати. Клас може
-<code>implements</code> інтерфейс, зобовʼязуючись реалізувати його форму.</p>
-<pre class="language-js"><code class="language-js">interface Printable {
+        <h1 id="абстрактні">4. Абстрактні класи та implements</h1>
+        <p>
+          Абстрактний клас не можна створити напряму — лише успадкувати. Клас може
+          <code>implements</code> інтерфейс, зобовʼязуючись реалізувати його форму.
+        </p>
+        <pre class="language-js"><code class="language-js">interface Printable {
   print(): void;
 }
 
@@ -84,8 +93,8 @@ class Circle extends Shape {
     return Math.PI * this.r ** 2;
   }
 }</code></pre>
-<h1 id="геттери">5. Геттери та сеттери</h1>
-<pre class="language-js"><code class="language-js">class Temperature {
+        <h1 id="геттери">5. Геттери та сеттери</h1>
+        <pre class="language-js"><code class="language-js">class Temperature {
   private celsius = 0;
 
   get fahrenheit(): number {
@@ -95,21 +104,25 @@ class Circle extends Shape {
     this.celsius = (value - 32) / 1.8;
   }
 }</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://www.typescriptlang.org/docs/handbook/2/classes.html" target="_blank">Classes — TypeScript Handbook</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://www.typescriptlang.org/docs/handbook/2/classes.html" target="_blank"
+              >Classes — TypeScript Handbook</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

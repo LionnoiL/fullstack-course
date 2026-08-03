@@ -1,38 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Векторні бази даних · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="навіщо">1. Навіщо окрема БД</h1>
-<p>Звичайна БД шукає за <em>точним збігом</em> (<code>WHERE title = '...'</code>). Для RAG нам
-потрібен інший пошук — <strong>за близькістю векторів</strong>: «дай 5 чанків, найсхожіших за
-змістом на цей запит». Це вміють <strong>векторні бази</strong>: вони індексують embeddings і
-швидко знаходять найближчі сусіди навіть серед мільйонів записів.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Векторні бази даних · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="навіщо">1. Навіщо окрема БД</h1>
+        <p>
+          Звичайна БД шукає за <em>точним збігом</em> (<code>WHERE title = '...'</code>). Для RAG
+          нам потрібен інший пошук — <strong>за близькістю векторів</strong>: «дай 5 чанків,
+          найсхожіших за змістом на цей запит». Це вміють <strong>векторні бази</strong>: вони
+          індексують embeddings і швидко знаходять найближчі сусіди навіть серед мільйонів записів.
+        </p>
 
-<h1 id="варіанти">2. Два поширені варіанти</h1>
-<ul>
-<li><strong>pgvector</strong> — розширення для <strong>PostgreSQL</strong>. Вектори живуть поряд зі
-звичайними даними; не треба окремого сервісу. Ідеально, якщо вже маєш Postgres
-(зокрема Supabase);</li>
-<li><strong>Pinecone</strong> — керований хмарний векторний сервіс. Береш на себе менше
-інфраструктури, масштабування — з коробки; підходить для великих обсягів.</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Правило: <strong>вже є Postgres → бери pgvector</strong> (один інструмент, транзакції,
-JOIN-и з іншими таблицями). Величезні обсяги або не хочеш адмініструвати індекс →
-керований сервіс на кшталт Pinecone.</p></div></div>
+        <h1 id="варіанти">2. Два поширені варіанти</h1>
+        <ul>
+          <li>
+            <strong>pgvector</strong> — розширення для <strong>PostgreSQL</strong>. Вектори живуть
+            поряд зі звичайними даними; не треба окремого сервісу. Ідеально, якщо вже маєш Postgres
+            (зокрема Supabase);
+          </li>
+          <li>
+            <strong>Pinecone</strong> — керований хмарний векторний сервіс. Береш на себе менше
+            інфраструктури, масштабування — з коробки; підходить для великих обсягів.
+          </li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Правило: <strong>вже є Postgres → бери pgvector</strong> (один інструмент, транзакції,
+              JOIN-и з іншими таблицями). Величезні обсяги або не хочеш адмініструвати індекс →
+              керований сервіс на кшталт Pinecone.
+            </p>
+          </div>
+        </div>
 
-<h1 id="pgvector">3. pgvector: зберігання й пошук</h1>
-<p>Вмикаємо розширення, додаємо колонку типу <code>vector</code> (розмірність = довжина
-embedding) і шукаємо за оператором відстані:</p>
-<pre class="language-sql"><code class="language-sql">create extension if not exists vector;
+        <h1 id="pgvector">3. pgvector: зберігання й пошук</h1>
+        <p>
+          Вмикаємо розширення, додаємо колонку типу <code>vector</code> (розмірність = довжина
+          embedding) і шукаємо за оператором відстані:
+        </p>
+        <pre class="language-sql"><code class="language-sql">create extension if not exists vector;
 
 create table docs (
   id bigserial primary key,
@@ -46,8 +64,10 @@ from docs
 order by embedding &lt;=&gt; $1   -- $1 = embedding запиту
 limit 5;</code></pre>
 
-<h1 id="запис">4. Запис embeddings із коду</h1>
-<pre class="language-js"><code class="language-js">// індексація: для кожного чанка рахуємо embedding і зберігаємо
+        <h1 id="запис">4. Запис embeddings із коду</h1>
+        <pre
+          class="language-js"
+        ><code class="language-js">// індексація: для кожного чанка рахуємо embedding і зберігаємо
 for (const chunk of chunks) {
   const { embedding } = await embed({
     model: openai.embedding('text-embedding-3-small'),
@@ -57,10 +77,14 @@ for (const chunk of chunks) {
             values (${chunk.text}, ${JSON.stringify(embedding)})`;
 }</code></pre>
 
-<h1 id="pinecone">5. Pinecone: пошук</h1>
-<p>У Pinecone дані лежать як записи з <code>id</code>, <code>values</code> (вектор) і
-<code>metadata</code>. Пошук — <code>query</code> з вектором запиту:</p>
-<pre class="language-js"><code class="language-js">import { Pinecone } from '@pinecone-database/pinecone';
+        <h1 id="pinecone">5. Pinecone: пошук</h1>
+        <p>
+          У Pinecone дані лежать як записи з <code>id</code>, <code>values</code> (вектор) і
+          <code>metadata</code>. Пошук — <code>query</code> з вектором запиту:
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">import { Pinecone } from '@pinecone-database/pinecone';
 
 const index = new Pinecone().index('docs');
 
@@ -71,45 +95,73 @@ const result = await index.query({
 });
 const chunks = result.matches.map((m) =&gt; m.metadata.text);</code></pre>
 
-<h1 id="метадані">6. Метадані й фільтри</h1>
-<p>Разом із вектором зберігай <strong>метадані</strong>: назву документа, розділ, дату, права
-доступу. Це дає дві важливі речі:</p>
-<ul>
-<li><strong>джерела</strong> у відповіді («згідно з розділом Х…»);</li>
-<li><strong>фільтрацію</strong> перед пошуком — напр. шукати лише в документах цього
-користувача чи мовою запиту (аналог <code>WHERE</code> поверх векторного пошуку).</li>
-</ul>
+        <h1 id="метадані">6. Метадані й фільтри</h1>
+        <p>
+          Разом із вектором зберігай <strong>метадані</strong>: назву документа, розділ, дату, права
+          доступу. Це дає дві важливі речі:
+        </p>
+        <ul>
+          <li><strong>джерела</strong> у відповіді («згідно з розділом Х…»);</li>
+          <li>
+            <strong>фільтрацію</strong> перед пошуком — напр. шукати лише в документах цього
+            користувача чи мовою запиту (аналог <code>WHERE</code> поверх векторного пошуку).
+          </li>
+        </ul>
 
-<h1 id="продакшн">7. Нюанси продакшену</h1>
-<ul>
-<li><strong>та сама модель embedding</strong> для індексації й запиту — інакше вектори
-непорівнянні;</li>
-<li><strong>оновлення даних</strong> — при зміні документа переіндексовуй його чанки;</li>
-<li><strong>вартість</strong> — embeddings рахуються один раз при індексації, далі лише пошук;</li>
-<li><strong>приватність</strong> — не індексуй у зовнішній сервіс те, що не можна віддавати;</li>
-<li><strong>оцінка</strong> — міряй, чи retrieval справді дістає потрібні чанки; від цього
-залежить якість більше, ніж від вибору моделі.</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Пригадай Supabase з розділу Auth: він дає Postgres <em>із pgvector</em> з коробки —
-зручний старт для RAG у фулстек-проєкті без окремого векторного сервісу.</p></div></div>
+        <h1 id="продакшн">7. Нюанси продакшену</h1>
+        <ul>
+          <li>
+            <strong>та сама модель embedding</strong> для індексації й запиту — інакше вектори
+            непорівнянні;
+          </li>
+          <li><strong>оновлення даних</strong> — при зміні документа переіндексовуй його чанки;</li>
+          <li>
+            <strong>вартість</strong> — embeddings рахуються один раз при індексації, далі лише
+            пошук;
+          </li>
+          <li>
+            <strong>приватність</strong> — не індексуй у зовнішній сервіс те, що не можна віддавати;
+          </li>
+          <li>
+            <strong>оцінка</strong> — міряй, чи retrieval справді дістає потрібні чанки; від цього
+            залежить якість більше, ніж від вибору моделі.
+          </li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Пригадай Supabase з розділу Auth: він дає Postgres <em>із pgvector</em> з коробки —
+              зручний старт для RAG у фулстек-проєкті без окремого векторного сервісу.
+            </p>
+          </div>
+        </div>
 
-<h1 id="додаткові-матеріали">8. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://github.com/pgvector/pgvector" target="_blank">pgvector — репозиторій</a></li>
-<li><a href="https://supabase.com/docs/guides/ai" target="_blank">Supabase — AI &amp; Vectors</a></li>
-<li><a href="https://docs.pinecone.io/" target="_blank">Pinecone — документація</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">8. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://github.com/pgvector/pgvector" target="_blank"
+              >pgvector — репозиторій</a
+            >
+          </li>
+          <li>
+            <a href="https://supabase.com/docs/guides/ai" target="_blank"
+              >Supabase — AI &amp; Vectors</a
+            >
+          </li>
+          <li><a href="https://docs.pinecone.io/" target="_blank">Pinecone — документація</a></li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

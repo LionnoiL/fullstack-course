@@ -1,40 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Конфігурація та оточення · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="env">1. Змінні оточення</h1>
-<p>Секрети (паролі БД, ключі API, JWT-секрет) і налаштування, що відрізняються між
-середовищами, <strong>не можна</strong> зашивати в код. Їх виносять у <strong>змінні оточення</strong>.</p>
-<pre class="language-js"><code class="language-js"># файл .env (НЕ потрапляє в git)
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Конфігурація та оточення · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="env">1. Змінні оточення</h1>
+        <p>
+          Секрети (паролі БД, ключі API, JWT-секрет) і налаштування, що відрізняються між
+          середовищами, <strong>не можна</strong> зашивати в код. Їх виносять у
+          <strong>змінні оточення</strong>.
+        </p>
+        <pre class="language-js"><code class="language-js"># файл .env (НЕ потрапляє в git)
 PORT=3000
 DATABASE_URL=postgresql://user:pass@localhost:5432/mydb
 JWT_SECRET=super-secret-key</code></pre>
-<h1 id="dotenv">2. Пакет dotenv</h1>
-<pre class="language-js"><code class="language-js">npm install dotenv</code></pre>
-<pre class="language-js"><code class="language-js">require('dotenv').config();
+        <h1 id="dotenv">2. Пакет dotenv</h1>
+        <pre class="language-js"><code class="language-js">npm install dotenv</code></pre>
+        <pre class="language-js"><code class="language-js">require('dotenv').config();
 
 const port = process.env.PORT || 3000;
 const dbUrl = process.env.DATABASE_URL;
 
 app.listen(port);</code></pre>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Обовʼязково додайте <code>.env</code> у <code>.gitignore</code>. Витік секретів у публічний
-репозиторій — одна з найпоширеніших і найнебезпечніших помилок.</p></div></div>
-<h1 id="gitignore">3. .gitignore</h1>
-<pre class="language-js"><code class="language-js"># .gitignore
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Обовʼязково додайте <code>.env</code> у <code>.gitignore</code>. Витік секретів у
+              публічний репозиторій — одна з найпоширеніших і найнебезпечніших помилок.
+            </p>
+          </div>
+        </div>
+        <h1 id="gitignore">3. .gitignore</h1>
+        <pre class="language-js"><code class="language-js"># .gitignore
 node_modules/
 .env
 dist/</code></pre>
-<h1 id="структура">4. Типова структура проєкту</h1>
-<pre class="language-js"><code class="language-js">project/
+        <h1 id="структура">4. Типова структура проєкту</h1>
+        <pre class="language-js"><code class="language-js">project/
 ├─ src/
 │  ├─ routes/      // маршрути
 │  ├─ controllers/ // логіка обробників
@@ -45,28 +58,34 @@ dist/</code></pre>
 ├─ .env
 ├─ .gitignore
 └─ package.json</code></pre>
-<h1 id="середовища">5. Різні середовища</h1>
-<p>Зазвичай є щонайменше <code>development</code> (локально) і <code>production</code> (на сервері).
-Значення беруть з оточення, а не з коду.</p>
-<pre class="language-js"><code class="language-js">const isProd = process.env.NODE_ENV === 'production';
+        <h1 id="середовища">5. Різні середовища</h1>
+        <p>
+          Зазвичай є щонайменше <code>development</code> (локально) і <code>production</code> (на
+          сервері). Значення беруть з оточення, а не з коду.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">const isProd = process.env.NODE_ENV === 'production';
 if (!isProd) {
   app.use(require('morgan')('dev')); // логи лише в розробці
 }</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://12factor.net/config" target="_blank">The Twelve-Factor App: Config</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://12factor.net/config" target="_blank">The Twelve-Factor App: Config</a>
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

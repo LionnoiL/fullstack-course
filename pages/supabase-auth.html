@@ -1,40 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Supabase Auth · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="що-таке">1. Інший підхід: BaaS</h1>
-<p>Auth.js — бібліотека <em>у твоєму</em> застосунку. <strong>Supabase</strong> — це
-<strong>Backend-as-a-Service</strong>: хмарна платформа з PostgreSQL, авторизацією, сховищем і
-API «з коробки». Supabase Auth сам зберігає користувачів і видає токени, а ти лише
-викликаєш його SDK з клієнта чи сервера.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Ключова відмінність від Auth.js: користувачі й сесії живуть <strong>на боці
-Supabase</strong> (таблиця <code>auth.users</code>), а не у твоїй базі. Supabase використовує
-<strong>JWT + refresh-токен</strong> і тісно інтегрований із доступом до даних (RLS, нижче).</p></div></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supabase Auth · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="що-таке">1. Інший підхід: BaaS</h1>
+        <p>
+          Auth.js — бібліотека <em>у твоєму</em> застосунку. <strong>Supabase</strong> — це
+          <strong>Backend-as-a-Service</strong>: хмарна платформа з PostgreSQL, авторизацією,
+          сховищем і API «з коробки». Supabase Auth сам зберігає користувачів і видає токени, а ти
+          лише викликаєш його SDK з клієнта чи сервера.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Ключова відмінність від Auth.js: користувачі й сесії живуть
+              <strong>на боці Supabase</strong> (таблиця <code>auth.users</code>), а не у твоїй
+              базі. Supabase використовує <strong>JWT + refresh-токен</strong> і тісно інтегрований
+              із доступом до даних (RLS, нижче).
+            </p>
+          </div>
+        </div>
 
-<h1 id="клієнт">2. Ініціалізація клієнта</h1>
-<pre class="language-js"><code class="language-js">npm install @supabase/supabase-js</code></pre>
-<pre class="language-js"><code class="language-js">// lib/supabase.ts
+        <h1 id="клієнт">2. Ініціалізація клієнта</h1>
+        <pre
+          class="language-js"
+        ><code class="language-js">npm install @supabase/supabase-js</code></pre>
+        <pre class="language-js"><code class="language-js">// lib/supabase.ts
 import { createClient } from '@supabase/supabase-js';
 
 export const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY, // публічний ключ — безпечно на клієнті
 );</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>anon key</code> <em>призначений</em> для браузера й безпечний, бо доступ обмежує RLS.
-А ось <code>service_role key</code> — усевладний, тільки для сервера, ніколи в клієнтський
-код.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>anon key</code> <em>призначений</em> для браузера й безпечний, бо доступ обмежує
+              RLS. А ось <code>service_role key</code> — усевладний, тільки для сервера, ніколи в
+              клієнтський код.
+            </p>
+          </div>
+        </div>
 
-<h1 id="реєстрація">3. Реєстрація та вхід (email + пароль)</h1>
-<pre class="language-js"><code class="language-js">// реєстрація
+        <h1 id="реєстрація">3. Реєстрація та вхід (email + пароль)</h1>
+        <pre class="language-js"><code class="language-js">// реєстрація
 const { data, error } = await supabase.auth.signUp({
   email: 'ann@mail.com',
   password: 'super-secret',
@@ -48,63 +70,101 @@ const { error } = await supabase.auth.signInWithPassword({
 
 // вихід
 await supabase.auth.signOut();</code></pre>
-<p>Supabase сам хешує паролі, надсилає лист підтвердження й керує токенами — писати
-<code>bcrypt</code> уже не треба.</p>
+        <p>
+          Supabase сам хешує паролі, надсилає лист підтвердження й керує токенами — писати
+          <code>bcrypt</code> уже не треба.
+        </p>
 
-<h1 id="oauth">4. Вхід через OAuth</h1>
-<p>Той самий OAuth-потік, що ми розбирали, — але одним викликом:</p>
-<pre class="language-js"><code class="language-js">await supabase.auth.signInWithOAuth({
+        <h1 id="oauth">4. Вхід через OAuth</h1>
+        <p>Той самий OAuth-потік, що ми розбирали, — але одним викликом:</p>
+        <pre class="language-js"><code class="language-js">await supabase.auth.signInWithOAuth({
   provider: 'github',
   options: { redirectTo: 'https://myapp.com/auth/callback' },
 });</code></pre>
 
-<h1 id="сесія">5. Сесія та її відстеження</h1>
-<p>Поточну сесію/користувача читають так, а на зміни (вхід, вихід, оновлення токена)
-підписуються через <code>onAuthStateChange</code>:</p>
-<pre class="language-js"><code class="language-js">const { data: { user } } = await supabase.auth.getUser();
+        <h1 id="сесія">5. Сесія та її відстеження</h1>
+        <p>
+          Поточну сесію/користувача читають так, а на зміни (вхід, вихід, оновлення токена)
+          підписуються через <code>onAuthStateChange</code>:
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">const { data: { user } } = await supabase.auth.getUser();
 
 supabase.auth.onAuthStateChange((event, session) =&gt; {
   // 'SIGNED_IN' | 'SIGNED_OUT' | 'TOKEN_REFRESHED' ...
   console.log(event, session?.user?.email);
 });</code></pre>
-<p>SDK <strong>сам оновлює</strong> access-токен за допомогою refresh-токена у фоні — тобі не
-треба стежити за терміном дії.</p>
+        <p>
+          SDK <strong>сам оновлює</strong> access-токен за допомогою refresh-токена у фоні — тобі не
+          треба стежити за терміном дії.
+        </p>
 
-<h1 id="rls">6. RLS: авторизація на рівні БД</h1>
-<p>Найсильніша сторона Supabase — <strong>Row Level Security</strong>: правила доступу
-описуються прямо в PostgreSQL. Навіть якщо клієнт звернеться до таблиці напряму, БД
-віддасть лише дозволені рядки.</p>
-<pre class="language-sql"><code class="language-sql">-- користувач бачить тільки свої нотатки
+        <h1 id="rls">6. RLS: авторизація на рівні БД</h1>
+        <p>
+          Найсильніша сторона Supabase — <strong>Row Level Security</strong>: правила доступу
+          описуються прямо в PostgreSQL. Навіть якщо клієнт звернеться до таблиці напряму, БД
+          віддасть лише дозволені рядки.
+        </p>
+        <pre
+          class="language-sql"
+        ><code class="language-sql">-- користувач бачить тільки свої нотатки
 create policy "own notes"
   on notes for select
   using ( auth.uid() = user_id );</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>RLS переносить <strong>авторизацію</strong> ближче до даних: <code>auth.uid()</code> — це id
-залогіненого користувача з JWT. Так навіть при помилці в коді клієнта чужі дані не
-витечуть.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              RLS переносить <strong>авторизацію</strong> ближче до даних: <code>auth.uid()</code> —
+              це id залогіненого користувача з JWT. Так навіть при помилці в коді клієнта чужі дані
+              не витечуть.
+            </p>
+          </div>
+        </div>
 
-<h1 id="коли">7. Коли що обирати</h1>
-<ul>
-<li><strong>Auth.js</strong> — свій бек, повний контроль, хочеш тримати користувачів у власній БД;</li>
-<li><strong>Supabase</strong> — швидкий старт, auth + БД + realtime разом, менше свого бекенду;</li>
-<li><strong>Clerk/Auth0</strong> — платні платформи з готовим UI й адмінкою (коротко в наступному уроці).</li>
-</ul>
+        <h1 id="коли">7. Коли що обирати</h1>
+        <ul>
+          <li>
+            <strong>Auth.js</strong> — свій бек, повний контроль, хочеш тримати користувачів у
+            власній БД;
+          </li>
+          <li>
+            <strong>Supabase</strong> — швидкий старт, auth + БД + realtime разом, менше свого
+            бекенду;
+          </li>
+          <li>
+            <strong>Clerk/Auth0</strong> — платні платформи з готовим UI й адмінкою (коротко в
+            наступному уроці).
+          </li>
+        </ul>
 
-<h1 id="додаткові-матеріали">8. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://supabase.com/docs/guides/auth" target="_blank">Supabase Auth — документація</a></li>
-<li><a href="https://supabase.com/docs/guides/database/postgres/row-level-security" target="_blank">Supabase — Row Level Security</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">8. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://supabase.com/docs/guides/auth" target="_blank"
+              >Supabase Auth — документація</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://supabase.com/docs/guides/database/postgres/row-level-security"
+              target="_blank"
+              >Supabase — Row Level Security</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

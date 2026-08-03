@@ -1,61 +1,78 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Практика: CSS · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="практика">Практика: CSS</h1>
-<p>Найзручніше експериментувати на <a href="https://codepen.io/pen/" target="_blank">CodePen</a>.
-Спробуй сам, а потім звір із рішенням.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: CSS · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: CSS</h1>
+        <p>
+          Найзручніше експериментувати на
+          <a href="https://codepen.io/pen/" target="_blank">CodePen</a>. Спробуй сам, а потім звір
+          із рішенням.
+        </p>
 
-<div class="task">
-<h2>Завдання 1. Центрування по обох осях</h2>
-<p class="task-goal">Розмісти блок (напр. картку або кнопку) <strong>точно по центру екрана</strong> —
-і по горизонталі, і по вертикалі — за допомогою Flexbox. Контейнер має займати всю
-висоту вікна (<code>100vh</code>), а вміст лишатися центрованим при будь-якому розмірі вікна.
-Класика, яку варто памʼятати напамʼять.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-css"><code class="language-css">.wrapper {
+        <div class="task">
+          <h2>Завдання 1. Центрування по обох осях</h2>
+          <p class="task-goal">
+            Розмісти блок (напр. картку або кнопку) <strong>точно по центру екрана</strong> — і по
+            горизонталі, і по вертикалі — за допомогою Flexbox. Контейнер має займати всю висоту
+            вікна (<code>100vh</code>), а вміст лишатися центрованим при будь-якому розмірі вікна.
+            Класика, яку варто памʼятати напамʼять.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-css"><code class="language-css">.wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
 }</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 2. Адаптивна сітка карток</h2>
-<p class="task-goal">Зроби сітку з 6–8 карток, що сама змінює кількість стовпців залежно
-від ширини екрана — <strong>без жодного медіазапиту</strong>. На широкому екрані — кілька
-карток у ряд, на вузькому — одна під одною; картки зберігають мінімальну ширину й
-рівномірний проміжок (<code>gap</code>). Спробуй звузити вікно й побачити, як стовпці
-«перетікають» самі.</p>
-<details class="hint"><summary>Підказка</summary><p>Ключ — <code>repeat(auto-fit, minmax(...))</code>.</p></details>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-css"><code class="language-css">.grid {
+        <div class="task">
+          <h2>Завдання 2. Адаптивна сітка карток</h2>
+          <p class="task-goal">
+            Зроби сітку з 6–8 карток, що сама змінює кількість стовпців залежно від ширини екрана —
+            <strong>без жодного медіазапиту</strong>. На широкому екрані — кілька карток у ряд, на
+            вузькому — одна під одною; картки зберігають мінімальну ширину й рівномірний проміжок
+            (<code>gap</code>). Спробуй звузити вікно й побачити, як стовпці «перетікають» самі.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>Ключ — <code>repeat(auto-fit, minmax(...))</code>.</p>
+          </details>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-css"><code class="language-css">.grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
 }</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 3. Кнопка з ефектом наведення</h2>
-<p class="task-goal">Стилізуй кнопку (відступи, колір, скруглення, курсор-вказівник) так,
-щоб при наведенні вона <strong>плавно</strong> змінювала колір фону й трохи піднімалася вгору.
-Ключове — <code>transition</code>, щоб зміна була не миттєвою, а анімованою; ефект підняття
-роби через <code>transform: translateY(...)</code>, а не через зміну відступів.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-css"><code class="language-css">.btn {
+        <div class="task">
+          <h2>Завдання 3. Кнопка з ефектом наведення</h2>
+          <p class="task-goal">
+            Стилізуй кнопку (відступи, колір, скруглення, курсор-вказівник) так, щоб при наведенні
+            вона <strong>плавно</strong> змінювала колір фону й трохи піднімалася вгору. Ключове —
+            <code>transition</code>, щоб зміна була не миттєвою, а анімованою; ефект підняття роби
+            через <code>transform: translateY(...)</code>, а не через зміну відступів.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-css"><code class="language-css">.btn {
   padding: 0.6rem 1.2rem;
   background: #2563eb;
   color: #fff;
@@ -68,32 +85,47 @@
   background: #1e40af;
   transform: translateY(-2px);
 }</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 4. Лендинг-макет (виклик)</h2>
-<p class="task-goal">Збери простий, але цілісний лендинг із чотирьох блоків:
-<strong>шапка</strong> (логотип ліворуч + меню праворуч), <strong>hero-секція</strong> (великий
-заголовок, підзаголовок і кнопка-заклик по центру), <strong>сітка з трьох переваг</strong>
-(іконка + заголовок + опис у кожній) і <strong>підвал</strong> із копірайтом. Зроби макет
-адаптивним: на телефоні меню й переваги складаються в один стовпчик. Орієнтуйся на
-схему нижче. Це підготовка до першого мілстоун-проєкту.</p>
-<p><img src="images/landing-wireframe.svg" alt="Каркас лендингу: шапка з логотипом і меню, hero з заголовком і кнопкою, сітка з трьох переваг, підвал" loading="lazy"></p>
-<details class="hint"><summary>Підказка</summary><p>Секції — семантичні теги (<code>header</code>, <code>section</code>, <code>footer</code>). Меню й сітку переваг зручно робити на <code>flex</code>/<code>grid</code>; для адаптиву додай один медіазапит або <code>flex-wrap</code>/<code>auto-fit</code>.</p></details>
-</div>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="task">
+          <h2>Завдання 4. Лендинг-макет (виклик)</h2>
+          <p class="task-goal">
+            Збери простий, але цілісний лендинг із чотирьох блоків: <strong>шапка</strong> (логотип
+            ліворуч + меню праворуч), <strong>hero-секція</strong> (великий заголовок, підзаголовок
+            і кнопка-заклик по центру), <strong>сітка з трьох переваг</strong> (іконка + заголовок +
+            опис у кожній) і <strong>підвал</strong> із копірайтом. Зроби макет адаптивним: на
+            телефоні меню й переваги складаються в один стовпчик. Орієнтуйся на схему нижче. Це
+            підготовка до першого мілстоун-проєкту.
+          </p>
+          <p>
+            <img
+              src="images/landing-wireframe.svg"
+              alt="Каркас лендингу: шапка з логотипом і меню, hero з заголовком і кнопкою, сітка з трьох переваг, підвал"
+              loading="lazy"
+            />
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Секції — семантичні теги (<code>header</code>, <code>section</code>,
+              <code>footer</code>). Меню й сітку переваг зручно робити на
+              <code>flex</code>/<code>grid</code>; для адаптиву додай один медіазапит або
+              <code>flex-wrap</code>/<code>auto-fit</code>.
+            </p>
+          </details>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

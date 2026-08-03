@@ -1,41 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Практика: HTML · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="практика">Практика: HTML</h1>
-<p>Створи файл <code>.html</code> у редакторі й розв'яжи завдання. Перевіряй результат у
-браузері, а тоді звір із рішенням.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: HTML · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: HTML</h1>
+        <p>
+          Створи файл <code>.html</code> у редакторі й розв'яжи завдання. Перевіряй результат у
+          браузері, а тоді звір із рішенням.
+        </p>
 
-<div class="task">
-<h2>Завдання 1. Семантична структура сторінки</h2>
-<p class="task-goal">Збери каркас статті блогу <strong>з семантичних тегів</strong>, а не
-з нескінченних <code>&lt;div&gt;</code>. Семантичні теги пояснюють браузеру, пошуковикам
-і читалкам екрана, <em>чим</em> є кожен блок: шапка сайту, навігація, основний вміст,
-окрема стаття, бічна панель зі схожими матеріалами та підвал. Це покращує доступність
-(accessibility) і SEO «безкоштовно».</p>
-<p class="task-goal">Побудуй таку структуру: <code>&lt;header&gt;</code> з меню-навігацією
-всередині, <code>&lt;main&gt;</code> з <code>&lt;article&gt;</code> (заголовок + текст статті)
-та <code>&lt;aside&gt;</code> (схожі статті), і <code>&lt;footer&gt;</code> з копірайтом. Орієнтуйся
-на схему нижче.</p>
-<p><img src="images/semantic-layout.svg" alt="Схема семантичної розмітки сторінки: header з nav, main з article та aside, footer" loading="lazy"></p>
-<details class="hint"><summary>Вимоги</summary>
-<ul>
-<li>використати <code>header</code>, <code>nav</code>, <code>main</code>, <code>article</code>, <code>aside</code>, <code>footer</code>;</li>
-<li>один <code>h1</code> на сторінку;</li>
-<li>у навігації — список посилань.</li>
-</ul>
-</details>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-markup"><code class="language-markup">&lt;body&gt;
+        <div class="task">
+          <h2>Завдання 1. Семантична структура сторінки</h2>
+          <p class="task-goal">
+            Збери каркас статті блогу <strong>з семантичних тегів</strong>, а не з нескінченних
+            <code>&lt;div&gt;</code>. Семантичні теги пояснюють браузеру, пошуковикам і читалкам
+            екрана, <em>чим</em> є кожен блок: шапка сайту, навігація, основний вміст, окрема
+            стаття, бічна панель зі схожими матеріалами та підвал. Це покращує доступність
+            (accessibility) і SEO «безкоштовно».
+          </p>
+          <p class="task-goal">
+            Побудуй таку структуру: <code>&lt;header&gt;</code> з меню-навігацією всередині,
+            <code>&lt;main&gt;</code> з <code>&lt;article&gt;</code> (заголовок + текст статті) та
+            <code>&lt;aside&gt;</code> (схожі статті), і <code>&lt;footer&gt;</code> з копірайтом.
+            Орієнтуйся на схему нижче.
+          </p>
+          <p>
+            <img
+              src="images/semantic-layout.svg"
+              alt="Схема семантичної розмітки сторінки: header з nav, main з article та aside, footer"
+              loading="lazy"
+            />
+          </p>
+          <details class="hint">
+            <summary>Вимоги</summary>
+            <ul>
+              <li>
+                використати <code>header</code>, <code>nav</code>, <code>main</code>,
+                <code>article</code>, <code>aside</code>, <code>footer</code>;
+              </li>
+              <li>один <code>h1</code> на сторінку;</li>
+              <li>у навігації — список посилань.</li>
+            </ul>
+          </details>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-markup"><code class="language-markup">&lt;body&gt;
   &lt;header&gt;
     &lt;nav&gt;
       &lt;ul&gt;
@@ -53,23 +73,38 @@
   &lt;/main&gt;
   &lt;footer&gt;© 2026&lt;/footer&gt;
 &lt;/body&gt;</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 2. Форма реєстрації</h2>
-<p class="task-goal">Зроби робочу форму реєстрації з чотирма полями: <strong>ім'я</strong>,
-<strong>email</strong>, <strong>пароль</strong> і <strong>checkbox згоди з умовами</strong>, плюс
-кнопка відправлення. Кожне поле має бути підписане тегом <code>&lt;label&gt;</code>, пов'язаним
-з інпутом через <code>for</code>/<code>id</code> — тоді клік по підпису ставить фокус у поле,
-а читалки екрана правильно озвучують форму.</p>
-<p class="task-goal">Скористайся <strong>вбудованою валідацією браузера</strong>, щоб не писати
-жодного JS: <code>required</code> робить поле обов'язковим, <code>type="email"</code> перевіряє
-формат пошти, а <code>minlength="8"</code> задає мінімальну довжину пароля. Форма має мати
-атрибути <code>action</code> і <code>method="post"</code>. Приблизний вигляд — на макеті нижче.</p>
-<p><img src="images/registration-form.svg" alt="Макет форми реєстрації: поля ім'я, email, пароль, checkbox згоди та кнопка Зареєструватися" loading="lazy"></p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-markup"><code class="language-markup">&lt;form action="/register" method="post"&gt;
+        <div class="task">
+          <h2>Завдання 2. Форма реєстрації</h2>
+          <p class="task-goal">
+            Зроби робочу форму реєстрації з чотирма полями: <strong>ім'я</strong>,
+            <strong>email</strong>, <strong>пароль</strong> і
+            <strong>checkbox згоди з умовами</strong>, плюс кнопка відправлення. Кожне поле має бути
+            підписане тегом <code>&lt;label&gt;</code>, пов'язаним з інпутом через
+            <code>for</code>/<code>id</code> — тоді клік по підпису ставить фокус у поле, а читалки
+            екрана правильно озвучують форму.
+          </p>
+          <p class="task-goal">
+            Скористайся <strong>вбудованою валідацією браузера</strong>, щоб не писати жодного JS:
+            <code>required</code> робить поле обов'язковим, <code>type="email"</code> перевіряє
+            формат пошти, а <code>minlength="8"</code> задає мінімальну довжину пароля. Форма має
+            мати атрибути <code>action</code> і <code>method="post"</code>. Приблизний вигляд — на
+            макеті нижче.
+          </p>
+          <p>
+            <img
+              src="images/registration-form.svg"
+              alt="Макет форми реєстрації: поля ім'я, email, пароль, checkbox згоди та кнопка Зареєструватися"
+              loading="lazy"
+            />
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre
+              class="language-markup"
+            ><code class="language-markup">&lt;form action="/register" method="post"&gt;
   &lt;label for="name"&gt;Ім'я&lt;/label&gt;
   &lt;input id="name" name="name" required&gt;
 
@@ -85,23 +120,29 @@
 
   &lt;button type="submit"&gt;Зареєструватися&lt;/button&gt;
 &lt;/form&gt;</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Наступний крок — оживи цю форму стилями з практики CSS, а потім
-обробкою submit із розділу «Форми та валідація».</p></div></div>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Наступний крок — оживи цю форму стилями з практики CSS, а потім обробкою submit із
+              розділу «Форми та валідація».
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

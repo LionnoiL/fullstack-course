@@ -1,161 +1,184 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Профіль · Fullstack Course</title>
-<link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Профіль · Fullstack Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="profile-title">Профіль</h1>
 
-<h1 id="profile-title">Профіль</h1>
+        <!-- Блок користувача -->
+        <div id="profile-user" class="profile-user">
+          <img
+            id="profile-avatar"
+            class="profile-avatar"
+            src=""
+            alt="Avatar"
+            width="64"
+            height="64"
+          />
+          <div id="profile-avatar-fallback" class="profile-avatar--fallback">?</div>
+          <div class="profile-info">
+            <div id="profile-name" class="profile-name">—</div>
+            <div id="profile-email" class="profile-email">—</div>
+          </div>
+          <button id="btn-signout" type="button" class="course-btn" style="margin-left: auto">
+            Вийти
+          </button>
+        </div>
 
-<!-- Блок користувача -->
-<div id="profile-user" class="profile-user">
-  <img id="profile-avatar" class="profile-avatar" src="" alt="Avatar" width="64" height="64">
-  <div id="profile-avatar-fallback" class="profile-avatar--fallback">?</div>
-  <div class="profile-info">
-    <div id="profile-name" class="profile-name">—</div>
-    <div id="profile-email" class="profile-email">—</div>
-  </div>
-  <button id="btn-signout" type="button" class="course-btn" style="margin-left:auto">Вийти</button>
-</div>
+        <!-- Прогрес -->
+        <h2 id="stats-heading">Прогрес навчання</h2>
+        <div id="stats-grid" class="profile-stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="stat-done">—</div>
+            <div class="stat-label">Уроків вивчено</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-total">—</div>
+            <div class="stat-label">Всього уроків</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-pct">—</div>
+            <div class="stat-label">% завершено</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-notes">—</div>
+            <div class="stat-label">Нотаток збережено</div>
+          </div>
+        </div>
 
-<!-- Прогрес -->
-<h2 id="stats-heading">Прогрес навчання</h2>
-<div id="stats-grid" class="profile-stats-grid">
-  <div class="stat-card">
-    <div class="stat-value" id="stat-done">—</div>
-    <div class="stat-label">Уроків вивчено</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-value" id="stat-total">—</div>
-    <div class="stat-label">Всього уроків</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-value" id="stat-pct">—</div>
-    <div class="stat-label">% завершено</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-value" id="stat-notes">—</div>
-    <div class="stat-label">Нотаток збережено</div>
-  </div>
-</div>
+        <!-- Список розділів -->
+        <h2>Розділи</h2>
+        <div id="section-list" class="profile-section-list"></div>
+      </main>
+    </div>
 
-<!-- Список розділів -->
-<h2>Розділи</h2>
-<div id="section-list" class="profile-section-list"></div>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth-guard.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+    <script>
+      (function () {
+        "use strict";
 
-  </main>
-</div>
+        var auth = window._auth;
+        if (!auth) return;
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script src="../js/firebase-config.js"></script>
-<script src="../js/auth-guard.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-<script>
-(function () {
-  'use strict';
+        document.getElementById("btn-signout").addEventListener("click", function () {
+          if (window.CourseFirebase) window.CourseFirebase.signOut();
+          else
+            auth.signOut().then(function () {
+              window.location.href = "login.html";
+            });
+        });
 
-  var auth = window._auth;
-  if (!auth) return;
+        // auth-guard.js пропускає profile.html, тому слухаємо auth напряму
+        auth.onAuthStateChanged(function (user) {
+          if (!user) {
+            window.location.href = "login.html";
+            return;
+          }
+          window._currentUser = user;
+          renderUser(user);
+          renderStats();
+          // Повідомляємо nav.js щоб перебудував панель з аватаром
+          window.dispatchEvent(new CustomEvent("jscourse:authready", { detail: { user: user } }));
+        });
 
-  document.getElementById('btn-signout').addEventListener('click', function () {
-    if (window.CourseFirebase) window.CourseFirebase.signOut();
-    else auth.signOut().then(function () { window.location.href = 'login.html'; });
-  });
+        // Оновлюємо статистику після фонової синхронізації з Firestore
+        window.addEventListener("jscourse:datasynced", renderStats);
 
-  // auth-guard.js пропускає profile.html, тому слухаємо auth напряму
-  auth.onAuthStateChanged(function (user) {
-    if (!user) {
-      window.location.href = 'login.html';
-      return;
-    }
-    window._currentUser = user;
-    renderUser(user);
-    renderStats();
-    // Повідомляємо nav.js щоб перебудував панель з аватаром
-    window.dispatchEvent(new CustomEvent('jscourse:authready', { detail: { user: user } }));
-  });
+        function renderUser(user) {
+          document.getElementById("profile-name").textContent =
+            user.displayName || user.email || "Користувач";
+          document.getElementById("profile-email").textContent = user.email || "";
 
-  // Оновлюємо статистику після фонової синхронізації з Firestore
-  window.addEventListener('jscourse:datasynced', renderStats);
+          var avatar = document.getElementById("profile-avatar");
+          var fallback = document.getElementById("profile-avatar-fallback");
+          if (user.photoURL) {
+            avatar.src = user.photoURL;
+            avatar.style.display = "block";
+            fallback.style.display = "none";
+          } else {
+            fallback.textContent = (user.displayName || user.email || "?")[0].toUpperCase();
+          }
+        }
 
-  function renderUser(user) {
-    document.getElementById('profile-name').textContent  = user.displayName || user.email || 'Користувач';
-    document.getElementById('profile-email').textContent = user.email || '';
+        function renderStats() {
+          var progress = {};
+          var notes = {};
+          try {
+            progress = JSON.parse(localStorage.getItem("jscourse.progress")) || {};
+          } catch (e) {}
+          try {
+            notes = JSON.parse(localStorage.getItem("jscourse.notes")) || {};
+          } catch (e) {}
 
-    var avatar  = document.getElementById('profile-avatar');
-    var fallback = document.getElementById('profile-avatar-fallback');
-    if (user.photoURL) {
-      avatar.src = user.photoURL;
-      avatar.style.display = 'block';
-      fallback.style.display = 'none';
-    } else {
-      fallback.textContent = (user.displayName || user.email || '?')[0].toUpperCase();
-    }
-  }
+          // Використовуємо window.COURSE_SECTIONS з nav.js (встановлюється синхронно)
+          var sections = window.COURSE_SECTIONS || [];
+          var total = 0;
+          sections.forEach(function (s) {
+            total += s.lessons.length;
+          });
 
-  function renderStats() {
-    var progress = {};
-    var notes    = {};
-    try { progress = JSON.parse(localStorage.getItem('jscourse.progress')) || {}; } catch(e) {}
-    try { notes    = JSON.parse(localStorage.getItem('jscourse.notes'))    || {}; } catch(e) {}
+          var done = Object.keys(progress).filter(function (k) {
+            return progress[k];
+          }).length;
+          var pct = total ? Math.round((done / total) * 100) : 0;
+          var notesCount = Object.keys(notes).filter(function (k) {
+            return notes[k] && notes[k].trim();
+          }).length;
 
-    // Використовуємо window.COURSE_SECTIONS з nav.js (встановлюється синхронно)
-    var sections = window.COURSE_SECTIONS || [];
-    var total = 0;
-    sections.forEach(function (s) { total += s.lessons.length; });
+          document.getElementById("stat-done").textContent = done;
+          document.getElementById("stat-total").textContent = total;
+          document.getElementById("stat-pct").textContent = pct + "%";
+          document.getElementById("stat-notes").textContent = notesCount;
 
-    var done = Object.keys(progress).filter(function (k) { return progress[k]; }).length;
-    var pct  = total ? Math.round(done / total * 100) : 0;
-    var notesCount = Object.keys(notes).filter(function (k) { return notes[k] && notes[k].trim(); }).length;
+          // Розбивка по розділах
+          var list = document.getElementById("section-list");
+          list.innerHTML = "";
+          sections.forEach(function (section) {
+            var secTotal = section.lessons.length;
+            var secDone = section.lessons.filter(function (l) {
+              return !!progress[l[0]];
+            }).length;
+            var secPct = secTotal ? Math.round((secDone / secTotal) * 100) : 0;
 
-    document.getElementById('stat-done').textContent  = done;
-    document.getElementById('stat-total').textContent = total;
-    document.getElementById('stat-pct').textContent   = pct + '%';
-    document.getElementById('stat-notes').textContent = notesCount;
+            var row = document.createElement("div");
+            row.className = "section-row";
 
-    // Розбивка по розділах
-    var list = document.getElementById('section-list');
-    list.innerHTML = '';
-    sections.forEach(function (section) {
-      var secTotal = section.lessons.length;
-      var secDone  = section.lessons.filter(function (l) { return !!progress[l[0]]; }).length;
-      var secPct   = secTotal ? Math.round(secDone / secTotal * 100) : 0;
+            var name = document.createElement("span");
+            name.className = "name";
+            name.textContent = section.title;
 
-      var row = document.createElement('div');
-      row.className = 'section-row';
+            var bar = document.createElement("div");
+            bar.className = "mini-bar";
+            var fill = document.createElement("span");
+            fill.style.width = secPct + "%";
+            bar.appendChild(fill);
 
-      var name = document.createElement('span');
-      name.className = 'name';
-      name.textContent = section.title;
+            var pctSpan = document.createElement("span");
+            pctSpan.className = "pct";
+            pctSpan.textContent = secDone + " / " + secTotal;
 
-      var bar = document.createElement('div');
-      bar.className = 'mini-bar';
-      var fill = document.createElement('span');
-      fill.style.width = secPct + '%';
-      bar.appendChild(fill);
-
-      var pctSpan = document.createElement('span');
-      pctSpan.className = 'pct';
-      pctSpan.textContent = secDone + ' / ' + secTotal;
-
-      row.appendChild(name);
-      row.appendChild(bar);
-      row.appendChild(pctSpan);
-      list.appendChild(row);
-    });
-  }
-})();
-</script>
-</body>
+            row.appendChild(name);
+            row.appendChild(bar);
+            row.appendChild(pctSpan);
+            list.appendChild(row);
+          });
+        }
+      })();
+    </script>
+  </body>
 </html>

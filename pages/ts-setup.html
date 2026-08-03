@@ -1,33 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Встановлення і tsconfig · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="встановлення">1. Встановлення</h1>
-<p>TypeScript ставиться через npm. Зазвичай — локально в проєкт як dev-залежність:</p>
-<pre class="language-js"><code class="language-js">npm init -y
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Встановлення і tsconfig · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="встановлення">1. Встановлення</h1>
+        <p>TypeScript ставиться через npm. Зазвичай — локально в проєкт як dev-залежність:</p>
+        <pre class="language-js"><code class="language-js">npm init -y
 npm install --save-dev typescript
 
 // перевірити версію
 npx tsc --version</code></pre>
-<h1 id="компіляція">2. Компіляція</h1>
-<p>Компілятор <code>tsc</code> перетворює <code>.ts</code>-файли на <code>.js</code>. Створимо <code>app.ts</code>:</p>
-<pre class="language-js"><code class="language-js">const message: string = 'Привіт, TypeScript';
+        <h1 id="компіляція">2. Компіляція</h1>
+        <p>
+          Компілятор <code>tsc</code> перетворює <code>.ts</code>-файли на <code>.js</code>.
+          Створимо <code>app.ts</code>:
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">const message: string = 'Привіт, TypeScript';
 console.log(message);</code></pre>
-<pre class="language-js"><code class="language-js">npx tsc app.ts        // створить app.js поруч
+        <pre
+          class="language-js"
+        ><code class="language-js">npx tsc app.ts        // створить app.js поруч
 npx tsc app.ts --watch // перекомпільовувати при кожній зміні</code></pre>
-<h1 id="tsconfig">3. Файл tsconfig.json</h1>
-<p>Замість того, щоб щоразу передавати опції в командний рядок, налаштування
-зберігають у <code>tsconfig.json</code>. Створити його можна командою <code>npx tsc --init</code>.</p>
-<pre class="language-js"><code class="language-js">{
+        <h1 id="tsconfig">3. Файл tsconfig.json</h1>
+        <p>
+          Замість того, щоб щоразу передавати опції в командний рядок, налаштування зберігають у
+          <code>tsconfig.json</code>. Створити його можна командою <code>npx tsc --init</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">{
   "compilerOptions": {
     "target": "ES2020",        // версія JS на виході
     "module": "ESNext",        // система модулів
@@ -39,29 +51,44 @@ npx tsc app.ts --watch // перекомпільовувати при кожні
   },
   "include": ["src/**/*"]
 }</code></pre>
-<p>Тепер достатньо викликати <code>npx tsc</code> без аргументів — компілятор сам знайде
-<code>tsconfig.json</code> і застосує всі опції.</p>
-<h1 id="strict">4. Режим strict</h1>
-<p>Опція <code>"strict": true</code> вмикає набір суворих перевірок (зокрема
-<code>strictNullChecks</code> і <code>noImplicitAny</code>). Це найважливіше налаштування — саме воно
-дає TypeScript реальну користь.</p>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Завжди починайте новий проєкт зі <code>strict: true</code>. Вимкнути суворість
-пізніше легко, а от додати її у великий нетипізований проєкт — болісно.</p></div></div>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://www.typescriptlang.org/tsconfig" target="_blank">Довідник опцій tsconfig — офіційна документація</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <p>
+          Тепер достатньо викликати <code>npx tsc</code> без аргументів — компілятор сам знайде
+          <code>tsconfig.json</code> і застосує всі опції.
+        </p>
+        <h1 id="strict">4. Режим strict</h1>
+        <p>
+          Опція <code>"strict": true</code> вмикає набір суворих перевірок (зокрема
+          <code>strictNullChecks</code> і <code>noImplicitAny</code>). Це найважливіше налаштування
+          — саме воно дає TypeScript реальну користь.
+        </p>
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Завжди починайте новий проєкт зі <code>strict: true</code>. Вимкнути суворість пізніше
+              легко, а от додати її у великий нетипізований проєкт — болісно.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://www.typescriptlang.org/tsconfig" target="_blank"
+              >Довідник опцій tsconfig — офіційна документація</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

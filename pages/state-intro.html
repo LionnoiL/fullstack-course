@@ -1,62 +1,97 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Навіщо глобальний стан · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="проблема">1. Проблема «прокидування» пропсів</h1>
-<p>Коли стан потрібен багатьом компонентам на різній глибині, його доводиться
-передавати пропсами через проміжні компоненти, яким він не потрібен. Це
-<strong>prop drilling</strong> — код стає громіздким і крихким.</p>
-<pre class="language-js"><code class="language-js">// user проходить через App → Layout → Header лише щоб дійти до Avatar
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Навіщо глобальний стан · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="проблема">1. Проблема «прокидування» пропсів</h1>
+        <p>
+          Коли стан потрібен багатьом компонентам на різній глибині, його доводиться передавати
+          пропсами через проміжні компоненти, яким він не потрібен. Це
+          <strong>prop drilling</strong> — код стає громіздким і крихким.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">// user проходить через App → Layout → Header лише щоб дійти до Avatar
 &lt;App&gt; → &lt;Layout user={user}&gt; → &lt;Header user={user}&gt; → &lt;Avatar user={user} /&gt;</code></pre>
-<h1 id="context">2. Context — і його межі</h1>
-<p>Context (з розділу React) вирішує prop drilling, але не створений як повноцінне
-сховище: будь-яка зміна значення перемальовує <em>усіх</em> споживачів, а логіку
-оновлення доводиться писати самому. Для складного стану цього замало.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Context ідеальний для рідкозмінних даних (тема, мова, поточний користувач). Для
-стану, що часто змінюється й читається багатьма компонентами, беруть спеціальну
-бібліотеку — Zustand чи Redux Toolkit.</p></div></div>
-<h1 id="server-vs-client">3. Спершу — який це стан</h1>
-<p>Перш ніж тягнути бібліотеку, спитай себе, який це стан:</p>
-<ul>
-<li><strong>Серверний</strong> (дані з API) — це <a href="react-query-intro.html">TanStack Query</a>,
-а не глобальне сховище.</li>
-<li><strong>Клієнтський глобальний</strong> (кошик, тема, автентифікація, UI-стан) — ось тут
-і потрібні Zustand / Redux.</li>
-</ul>
-<h1 id="огляд">4. Два підходи</h1>
-<ul>
-<li><strong>Zustand</strong> — мінімалістичний: маленький стор-хук, майже без бойлерплейту.
-Швидкий старт, ідеальний для більшості застосунків.</li>
-<li><strong>Redux Toolkit</strong> — офіційний, структурований стандарт для великих
-застосунків: передбачувані оновлення, потужні devtools, усталені патерни.</li>
-</ul>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Не додавай глобальне сховище «про запас». Багато застосунків чудово живуть на
-<code>useState</code> + Context + TanStack Query. Бібліотеку керування станом бери, коли
-з'явився справді складний спільний клієнтський стан.</p></div></div>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://react.dev/learn/scaling-up-with-reducer-and-context" target="_blank">Scaling Up with Reducer and Context — React</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="context">2. Context — і його межі</h1>
+        <p>
+          Context (з розділу React) вирішує prop drilling, але не створений як повноцінне сховище:
+          будь-яка зміна значення перемальовує <em>усіх</em> споживачів, а логіку оновлення
+          доводиться писати самому. Для складного стану цього замало.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Context ідеальний для рідкозмінних даних (тема, мова, поточний користувач). Для стану,
+              що часто змінюється й читається багатьма компонентами, беруть спеціальну бібліотеку —
+              Zustand чи Redux Toolkit.
+            </p>
+          </div>
+        </div>
+        <h1 id="server-vs-client">3. Спершу — який це стан</h1>
+        <p>Перш ніж тягнути бібліотеку, спитай себе, який це стан:</p>
+        <ul>
+          <li>
+            <strong>Серверний</strong> (дані з API) — це
+            <a href="react-query-intro.html">TanStack Query</a>, а не глобальне сховище.
+          </li>
+          <li>
+            <strong>Клієнтський глобальний</strong> (кошик, тема, автентифікація, UI-стан) — ось тут
+            і потрібні Zustand / Redux.
+          </li>
+        </ul>
+        <h1 id="огляд">4. Два підходи</h1>
+        <ul>
+          <li>
+            <strong>Zustand</strong> — мінімалістичний: маленький стор-хук, майже без бойлерплейту.
+            Швидкий старт, ідеальний для більшості застосунків.
+          </li>
+          <li>
+            <strong>Redux Toolkit</strong> — офіційний, структурований стандарт для великих
+            застосунків: передбачувані оновлення, потужні devtools, усталені патерни.
+          </li>
+        </ul>
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Не додавай глобальне сховище «про запас». Багато застосунків чудово живуть на
+              <code>useState</code> + Context + TanStack Query. Бібліотеку керування станом бери,
+              коли з'явився справді складний спільний клієнтський стан.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://react.dev/learn/scaling-up-with-reducer-and-context" target="_blank"
+              >Scaling Up with Reducer and Context — React</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

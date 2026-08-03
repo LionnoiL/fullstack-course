@@ -1,26 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSS Modules: основи · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="що-таке">1. Що таке CSS Modules</h1>
-<p><strong>CSS Modules</strong> — це звичайний CSS у файлі з розширенням <code>.module.css</code>.
-Під час збірки кожен клас перетворюється на <strong>унікальне імʼя</strong> (напр.
-<code>Button_primary__a1b2c</code>), тож стилі одного компонента не зачіпають інші. Жодної
-нової мови — той самий CSS, лише локальний.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>CSS Modules підтримуються «з коробки» у <strong>Vite</strong> та <strong>Next.js</strong> — окремо
-нічого встановлювати не треба. Достатньо назвати файл <code>*.module.css</code>.</p></div></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Modules: основи · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="що-таке">1. Що таке CSS Modules</h1>
+        <p>
+          <strong>CSS Modules</strong> — це звичайний CSS у файлі з розширенням
+          <code>.module.css</code>. Під час збірки кожен клас перетворюється на
+          <strong>унікальне імʼя</strong> (напр. <code>Button_primary__a1b2c</code>), тож стилі
+          одного компонента не зачіпають інші. Жодної нової мови — той самий CSS, лише локальний.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              CSS Modules підтримуються «з коробки» у <strong>Vite</strong> та
+              <strong>Next.js</strong> — окремо нічого встановлювати не треба. Достатньо назвати
+              файл <code>*.module.css</code>.
+            </p>
+          </div>
+        </div>
 
-<h1 id="файл">2. Файл стилів</h1>
-<pre class="language-css"><code class="language-css">/* Button.module.css — звичайний CSS */
+        <h1 id="файл">2. Файл стилів</h1>
+        <pre class="language-css"><code class="language-css">/* Button.module.css — звичайний CSS */
 .button {
   padding: 0.6rem 1.2rem;
   border: none;
@@ -32,10 +45,13 @@
   color: #fff;
 }</code></pre>
 
-<h1 id="імпорт">3. Імпорт і використання</h1>
-<p>Модуль імпортують як <strong>обʼєкт</strong>: ключі — твої класи, значення — згенеровані
-унікальні імена. У JSX підставляєш <code>styles.button</code>, а не рядок <code>"button"</code>.</p>
-<pre class="language-js"><code class="language-js">import styles from './Button.module.css';
+        <h1 id="імпорт">3. Імпорт і використання</h1>
+        <p>
+          Модуль імпортують як <strong>обʼєкт</strong>: ключі — твої класи, значення — згенеровані
+          унікальні імена. У JSX підставляєш <code>styles.button</code>, а не рядок
+          <code>"button"</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">import styles from './Button.module.css';
 
 export function Button({ children }) {
   return (
@@ -45,43 +61,74 @@ export function Button({ children }) {
   );
 }
 // у розмітці клас буде типу class="Button_button__a1b2 Button_primary__c3d4"</code></pre>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Звертайся до класу <strong>лише через обʼєкт</strong> <code>styles.button</code>. Написати
-<code>className="button"</code> не спрацює — реального класу <code>button</code> у зібраному CSS
-немає, він перейменований.</p></div></div>
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Звертайся до класу <strong>лише через обʼєкт</strong> <code>styles.button</code>.
+              Написати <code>className="button"</code> не спрацює — реального класу
+              <code>button</code> у зібраному CSS немає, він перейменований.
+            </p>
+          </div>
+        </div>
 
-<h1 id="camelcase">4. Імена з дефісом</h1>
-<p>Клас <code>.primary-btn</code> у JS не можна написати як <code>styles.primary-btn</code>
-(дефіс = мінус). Або звертайся через дужки, або називай класи в <code>camelCase</code>:</p>
-<pre class="language-js"><code class="language-js">styles['primary-btn']   // так — для класів із дефісом
+        <h1 id="camelcase">4. Імена з дефісом</h1>
+        <p>
+          Клас <code>.primary-btn</code> у JS не можна написати як
+          <code>styles.primary-btn</code> (дефіс = мінус). Або звертайся через дужки, або називай
+          класи в <code>camelCase</code>:
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">styles['primary-btn']   // так — для класів із дефісом
 styles.primaryBtn       // краще: називай класи camelCase у .module.css</code></pre>
 
-<h1 id="переваги">5. Що це дає</h1>
-<ul>
-<li><strong>ізоляція</strong> — класи компонента не конфліктують із іншими;</li>
-<li><strong>звичайний CSS</strong> — усі знання (media queries, псевдокласи, grid) працюють;</li>
-<li><strong>zero-runtime</strong> — уся робота на етапі збірки, у браузер іде звичайний CSS
-без зайвого JS;</li>
-<li><strong>мертвий код видно</strong> — невикористаний ключ <code>styles.x</code> легко знайти.</li>
-</ul>
-<p>Далі — потужніші можливості: <code>composes</code>, глобальні винятки, динамічні класи й
-типізація в TypeScript.</p>
+        <h1 id="переваги">5. Що це дає</h1>
+        <ul>
+          <li><strong>ізоляція</strong> — класи компонента не конфліктують із іншими;</li>
+          <li>
+            <strong>звичайний CSS</strong> — усі знання (media queries, псевдокласи, grid) працюють;
+          </li>
+          <li>
+            <strong>zero-runtime</strong> — уся робота на етапі збірки, у браузер іде звичайний CSS
+            без зайвого JS;
+          </li>
+          <li>
+            <strong>мертвий код видно</strong> — невикористаний ключ <code>styles.x</code> легко
+            знайти.
+          </li>
+        </ul>
+        <p>
+          Далі — потужніші можливості: <code>composes</code>, глобальні винятки, динамічні класи й
+          типізація в TypeScript.
+        </p>
 
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://vite.dev/guide/features.html#css-modules" target="_blank">Vite — CSS Modules</a></li>
-<li><a href="https://nextjs.org/docs/app/building-your-application/styling/css-modules" target="_blank">Next.js — CSS Modules</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://vite.dev/guide/features.html#css-modules" target="_blank"
+              >Vite — CSS Modules</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://nextjs.org/docs/app/building-your-application/styling/css-modules"
+              target="_blank"
+              >Next.js — CSS Modules</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

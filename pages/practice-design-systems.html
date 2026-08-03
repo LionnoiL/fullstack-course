@@ -1,27 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Практика: дизайн-системи · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="практика">Практика: дизайн-системи</h1>
-<p>Створи React-проєкт на Vite з Tailwind. Далі — від примітивів до каталогу
-компонентів. Мета — відчути зв'язку Radix → shadcn/ui → Storybook на практиці.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: дизайн-системи · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: дизайн-системи</h1>
+        <p>
+          Створи React-проєкт на Vite з Tailwind. Далі — від примітивів до каталогу компонентів.
+          Мета — відчути зв'язку Radix → shadcn/ui → Storybook на практиці.
+        </p>
 
-<div class="task">
-<h2>Завдання 1. Доступний діалог на Radix</h2>
-<p class="task-goal">Встанови <code>@radix-ui/react-dialog</code> і зроби модальне вікно з
-власними стилями. Перевір, що працюють <code>Esc</code>, клік по фону й пастка фокуса — і
-все це <em>без</em> твого коду на ці випадки.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">import * as Dialog from '@radix-ui/react-dialog';
+        <div class="task">
+          <h2>Завдання 1. Доступний діалог на Radix</h2>
+          <p class="task-goal">
+            Встанови <code>@radix-ui/react-dialog</code> і зроби модальне вікно з власними стилями.
+            Перевір, що працюють <code>Esc</code>, клік по фону й пастка фокуса — і все це
+            <em>без</em> твого коду на ці випадки.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre
+              class="language-js"
+            ><code class="language-js">import * as Dialog from '@radix-ui/react-dialog';
 
 &lt;Dialog.Root&gt;
   &lt;Dialog.Trigger&gt;Відкрити&lt;/Dialog.Trigger&gt;
@@ -33,52 +43,74 @@
     &lt;/Dialog.Content&gt;
   &lt;/Dialog.Portal&gt;
 &lt;/Dialog.Root&gt;</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 2. Компонент через shadcn/ui</h2>
-<p class="task-goal">Ініціалізуй shadcn/ui (<code>npx shadcn@latest init</code>), додай
-<code>button</code> і <code>dialog</code>, використай їх на сторінці. Знайди код кнопки в
-<code>components/ui/</code> і додай власний варіант (напр. <code>variant="danger"</code>).</p>
-<details class="hint"><summary>Підказка</summary><p><code>npx shadcn@latest add button dialog</code>. Варіанти живуть у <code>buttonVariants</code> (cva) прямо у файлі кнопки — редагуй його.</p></details>
-</div>
+        <div class="task">
+          <h2>Завдання 2. Компонент через shadcn/ui</h2>
+          <p class="task-goal">
+            Ініціалізуй shadcn/ui (<code>npx shadcn@latest init</code>), додай <code>button</code> і
+            <code>dialog</code>, використай їх на сторінці. Знайди код кнопки в
+            <code>components/ui/</code> і додай власний варіант (напр.
+            <code>variant="danger"</code>).
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              <code>npx shadcn@latest add button dialog</code>. Варіанти живуть у
+              <code>buttonVariants</code> (cva) прямо у файлі кнопки — редагуй його.
+            </p>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 3. Історії у Storybook</h2>
-<p class="task-goal">Додай Storybook (<code>npx storybook@latest init</code>) і напиши
-<code>Button.stories</code> з історіями <code>Primary</code>, <code>Ghost</code>, <code>Disabled</code>. Покрути пропси
-через панель Controls.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">export default { title: 'UI/Button', component: Button };
+        <div class="task">
+          <h2>Завдання 3. Історії у Storybook</h2>
+          <p class="task-goal">
+            Додай Storybook (<code>npx storybook@latest init</code>) і напиши
+            <code>Button.stories</code> з історіями <code>Primary</code>, <code>Ghost</code>,
+            <code>Disabled</code>. Покрути пропси через панель Controls.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre
+              class="language-js"
+            ><code class="language-js">export default { title: 'UI/Button', component: Button };
 export const Primary  = { args: { children: 'Кнопка' } };
 export const Ghost    = { args: { variant: 'ghost', children: 'Привид' } };
 export const Disabled = { args: { disabled: true, children: 'Вимкнена' } };</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 4. Каталог і a11y (виклик)</h2>
-<p class="task-goal">Напиши історії ще для 2–3 компонентів (Input, Dialog), увімкни
-аддон <strong>a11y</strong> і виправ усі знайдені зауваження щодо доступності. Так ти
-отримаєш маленьку живу дизайн-систему.</p>
-</div>
+        <div class="task">
+          <h2>Завдання 4. Каталог і a11y (виклик)</h2>
+          <p class="task-goal">
+            Напиши історії ще для 2–3 компонентів (Input, Dialog), увімкни аддон
+            <strong>a11y</strong> і виправ усі знайдені зауваження щодо доступності. Так ти отримаєш
+            маленьку живу дизайн-систему.
+          </p>
+        </div>
 
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Збери з цих компонентів невелику сторінку (форму чи діалог) у своєму проєкті —
-і побач, як Radix дає доступність, shadcn/ui — швидкий старт зі стилями, а
-Storybook — впевненість, що кожен стан виглядає правильно.</p></div></div>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Збери з цих компонентів невелику сторінку (форму чи діалог) у своєму проєкті — і
+              побач, як Radix дає доступність, shadcn/ui — швидкий старт зі стилями, а Storybook —
+              впевненість, що кожен стан виглядає правильно.
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

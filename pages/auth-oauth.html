@@ -1,98 +1,158 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OAuth 2.0 та OpenID Connect · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="навіщо">1. Навіщо «Вхід через Google»</h1>
-<p>Кнопка «Увійти через Google» зручна для користувача (немає ще одного пароля) і
-безпечніша для тебе: ти <strong>ніколи не бачиш його пароль</strong>. Замість цього Google
-підтверджує особу й повертає твоєму застосунку доказ входу. Стандарт, що це описує, —
-<strong>OAuth 2.0</strong>, а надбудова для автентифікації — <strong>OpenID Connect (OIDC)</strong>.</p>
-<ul>
-<li><strong>OAuth 2.0</strong> — протокол <em>делегованого доступу</em>: дати застосунку доступ до
-ресурсів без передачі пароля;</li>
-<li><strong>OpenID Connect</strong> — шар поверх OAuth саме для <em>автентифікації</em>: додає
-<code>id_token</code> з інформацією про користувача.</li>
-</ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OAuth 2.0 та OpenID Connect · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="навіщо">1. Навіщо «Вхід через Google»</h1>
+        <p>
+          Кнопка «Увійти через Google» зручна для користувача (немає ще одного пароля) і безпечніша
+          для тебе: ти <strong>ніколи не бачиш його пароль</strong>. Замість цього Google
+          підтверджує особу й повертає твоєму застосунку доказ входу. Стандарт, що це описує, —
+          <strong>OAuth 2.0</strong>, а надбудова для автентифікації —
+          <strong>OpenID Connect (OIDC)</strong>.
+        </p>
+        <ul>
+          <li>
+            <strong>OAuth 2.0</strong> — протокол <em>делегованого доступу</em>: дати застосунку
+            доступ до ресурсів без передачі пароля;
+          </li>
+          <li>
+            <strong>OpenID Connect</strong> — шар поверх OAuth саме для <em>автентифікації</em>:
+            додає <code>id_token</code> з інформацією про користувача.
+          </li>
+        </ul>
 
-<h1 id="ролі">2. Дійові особи</h1>
-<ul>
-<li><strong>Resource Owner</strong> — користувач;</li>
-<li><strong>Client</strong> — твій застосунок;</li>
-<li><strong>Authorization Server</strong> — провайдер (Google/GitHub), що логінить і видає токени;</li>
-<li><strong>Redirect URI</strong> — адреса твого застосунку, куди провайдер поверне користувача.</li>
-</ul>
+        <h1 id="ролі">2. Дійові особи</h1>
+        <ul>
+          <li><strong>Resource Owner</strong> — користувач;</li>
+          <li><strong>Client</strong> — твій застосунок;</li>
+          <li>
+            <strong>Authorization Server</strong> — провайдер (Google/GitHub), що логінить і видає
+            токени;
+          </li>
+          <li>
+            <strong>Redirect URI</strong> — адреса твого застосунку, куди провайдер поверне
+            користувача.
+          </li>
+        </ul>
 
-<h1 id="flow">3. Authorization Code Flow — по кроках</h1>
-<p>Найпоширеніший і найбезпечніший потік для веб-застосунків:</p>
-<p><img src="images/oauth-flow.svg" alt="Послідовність OAuth 2.0 Authorization Code: браузер → провайдер → callback з code → обмін на токени → сесія" loading="lazy"></p>
-<ol>
-<li>користувач тисне «Увійти через Google» — застосунок редіректить його на
-<code>/authorize</code> провайдера;</li>
-<li>на боці провайдера користувач логіниться й дає згоду на запитані дані;</li>
-<li>провайдер повертає користувача на твій <strong>Redirect URI</strong> з тимчасовим
-<code>code</code> у query;</li>
-<li>твій <em>сервер</em> обмінює цей <code>code</code> на токени (запит із <code>client_secret</code>,
-сервер-до-сервера);</li>
-<li>провайдер віддає <code>access_token</code> і <code>id_token</code>;</li>
-<li>застосунок створює сесію й ставить cookie.</li>
-</ol>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Чому спершу <code>code</code>, а вже потім токен? Тому що <code>code</code> проходить через
-браузер (видимий), а обмін на токен відбувається <strong>з сервера</strong> з секретом і по
-захищеному каналу. Так токен ніколи не «світиться» в URL.</p></div></div>
+        <h1 id="flow">3. Authorization Code Flow — по кроках</h1>
+        <p>Найпоширеніший і найбезпечніший потік для веб-застосунків:</p>
+        <p>
+          <img
+            src="images/oauth-flow.svg"
+            alt="Послідовність OAuth 2.0 Authorization Code: браузер → провайдер → callback з code → обмін на токени → сесія"
+            loading="lazy"
+          />
+        </p>
+        <ol>
+          <li>
+            користувач тисне «Увійти через Google» — застосунок редіректить його на
+            <code>/authorize</code> провайдера;
+          </li>
+          <li>на боці провайдера користувач логіниться й дає згоду на запитані дані;</li>
+          <li>
+            провайдер повертає користувача на твій <strong>Redirect URI</strong> з тимчасовим
+            <code>code</code> у query;
+          </li>
+          <li>
+            твій <em>сервер</em> обмінює цей <code>code</code> на токени (запит із
+            <code>client_secret</code>, сервер-до-сервера);
+          </li>
+          <li>провайдер віддає <code>access_token</code> і <code>id_token</code>;</li>
+          <li>застосунок створює сесію й ставить cookie.</li>
+        </ol>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Чому спершу <code>code</code>, а вже потім токен? Тому що <code>code</code> проходить
+              через браузер (видимий), а обмін на токен відбувається <strong>з сервера</strong> з
+              секретом і по захищеному каналу. Так токен ніколи не «світиться» в URL.
+            </p>
+          </div>
+        </div>
 
-<h1 id="tokens">4. Токени OIDC</h1>
-<ul>
-<li><strong><code>access_token</code></strong> — для доступу до API провайдера (напр. отримати профіль);</li>
-<li><strong><code>id_token</code></strong> — JWT з «claims» про користувача (<code>sub</code>, <code>email</code>,
-<code>name</code>); саме він потрібен для автентифікації;</li>
-<li><strong><code>refresh_token</code></strong> — щоб отримати новий access-токен, коли старий сплив
-(про це в останньому уроці).</li>
-</ul>
+        <h1 id="tokens">4. Токени OIDC</h1>
+        <ul>
+          <li>
+            <strong><code>access_token</code></strong> — для доступу до API провайдера (напр.
+            отримати профіль);
+          </li>
+          <li>
+            <strong><code>id_token</code></strong> — JWT з «claims» про користувача
+            (<code>sub</code>, <code>email</code>, <code>name</code>); саме він потрібен для
+            автентифікації;
+          </li>
+          <li>
+            <strong><code>refresh_token</code></strong> — щоб отримати новий access-токен, коли
+            старий сплив (про це в останньому уроці).
+          </li>
+        </ul>
 
-<h1 id="scopes">5. Scopes і PKCE</h1>
-<p><strong>Scope</strong> — які саме дані/права запитує застосунок (<code>openid email profile</code>).
-Проси мінімум необхідного. Для клієнтів без секрету (SPA, мобілки) додають
-<strong>PKCE</strong> — механізм, що захищає обмін коду від перехоплення. Бібліотеки (Auth.js,
-Supabase) вмикають PKCE автоматично.</p>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p><code>client_secret</code> — <strong>тільки на сервері</strong>, ніколи в браузерному коді чи
-репозиторії. У фронтенд-змінні (<code>VITE_…</code>/<code>NEXT_PUBLIC_…</code>) секрети не кладуть —
-вони потрапляють у бандл.</p></div></div>
+        <h1 id="scopes">5. Scopes і PKCE</h1>
+        <p>
+          <strong>Scope</strong> — які саме дані/права запитує застосунок (<code
+            >openid email profile</code
+          >). Проси мінімум необхідного. Для клієнтів без секрету (SPA, мобілки) додають
+          <strong>PKCE</strong> — механізм, що захищає обмін коду від перехоплення. Бібліотеки
+          (Auth.js, Supabase) вмикають PKCE автоматично.
+        </p>
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>client_secret</code> — <strong>тільки на сервері</strong>, ніколи в браузерному
+              коді чи репозиторії. У фронтенд-змінні
+              (<code>VITE_…</code>/<code>NEXT_PUBLIC_…</code>) секрети не кладуть — вони потрапляють
+              у бандл.
+            </p>
+          </div>
+        </div>
 
-<h1 id="практика-провайдера">6. Реєстрація застосунку в провайдера</h1>
-<p>Щоб усе запрацювало, треба зареєструвати застосунок у консолі провайдера й
-отримати <code>client_id</code> + <code>client_secret</code> і вказати дозволений Redirect URI:</p>
-<pre class="language-js"><code class="language-js">// .env (сервер)
+        <h1 id="практика-провайдера">6. Реєстрація застосунку в провайдера</h1>
+        <p>
+          Щоб усе запрацювало, треба зареєструвати застосунок у консолі провайдера й отримати
+          <code>client_id</code> + <code>client_secret</code> і вказати дозволений Redirect URI:
+        </p>
+        <pre class="language-js"><code class="language-js">// .env (сервер)
 AUTH_GOOGLE_ID=xxxxx.apps.googleusercontent.com
 AUTH_GOOGLE_SECRET=xxxxx
 // Redirect URI у консолі Google:
 // http://localhost:3000/api/auth/callback/google</code></pre>
-<p>Далі бібліотека (Auth.js) збудує весь потік за нас — переходимо до неї.</p>
+        <p>Далі бібліотека (Auth.js) збудує весь потік за нас — переходимо до неї.</p>
 
-<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://www.oauth.com/" target="_blank">OAuth 2.0 Simplified</a></li>
-<li><a href="https://openid.net/developers/how-connect-works/" target="_blank">How OpenID Connect Works</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+        <ul>
+          <li><a href="https://www.oauth.com/" target="_blank">OAuth 2.0 Simplified</a></li>
+          <li>
+            <a href="https://openid.net/developers/how-connect-works/" target="_blank"
+              >How OpenID Connect Works</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

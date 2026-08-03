@@ -1,66 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ассети, CSS та env у Vite · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="css">1. CSS і препроцесори</h1>
-<p>CSS у Vite просто імпортують у JS — стилі автоматично потраплять на сторінку:</p>
-<pre class="language-js"><code class="language-js">// src/main.js
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ассети, CSS та env у Vite · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="css">1. CSS і препроцесори</h1>
+        <p>CSS у Vite просто імпортують у JS — стилі автоматично потраплять на сторінку:</p>
+        <pre class="language-js"><code class="language-js">// src/main.js
 import './style.css';</code></pre>
-<p>Для SCSS достатньо поставити компілятор — Vite підхопить його сам, без
-додаткової конфігурації:</p>
-<pre class="language-js"><code class="language-js">npm install -D sass
+        <p>
+          Для SCSS достатньо поставити компілятор — Vite підхопить його сам, без додаткової
+          конфігурації:
+        </p>
+        <pre class="language-js"><code class="language-js">npm install -D sass
 // далі просто: import './style.scss';</code></pre>
-<p><strong>CSS-модулі</strong> працюють «з коробки» — файл <code>*.module.css</code> дає локальні
-імена класів:</p>
-<pre class="language-js"><code class="language-js">import styles from './card.module.css';
+        <p>
+          <strong>CSS-модулі</strong> працюють «з коробки» — файл <code>*.module.css</code> дає
+          локальні імена класів:
+        </p>
+        <pre class="language-js"><code class="language-js">import styles from './card.module.css';
 element.className = styles.card; // клас без конфліктів імен</code></pre>
-<h1 id="assets">2. Зображення та статичні ресурси</h1>
-<p>Ассет, імпортований у JS, повертає готовий URL. Під час збірки Vite додасть до
-імені хеш (для кешування) і за потреби вбудує дрібні файли як base64.</p>
-<pre class="language-js"><code class="language-js">import logoUrl from './logo.svg';
+        <h1 id="assets">2. Зображення та статичні ресурси</h1>
+        <p>
+          Ассет, імпортований у JS, повертає готовий URL. Під час збірки Vite додасть до імені хеш
+          (для кешування) і за потреби вбудує дрібні файли як base64.
+        </p>
+        <pre class="language-js"><code class="language-js">import logoUrl from './logo.svg';
 img.src = logoUrl;</code></pre>
-<h1 id="public">3. Папка public</h1>
-<p>Файли з <code>public/</code> віддаються «як є» за кореневим шляхом і не проходять обробку.
-Підходить для <code>favicon.ico</code>, <code>robots.txt</code>, файлів зі сталим ім'ям.</p>
-<pre class="language-markup"><code class="language-markup">&lt;!-- public/favicon.ico доступний як /favicon.ico --&gt;
+        <h1 id="public">3. Папка public</h1>
+        <p>
+          Файли з <code>public/</code> віддаються «як є» за кореневим шляхом і не проходять обробку.
+          Підходить для <code>favicon.ico</code>, <code>robots.txt</code>, файлів зі сталим ім'ям.
+        </p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;!-- public/favicon.ico доступний як /favicon.ico --&gt;
 &lt;link rel="icon" href="/favicon.ico" /&gt;</code></pre>
-<h1 id="env">4. Змінні оточення</h1>
-<p>Vite читає файли <code>.env</code>. Щоб змінна потрапила в код клієнта, її ім'я має
-починатися з <code>VITE_</code> — це захист від випадкового витоку секретів у бандл.</p>
-<pre class="language-js"><code class="language-js">// .env
+        <h1 id="env">4. Змінні оточення</h1>
+        <p>
+          Vite читає файли <code>.env</code>. Щоб змінна потрапила в код клієнта, її ім'я має
+          починатися з <code>VITE_</code> — це захист від випадкового витоку секретів у бандл.
+        </p>
+        <pre class="language-js"><code class="language-js">// .env
 VITE_API_URL=https://api.example.com
 DB_PASSWORD=secret   // без префікса VITE_ — у клієнт НЕ потрапить</code></pre>
-<pre class="language-js"><code class="language-js">// доступ у коді
+        <pre class="language-js"><code class="language-js">// доступ у коді
 const url = import.meta.env.VITE_API_URL;
 console.log(import.meta.env.MODE); // 'development' | 'production'</code></pre>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Усе, що з префіксом <code>VITE_</code>, вбудовується у зібраний JS і <strong>видиме
-користувачу</strong>. Ніколи не клади туди паролі, приватні ключі чи токени — лише
-публічні значення (адреси API, ключі аналітики тощо).</p></div></div>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://vite.dev/guide/assets.html" target="_blank">Static Asset Handling — Vite</a></li>
-<li><a href="https://vite.dev/guide/env-and-mode.html" target="_blank">Env Variables and Modes — Vite</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Усе, що з префіксом <code>VITE_</code>, вбудовується у зібраний JS і
+              <strong>видиме користувачу</strong>. Ніколи не клади туди паролі, приватні ключі чи
+              токени — лише публічні значення (адреси API, ключі аналітики тощо).
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://vite.dev/guide/assets.html" target="_blank"
+              >Static Asset Handling — Vite</a
+            >
+          </li>
+          <li>
+            <a href="https://vite.dev/guide/env-and-mode.html" target="_blank"
+              >Env Variables and Modes — Vite</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

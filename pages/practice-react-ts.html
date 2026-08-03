@@ -1,28 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Практика: React + TypeScript · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="практика">Практика: React + TypeScript</h1>
-<p>Створи проєкт (<code>npm create vite@latest -- --template react-ts</code>) або відкрий
-<a href="https://stackblitz.com/fork/react-ts" target="_blank">StackBlitz react-ts</a>.
-Мета — навчитися типізувати пропси, стан, події та хуки без помилок компілятора.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: React + TypeScript · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: React + TypeScript</h1>
+        <p>
+          Створи проєкт (<code>npm create vite@latest -- --template react-ts</code>) або відкрий
+          <a href="https://stackblitz.com/fork/react-ts" target="_blank">StackBlitz react-ts</a>.
+          Мета — навчитися типізувати пропси, стан, події та хуки без помилок компілятора.
+        </p>
 
-<div class="task">
-<h2>Завдання 1. Типізований компонент</h2>
-<p class="task-goal">Зроби компонент <code>UserCard</code> із пропсами <code>name: string</code>,
-<code>age: number</code> і необов'язковим <code>city?: string</code>. Спробуй передати неправильний
-тип — переконайся, що TS лається.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">type UserCardProps = { name: string; age: number; city?: string };
+        <div class="task">
+          <h2>Завдання 1. Типізований компонент</h2>
+          <p class="task-goal">
+            Зроби компонент <code>UserCard</code> із пропсами <code>name: string</code>,
+            <code>age: number</code> і необов'язковим <code>city?: string</code>. Спробуй передати
+            неправильний тип — переконайся, що TS лається.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre
+              class="language-js"
+            ><code class="language-js">type UserCardProps = { name: string; age: number; city?: string };
 
 function UserCard({ name, age, city }: UserCardProps) {
   return (
@@ -32,23 +42,36 @@ function UserCard({ name, age, city }: UserCardProps) {
     &lt;/div&gt;
   );
 }</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 2. Лічильник зі станом</h2>
-<p class="task-goal">Зроби лічильник на <code>useState</code>. Переконайся, що тип виводиться
-сам, а сеттер не приймає рядок.</p>
-<details class="hint"><summary>Підказка</summary><p><code>const [count, setCount] = useState(0)</code> — тип <code>number</code> виведеться автоматично.</p></details>
-</div>
+        <div class="task">
+          <h2>Завдання 2. Лічильник зі станом</h2>
+          <p class="task-goal">
+            Зроби лічильник на <code>useState</code>. Переконайся, що тип виводиться сам, а сеттер
+            не приймає рядок.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              <code>const [count, setCount] = useState(0)</code> — тип
+              <code>number</code> виведеться автоматично.
+            </p>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 3. Форма з подіями</h2>
-<p class="task-goal">Зроби контрольоване поле вводу й форму: винеси обробники
-<code>onChange</code> і <code>onSubmit</code> в окремі функції з правильними типами подій.
-<code>onSubmit</code> має викликати <code>preventDefault()</code>.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">const [value, setValue] = useState('');
+        <div class="task">
+          <h2>Завдання 3. Форма з подіями</h2>
+          <p class="task-goal">
+            Зроби контрольоване поле вводу й форму: винеси обробники <code>onChange</code> і
+            <code>onSubmit</code> в окремі функції з правильними типами подій.
+            <code>onSubmit</code> має викликати <code>preventDefault()</code>.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre
+              class="language-js"
+            ><code class="language-js">const [value, setValue] = useState('');
 
 function handleChange(e: React.ChangeEvent&lt;HTMLInputElement&gt;) {
   setValue(e.target.value);
@@ -58,32 +81,40 @@ function handleSubmit(e: React.FormEvent&lt;HTMLFormElement&gt;) {
   console.log(value);
 }
 // &lt;form onSubmit={handleSubmit}&gt;&lt;input value={value} onChange={handleChange} /&gt;&lt;/form&gt;</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 4. Список і кастомний хук (виклик)</h2>
-<p class="task-goal">Зроби узагальнений компонент <code>List&lt;T&gt;</code> з пропсами
-<code>items: T[]</code> і <code>render: (item: T) =&gt; ReactNode</code>. Додай кастомний хук
-<code>useToggle</code>, що повертає <code>[boolean, () =&gt; void]</code>, і застосуй його для
-приховування/показу списку.</p>
-</div>
+        <div class="task">
+          <h2>Завдання 4. Список і кастомний хук (виклик)</h2>
+          <p class="task-goal">
+            Зроби узагальнений компонент <code>List&lt;T&gt;</code> з пропсами
+            <code>items: T[]</code> і <code>render: (item: T) =&gt; ReactNode</code>. Додай
+            кастомний хук <code>useToggle</code>, що повертає <code>[boolean, () =&gt; void]</code>,
+            і застосуй його для приховування/показу списку.
+          </p>
+        </div>
 
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Візьми один зі своїх React-проєктів на чистому JS (напр. To-Do чи вікторину) і
-переведи його на TypeScript: опиши типи даних, типізуй пропси й стан. Так
-найкраще видно, скільки помилок TS ловить ще до запуску.</p></div></div>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Візьми один зі своїх React-проєктів на чистому JS (напр. To-Do чи вікторину) і
+              переведи його на TypeScript: опиши типи даних, типізуй пропси й стан. Так найкраще
+              видно, скільки помилок TS ловить ще до запуску.
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

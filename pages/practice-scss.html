@@ -1,27 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Практика: SCSS · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="практика">Практика: SCSS</h1>
-<p>Постав <code>sass</code> (<code>npm install -D sass</code>) і запусти <code>npx sass --watch style.scss:style.css</code>,
-або скористайся онлайн-пісочницею <a href="https://www.sassmeister.com" target="_blank">SassMeister</a>,
-де видно скомпільований CSS одразу. Перевіряй результат після кожного завдання.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: SCSS · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: SCSS</h1>
+        <p>
+          Постав <code>sass</code> (<code>npm install -D sass</code>) і запусти
+          <code>npx sass --watch style.scss:style.css</code>, або скористайся онлайн-пісочницею
+          <a href="https://www.sassmeister.com" target="_blank">SassMeister</a>, де видно
+          скомпільований CSS одразу. Перевіряй результат після кожного завдання.
+        </p>
 
-<div class="task">
-<h2>Завдання 1. Змінні й вкладеність</h2>
-<p class="task-goal">Опиши кнопку через змінні (<code>$primary</code>, <code>$radius</code>) і додай
-стан <code>:hover</code> через <code>&amp;</code>, а не окремим селектором.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-scss"><code class="language-scss">$primary: #2563eb;
+        <div class="task">
+          <h2>Завдання 1. Змінні й вкладеність</h2>
+          <p class="task-goal">
+            Опиши кнопку через змінні (<code>$primary</code>, <code>$radius</code>) і додай стан
+            <code>:hover</code> через <code>&amp;</code>, а не окремим селектором.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-scss"><code class="language-scss">$primary: #2563eb;
 $radius: 8px;
 
 .button {
@@ -32,16 +41,27 @@ $radius: 8px;
 
   &amp;:hover { background: darken($primary, 10%); }
 }</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 2. Міксин для медіазапитів</h2>
-<p class="task-goal">Зроби міксин <code>respond($bp)</code>, що приймає <code>tablet</code>/<code>desktop</code>
-і всередині ставить відповідний <code>@media</code>. Застосуй його до сітки.</p>
-<details class="hint"><summary>Підказка</summary><p>Усередині міксина використай <code>@content</code>, а вибір брейкпоінта — через <code>@if</code>/<code>@else if</code>.</p></details>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-scss"><code class="language-scss">@mixin respond($bp) {
+        <div class="task">
+          <h2>Завдання 2. Міксин для медіазапитів</h2>
+          <p class="task-goal">
+            Зроби міксин <code>respond($bp)</code>, що приймає <code>tablet</code>/<code
+              >desktop</code
+            >
+            і всередині ставить відповідний <code>@media</code>. Застосуй його до сітки.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Усередині міксина використай <code>@content</code>, а вибір брейкпоінта — через
+              <code>@if</code>/<code>@else if</code>.
+            </p>
+          </details>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-scss"><code class="language-scss">@mixin respond($bp) {
   @if $bp == tablet  { @media (min-width: 768px)  { @content; } }
   @else if $bp == desktop { @media (min-width: 1024px) { @content; } }
 }
@@ -52,48 +72,63 @@ $radius: 8px;
   @include respond(tablet)  { grid-template-columns: 1fr 1fr; }
   @include respond(desktop) { grid-template-columns: repeat(4, 1fr); }
 }</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 3. Генерація утиліт із мапи</h2>
-<p class="task-goal">Опиши мапу кольорів (<code>$colors: (primary: #2563eb, danger: #dc2626, ...)</code>)
-і через цикл <code>@each</code> згенеруй для кожного запису два класи: <code>.text-*</code>
-(колір тексту) і <code>.bg-*</code> (колір фону) — напр. <code>.text-primary</code>,
-<code>.bg-danger</code>. Мета — побачити, як з однієї мапи народжується цілий набір
-утиліт без ручного дублювання (саме так працюють утиліти Bootstrap/Tailwind).</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-scss"><code class="language-scss">$colors: ("primary": #2563eb, "danger": #dc2626, "muted": #6b7280);
+        <div class="task">
+          <h2>Завдання 3. Генерація утиліт із мапи</h2>
+          <p class="task-goal">
+            Опиши мапу кольорів (<code>$colors: (primary: #2563eb, danger: #dc2626, ...)</code>) і
+            через цикл <code>@each</code> згенеруй для кожного запису два класи:
+            <code>.text-*</code> (колір тексту) і <code>.bg-*</code> (колір фону) — напр.
+            <code>.text-primary</code>, <code>.bg-danger</code>. Мета — побачити, як з однієї мапи
+            народжується цілий набір утиліт без ручного дублювання (саме так працюють утиліти
+            Bootstrap/Tailwind).
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre
+              class="language-scss"
+            ><code class="language-scss">$colors: ("primary": #2563eb, "danger": #dc2626, "muted": #6b7280);
 
 @each $name, $value in $colors {
   .text-#{$name} { color: $value; }
   .bg-#{$name}   { background: $value; }
 }</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 4. Структура файлів (виклик)</h2>
-<p class="task-goal">Розбий стилі невеликого проєкту на партіали
-(<code>_variables.scss</code>, <code>_mixins.scss</code>, <code>_buttons.scss</code>) і збери їх у
-<code>main.scss</code> через <code>@use</code>. Переконайся, що змінні доступні через простір імен.</p>
-</div>
+        <div class="task">
+          <h2>Завдання 4. Структура файлів (виклик)</h2>
+          <p class="task-goal">
+            Розбий стилі невеликого проєкту на партіали (<code>_variables.scss</code>,
+            <code>_mixins.scss</code>, <code>_buttons.scss</code>) і збери їх у
+            <code>main.scss</code> через <code>@use</code>. Переконайся, що змінні доступні через
+            простір імен.
+          </p>
+        </div>
 
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Візьми готовий CSS одного зі своїх проєктів і перепиши його на SCSS: винеси
-кольори у змінні, згорни повторення в міксини, розбий на партіали. Так найкраще
-відчувається користь препроцесора.</p></div></div>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Візьми готовий CSS одного зі своїх проєктів і перепиши його на SCSS: винеси кольори у
+              змінні, згорни повторення в міксини, розбий на партіали. Так найкраще відчувається
+              користь препроцесора.
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

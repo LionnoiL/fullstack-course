@@ -1,21 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Компоненти · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="компоненти">1. Компоненти як будівельні блоки</h1>
-<p>Інтерфейс у React складається з <strong>компонентів</strong> — функцій, що повертають JSX.
-Компоненти можна вкладати один в одного, будуючи дерево UI.</p>
-<p><img src="images/component-tree.svg" alt="Дерево React-компонентів: App, Header, Main, Footer"></p>
-<pre class="language-js"><code class="language-js">function Header() {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Компоненти · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="компоненти">1. Компоненти як будівельні блоки</h1>
+        <p>
+          Інтерфейс у React складається з <strong>компонентів</strong> — функцій, що повертають JSX.
+          Компоненти можна вкладати один в одного, будуючи дерево UI.
+        </p>
+        <p>
+          <img
+            src="images/component-tree.svg"
+            alt="Дерево React-компонентів: App, Header, Main, Footer"
+          />
+        </p>
+        <pre class="language-js"><code class="language-js">function Header() {
   return &lt;header&gt;Мій сайт&lt;/header&gt;;
 }
 
@@ -32,11 +42,21 @@ function Page() {
     &lt;/div&gt;
   );
 }</code></pre>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Назва компонента <strong>обовʼязково</strong> починається з великої літери. З малої
-React вважатиме тег звичайним HTML-елементом (<code>&lt;header&gt;</code>, а не ваш <code>&lt;Header&gt;</code>).</p></div></div>
-<h1 id="композиція">2. Композиція та children</h1>
-<p>Компонент-обгортка отримує вкладений вміст через спеціальний проп <code>children</code>.</p>
-<pre class="language-js"><code class="language-js">function Card({ children }) {
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Назва компонента <strong>обовʼязково</strong> починається з великої літери. З малої
+              React вважатиме тег звичайним HTML-елементом (<code>&lt;header&gt;</code>, а не ваш
+              <code>&lt;Header&gt;</code>).
+            </p>
+          </div>
+        </div>
+        <h1 id="композиція">2. Композиція та children</h1>
+        <p>
+          Компонент-обгортка отримує вкладений вміст через спеціальний проп <code>children</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">function Card({ children }) {
   return &lt;div className="card"&gt;{children}&lt;/div&gt;;
 }
 
@@ -48,10 +68,14 @@ function App() {
     &lt;/Card&gt;
   );
 }</code></pre>
-<h1 id="чисті">3. Компоненти мають бути чистими</h1>
-<p>Під час рендеру компонент має лише обчислювати JSX зі своїх вхідних даних і не
-змінювати зовнішні змінні. Однакові вхідні дані → однаковий результат.</p>
-<pre class="language-js"><code class="language-js">// ❌ Погано: мутуємо зовнішню змінну під час рендеру
+        <h1 id="чисті">3. Компоненти мають бути чистими</h1>
+        <p>
+          Під час рендеру компонент має лише обчислювати JSX зі своїх вхідних даних і не змінювати
+          зовнішні змінні. Однакові вхідні дані → однаковий результат.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">// ❌ Погано: мутуємо зовнішню змінну під час рендеру
 let count = 0;
 function Bad() {
   count += 1; // побічний ефект під час рендеру
@@ -62,10 +86,12 @@ function Bad() {
 function Good({ value }) {
   return &lt;p&gt;{value}&lt;/p&gt;;
 }</code></pre>
-<h1 id="організація">4. Організація файлів</h1>
-<p>Зазвичай кожен компонент — окремий файл, який експортує функцію і імпортується
-там, де потрібен.</p>
-<pre class="language-js"><code class="language-js">// Button.jsx
+        <h1 id="організація">4. Організація файлів</h1>
+        <p>
+          Зазвичай кожен компонент — окремий файл, який експортує функцію і імпортується там, де
+          потрібен.
+        </p>
+        <pre class="language-js"><code class="language-js">// Button.jsx
 export default function Button({ label }) {
   return &lt;button&gt;{label}&lt;/button&gt;;
 }
@@ -76,21 +102,25 @@ import Button from './Button';
 function App() {
   return &lt;Button label="Надіслати" /&gt;;
 }</code></pre>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://react.dev/learn/your-first-component" target="_blank">Your First Component — react.dev</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://react.dev/learn/your-first-component" target="_blank"
+              >Your First Component — react.dev</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

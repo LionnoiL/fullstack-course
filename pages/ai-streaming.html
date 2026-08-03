@@ -1,29 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Стрімінг відповіді LLM · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="навіщо">1. Навіщо стрімити</h1>
-<p>Довга відповідь генерується кілька секунд. Якщо чекати її цілком, користувач бачить
-порожній екран. <strong>Стрімінг</strong> віддає текст <em>по частинах</em> (токенах), щойно вони
-готові — як «друкує…» у месенджері. Це той самий <strong>SSE</strong>, що ми розбирали в
-розділі «Реалтайм»: один потік сервер→клієнт.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Стрімінг не лише покращує UX — він ще й <strong>рятує від таймаутів</strong>: довга
-не-стрімінгова відповідь може перевищити ліміт часу зʼєднання. Для великих
-<code>max_tokens</code> стрімінг фактично обовʼязковий.</p></div></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Стрімінг відповіді LLM · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="навіщо">1. Навіщо стрімити</h1>
+        <p>
+          Довга відповідь генерується кілька секунд. Якщо чекати її цілком, користувач бачить
+          порожній екран. <strong>Стрімінг</strong> віддає текст <em>по частинах</em> (токенах),
+          щойно вони готові — як «друкує…» у месенджері. Це той самий <strong>SSE</strong>, що ми
+          розбирали в розділі «Реалтайм»: один потік сервер→клієнт.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Стрімінг не лише покращує UX — він ще й <strong>рятує від таймаутів</strong>: довга
+              не-стрімінгова відповідь може перевищити ліміт часу зʼєднання. Для великих
+              <code>max_tokens</code> стрімінг фактично обовʼязковий.
+            </p>
+          </div>
+        </div>
 
-<h1 id="потік">2. Отримати потік</h1>
-<p>Замість <code>messages.create</code> викликаємо <code>messages.stream</code> і перебираємо події.
-Найпростіше — слухати текстові дельти:</p>
-<pre class="language-js"><code class="language-js">const stream = client.messages.stream({
+        <h1 id="потік">2. Отримати потік</h1>
+        <p>
+          Замість <code>messages.create</code> викликаємо <code>messages.stream</code> і перебираємо
+          події. Найпростіше — слухати текстові дельти:
+        </p>
+        <pre class="language-js"><code class="language-js">const stream = client.messages.stream({
   model: 'claude-opus-4-8',
   max_tokens: 1024,
   messages: [{ role: 'user', content: 'Напиши коротке оповідання.' }],
@@ -35,17 +49,21 @@ stream.on('text', (delta) =&gt; {
 });
 
 const finalMessage = await stream.finalMessage(); // повна відповідь у кінці</code></pre>
-<p>Або перебрати сирі події вручну — корисно, коли треба розрізняти типи блоків:</p>
-<pre class="language-js"><code class="language-js">for await (const event of stream) {
+        <p>Або перебрати сирі події вручну — корисно, коли треба розрізняти типи блоків:</p>
+        <pre class="language-js"><code class="language-js">for await (const event of stream) {
   if (event.type === 'content_block_delta' &amp;&amp; event.delta.type === 'text_delta') {
     process.stdout.write(event.delta.text);
   }
 }</code></pre>
 
-<h1 id="сервер">3. Пробросити потік на фронт (SSE)</h1>
-<p>Бекенд читає потік від LLM і одразу пересилає шматки браузеру через
-<code>text/event-stream</code>:</p>
-<pre class="language-js"><code class="language-js">app.post('/api/chat', async (req, res) =&gt; {
+        <h1 id="сервер">3. Пробросити потік на фронт (SSE)</h1>
+        <p>
+          Бекенд читає потік від LLM і одразу пересилає шматки браузеру через
+          <code>text/event-stream</code>:
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">app.post('/api/chat', async (req, res) =&gt; {
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
 
@@ -63,8 +81,8 @@ const finalMessage = await stream.finalMessage(); // повна відповід
   res.end();
 });</code></pre>
 
-<h1 id="клієнт">4. Показати по токенах на клієнті</h1>
-<pre class="language-js"><code class="language-js">const res = await fetch('/api/chat', {
+        <h1 id="клієнт">4. Показати по токенах на клієнті</h1>
+        <pre class="language-js"><code class="language-js">const res = await fetch('/api/chat', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ message }),
@@ -86,26 +104,44 @@ while (true) {
     render(answer); // дописуємо в UI
   }
 }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>У React зручно оновлювати стан на кожен шматок: <code>setAnswer((prev) =&gt; prev +
-delta)</code>. А ще простіше — узяти <strong>Vercel AI SDK</strong> з готовим хуком
-<code>useChat</code>, який робить увесь цей парсинг за тебе (окремий урок).</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              У React зручно оновлювати стан на кожен шматок:
+              <code>setAnswer((prev) =&gt; prev + delta)</code>. А ще простіше — узяти
+              <strong>Vercel AI SDK</strong> з готовим хуком <code>useChat</code>, який робить увесь
+              цей парсинг за тебе (окремий урок).
+            </p>
+          </div>
+        </div>
 
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://docs.claude.com/en/docs/build-with-claude/streaming" target="_blank">Anthropic — Streaming Messages</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream" target="_blank">MDN — ReadableStream</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://docs.claude.com/en/docs/build-with-claude/streaming" target="_blank"
+              >Anthropic — Streaming Messages</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream"
+              target="_blank"
+              >MDN — ReadableStream</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

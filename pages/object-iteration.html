@@ -1,32 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Перебір об&#x27;єкта · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="вступ">1. Вступ</h1>
-<p>За замовчуванням об'єкт не є ітеруючим, тобто по ньому не можна пройти
-циклом <code>for</code> або<code>for ... of</code> як по масиву або рядку. Для того, щоб перебрати
-об'єкт існує кілька спеціальних конструкцій, деякі необхідно знати
-оскільки це частина мови, а деякі використовуються в повсякденній роботі.</p>
-<h1 id="цикл-forin">2. Цикл for...in</h1>
-<pre class="language-"><code class="lang-js"><span class="token keyword">for</span> <span class="token punctuation">(</span>key <span class="token keyword">in</span> object<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Перебір об&#x27;єкта · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="вступ">1. Вступ</h1>
+        <p>
+          За замовчуванням об'єкт не є ітеруючим, тобто по ньому не можна пройти циклом
+          <code>for</code> або<code>for ... of</code> як по масиву або рядку. Для того, щоб
+          перебрати об'єкт існує кілька спеціальних конструкцій, деякі необхідно знати оскільки це
+          частина мови, а деякі використовуються в повсякденній роботі.
+        </p>
+        <h1 id="цикл-forin">2. Цикл for...in</h1>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">for</span> <span class="token punctuation">(</span>key <span class="token keyword">in</span> object<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment">// statements</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<ul>
-<li>Перебирає ключі об'єкта</li>
-<li>Можна видаляти властивості під час перебору</li>
-<li>Не можна використовувати для перебору масивів</li>
-</ul>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <ul>
+          <li>Перебирає ключі об'єкта</li>
+          <li>Можна видаляти властивості під час перебору</li>
+          <li>Не можна використовувати для перебору масивів</li>
+        </ul>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
   name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
   stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
   capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
@@ -43,9 +52,13 @@
  * Key: capacity
  */</span>
 </code></pre>
-<p>Для того, щоб отримати значення властивості з таким ключем під час ітерації,
-використовується синтаксис квадратних дужок, оскільки ключ завжди рядок.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <p>
+          Для того, щоб отримати значення властивості з таким ключем під час ітерації,
+          використовується синтаксис квадратних дужок, оскільки ключ завжди рядок.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
   name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
   stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
   capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
@@ -61,17 +74,30 @@
  * Value: 100
  */</span>
 </code></pre>
-<h1 id="objectkeys-objectvalues-objectentries">3. Object.keys(), Object.values(), Object.entries()</h1>
-<p>Всі об'єкти походять від конструктора <code>Object</code>. У нього є кілька дуже
-корисних методів для роботи з об'єктами.</p>
-<ul>
-<li><code>Object.keys (obj)</code> - поверне масив, з ключами об'єкта <code>obj</code> у вигляді рядків.</li>
-<li><code>Object.values (obj)</code> - поверне масив, зі значеннями властивостей об'єкта <code>obj</code>.</li>
-<li><code>Object.entries (obj)</code> - поверне масив записів, кожним елементом якого буде
- ще один масив з 2-х елементів, ключа і значення цього ключа з об'єкта
- <code>Obj</code>.</li>
-</ul>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <h1 id="objectkeys-objectvalues-objectentries">
+          3. Object.keys(), Object.values(), Object.entries()
+        </h1>
+        <p>
+          Всі об'єкти походять від конструктора <code>Object</code>. У нього є кілька дуже корисних
+          методів для роботи з об'єктами.
+        </p>
+        <ul>
+          <li>
+            <code>Object.keys (obj)</code> - поверне масив, з ключами об'єкта <code>obj</code> у
+            вигляді рядків.
+          </li>
+          <li>
+            <code>Object.values (obj)</code> - поверне масив, зі значеннями властивостей об'єкта
+            <code>obj</code>.
+          </li>
+          <li>
+            <code>Object.entries (obj)</code> - поверне масив записів, кожним елементом якого буде
+            ще один масив з 2-х елементів, ключа і значення цього ключа з об'єкта <code>Obj</code>.
+          </li>
+        </ul>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
   name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
   stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
   capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
@@ -81,10 +107,14 @@
 <span class="token keyword">const</span> values <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">values</span><span class="token punctuation">(</span>hotel<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["Resort Hotel", 5, 100]</span>
 <span class="token keyword">const</span> entries <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">entries</span><span class="token punctuation">(</span>hotel<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [Array(2), Array(2), Array(2)]</span>
 </code></pre>
-<p>Скомбінувавши результат <code>Object.keys ()</code> і цикл <code>for ... of</code> ми можемо перебрати
-об'єкт. Насправді ми перебираємо масив ключів, а потім просто звертаємося до
-властивості об'єкта з таким ключем.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <p>
+          Скомбінувавши результат <code>Object.keys ()</code> і цикл <code>for ... of</code> ми
+          можемо перебрати об'єкт. Насправді ми перебираємо масив ключів, а потім просто звертаємося
+          до властивості об'єкта з таким ключем.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
   name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
   stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
   capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
@@ -101,9 +131,13 @@
  * Value: 100
  */</span>
 </code></pre>
-<p>А можна використовувати результат <code>Object.entries ()</code> який поверне масив записів
-з ключами і значеннями властивостей об'єкта.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <p>
+          А можна використовувати результат <code>Object.entries ()</code> який поверне масив
+          записів з ключами і значеннями властивостей об'єкта.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> hotel <span class="token operator">=</span> <span class="token punctuation">{</span>
   name<span class="token punctuation">:</span> <span class="token string">'Resort Hotel'</span><span class="token punctuation">,</span>
   stars<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
   capacity<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
@@ -132,10 +166,15 @@
  * capacity: 100
  */</span>
 </code></pre>
-<p>Припустимо перед нами стоїть завдання порахувати загальну кількість продуктів в об'єкті
-формату <code>ім'я-продукту: кількість</code>. Тоді підійде метод <code>Object.values ()</code> для
-того щоб отримати масив всіх значень і потім зручно їх скласти.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> goods <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <p>
+          Припустимо перед нами стоїть завдання порахувати загальну кількість продуктів в об'єкті
+          формату <code>ім'я-продукту: кількість</code>. Тоді підійде метод
+          <code>Object.values ()</code> для того щоб отримати масив всіх значень і потім зручно їх
+          скласти.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> goods <span class="token operator">=</span> <span class="token punctuation">{</span>
   apples<span class="token punctuation">:</span> <span class="token number">6</span><span class="token punctuation">,</span>
   grapes<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
   bread<span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
@@ -152,16 +191,16 @@
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>total<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 20</span>
 </code></pre>
-  </main>
-</div>
+      </main>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

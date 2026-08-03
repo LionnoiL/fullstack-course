@@ -1,28 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Використання shadcn/ui · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="ініціалізація">1. Ініціалізація</h1>
-<p>У проєкті на React + Tailwind (напр. Vite або Next.js) запусти майстер — він
-налаштує теми, шляхи й базові файли:</p>
-<pre class="language-js"><code class="language-js">npx shadcn@latest init</code></pre>
-<h1 id="додавання">2. Додавання компонентів</h1>
-<p>Кожен компонент «встановлюють» окремою командою — CLI кладе його код у
-<code>components/ui/</code>:</p>
-<pre class="language-js"><code class="language-js">npx shadcn@latest add button
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Використання shadcn/ui · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="ініціалізація">1. Ініціалізація</h1>
+        <p>
+          У проєкті на React + Tailwind (напр. Vite або Next.js) запусти майстер — він налаштує
+          теми, шляхи й базові файли:
+        </p>
+        <pre class="language-js"><code class="language-js">npx shadcn@latest init</code></pre>
+        <h1 id="додавання">2. Додавання компонентів</h1>
+        <p>
+          Кожен компонент «встановлюють» окремою командою — CLI кладе його код у
+          <code>components/ui/</code>:
+        </p>
+        <pre class="language-js"><code class="language-js">npx shadcn@latest add button
 npx shadcn@latest add dialog input</code></pre>
-<h1 id="використання">3. Використання</h1>
-<p>Далі це звичайний імпорт із твоєї ж папки — не з node_modules:</p>
-<pre class="language-js"><code class="language-js">import { Button } from '@/components/ui/button';
+        <h1 id="використання">3. Використання</h1>
+        <p>Далі це звичайний імпорт із твоєї ж папки — не з node_modules:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">import { Button } from '@/components/ui/button';
 
 function App() {
   return (
@@ -32,38 +41,51 @@ function App() {
     &lt;/div&gt;
   );
 }</code></pre>
-<h1 id="теми">4. Теми через CSS-змінні</h1>
-<p>Кольори shadcn/ui задаються дизайн-токенами (CSS-змінними) — міняєш їх і
-оновлюється весь UI. Темна тема — окремий набір значень.</p>
-<pre class="language-css"><code class="language-css">:root {
+        <h1 id="теми">4. Теми через CSS-змінні</h1>
+        <p>
+          Кольори shadcn/ui задаються дизайн-токенами (CSS-змінними) — міняєш їх і оновлюється весь
+          UI. Темна тема — окремий набір значень.
+        </p>
+        <pre class="language-css"><code class="language-css">:root {
   --primary: 222 47% 40%;      /* HSL-компоненти */
   --radius: 0.5rem;
 }
 .dark {
   --primary: 222 47% 60%;
 }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Оскільки компоненти живуть у твоєму коді, кастомізація — це просто редагування
-файлу в <code>components/ui/</code>. Не подобається відступ у кнопки? Зміни клас прямо там —
-жодних обхідних шляхів навколо чужого API.</p></div></div>
-<h1 id="редагування">5. Редагуй сміливо</h1>
-<p>Згенерований компонент — стартова точка, а не догма. Додавай варіанти, прибирай
-зайве, підлаштовуй під свою дизайн-систему. Це і є суть підходу.</p>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://ui.shadcn.com/docs" target="_blank">shadcn/ui — документація</a></li>
-<li><a href="https://ui.shadcn.com/docs/theming" target="_blank">Theming — shadcn/ui</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Оскільки компоненти живуть у твоєму коді, кастомізація — це просто редагування файлу в
+              <code>components/ui/</code>. Не подобається відступ у кнопки? Зміни клас прямо там —
+              жодних обхідних шляхів навколо чужого API.
+            </p>
+          </div>
+        </div>
+        <h1 id="редагування">5. Редагуй сміливо</h1>
+        <p>
+          Згенерований компонент — стартова точка, а не догма. Додавай варіанти, прибирай зайве,
+          підлаштовуй під свою дизайн-систему. Це і є суть підходу.
+        </p>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li><a href="https://ui.shadcn.com/docs" target="_blank">shadcn/ui — документація</a></li>
+          <li>
+            <a href="https://ui.shadcn.com/docs/theming" target="_blank">Theming — shadcn/ui</a>
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

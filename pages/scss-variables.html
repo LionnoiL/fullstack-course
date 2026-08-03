@@ -1,20 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Змінні та типи даних у SCSS · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="змінні">1. Змінні</h1>
-<p>Змінна в SCSS починається з <code>$</code> і зберігає значення, яке потім можна
-перевикористати. Змінив одне місце — оновилося всюди.</p>
-<pre class="language-scss"><code class="language-scss">$primary: #2563eb;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Змінні та типи даних у SCSS · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="змінні">1. Змінні</h1>
+        <p>
+          Змінна в SCSS починається з <code>$</code> і зберігає значення, яке потім можна
+          перевикористати. Змінив одне місце — оновилося всюди.
+        </p>
+        <pre class="language-scss"><code class="language-scss">$primary: #2563eb;
 $radius: 8px;
 $font-base: "Inter", sans-serif;
 
@@ -23,29 +28,41 @@ $font-base: "Inter", sans-serif;
   border-radius: $radius;
   font-family: $font-base;
 }</code></pre>
-<h1 id="типи">2. Типи даних</h1>
-<ul>
-<li><strong>числа:</strong> <code>10</code>, <code>1.5rem</code>, <code>50%</code>;</li>
-<li><strong>рядки:</strong> <code>"Inter"</code>, <code>bold</code>;</li>
-<li><strong>кольори:</strong> <code>#fff</code>, <code>red</code>, <code>rgba(0,0,0,.5)</code>;</li>
-<li><strong>булеві:</strong> <code>true</code>, <code>false</code>;</li>
-<li><strong>списки:</strong> <code>1px solid red</code>, <code>Inter, sans-serif</code>;</li>
-<li><strong>мапи:</strong> пари ключ–значення (див. нижче).</li>
-</ul>
-<h1 id="математика">3. Математика й операції</h1>
-<pre class="language-scss"><code class="language-scss">$gap: 16px;
+        <h1 id="типи">2. Типи даних</h1>
+        <ul>
+          <li><strong>числа:</strong> <code>10</code>, <code>1.5rem</code>, <code>50%</code>;</li>
+          <li><strong>рядки:</strong> <code>"Inter"</code>, <code>bold</code>;</li>
+          <li>
+            <strong>кольори:</strong> <code>#fff</code>, <code>red</code>,
+            <code>rgba(0,0,0,.5)</code>;
+          </li>
+          <li><strong>булеві:</strong> <code>true</code>, <code>false</code>;</li>
+          <li>
+            <strong>списки:</strong> <code>1px solid red</code>, <code>Inter, sans-serif</code>;
+          </li>
+          <li><strong>мапи:</strong> пари ключ–значення (див. нижче).</li>
+        </ul>
+        <h1 id="математика">3. Математика й операції</h1>
+        <pre class="language-scss"><code class="language-scss">$gap: 16px;
 
 .grid {
   gap: $gap;
   padding: $gap / 2;      // 8px
   margin-bottom: $gap * 2; // 32px
 }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>У сучасному Sass ділення роблять функцією <code>math.div($a, $b)</code> (після
-<code>@use "sass:math";</code>), бо символ <code>/</code> у CSS тепер має інше значення. Старий
-запис <code>$gap / 2</code> ще працює, але вважається застарілим.</p></div></div>
-<h1 id="мапи">4. Мапи</h1>
-<p>Мапа зручна, щоб зберегти пов'язані значення разом — наприклад, палітру:</p>
-<pre class="language-scss"><code class="language-scss">$colors: (
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              У сучасному Sass ділення роблять функцією <code>math.div($a, $b)</code> (після
+              <code>@use "sass:math";</code>), бо символ <code>/</code> у CSS тепер має інше
+              значення. Старий запис <code>$gap / 2</code> ще працює, але вважається застарілим.
+            </p>
+          </div>
+        </div>
+        <h1 id="мапи">4. Мапи</h1>
+        <p>Мапа зручна, щоб зберегти пов'язані значення разом — наприклад, палітру:</p>
+        <pre class="language-scss"><code class="language-scss">$colors: (
   "primary": #2563eb,
   "danger":  #dc2626,
   "muted":   #6b7280,
@@ -54,8 +71,10 @@ $font-base: "Inter", sans-serif;
 .alert {
   color: map-get($colors, "danger");
 }</code></pre>
-<h1 id="default">5. Значення за замовчуванням і глобальність</h1>
-<pre class="language-scss"><code class="language-scss">// !default — задати, лише якщо змінна ще не визначена
+        <h1 id="default">5. Значення за замовчуванням і глобальність</h1>
+        <pre
+          class="language-scss"
+        ><code class="language-scss">// !default — задати, лише якщо змінна ще не визначена
 // (так налаштовують теми/бібліотеки)
 $primary: #2563eb !default;
 
@@ -65,21 +84,25 @@ $primary: #2563eb !default;
   $local: 10px;
   padding: $local;
 }</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://sass-lang.com/documentation/variables/" target="_blank">Variables — Sass docs</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://sass-lang.com/documentation/variables/" target="_blank"
+              >Variables — Sass docs</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>
