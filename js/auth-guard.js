@@ -102,8 +102,17 @@
               window.CourseTheme.set(prefData.theme);
             }
           }
-          if (prefData.lastPage && prefData.lastPage !== lsRead(KEYS.LAST_PAGE, null)) {
-            lsWrite(KEYS.LAST_PAGE, prefData.lastPage);
+          if (prefData.lastPage) {
+            var fp = prefData.lastPage;
+            if (fp.indexOf("://") !== -1) {
+              try {
+                var pu = new URL(fp);
+                fp = pu.origin === location.origin ? pu.pathname : null;
+              } catch (e) { fp = null; }
+            }
+            if (fp && fp !== lsRead(KEYS.LAST_PAGE, null)) {
+              lsWrite(KEYS.LAST_PAGE, fp);
+            }
           }
         }
 
