@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <title>Мій курс JavaScript</title>
     <script>
-      var last = localStorage.getItem("jscourse.lastPage");
+      var last = null;
+      try { last = JSON.parse(localStorage.getItem("jscourse.lastPage")); } catch (e) {}
       window.location.replace(last || "pages/intro.html");
     </script>
   </head>
