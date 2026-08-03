@@ -5,20 +5,56 @@
 }
 
 :root {
-  /* ── Midnight Indigo theme ── */
-  --bg: #0f0f1a;
-  --panel: #16172a;
-  --line: #252740;
-  --text: #cdd6f4;
-  --muted: #6c7086;
-  --soft: #12121e;
-  --accent: #89b4fa;
+  /* ── Layout (Nord defaults — перезаписуються theme.js) ── */
+  --bg: #2e3440;
+  --panel: #3b4252;
+  --line: #434c5e;
+  --text: #eceff4;
+  --muted: #9099aa;
+  --soft: #272c38;
+  --accent: #88c0d0;
+  --surface: #3b4252;
+  --border: #434c5e;
+  --text-primary: #eceff4;
+  --text-muted: #9099aa;
 
-  /* unified tokens for profile / user blocks */
-  --surface: #16172a;
-  --border: #252740;
-  --text-primary: #cdd6f4;
-  --text-muted: #6c7086;
+  /* ── Code blocks ── */
+  --code-bg: #2e3440;
+  --code-inline-bg: #3b4252;
+  --code-inline-color: #81a1c1;
+
+  /* ── Syntax tokens ── */
+  --token-comment: #616e88;
+  --token-punctuation: #81a1c1;
+  --token-operator: #eceff4;
+  --token-keyword: #81a1c1;
+  --token-string: #a3be8c;
+  --token-number: #b48ead;
+  --token-function: #88c0d0;
+  --token-class: #ebcb8b;
+  --token-property: #8fbcbb;
+  --token-deleted: #bf616a;
+
+  /* ── Semantic ── */
+  --color-done: #a3be8c;
+  --color-done-text: #2e3440;
+  --color-fail: #bf616a;
+  --color-warn: #ebcb8b;
+  --avatar-text: #2e3440;
+
+  /* ── Alerts ── */
+  --alert-info-border: #88c0d0;
+  --alert-info-bg: rgba(136, 192, 208, 0.08);
+  --alert-danger-border: #bf616a;
+  --alert-danger-bg: rgba(191, 97, 106, 0.08);
+  --alert-warn-border: #ebcb8b;
+  --alert-warn-bg: rgba(235, 203, 139, 0.08);
+
+  /* ── Highlights & marks ── */
+  --mark-bg: rgba(235, 203, 139, 0.2);
+  --mark-color: #ebcb8b;
+  --mark-hover-bg: rgba(191, 97, 106, 0.2);
+  --mark-hover-color: #bf616a;
 }
 
 body {
@@ -184,9 +220,9 @@ body {
 }
 
 .content code {
-  background: #1e1e30;
+  background: var(--code-inline-bg);
   border: 1px solid var(--line);
-  color: #cba6f7;
+  color: var(--code-inline-color);
   padding: 0.15rem 0.4rem;
   border-radius: 4px;
   font-family: "SFMono-Regular", Consolas, monospace;
@@ -194,7 +230,7 @@ body {
 }
 
 .content pre {
-  background: #1a1b2e;
+  background: var(--code-bg);
   border: 1px solid var(--line);
   border-radius: 6px;
   padding: 0.9rem 1rem;
@@ -225,8 +261,8 @@ pre[class*="language-"],
 code[class*="language-"],
 pre[class*="lang-"],
 code[class*="lang-"] {
-  background: #1a1b2e !important;
-  color: #cdd6f4 !important;
+  background: var(--code-bg) !important;
+  color: var(--text) !important;
   border: 1px solid var(--line);
 }
 
@@ -241,17 +277,17 @@ pre[class*="lang-"] {
 .token.prolog,
 .token.doctype,
 .token.cdata {
-  color: #585b70 !important;
+  color: var(--token-comment) !important;
   font-style: italic;
 }
 
 .token.punctuation {
-  color: #7f849c !important;
+  color: var(--token-punctuation) !important;
 }
 
 .token.operator,
 .token.entity {
-  color: #cdd6f4 !important;
+  color: var(--token-operator) !important;
 }
 
 .token.keyword,
@@ -260,7 +296,7 @@ pre[class*="lang-"] {
 .token.rule,
 .token.important,
 .token.selector {
-  color: #f38ba8 !important;
+  color: var(--token-keyword) !important;
 }
 
 .token.string,
@@ -269,34 +305,34 @@ pre[class*="lang-"] {
 .token.regex,
 .token.url,
 .token.inserted {
-  color: #a6e3a1 !important;
+  color: var(--token-string) !important;
 }
 
 .token.number,
 .token.constant,
 .token.symbol {
-  color: #fab387 !important;
+  color: var(--token-number) !important;
 }
 
 .token.function,
 .token.function-variable {
-  color: #cba6f7 !important;
+  color: var(--token-function) !important;
 }
 
 .token.class-name,
 .token.builtin,
 .token.tag,
 .token.variable {
-  color: #89dceb !important;
+  color: var(--token-class) !important;
 }
 
 .token.property,
 .token.attr-name {
-  color: #89b4fa !important;
+  color: var(--token-property) !important;
 }
 
 .token.deleted {
-  color: #f38ba8 !important;
+  color: var(--token-deleted) !important;
 }
 
 .alert {
@@ -318,18 +354,18 @@ pre[class*="lang-"] {
 }
 
 .alert-info {
-  border-left-color: #89b4fa;
-  background: rgba(137, 180, 250, 0.08);
+  border-left-color: var(--alert-info-border);
+  background: var(--alert-info-bg);
 }
 
 .alert-danger {
-  border-left-color: #f38ba8;
-  background: rgba(243, 139, 168, 0.08);
+  border-left-color: var(--alert-danger-border);
+  background: var(--alert-danger-bg);
 }
 
 .alert-warning {
-  border-left-color: #f9e2af;
-  background: rgba(249, 226, 175, 0.08);
+  border-left-color: var(--alert-warn-border);
+  background: var(--alert-warn-bg);
 }
 
 /* FontAwesome не підключено — прибираємо порожню іконку. */
@@ -511,8 +547,8 @@ pre[class*="lang-"] {
 }
 
 .search-result mark {
-  background: rgba(249, 226, 175, 0.25);
-  color: #f9e2af;
+  background: var(--mark-bg);
+  color: var(--mark-color);
   padding: 0 1px;
   border-radius: 2px;
 }
@@ -548,7 +584,7 @@ pre[class*="lang-"] {
 .nav-progress-bar span {
   display: block;
   height: 100%;
-  background: #a6e3a1;
+  background: var(--color-done);
   transition: width 0.25s ease;
 }
 
@@ -561,7 +597,7 @@ pre[class*="lang-"] {
 }
 
 .nav-section.section-done .nav-section-count {
-  color: #a6e3a1;
+  color: var(--color-done);
 }
 
 .nav-section a.done {
@@ -571,7 +607,7 @@ pre[class*="lang-"] {
 .nav-section a.done::after {
   content: "✓";
   margin-left: 0.4rem;
-  color: #a6e3a1;
+  color: var(--color-done);
   font-weight: 700;
 }
 
@@ -607,9 +643,9 @@ body.notes-open .course-toolbar {
 }
 
 .learned-btn.is-done {
-  background: #a6e3a1;
-  border-color: #a6e3a1;
-  color: #1e2030;
+  background: var(--color-done);
+  border-color: var(--color-done);
+  color: var(--color-done-text);
 }
 
 .notes-btn {
@@ -623,7 +659,7 @@ body.notes-open .course-toolbar {
   right: -4px;
   width: 9px;
   height: 9px;
-  background: #f9e2af;
+  background: var(--color-warn);
   border: 2px solid var(--panel);
   border-radius: 50%;
 }
@@ -688,16 +724,16 @@ body.notes-open .course-toolbar {
 
 /* ============ Виділення тексту ============ */
 .note-highlight {
-  background: rgba(249, 226, 175, 0.25);
-  color: #f9e2af;
+  background: var(--mark-bg);
+  color: var(--mark-color);
   border-radius: 2px;
   cursor: pointer;
   padding: 0 1px;
 }
 
 .note-highlight:hover {
-  background: rgba(243, 139, 168, 0.25);
-  color: #f38ba8;
+  background: var(--mark-hover-bg);
+  color: var(--mark-hover-color);
 }
 
 .hl-btn {
@@ -773,8 +809,8 @@ details[open].solution summary {
   line-height: 1.5;
   resize: vertical;
   outline: none;
-  background: #1a1b2e;
-  color: #cdd6f4;
+  background: var(--code-bg);
+  color: var(--text);
   tab-size: 2;
 }
 
@@ -796,9 +832,9 @@ details[open].solution summary {
 }
 
 .runner-run {
-  background: #a6e3a1;
-  border-color: #a6e3a1;
-  color: #1e2030;
+  background: var(--color-done);
+  border-color: var(--color-done);
+  color: var(--color-done-text);
 }
 
 .runner-reset {
@@ -825,11 +861,11 @@ details[open].solution summary {
 }
 
 .runner-results li.pass {
-  color: #a6e3a1;
+  color: var(--color-done);
 }
 
 .runner-results li.fail {
-  color: #f38ba8;
+  color: var(--color-fail);
 }
 
 .runner-summary {
@@ -837,15 +873,15 @@ details[open].solution summary {
 }
 
 .runner-summary.all-pass {
-  color: #a6e3a1;
+  color: var(--color-done);
 }
 
 .runner-summary.some-fail {
-  color: #f38ba8;
+  color: var(--color-fail);
 }
 
 .runner-error {
-  color: #f38ba8;
+  color: var(--color-fail);
   font-family: "SFMono-Regular", Consolas, monospace;
   font-size: 0.84rem;
 }
@@ -1173,8 +1209,8 @@ details[open].solution summary {
     background 0.15s;
 }
 .note-card-delete:hover {
-  color: #f38ba8;
-  background: rgba(243, 139, 168, 0.12);
+  color: var(--color-fail);
+  background: var(--alert-danger-bg);
 }
 
 .notes-empty {
@@ -1218,7 +1254,7 @@ details[open].solution summary {
   height: 32px;
   border-radius: 50%;
   background: var(--accent);
-  color: #0f0f1a;
+  color: var(--avatar-text);
   font-size: 0.9rem;
   font-weight: 700;
   display: flex;
@@ -1253,21 +1289,6 @@ details[open].solution summary {
   text-decoration: underline;
 }
 
-.nav-theme-btn {
-  flex-shrink: 0;
-  background: none;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  font-size: 0.9rem;
-  padding: 0.25rem 0.4rem;
-  cursor: pointer;
-  line-height: 1;
-  transition: border-color 0.15s;
-}
-
-.nav-theme-btn:hover {
-  border-color: var(--accent);
-}
 
 .nav-user-signout {
   flex-shrink: 0;
@@ -1284,8 +1305,8 @@ details[open].solution summary {
   line-height: 1;
 }
 .nav-user-signout:hover {
-  color: #f38ba8;
-  border-color: #f38ba8;
+  color: var(--color-fail);
+  border-color: var(--color-fail);
 }
 
 /* ===== Profile page ===== */
@@ -1319,7 +1340,7 @@ details[open].solution summary {
   justify-content: center;
   font-size: 1.8rem;
   font-weight: 700;
-  color: #0f0f1a;
+  color: var(--avatar-text);
   flex-shrink: 0;
 }
 
@@ -1408,243 +1429,65 @@ details[open].solution summary {
   border-radius: 3px;
 }
 
-/* ============================================================
-   Solarized Light theme  (html[data-theme="light"])
-   ============================================================ */
-html[data-theme="light"] {
-  --bg: #fdf6e3;
-  --panel: #eee8d5;
-  --line: #cdc9bb;
-  --text: #073642;
-  --muted: #657b83;
-  --soft: #fdf6e3;
-  --accent: #268bd2;
-
-  --surface: #eee8d5;
-  --border: #cdc9bb;
-  --text-primary: #073642;
-  --text-muted: #657b83;
+/* ============ Вибір теми (profile.html) ============ */
+.theme-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
 }
 
-/* ── Content code & pre ── */
-html[data-theme="light"] .content code {
-  background: #ede8d4;
-  border-color: #cdc9bb;
-  color: #6c71c4;
+.theme-card {
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  background: var(--panel);
+  transition:
+    border-color 0.15s ease,
+    transform 0.1s ease;
 }
 
-html[data-theme="light"] .content pre {
-  background: #ede8d4;
+.theme-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
 }
 
-html[data-theme="light"] .content img {
-  background: #fff;
+.theme-card.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
-/* ── Prism blocks ── */
-html[data-theme="light"] pre[class*="language-"],
-html[data-theme="light"] code[class*="language-"],
-html[data-theme="light"] pre[class*="lang-"],
-html[data-theme="light"] code[class*="lang-"] {
-  background: #ede8d4 !important;
-  color: #073642 !important;
-  border-color: #cdc9bb;
+.theme-card-swatches {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 0.65rem;
 }
 
-/* ── Solarized Light syntax tokens ── */
-html[data-theme="light"] .token.comment,
-html[data-theme="light"] .token.prolog,
-html[data-theme="light"] .token.doctype,
-html[data-theme="light"] .token.cdata {
-  color: #93a1a1 !important;
+.theme-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  flex-shrink: 0;
 }
 
-html[data-theme="light"] .token.punctuation {
-  color: #586e75 !important;
+.theme-card-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.2rem;
 }
 
-html[data-theme="light"] .token.operator,
-html[data-theme="light"] .token.entity {
-  color: #657b83 !important;
+.theme-card-type {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
-html[data-theme="light"] .token.keyword,
-html[data-theme="light"] .token.boolean,
-html[data-theme="light"] .token.atrule,
-html[data-theme="light"] .token.rule,
-html[data-theme="light"] .token.important,
-html[data-theme="light"] .token.selector {
-  color: #859900 !important;
+.theme-card.active .theme-card-name {
+  color: var(--accent);
 }
 
-html[data-theme="light"] .token.string,
-html[data-theme="light"] .token.char,
-html[data-theme="light"] .token.attr-value,
-html[data-theme="light"] .token.regex,
-html[data-theme="light"] .token.url,
-html[data-theme="light"] .token.inserted {
-  color: #2aa198 !important;
-}
-
-html[data-theme="light"] .token.number,
-html[data-theme="light"] .token.constant,
-html[data-theme="light"] .token.symbol {
-  color: #d33682 !important;
-}
-
-html[data-theme="light"] .token.function,
-html[data-theme="light"] .token.function-variable {
-  color: #268bd2 !important;
-}
-
-html[data-theme="light"] .token.class-name,
-html[data-theme="light"] .token.builtin,
-html[data-theme="light"] .token.tag,
-html[data-theme="light"] .token.variable {
-  color: #b58900 !important;
-}
-
-html[data-theme="light"] .token.property,
-html[data-theme="light"] .token.attr-name {
-  color: #268bd2 !important;
-}
-
-html[data-theme="light"] .token.deleted {
-  color: #dc322f !important;
-}
-
-/* ── Alert blocks ── */
-html[data-theme="light"] .alert-info {
-  border-left-color: #268bd2;
-  background: rgba(38, 139, 210, 0.08);
-}
-
-html[data-theme="light"] .alert-danger {
-  border-left-color: #dc322f;
-  background: rgba(220, 50, 47, 0.08);
-}
-
-html[data-theme="light"] .alert-warning {
-  border-left-color: #b58900;
-  background: rgba(181, 137, 0, 0.08);
-}
-
-/* ── Progress ── */
-html[data-theme="light"] .nav-progress-bar span {
-  background: #859900;
-}
-
-html[data-theme="light"] .nav-section.section-done .nav-section-count {
-  color: #859900;
-}
-
-html[data-theme="light"] .nav-section a.done::after {
-  color: #859900;
-}
-
-/* ── Toolbar ── */
-html[data-theme="light"] .course-btn {
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-html[data-theme="light"] .learned-btn.is-done {
-  background: #859900;
-  border-color: #859900;
-  color: #fff;
-}
-
-html[data-theme="light"] .notes-btn.has-note::after {
-  background: #b58900;
-  border-color: #fdf6e3;
-}
-
-/* ── Text highlights ── */
-html[data-theme="light"] .note-highlight {
-  background: rgba(181, 137, 0, 0.15);
-  color: #7a5c00;
-}
-
-html[data-theme="light"] .note-highlight:hover {
-  background: rgba(220, 50, 47, 0.1);
-  color: #dc322f;
-}
-
-html[data-theme="light"] .search-result mark {
-  background: rgba(181, 137, 0, 0.2);
-  color: #7a5c00;
-}
-
-/* ── Search ── */
-html[data-theme="light"] .search-input {
-  background: #fff;
-}
-
-/* ── Code runner ── */
-html[data-theme="light"] .runner-code {
-  background: #ede8d4;
-  color: #073642;
-}
-
-html[data-theme="light"] .runner-actions {
-  background: #eee8d5;
-}
-
-html[data-theme="light"] .runner-output:not(:empty) {
-  background: #eee8d5;
-}
-
-html[data-theme="light"] .runner-run {
-  background: #859900;
-  border-color: #859900;
-  color: #fff;
-}
-
-html[data-theme="light"] .runner-reset {
-  background: #fdf6e3;
-  color: #657b83;
-}
-
-html[data-theme="light"] .runner-results li.pass {
-  color: #859900;
-}
-
-html[data-theme="light"] .runner-results li.fail {
-  color: #dc322f;
-}
-
-html[data-theme="light"] .runner-summary.all-pass {
-  color: #859900;
-}
-
-html[data-theme="light"] .runner-summary.some-fail {
-  color: #dc322f;
-}
-
-html[data-theme="light"] .runner-error {
-  color: #dc322f;
-}
-
-/* ── Autocomplete popup ── */
-html[data-theme="light"] .ac-popup {
-  background: #fdf6e3;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-}
-
-/* ── Hint / solution details ── */
-html[data-theme="light"] details.hint,
-html[data-theme="light"] details.solution {
-  background: #fdf6e3;
-}
-
-/* ── Note card delete ── */
-html[data-theme="light"] .note-card-delete:hover {
-  color: #dc322f;
-  background: rgba(220, 50, 47, 0.08);
-}
-
-/* ── Nav user signout ── */
-html[data-theme="light"] .nav-user-signout:hover {
-  color: #dc322f;
-  border-color: #dc322f;
-}

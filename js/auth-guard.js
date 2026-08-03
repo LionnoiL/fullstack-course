@@ -94,12 +94,9 @@
         }
         if (prefSnap.exists && prefSnap.data().theme) {
           var remoteTheme = prefSnap.data().theme;
-          lsWrite(KEYS.THEME, remoteTheme);
-          // Застосовуємо тему з Firestore (пріоритет над localStorage при першому вході)
-          if (window.CourseTheme) {
+          // Застосовуємо тему з Firestore тільки якщо вона відрізняється від локальної
+          if (remoteTheme !== lsRead(KEYS.THEME, null) && window.CourseTheme) {
             window.CourseTheme.set(remoteTheme);
-          } else {
-            document.documentElement.setAttribute("data-theme", remoteTheme);
           }
         }
 
