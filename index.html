@@ -5,7 +5,10 @@
     <title>Мій курс JavaScript</title>
     <script>
       var last = null;
-      try { last = JSON.parse(localStorage.getItem("jscourse.lastPage")); } catch (e) {}
+      try {
+        var _raw = localStorage.getItem("jscourse.lastPage");
+        if (_raw) { try { last = JSON.parse(_raw); } catch (e) { last = _raw; } }
+      } catch (e) {}
       window.location.replace(last || "pages/intro.html");
     </script>
   </head>

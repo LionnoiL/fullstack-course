@@ -648,7 +648,7 @@
 
   // Запам'ятовуємо поточну сторінку для відновлення при наступному відкритті сайту
   try {
-    localStorage.setItem("jscourse.lastPage", location.href);
+    localStorage.setItem("jscourse.lastPage", JSON.stringify(location.href));
   } catch (e) {}
   if (window.CourseFirebase) {
     window.CourseFirebase.onWrite("jscourse.lastPage", location.href);
