@@ -648,15 +648,21 @@
 
   // Запам'ятовуємо поточну сторінку для відновлення при наступному відкритті сайту
   try {
-    localStorage.setItem("jscourse.lastPage", JSON.stringify(location.pathname));
+    var _m = location.pathname.match(/\/(pages\/.+)$/);
+    var _rel = _m ? _m[1] : location.pathname.replace(/^\//, "");
+    localStorage.setItem("jscourse.lastPage", JSON.stringify(_rel));
   } catch (e) {}
   if (window.CourseFirebase) {
-    window.CourseFirebase.onWrite("jscourse.lastPage", location.pathname);
+    var _m2 = location.pathname.match(/\/(pages\/.+)$/);
+    var _rel2 = _m2 ? _m2[1] : location.pathname.replace(/^\//, "");
+    window.CourseFirebase.onWrite("jscourse.lastPage", _rel2);
   } else {
     // CourseFirebase ще не готовий — чекаємо на authready
     window.addEventListener("jscourse:authready", function () {
       if (window.CourseFirebase) {
-        window.CourseFirebase.onWrite("jscourse.lastPage", location.pathname);
+        var _m3 = location.pathname.match(/\/(pages\/.+)$/);
+        var _rel3 = _m3 ? _m3[1] : location.pathname.replace(/^\//, "");
+        window.CourseFirebase.onWrite("jscourse.lastPage", _rel3);
       }
     }, { once: true });
   }

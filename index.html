@@ -8,8 +8,13 @@
       try {
         var _raw = localStorage.getItem("jscourse.lastPage");
         if (_raw) { try { last = JSON.parse(_raw); } catch (e) { last = _raw; } }
-        // старі значення могли зберігати повний URL — беремо тільки pathname
-        if (last && last.indexOf("://") !== -1) { last = new URL(last).pathname; }
+        if (last) {
+          // повний URL → витягуємо тільки частину після /pages/
+          var m = last.match(/\/(pages\/.+)$/);
+          if (m) { last = m[1]; }
+          // абсолютний шлях /pages/... → робимо відносним
+          else if (last[0] === "/") { last = last.slice(1); }
+        }
       } catch (e) {}
       window.location.replace(last || "pages/intro.html");
     </script>
