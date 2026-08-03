@@ -53,6 +53,13 @@
           </div>
         </div>
 
+        <!-- Вибір теми -->
+        <h2>Оформлення</h2>
+        <p style="color: var(--muted); font-size: 0.88rem; margin-bottom: 0.5rem;">
+          Тема зберігається у вашому профілі та синхронізується між пристроями.
+        </p>
+        <div id="theme-picker" class="theme-picker"></div>
+
         <!-- Список розділів -->
         <h2>Розділи</h2>
         <div id="section-list" class="profile-section-list"></div>
@@ -65,6 +72,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
+<script src="../js/theme.js"></script>
     <script src="../js/nav.js"></script>
     <script src="../js/search-index.js"></script>
     <script src="../js/search.js"></script>
@@ -74,6 +82,78 @@
 
         var auth = window._auth;
         if (!auth) return;
+
+        // ── Пікер тем ──────────────────────────────────────────────
+        function renderThemePicker() {
+          var picker = document.getElementById("theme-picker");
+          if (!picker || !window.CourseTheme) return;
+
+          picker.innerHTML = "";
+          var currentId = window.CourseTheme.get();
+
+          window.CourseTheme.THEMES.forEach(function (meta) {
+            var card = document.createElement("div");
+            card.className = "theme-card" + (meta.id === currentId ? " active" : "");
+            card.setAttribute("role", "button");
+            card.setAttribute("tabindex", "0");
+            card.setAttribute("aria-pressed", meta.id === currentId ? "true" : "false");
+
+            // Кольорові кружечки-превʼю
+            var swatches = document.createElement("div");
+            swatches.className = "theme-card-swatches";
+            meta.preview.forEach(function (color) {
+              var dot = document.createElement("span");
+              dot.className = "theme-swatch";
+              dot.style.background = color;
+              swatches.appendChild(dot);
+            });
+
+            var name = document.createElement("div");
+            name.className = "theme-card-name";
+            name.textContent = meta.name;
+
+            var type = document.createElement("div");
+            type.className = "theme-card-type";
+            type.textContent = meta.type === "dark" ? "Темна" : "Світла";
+
+            card.appendChild(swatches);
+            card.appendChild(name);
+            card.appendChild(type);
+
+            function activate() {
+              picker.querySelectorAll(".theme-card").forEach(function (c) {
+                c.classList.remove("active");
+                c.setAttribute("aria-pressed", "false");
+              });
+              card.classList.add("active");
+              card.setAttribute("aria-pressed", "true");
+              window.CourseTheme.set(meta.id);
+            }
+
+            card.addEventListener("click", activate);
+            card.addEventListener("keydown", function (e) {
+              if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(); }
+            });
+
+            picker.appendChild(card);
+          });
+        }
+
+        // Оновлюємо активну картку при зміні теми (наприклад, ще одна вкладка)
+        window.addEventListener("jscourse:themechange", function () {
+          var currentId = window.CourseTheme.get();
+          document.querySelectorAll(".theme-card").forEach(function (card) {
+            var isActive = card.querySelector(".theme-card-name").textContent ===
+              (window.CourseTheme.getMeta(currentId) || {}).name;
+            card.classList.toggle("active", isActive);
+            card.setAttribute("aria-pressed", isActive ? "true" : "false");
+          });
+        });
+
+        // Рендеримо пікер після ініціалізації nav.js (COURSE_SECTIONS вже є)
+        window.addEventListener("jscourse:authready", renderThemePicker);
+        // Якщо authready вже спрацював — рендеримо зразу
+        if (window.CourseTheme) renderThemePicker();
 
         document.getElementById("btn-signout").addEventListener("click", function () {
           if (window.CourseFirebase) window.CourseFirebase.signOut();
