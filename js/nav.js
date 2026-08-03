@@ -649,10 +649,65 @@
     return;
   }
 
+  function buildUserPanel() {
+    const user = window._currentUser;
+    if (!user) return null;
+
+    const panel = document.createElement("div");
+    panel.className = "nav-user";
+
+    const avatar = document.createElement("img");
+    avatar.className = "nav-user-avatar";
+    avatar.src = user.photoURL || "";
+    avatar.alt = user.displayName || "Користувач";
+    avatar.onerror = function () {
+      this.style.display = "none";
+      const fallback = document.createElement("span");
+      fallback.className = "nav-user-avatar nav-user-avatar--fallback";
+      fallback.textContent = (user.displayName || user.email || "?")[0].toUpperCase();
+      panel.insertBefore(fallback, this.nextSibling);
+    };
+
+    const info = document.createElement("div");
+    info.className = "nav-user-info";
+
+    const name = document.createElement("span");
+    name.className = "nav-user-name";
+    name.textContent = user.displayName || user.email || "Користувач";
+
+    const profileLink = document.createElement("a");
+    profileLink.className = "nav-user-profile";
+    profileLink.href = "profile.html";
+    profileLink.textContent = "Профіль";
+
+    info.appendChild(name);
+    info.appendChild(profileLink);
+
+    const signOutBtn = document.createElement("button");
+    signOutBtn.type = "button";
+    signOutBtn.className = "nav-user-signout";
+    signOutBtn.title = "Вийти";
+    signOutBtn.textContent = "↩";
+    signOutBtn.addEventListener("click", function () {
+      if (window.CourseFirebase) {
+        window.CourseFirebase.signOut();
+      }
+    });
+
+    panel.appendChild(avatar);
+    panel.appendChild(info);
+    panel.appendChild(signOutBtn);
+    return panel;
+  }
+
   function build() {
     const progress = getProgress();
     const searchBox = sidebar.querySelector(".search-box");
     sidebar.innerHTML = "";
+
+    // Блок авторизованого користувача
+    const userPanel = buildUserPanel();
+    if (userPanel) sidebar.appendChild(userPanel);
 
     // Загальний прогрес курсу
     let total = 0;
@@ -698,6 +753,23 @@
     notesLink.appendChild(nIcon);
     notesLink.appendChild(nText);
     links.appendChild(notesLink);
+
+    // Посилання на профіль (тільки якщо користувач авторизований)
+    if (window._currentUser) {
+      const profileLink = document.createElement("a");
+      profileLink.className = "nav-link-item";
+      if (current === "profile.html") profileLink.classList.add("active");
+      profileLink.href = "profile.html";
+      const pIcon = document.createElement("span");
+      pIcon.setAttribute("aria-hidden", "true");
+      pIcon.textContent = "👤";
+      const pText = document.createElement("span");
+      pText.textContent = "Мій профіль";
+      profileLink.appendChild(pIcon);
+      profileLink.appendChild(pText);
+      links.appendChild(profileLink);
+    }
+
     sidebar.appendChild(links);
 
     const nav = document.createElement("nav");
@@ -795,8 +867,9 @@
   }
 
   build();
-  // Перемальовуємо меню, коли змінюється прогрес (позначка "вивчено").
+  // Перемальовуємо меню, коли змінюється прогрес або авторизація.
   window.addEventListener("jscourse:progresschange", build);
+  window.addEventListener("jscourse:authready", build);
 
   // Хлібні крихти (розділ › урок) і кнопки Назад/Далі — додаються один раз.
   (function decorateContent() {
