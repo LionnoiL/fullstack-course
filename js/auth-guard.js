@@ -27,6 +27,7 @@
     PROGRESS: "jscourse.progress",
     NOTES: "jscourse.notes",
     HIGHLIGHTS: "jscourse.highlights",
+    THEME: "jscourse.theme",
   };
 
   var _uid = null;
@@ -67,11 +68,13 @@
       userRef.doc("progress").get(),
       userRef.doc("notes").get(),
       userRef.doc("highlights").get(),
+      userRef.doc("preferences").get(),
     ])
       .then(function (snaps) {
         var progSnap = snaps[0],
           notesSnap = snaps[1],
-          hlSnap = snaps[2];
+          hlSnap = snaps[2],
+          prefSnap = snaps[3];
         var changed = false;
 
         if (progSnap.exists && progSnap.data().lessons) {
@@ -88,6 +91,16 @@
           var mergedH = Object.assign({}, lsRead(KEYS.HIGHLIGHTS, {}), hlSnap.data().lessons);
           lsWrite(KEYS.HIGHLIGHTS, mergedH);
           changed = true;
+        }
+        if (prefSnap.exists && prefSnap.data().theme) {
+          var remoteTheme = prefSnap.data().theme;
+          lsWrite(KEYS.THEME, remoteTheme);
+          // Застосовуємо тему з Firestore (пріоритет над localStorage при першому вході)
+          if (window.CourseTheme) {
+            window.CourseTheme.set(remoteTheme);
+          } else {
+            document.documentElement.setAttribute("data-theme", remoteTheme);
+          }
         }
 
         // Оновлюємо UI тільки якщо дані дійсно змінились
@@ -129,6 +142,18 @@
   var saveHighlights = debounce(function (v) {
     fsWrite("highlights", v);
   }, 1000);
+  var saveTheme = function (theme) {
+    if (!_uid) return;
+    db.collection("users")
+      .doc(_uid)
+      .collection("data")
+      .doc("preferences")
+      .set({ theme: theme }, { merge: true })
+      .catch(function (err) {
+        if (!err || err.code === "unavailable") return;
+        console.warn("[AuthGuard] Theme save error:", err.message);
+      });
+  };
 
   // --- Публічне API (використовується course-tools.js) ----------------------
 
@@ -137,6 +162,7 @@
       if (key === KEYS.PROGRESS) saveProgress(val);
       else if (key === KEYS.NOTES) saveNotes(val);
       else if (key === KEYS.HIGHLIGHTS) saveHighlights(val);
+      else if (key === KEYS.THEME) saveTheme(val);
     },
     getUser: function () {
       return auth.currentUser;

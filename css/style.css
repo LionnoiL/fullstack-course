@@ -5,13 +5,20 @@
 }
 
 :root {
-  --bg: #f5f5f3;
-  --panel: #f9f9f7;
-  --line: #e7e5e4;
-  --text: #1c1917;
-  --muted: #57534e;
-  --soft: #fafaf9;
-  --accent: #111827;
+  /* ── Midnight Indigo theme ── */
+  --bg: #0f0f1a;
+  --panel: #16172a;
+  --line: #252740;
+  --text: #cdd6f4;
+  --muted: #6c7086;
+  --soft: #12121e;
+  --accent: #89b4fa;
+
+  /* unified tokens for profile / user blocks */
+  --surface: #16172a;
+  --border: #252740;
+  --text-primary: #cdd6f4;
+  --text-muted: #6c7086;
 }
 
 body {
@@ -173,13 +180,13 @@ body {
   display: block;
   margin: 1rem 0;
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--panel);
 }
 
 .content code {
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
-  color: #111827;
+  background: #1e1e30;
+  border: 1px solid var(--line);
+  color: #cba6f7;
   padding: 0.15rem 0.4rem;
   border-radius: 4px;
   font-family: "SFMono-Regular", Consolas, monospace;
@@ -187,7 +194,7 @@ body {
 }
 
 .content pre {
-  background: #f9fafb;
+  background: #1a1b2e;
   border: 1px solid var(--line);
   border-radius: 6px;
   padding: 0.9rem 1rem;
@@ -218,8 +225,8 @@ pre[class*="language-"],
 code[class*="language-"],
 pre[class*="lang-"],
 code[class*="lang-"] {
-  background: #f8f8f6 !important;
-  color: #111827 !important;
+  background: #1a1b2e !important;
+  color: #cdd6f4 !important;
   border: 1px solid var(--line);
 }
 
@@ -234,17 +241,17 @@ pre[class*="lang-"] {
 .token.prolog,
 .token.doctype,
 .token.cdata {
-  color: #6a737d !important;
+  color: #585b70 !important;
   font-style: italic;
 }
 
 .token.punctuation {
-  color: #6e7781 !important;
+  color: #7f849c !important;
 }
 
 .token.operator,
 .token.entity {
-  color: #57534e !important;
+  color: #cdd6f4 !important;
 }
 
 .token.keyword,
@@ -253,7 +260,7 @@ pre[class*="lang-"] {
 .token.rule,
 .token.important,
 .token.selector {
-  color: #cf222e !important;
+  color: #f38ba8 !important;
 }
 
 .token.string,
@@ -262,34 +269,34 @@ pre[class*="lang-"] {
 .token.regex,
 .token.url,
 .token.inserted {
-  color: #0a7d33 !important;
+  color: #a6e3a1 !important;
 }
 
 .token.number,
 .token.constant,
 .token.symbol {
-  color: #0550ae !important;
+  color: #fab387 !important;
 }
 
 .token.function,
 .token.function-variable {
-  color: #8250df !important;
+  color: #cba6f7 !important;
 }
 
 .token.class-name,
 .token.builtin,
 .token.tag,
 .token.variable {
-  color: #953800 !important;
+  color: #89dceb !important;
 }
 
 .token.property,
 .token.attr-name {
-  color: #0550ae !important;
+  color: #89b4fa !important;
 }
 
 .token.deleted {
-  color: #cf222e !important;
+  color: #f38ba8 !important;
 }
 
 .alert {
@@ -311,18 +318,18 @@ pre[class*="lang-"] {
 }
 
 .alert-info {
-  border-left-color: #2563eb;
-  background: #eff6ff;
+  border-left-color: #89b4fa;
+  background: rgba(137, 180, 250, 0.08);
 }
 
 .alert-danger {
-  border-left-color: #dc2626;
-  background: #fef2f2;
+  border-left-color: #f38ba8;
+  background: rgba(243, 139, 168, 0.08);
 }
 
 .alert-warning {
-  border-left-color: #d97706;
-  background: #fffbeb;
+  border-left-color: #f9e2af;
+  background: rgba(249, 226, 175, 0.08);
 }
 
 /* FontAwesome не підключено — прибираємо порожню іконку. */
@@ -450,7 +457,7 @@ pre[class*="lang-"] {
   padding: 0.5rem 0.7rem;
   border: 1px solid var(--line);
   border-radius: 6px;
-  background: #fff;
+  background: var(--soft);
   color: var(--text);
   font-family: inherit;
   font-size: 0.9rem;
@@ -504,8 +511,8 @@ pre[class*="lang-"] {
 }
 
 .search-result mark {
-  background: #fde68a;
-  color: inherit;
+  background: rgba(249, 226, 175, 0.25);
+  color: #f9e2af;
   padding: 0 1px;
   border-radius: 2px;
 }
@@ -541,7 +548,7 @@ pre[class*="lang-"] {
 .nav-progress-bar span {
   display: block;
   height: 100%;
-  background: #16a34a;
+  background: #a6e3a1;
   transition: width 0.25s ease;
 }
 
@@ -554,7 +561,7 @@ pre[class*="lang-"] {
 }
 
 .nav-section.section-done .nav-section-count {
-  color: #16a34a;
+  color: #a6e3a1;
 }
 
 .nav-section a.done {
@@ -564,7 +571,7 @@ pre[class*="lang-"] {
 .nav-section a.done::after {
   content: "✓";
   margin-left: 0.4rem;
-  color: #16a34a;
+  color: #a6e3a1;
   font-weight: 700;
 }
 
@@ -586,12 +593,12 @@ body.notes-open .course-toolbar {
   font-family: inherit;
   font-size: 0.82rem;
   padding: 0.5rem 0.9rem;
-  background: #fff;
+  background: var(--panel);
   color: var(--text);
   border: 1px solid var(--line);
   border-radius: 6px;
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   transition: all 0.15s ease;
 }
 
@@ -600,9 +607,9 @@ body.notes-open .course-toolbar {
 }
 
 .learned-btn.is-done {
-  background: #16a34a;
-  border-color: #16a34a;
-  color: #fff;
+  background: #a6e3a1;
+  border-color: #a6e3a1;
+  color: #1e2030;
 }
 
 .notes-btn {
@@ -616,8 +623,8 @@ body.notes-open .course-toolbar {
   right: -4px;
   width: 9px;
   height: 9px;
-  background: #f59e0b;
-  border: 2px solid #fff;
+  background: #f9e2af;
+  border: 2px solid var(--panel);
   border-radius: 50%;
 }
 
@@ -681,15 +688,16 @@ body.notes-open .course-toolbar {
 
 /* ============ Виділення тексту ============ */
 .note-highlight {
-  background: #fde68a;
-  color: inherit;
+  background: rgba(249, 226, 175, 0.25);
+  color: #f9e2af;
   border-radius: 2px;
   cursor: pointer;
   padding: 0 1px;
 }
 
 .note-highlight:hover {
-  background: #fca5a5;
+  background: rgba(243, 139, 168, 0.25);
+  color: #f38ba8;
 }
 
 .hl-btn {
@@ -699,7 +707,7 @@ body.notes-open .course-toolbar {
   font-size: 0.78rem;
   padding: 0.32rem 0.7rem;
   background: var(--accent);
-  color: #fff;
+  color: #0f0f1a;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -730,7 +738,7 @@ details.solution {
   border-radius: 6px;
   padding: 0.5rem 0.9rem;
   margin: 0.7rem 0;
-  background: #fff;
+  background: var(--panel);
 }
 
 details.hint summary,
@@ -765,8 +773,8 @@ details[open].solution summary {
   line-height: 1.5;
   resize: vertical;
   outline: none;
-  background: #f8f8f6;
-  color: #111827;
+  background: #1a1b2e;
+  color: #cdd6f4;
   tab-size: 2;
 }
 
@@ -774,7 +782,7 @@ details[open].solution summary {
   display: flex;
   gap: 0.5rem;
   padding: 0.6rem 0.8rem;
-  background: #fff;
+  background: var(--panel);
 }
 
 .runner-run,
@@ -788,20 +796,20 @@ details[open].solution summary {
 }
 
 .runner-run {
-  background: #16a34a;
-  border-color: #16a34a;
-  color: #fff;
+  background: #a6e3a1;
+  border-color: #a6e3a1;
+  color: #1e2030;
 }
 
 .runner-reset {
-  background: #fff;
+  background: var(--soft);
   color: var(--muted);
 }
 
 .runner-output:not(:empty) {
   padding: 0.8rem 1rem;
   border-top: 1px solid var(--line);
-  background: #fff;
+  background: var(--panel);
 }
 
 .runner-results {
@@ -817,11 +825,11 @@ details[open].solution summary {
 }
 
 .runner-results li.pass {
-  color: #16a34a;
+  color: #a6e3a1;
 }
 
 .runner-results li.fail {
-  color: #dc2626;
+  color: #f38ba8;
 }
 
 .runner-summary {
@@ -829,15 +837,15 @@ details[open].solution summary {
 }
 
 .runner-summary.all-pass {
-  color: #16a34a;
+  color: #a6e3a1;
 }
 
 .runner-summary.some-fail {
-  color: #dc2626;
+  color: #f38ba8;
 }
 
 .runner-error {
-  color: #dc2626;
+  color: #f38ba8;
   font-family: "SFMono-Regular", Consolas, monospace;
   font-size: 0.84rem;
 }
@@ -852,10 +860,10 @@ details[open].solution summary {
   max-height: 176px;
   overflow-y: auto;
   padding: 0.2rem;
-  background: #fff;
+  background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 6px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
   font-family: "SFMono-Regular", Consolas, monospace;
   font-size: 0.82rem;
 }
@@ -885,7 +893,7 @@ details[open].solution summary {
   border: none;
   border-radius: 9px;
   background: var(--accent);
-  color: #fff;
+  color: #0f0f1a;
   font-family: inherit;
   font-size: 0.9rem;
   font-weight: 600;
@@ -1165,8 +1173,8 @@ details[open].solution summary {
     background 0.15s;
 }
 .note-card-delete:hover {
-  color: #e06c75;
-  background: rgba(224, 108, 117, 0.12);
+  color: #f38ba8;
+  background: rgba(243, 139, 168, 0.12);
 }
 
 .notes-empty {
@@ -1209,8 +1217,8 @@ details[open].solution summary {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #7aa2f7;
-  color: #1a1b26;
+  background: var(--accent);
+  color: #0f0f1a;
   font-size: 0.9rem;
   font-weight: 700;
   display: flex;
@@ -1230,7 +1238,7 @@ details[open].solution summary {
 .nav-user-name {
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--text-primary, #c0caf5);
+  color: var(--text-primary, var(--text));
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1238,11 +1246,27 @@ details[open].solution summary {
 
 .nav-user-profile {
   font-size: 0.72rem;
-  color: #7aa2f7;
+  color: var(--accent);
   text-decoration: none;
 }
 .nav-user-profile:hover {
   text-decoration: underline;
+}
+
+.nav-theme-btn {
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  padding: 0.25rem 0.4rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: border-color 0.15s;
+}
+
+.nav-theme-btn:hover {
+  border-color: var(--accent);
 }
 
 .nav-user-signout {
@@ -1260,8 +1284,8 @@ details[open].solution summary {
   line-height: 1;
 }
 .nav-user-signout:hover {
-  color: #f7768e;
-  border-color: #f7768e;
+  color: #f38ba8;
+  border-color: #f38ba8;
 }
 
 /* ===== Profile page ===== */
@@ -1289,13 +1313,13 @@ details[open].solution summary {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: #7aa2f7;
+  background: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.8rem;
   font-weight: 700;
-  color: #1a1b26;
+  color: #0f0f1a;
   flex-shrink: 0;
 }
 
@@ -1306,12 +1330,12 @@ details[open].solution summary {
 .profile-name {
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--text-primary, #c0caf5);
+  color: var(--text-primary, var(--text));
 }
 
 .profile-email {
   font-size: 0.85rem;
-  color: var(--text-muted, #565f89);
+  color: var(--text-muted, var(--muted));
   margin-top: 0.2rem;
 }
 
@@ -1332,13 +1356,13 @@ details[open].solution summary {
 .stat-value {
   font-size: 1.8rem;
   font-weight: 800;
-  color: #7aa2f7;
+  color: var(--accent);
   line-height: 1;
 }
 
 .stat-label {
   font-size: 0.8rem;
-  color: var(--text-muted, #565f89);
+  color: var(--text-muted, var(--muted));
   margin-top: 0.35rem;
 }
 
@@ -1365,14 +1389,14 @@ details[open].solution summary {
 
 .section-row .pct {
   font-size: 0.8rem;
-  color: var(--text-muted, #565f89);
+  color: var(--text-muted, var(--muted));
   white-space: nowrap;
 }
 
 .mini-bar {
   width: 80px;
   height: 6px;
-  background: var(--border, #414868);
+  background: var(--border, var(--line));
   border-radius: 3px;
   flex-shrink: 0;
 }
@@ -1380,6 +1404,247 @@ details[open].solution summary {
 .mini-bar span {
   display: block;
   height: 100%;
-  background: #7aa2f7;
+  background: var(--accent);
   border-radius: 3px;
+}
+
+/* ============================================================
+   Solarized Light theme  (html[data-theme="light"])
+   ============================================================ */
+html[data-theme="light"] {
+  --bg: #fdf6e3;
+  --panel: #eee8d5;
+  --line: #cdc9bb;
+  --text: #073642;
+  --muted: #657b83;
+  --soft: #fdf6e3;
+  --accent: #268bd2;
+
+  --surface: #eee8d5;
+  --border: #cdc9bb;
+  --text-primary: #073642;
+  --text-muted: #657b83;
+}
+
+/* ── Content code & pre ── */
+html[data-theme="light"] .content code {
+  background: #ede8d4;
+  border-color: #cdc9bb;
+  color: #6c71c4;
+}
+
+html[data-theme="light"] .content pre {
+  background: #ede8d4;
+}
+
+html[data-theme="light"] .content img {
+  background: #fff;
+}
+
+/* ── Prism blocks ── */
+html[data-theme="light"] pre[class*="language-"],
+html[data-theme="light"] code[class*="language-"],
+html[data-theme="light"] pre[class*="lang-"],
+html[data-theme="light"] code[class*="lang-"] {
+  background: #ede8d4 !important;
+  color: #073642 !important;
+  border-color: #cdc9bb;
+}
+
+/* ── Solarized Light syntax tokens ── */
+html[data-theme="light"] .token.comment,
+html[data-theme="light"] .token.prolog,
+html[data-theme="light"] .token.doctype,
+html[data-theme="light"] .token.cdata {
+  color: #93a1a1 !important;
+}
+
+html[data-theme="light"] .token.punctuation {
+  color: #586e75 !important;
+}
+
+html[data-theme="light"] .token.operator,
+html[data-theme="light"] .token.entity {
+  color: #657b83 !important;
+}
+
+html[data-theme="light"] .token.keyword,
+html[data-theme="light"] .token.boolean,
+html[data-theme="light"] .token.atrule,
+html[data-theme="light"] .token.rule,
+html[data-theme="light"] .token.important,
+html[data-theme="light"] .token.selector {
+  color: #859900 !important;
+}
+
+html[data-theme="light"] .token.string,
+html[data-theme="light"] .token.char,
+html[data-theme="light"] .token.attr-value,
+html[data-theme="light"] .token.regex,
+html[data-theme="light"] .token.url,
+html[data-theme="light"] .token.inserted {
+  color: #2aa198 !important;
+}
+
+html[data-theme="light"] .token.number,
+html[data-theme="light"] .token.constant,
+html[data-theme="light"] .token.symbol {
+  color: #d33682 !important;
+}
+
+html[data-theme="light"] .token.function,
+html[data-theme="light"] .token.function-variable {
+  color: #268bd2 !important;
+}
+
+html[data-theme="light"] .token.class-name,
+html[data-theme="light"] .token.builtin,
+html[data-theme="light"] .token.tag,
+html[data-theme="light"] .token.variable {
+  color: #b58900 !important;
+}
+
+html[data-theme="light"] .token.property,
+html[data-theme="light"] .token.attr-name {
+  color: #268bd2 !important;
+}
+
+html[data-theme="light"] .token.deleted {
+  color: #dc322f !important;
+}
+
+/* ── Alert blocks ── */
+html[data-theme="light"] .alert-info {
+  border-left-color: #268bd2;
+  background: rgba(38, 139, 210, 0.08);
+}
+
+html[data-theme="light"] .alert-danger {
+  border-left-color: #dc322f;
+  background: rgba(220, 50, 47, 0.08);
+}
+
+html[data-theme="light"] .alert-warning {
+  border-left-color: #b58900;
+  background: rgba(181, 137, 0, 0.08);
+}
+
+/* ── Progress ── */
+html[data-theme="light"] .nav-progress-bar span {
+  background: #859900;
+}
+
+html[data-theme="light"] .nav-section.section-done .nav-section-count {
+  color: #859900;
+}
+
+html[data-theme="light"] .nav-section a.done::after {
+  color: #859900;
+}
+
+/* ── Toolbar ── */
+html[data-theme="light"] .course-btn {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme="light"] .learned-btn.is-done {
+  background: #859900;
+  border-color: #859900;
+  color: #fff;
+}
+
+html[data-theme="light"] .notes-btn.has-note::after {
+  background: #b58900;
+  border-color: #fdf6e3;
+}
+
+/* ── Text highlights ── */
+html[data-theme="light"] .note-highlight {
+  background: rgba(181, 137, 0, 0.15);
+  color: #7a5c00;
+}
+
+html[data-theme="light"] .note-highlight:hover {
+  background: rgba(220, 50, 47, 0.1);
+  color: #dc322f;
+}
+
+html[data-theme="light"] .search-result mark {
+  background: rgba(181, 137, 0, 0.2);
+  color: #7a5c00;
+}
+
+/* ── Search ── */
+html[data-theme="light"] .search-input {
+  background: #fff;
+}
+
+/* ── Code runner ── */
+html[data-theme="light"] .runner-code {
+  background: #ede8d4;
+  color: #073642;
+}
+
+html[data-theme="light"] .runner-actions {
+  background: #eee8d5;
+}
+
+html[data-theme="light"] .runner-output:not(:empty) {
+  background: #eee8d5;
+}
+
+html[data-theme="light"] .runner-run {
+  background: #859900;
+  border-color: #859900;
+  color: #fff;
+}
+
+html[data-theme="light"] .runner-reset {
+  background: #fdf6e3;
+  color: #657b83;
+}
+
+html[data-theme="light"] .runner-results li.pass {
+  color: #859900;
+}
+
+html[data-theme="light"] .runner-results li.fail {
+  color: #dc322f;
+}
+
+html[data-theme="light"] .runner-summary.all-pass {
+  color: #859900;
+}
+
+html[data-theme="light"] .runner-summary.some-fail {
+  color: #dc322f;
+}
+
+html[data-theme="light"] .runner-error {
+  color: #dc322f;
+}
+
+/* ── Autocomplete popup ── */
+html[data-theme="light"] .ac-popup {
+  background: #fdf6e3;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+/* ── Hint / solution details ── */
+html[data-theme="light"] details.hint,
+html[data-theme="light"] details.solution {
+  background: #fdf6e3;
+}
+
+/* ── Note card delete ── */
+html[data-theme="light"] .note-card-delete:hover {
+  color: #dc322f;
+  background: rgba(220, 50, 47, 0.08);
+}
+
+/* ── Nav user signout ── */
+html[data-theme="light"] .nav-user-signout:hover {
+  color: #dc322f;
+  border-color: #dc322f;
 }
