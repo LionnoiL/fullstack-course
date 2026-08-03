@@ -1256,3 +1256,123 @@ details[open].solution summary {
   color: #f7768e;
   border-color: #f7768e;
 }
+
+/* ===== Profile page ===== */
+.profile-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1.25rem;
+  background: var(--surface, #1e2030);
+  border: 1px solid var(--border, #414868);
+  border-radius: 12px;
+}
+
+.profile-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  display: none;
+}
+
+.profile-avatar--fallback {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #7aa2f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a1b26;
+  flex-shrink: 0;
+}
+
+.profile-info {
+  min-width: 0;
+}
+
+.profile-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary, #c0caf5);
+}
+
+.profile-email {
+  font-size: 0.85rem;
+  color: var(--text-muted, #565f89);
+  margin-top: 0.2rem;
+}
+
+.profile-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0 2rem;
+}
+
+.stat-card {
+  background: var(--surface, #1e2030);
+  border: 1px solid var(--border, #414868);
+  border-radius: 10px;
+  padding: 1.1rem 1.25rem;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #7aa2f7;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-muted, #565f89);
+  margin-top: 0.35rem;
+}
+
+.profile-section-list {
+  margin-top: 1rem;
+}
+
+.section-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border, #414868);
+}
+
+.section-row:last-child {
+  border-bottom: none;
+}
+
+.section-row .name {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.section-row .pct {
+  font-size: 0.8rem;
+  color: var(--text-muted, #565f89);
+  white-space: nowrap;
+}
+
+.mini-bar {
+  width: 80px;
+  height: 6px;
+  background: var(--border, #414868);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.mini-bar span {
+  display: block;
+  height: 100%;
+  background: #7aa2f7;
+  border-radius: 3px;
+}
