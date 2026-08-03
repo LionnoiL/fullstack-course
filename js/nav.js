@@ -646,6 +646,21 @@
     return;
   }
 
+  // Запам'ятовуємо поточну сторінку для відновлення при наступному відкритті сайту
+  try {
+    localStorage.setItem("jscourse.lastPage", location.href);
+  } catch (e) {}
+  if (window.CourseFirebase) {
+    window.CourseFirebase.onWrite("jscourse.lastPage", location.href);
+  } else {
+    // CourseFirebase ще не готовий — чекаємо на authready
+    window.addEventListener("jscourse:authready", function () {
+      if (window.CourseFirebase) {
+        window.CourseFirebase.onWrite("jscourse.lastPage", location.href);
+      }
+    }, { once: true });
+  }
+
   function buildUserPanel() {
     const user = window._currentUser;
     if (!user) return null;

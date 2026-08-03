@@ -28,6 +28,7 @@
     NOTES: "jscourse.notes",
     HIGHLIGHTS: "jscourse.highlights",
     THEME: "jscourse.theme",
+    LAST_PAGE: "jscourse.lastPage",
   };
 
   var _uid = null;
@@ -92,11 +93,13 @@
           lsWrite(KEYS.HIGHLIGHTS, mergedH);
           changed = true;
         }
-        if (prefSnap.exists && prefSnap.data().theme) {
-          var remoteTheme = prefSnap.data().theme;
-          // Застосовуємо тему з Firestore тільки якщо вона відрізняється від локальної
-          if (remoteTheme !== lsRead(KEYS.THEME, null) && window.CourseTheme) {
-            window.CourseTheme.set(remoteTheme);
+        if (prefSnap.exists) {
+          var prefData = prefSnap.data();
+          if (prefData.theme && prefData.theme !== lsRead(KEYS.THEME, null) && window.CourseTheme) {
+            window.CourseTheme.set(prefData.theme);
+          }
+          if (prefData.lastPage && prefData.lastPage !== lsRead(KEYS.LAST_PAGE, null)) {
+            lsWrite(KEYS.LAST_PAGE, prefData.lastPage);
           }
         }
 
@@ -139,18 +142,21 @@
   var saveHighlights = debounce(function (v) {
     fsWrite("highlights", v);
   }, 1000);
-  var saveTheme = function (theme) {
+  function prefSet(fields) {
     if (!_uid) return;
     db.collection("users")
       .doc(_uid)
       .collection("data")
       .doc("preferences")
-      .set({ theme: theme }, { merge: true })
+      .set(fields, { merge: true })
       .catch(function (err) {
         if (!err || err.code === "unavailable") return;
-        console.warn("[AuthGuard] Theme save error:", err.message);
+        console.warn("[AuthGuard] Preferences save error:", err.message);
       });
-  };
+  }
+
+  var saveTheme = function (theme) { prefSet({ theme: theme }); };
+  var saveLastPage = debounce(function (url) { prefSet({ lastPage: url }); }, 2000);
 
   // --- Публічне API (використовується course-tools.js) ----------------------
 
@@ -160,6 +166,7 @@
       else if (key === KEYS.NOTES) saveNotes(val);
       else if (key === KEYS.HIGHLIGHTS) saveHighlights(val);
       else if (key === KEYS.THEME) saveTheme(val);
+      else if (key === KEYS.LAST_PAGE) saveLastPage(val);
     },
     getUser: function () {
       return auth.currentUser;
