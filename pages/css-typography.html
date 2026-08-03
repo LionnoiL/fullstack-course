@@ -1,25 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Кольори та типографіка · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="кольори">1. Кольори</h1>
-<p>Колір задають кількома способами:</p>
-<pre class="language-css"><code class="language-css">color: red;                 /* назва */
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Кольори та типографіка · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="кольори">1. Кольори</h1>
+        <p>Колір задають кількома способами:</p>
+        <pre class="language-css"><code class="language-css">color: red;                 /* назва */
 color: #2563eb;             /* HEX */
 color: rgb(37, 99, 235);    /* RGB */
 color: rgba(0, 0, 0, 0.5);  /* з прозорістю */
 color: hsl(217, 83%, 53%);  /* відтінок/насиченість/яскравість */</code></pre>
-<h1 id="фон">2. Фон</h1>
-<pre class="language-css"><code class="language-css">.hero {
+        <h1 id="фон">2. Фон</h1>
+        <pre class="language-css"><code class="language-css">.hero {
   background-color: #f5f5f3;
   background-image: url("bg.jpg");
   background-size: cover;
@@ -31,43 +34,58 @@ color: hsl(217, 83%, 53%);  /* відтінок/насиченість/яскр�
 .card {
   background: linear-gradient(to right, #2563eb, #7c3aed);
 }</code></pre>
-<h1 id="шрифт">3. Властивості шрифту</h1>
-<pre class="language-css"><code class="language-css">.text {
+        <h1 id="шрифт">3. Властивості шрифту</h1>
+        <pre class="language-css"><code class="language-css">.text {
   font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 16px;
   font-weight: 600;   /* 400 — звичайний, 700 — жирний */
   font-style: italic;
   line-height: 1.6;   /* міжрядковий інтервал */
 }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>У <code>font-family</code> вказують «стек» шрифтів через кому — браузер бере
-перший доступний. Наприкінці завжди ставлять загальний тип
-(<code>sans-serif</code>, <code>serif</code>) як запасний варіант.</p></div></div>
-<h1 id="текст">4. Оформлення тексту</h1>
-<pre class="language-css"><code class="language-css">.title {
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              У <code>font-family</code> вказують «стек» шрифтів через кому — браузер бере перший
+              доступний. Наприкінці завжди ставлять загальний тип (<code>sans-serif</code>,
+              <code>serif</code>) як запасний варіант.
+            </p>
+          </div>
+        </div>
+        <h1 id="текст">4. Оформлення тексту</h1>
+        <pre class="language-css"><code class="language-css">.title {
   text-align: center;         /* left | right | justify */
   text-decoration: underline; /* none — прибрати підкреслення */
   text-transform: uppercase;  /* ВЕЛИКІ літери */
   letter-spacing: 0.05em;     /* відстань між літерами */
 }</code></pre>
-<h1 id="шрифти">5. Підключення шрифтів</h1>
-<pre class="language-markup"><code class="language-markup">&lt;!-- Google Fonts у head --&gt;
+        <h1 id="шрифти">5. Підключення шрифтів</h1>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;!-- Google Fonts у head --&gt;
 &lt;link href="https://fonts.googleapis.com/css2?family=Inter&amp;display=swap" rel="stylesheet"&gt;</code></pre>
-<pre class="language-css"><code class="language-css">body { font-family: "Inter", sans-serif; }</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/uk/docs/Learn/CSS/Styling_text" target="_blank">Стилізація тексту — MDN</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <pre
+          class="language-css"
+        ><code class="language-css">body { font-family: "Inter", sans-serif; }</code></pre>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://developer.mozilla.org/uk/docs/Learn/CSS/Styling_text" target="_blank"
+              >Стилізація тексту — MDN</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

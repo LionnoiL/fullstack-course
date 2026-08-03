@@ -1,19 +1,22 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Нативна вкладеність CSS · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="вкладеність">1. Вкладеність без препроцесора</h1>
-<p>Тепер селектори можна вкладати прямо в CSS — так само, як у Sass, але без збірки.</p>
-<pre class="language-css"><code class="language-css">.card {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Нативна вкладеність CSS · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="вкладеність">1. Вкладеність без препроцесора</h1>
+        <p>Тепер селектори можна вкладати прямо в CSS — так само, як у Sass, але без збірки.</p>
+        <pre class="language-css"><code class="language-css">.card {
   padding: 1rem;
 
   .title {
@@ -23,10 +26,12 @@
 
   p { color: #6b7280; }
 }</code></pre>
-<h1 id="ampersand">2. Батьківський селектор &amp;</h1>
-<p>Символ <code>&amp;</code> посилається на батьківський селектор — зручно для псевдокласів і
-модифікаторів.</p>
-<pre class="language-css"><code class="language-css">.button {
+        <h1 id="ampersand">2. Батьківський селектор &amp;</h1>
+        <p>
+          Символ <code>&amp;</code> посилається на батьківський селектор — зручно для псевдокласів і
+          модифікаторів.
+        </p>
+        <pre class="language-css"><code class="language-css">.button {
   background: #2563eb;
 
   &amp;:hover { background: #1e40af; }
@@ -34,13 +39,21 @@
 
   &amp;.is-active { outline: 2px solid; }
 }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Відмінність від Sass: у нативному CSS <code>&amp;</code> потрібен частіше. Наприклад, для
-вкладеного <em>типового</em> селектора (<code>p</code>, <code>a</code>) браузер розуміє його й без <code>&amp;</code>,
-але для конкатенації (<code>&amp;.is-active</code>, <code>&amp;:hover</code>) <code>&amp;</code> обов'язковий.</p></div></div>
-<h1 id="media">3. Вкладені медіа- та container-запити</h1>
-<p>Медіазапити теж можна вкладати всередину правила — стилі елемента лишаються
-поруч:</p>
-<pre class="language-css"><code class="language-css">.grid {
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Відмінність від Sass: у нативному CSS <code>&amp;</code> потрібен частіше. Наприклад,
+              для вкладеного <em>типового</em> селектора (<code>p</code>, <code>a</code>) браузер
+              розуміє його й без <code>&amp;</code>, але для конкатенації
+              (<code>&amp;.is-active</code>, <code>&amp;:hover</code>)
+              <code>&amp;</code> обов'язковий.
+            </p>
+          </div>
+        </div>
+        <h1 id="media">3. Вкладені медіа- та container-запити</h1>
+        <p>Медіазапити теж можна вкладати всередину правила — стилі елемента лишаються поруч:</p>
+        <pre class="language-css"><code class="language-css">.grid {
   display: grid;
   grid-template-columns: 1fr;
 
@@ -48,30 +61,38 @@
     grid-template-columns: 1fr 1fr;
   }
 }</code></pre>
-<h1 id="обережно">4. Не переборщити з глибиною</h1>
-<p>Як і в Sass, глибока вкладеність (4+ рівнів) породжує довгі специфічні селектори,
-які важко перевизначати. Тримайся 2–3 рівнів.</p>
-<pre class="language-css"><code class="language-css">/* ❌ занадто глибоко */
+        <h1 id="обережно">4. Не переборщити з глибиною</h1>
+        <p>
+          Як і в Sass, глибока вкладеність (4+ рівнів) породжує довгі специфічні селектори, які
+          важко перевизначати. Тримайся 2–3 рівнів.
+        </p>
+        <pre class="language-css"><code class="language-css">/* ❌ занадто глибоко */
 .a { .b { .c { .d { color: red; } } } }</code></pre>
-<h1 id="sass">5. Тоді навіщо Sass?</h1>
-<p>Вкладеність і змінні (<code>--x</code>) тепер є в CSS. Sass лишається корисним для складнішої
-логіки: міксини з параметрами, цикли, функції, партіали <code>@use</code> — цього нативний
-CSS поки не має.</p>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_nesting" target="_blank">CSS nesting — MDN</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="sass">5. Тоді навіщо Sass?</h1>
+        <p>
+          Вкладеність і змінні (<code>--x</code>) тепер є в CSS. Sass лишається корисним для
+          складнішої логіки: міксини з параметрами, цикли, функції, партіали <code>@use</code> —
+          цього нативний CSS поки не має.
+        </p>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_nesting" target="_blank"
+              >CSS nesting — MDN</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

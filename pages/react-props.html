@@ -1,30 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Props · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="props">1. Передавання даних через props</h1>
-<p><strong>Props</strong> (властивості) — це спосіб передати дані від батьківського компонента
-до дочірнього. Виглядають як атрибути тега, а всередині компонента доступні як
-обʼєкт-аргумент.</p>
-<pre class="language-js"><code class="language-js">function Greeting(props) {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Props · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="props">1. Передавання даних через props</h1>
+        <p>
+          <strong>Props</strong> (властивості) — це спосіб передати дані від батьківського
+          компонента до дочірнього. Виглядають як атрибути тега, а всередині компонента доступні як
+          обʼєкт-аргумент.
+        </p>
+        <pre class="language-js"><code class="language-js">function Greeting(props) {
   return &lt;h1&gt;Привіт, {props.name}!&lt;/h1&gt;;
 }
 
 function App() {
   return &lt;Greeting name="Ada" /&gt;;
 }</code></pre>
-<h1 id="деструктуризація">2. Деструктуризація пропсів</h1>
-<p>Зазвичай пропси одразу деструктуризують у сигнатурі — так код чистіший.</p>
-<pre class="language-js"><code class="language-js">function UserCard({ name, age, city }) {
+        <h1 id="деструктуризація">2. Деструктуризація пропсів</h1>
+        <p>Зазвичай пропси одразу деструктуризують у сигнатурі — так код чистіший.</p>
+        <pre class="language-js"><code class="language-js">function UserCard({ name, age, city }) {
   return (
     &lt;div&gt;
       &lt;h2&gt;{name}&lt;/h2&gt;
@@ -34,46 +39,61 @@ function App() {
 }
 
 &lt;UserCard name="Ada" age={30} city="Kyiv" /&gt;;</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Рядки передають у лапках (<code>name="Ada"</code>), а числа, булеві значення,
-масиви й обʼєкти — у фігурних дужках (<code>age={30}</code>).</p></div></div>
-<h1 id="за-замовчуванням">3. Значення за замовчуванням</h1>
-<pre class="language-js"><code class="language-js">function Button({ label, type = 'button' }) {
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Рядки передають у лапках (<code>name="Ada"</code>), а числа, булеві значення, масиви й
+              обʼєкти — у фігурних дужках (<code>age={30}</code>).
+            </p>
+          </div>
+        </div>
+        <h1 id="за-замовчуванням">3. Значення за замовчуванням</h1>
+        <pre
+          class="language-js"
+        ><code class="language-js">function Button({ label, type = 'button' }) {
   return &lt;button type={type}&gt;{label}&lt;/button&gt;;
 }
 
 &lt;Button label="OK" /&gt;;          // type = 'button'
 &lt;Button label="Send" type="submit" /&gt;;</code></pre>
-<h1 id="props-readonly">4. Props лише для читання</h1>
-<p>Компонент <strong>не має права змінювати</strong> свої пропси — це односторонній потік даних
-згори вниз. Щоб змінити дані, батько передає нове значення.</p>
-<pre class="language-js"><code class="language-js">function Bad({ count }) {
+        <h1 id="props-readonly">4. Props лише для читання</h1>
+        <p>
+          Компонент <strong>не має права змінювати</strong> свої пропси — це односторонній потік
+          даних згори вниз. Щоб змінити дані, батько передає нове значення.
+        </p>
+        <pre class="language-js"><code class="language-js">function Bad({ count }) {
   count = count + 1; // ❌ не можна мутувати props
   return &lt;p&gt;{count}&lt;/p&gt;;
 }</code></pre>
-<h1 id="функції-як-props">5. Передавання функцій</h1>
-<p>Через пропси передають і функції — так дитина повідомляє батька про подію.</p>
-<pre class="language-js"><code class="language-js">function ActionButton({ onAction }) {
+        <h1 id="функції-як-props">5. Передавання функцій</h1>
+        <p>Через пропси передають і функції — так дитина повідомляє батька про подію.</p>
+        <pre class="language-js"><code class="language-js">function ActionButton({ onAction }) {
   return &lt;button onClick={onAction}&gt;Дія&lt;/button&gt;;
 }
 
 function App() {
   return &lt;ActionButton onAction={() =&gt; alert('Спрацювало!')} /&gt;;
 }</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://react.dev/learn/passing-props-to-a-component" target="_blank">Passing Props to a Component — react.dev</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://react.dev/learn/passing-props-to-a-component" target="_blank"
+              >Passing Props to a Component — react.dev</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

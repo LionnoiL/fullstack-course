@@ -1,41 +1,68 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Посилання та зображення · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="посилання">1. Посилання</h1>
-<p>Гіперпосилання створюють тегом <code>&lt;a&gt;</code>. Адреса задається атрибутом <code>href</code>.</p>
-<pre class="language-markup"><code class="language-markup">&lt;a href="https://example.com"&gt;Зовнішній сайт&lt;/a&gt;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Посилання та зображення · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="посилання">1. Посилання</h1>
+        <p>
+          Гіперпосилання створюють тегом <code>&lt;a&gt;</code>. Адреса задається атрибутом
+          <code>href</code>.
+        </p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;a href="https://example.com"&gt;Зовнішній сайт&lt;/a&gt;
 &lt;a href="about.html"&gt;Внутрішня сторінка&lt;/a&gt;
 &lt;a href="#section"&gt;Якір на цій сторінці&lt;/a&gt;
 &lt;a href="mailto:hi@site.com"&gt;Написати листа&lt;/a&gt;
 &lt;a href="tel:+380000000000"&gt;Зателефонувати&lt;/a&gt;</code></pre>
-<h1 id="типи-шляхів">2. Абсолютні та відносні шляхи</h1>
-<ul>
-<li><strong>Абсолютний</strong> — повна адреса: <code>https://site.com/page</code>;</li>
-<li><strong>Відносний</strong> — шлях від поточного файлу: <code>images/cat.png</code>, <code>../index.html</code>.</li>
-</ul>
-<h1 id="нова-вкладка">3. Відкриття в новій вкладці</h1>
-<pre class="language-markup"><code class="language-markup">&lt;a href="https://example.com" target="_blank" rel="noopener noreferrer"&gt;
+        <h1 id="типи-шляхів">2. Абсолютні та відносні шляхи</h1>
+        <ul>
+          <li><strong>Абсолютний</strong> — повна адреса: <code>https://site.com/page</code>;</li>
+          <li>
+            <strong>Відносний</strong> — шлях від поточного файлу: <code>images/cat.png</code>,
+            <code>../index.html</code>.
+          </li>
+        </ul>
+        <h1 id="нова-вкладка">3. Відкриття в новій вкладці</h1>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;a href="https://example.com" target="_blank" rel="noopener noreferrer"&gt;
   Відкрити в новій вкладці
 &lt;/a&gt;</code></pre>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>До <code>target="_blank"</code> завжди додавайте <code>rel="noopener noreferrer"</code> —
-це закриває вразливість безпеки, коли нова вкладка отримує доступ до сторінки,
-що її відкрила.</p></div></div>
-<h1 id="зображення">4. Зображення</h1>
-<p>Зображення вставляють тегом <code>&lt;img&gt;</code>. Атрибут <code>alt</code> обовʼязковий — це текст,
-який показується, якщо картинка не завантажилась, і який читає читач екрана.</p>
-<pre class="language-markup"><code class="language-markup">&lt;img src="images/cat.png" alt="Рудий кіт спить на дивані" width="300"&gt;</code></pre>
-<h1 id="адаптивні-зображення">5. Сучасні можливості</h1>
-<pre class="language-markup"><code class="language-markup">&lt;!-- ліниве завантаження поза екраном --&gt;
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              До <code>target="_blank"</code> завжди додавайте
+              <code>rel="noopener noreferrer"</code> — це закриває вразливість безпеки, коли нова
+              вкладка отримує доступ до сторінки, що її відкрила.
+            </p>
+          </div>
+        </div>
+        <h1 id="зображення">4. Зображення</h1>
+        <p>
+          Зображення вставляють тегом <code>&lt;img&gt;</code>. Атрибут
+          <code>alt</code> обовʼязковий — це текст, який показується, якщо картинка не
+          завантажилась, і який читає читач екрана.
+        </p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;img src="images/cat.png" alt="Рудий кіт спить на дивані" width="300"&gt;</code></pre>
+        <h1 id="адаптивні-зображення">5. Сучасні можливості</h1>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;!-- ліниве завантаження поза екраном --&gt;
 &lt;img src="big.jpg" alt="..." loading="lazy"&gt;
 
 &lt;!-- підпис до зображення --&gt;
@@ -43,27 +70,44 @@
   &lt;img src="chart.png" alt="Графік продажів"&gt;
   &lt;figcaption&gt;Продажі за 2026 рік&lt;/figcaption&gt;
 &lt;/figure&gt;</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Для декоративних зображень, що не несуть змісту, залишайте порожній
-<code>alt=""</code> — тоді читачі екрана їх пропустять.</p></div></div>
-<p>Щоб віддавати різні файли під різні екрани (Retina, мобільні, сучасні формати)
-через <code>srcset</code>, <code>sizes</code> та <code>&lt;picture&gt;</code> — див. окремий урок
-<a href="html-responsive-images.html">Адаптивні зображення</a>.</p>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/uk/docs/Learn/HTML/Introduction_to_HTML/Creating_hyperlinks" target="_blank">Створення посилань — MDN</a></li>
-<li><a href="https://icomoon.io/app" target="_blank">IcoMoon — набори іконок (шрифт/SVG)</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Для декоративних зображень, що не несуть змісту, залишайте порожній
+              <code>alt=""</code> — тоді читачі екрана їх пропустять.
+            </p>
+          </div>
+        </div>
+        <p>
+          Щоб віддавати різні файли під різні екрани (Retina, мобільні, сучасні формати) через
+          <code>srcset</code>, <code>sizes</code> та <code>&lt;picture&gt;</code> — див. окремий
+          урок <a href="html-responsive-images.html">Адаптивні зображення</a>.
+        </p>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://developer.mozilla.org/uk/docs/Learn/HTML/Introduction_to_HTML/Creating_hyperlinks"
+              target="_blank"
+              >Створення посилань — MDN</a
+            >
+          </li>
+          <li>
+            <a href="https://icomoon.io/app" target="_blank">IcoMoon — набори іконок (шрифт/SVG)</a>
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

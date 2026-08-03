@@ -1,52 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flexbox і Grid у Tailwind · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="flex">1. Flexbox</h1>
-<p>Клас <code>flex</code> вмикає флекс-контейнер, а далі напрямок, вирівнювання й проміжки
-задаються окремими утилітами.</p>
-<pre class="language-markup"><code class="language-markup">&lt;div class="flex items-center justify-between gap-4"&gt;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexbox і Grid у Tailwind · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="flex">1. Flexbox</h1>
+        <p>
+          Клас <code>flex</code> вмикає флекс-контейнер, а далі напрямок, вирівнювання й проміжки
+          задаються окремими утилітами.
+        </p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;div class="flex items-center justify-between gap-4"&gt;
   &lt;span&gt;Ліворуч&lt;/span&gt;
   &lt;span&gt;Праворуч&lt;/span&gt;
 &lt;/div&gt;</code></pre>
-<ul>
-<li><code>flex-row</code> / <code>flex-col</code> — напрямок осі;</li>
-<li><code>items-center</code> — вирівнювання по поперечній осі (<code>align-items</code>);</li>
-<li><code>justify-between</code> — розподіл по головній осі (<code>justify-content</code>);</li>
-<li><code>gap-4</code> — проміжок між елементами.</li>
-</ul>
-<h1 id="grid">2. Grid</h1>
-<p>Клас <code>grid</code> плюс <code>grid-cols-*</code> задає кількість колонок.</p>
-<pre class="language-markup"><code class="language-markup">&lt;div class="grid grid-cols-3 gap-4"&gt;
+        <ul>
+          <li><code>flex-row</code> / <code>flex-col</code> — напрямок осі;</li>
+          <li>
+            <code>items-center</code> — вирівнювання по поперечній осі (<code>align-items</code>);
+          </li>
+          <li>
+            <code>justify-between</code> — розподіл по головній осі (<code>justify-content</code>);
+          </li>
+          <li><code>gap-4</code> — проміжок між елементами.</li>
+        </ul>
+        <h1 id="grid">2. Grid</h1>
+        <p>Клас <code>grid</code> плюс <code>grid-cols-*</code> задає кількість колонок.</p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;div class="grid grid-cols-3 gap-4"&gt;
   &lt;div&gt;1&lt;/div&gt;
   &lt;div&gt;2&lt;/div&gt;
   &lt;div&gt;3&lt;/div&gt;
 &lt;/div&gt;</code></pre>
-<p>Елемент може займати кілька колонок через <code>col-span-*</code>:</p>
-<pre class="language-markup"><code class="language-markup">&lt;div class="grid grid-cols-4 gap-4"&gt;
+        <p>Елемент може займати кілька колонок через <code>col-span-*</code>:</p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;div class="grid grid-cols-4 gap-4"&gt;
   &lt;div class="col-span-2"&gt;широкий блок на 2 колонки&lt;/div&gt;
   &lt;div&gt;вузький&lt;/div&gt;
   &lt;div&gt;вузький&lt;/div&gt;
 &lt;/div&gt;</code></pre>
-<h1 id="проміжки">3. Проміжки та вирівнювання</h1>
-<pre class="language-markup"><code class="language-markup">&lt;!-- різні проміжки по осях --&gt;
+        <h1 id="проміжки">3. Проміжки та вирівнювання</h1>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;!-- різні проміжки по осях --&gt;
 &lt;div class="grid grid-cols-2 gap-x-8 gap-y-2"&gt;...&lt;/div&gt;
 
 &lt;!-- вирівнювання елементів у гріді --&gt;
 &lt;div class="grid place-items-center h-64"&gt;
   &lt;p&gt;Ідеально по центру&lt;/p&gt;
 &lt;/div&gt;</code></pre>
-<h1 id="позиціонування">4. Позиціонування</h1>
-<pre class="language-markup"><code class="language-markup">&lt;div class="relative"&gt;
+        <h1 id="позиціонування">4. Позиціонування</h1>
+        <pre class="language-markup"><code class="language-markup">&lt;div class="relative"&gt;
   &lt;span class="absolute top-2 right-2 bg-red-500 text-white rounded-full px-2"&gt;
     3
   &lt;/span&gt;
@@ -54,24 +71,35 @@
 &lt;/div&gt;
 
 &lt;header class="sticky top-0 z-10 bg-white"&gt;Липке меню&lt;/header&gt;</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Для типової картки-макета «шапка / контент / підвал на всю висоту» комбінуйте
-<code>flex flex-col</code> на контейнері й <code>flex-1</code> (він же <code>flex: 1</code>) на середньому
-блоці — він розтягнеться й притисне підвал донизу.</p></div></div>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://tailwindcss.com/docs/flex" target="_blank">Flexbox &amp; Grid — Tailwind</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Для типової картки-макета «шапка / контент / підвал на всю висоту» комбінуйте
+              <code>flex flex-col</code> на контейнері й <code>flex-1</code> (він же
+              <code>flex: 1</code>) на середньому блоці — він розтягнеться й притисне підвал донизу.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://tailwindcss.com/docs/flex" target="_blank"
+              >Flexbox &amp; Grid — Tailwind</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

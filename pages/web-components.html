@@ -1,47 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Web Components та Shadow DOM · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="що-таке">1. Що таке Web Components</h1>
-<p><strong>Web Components</strong> — вбудований у браузер спосіб створювати <strong>власні
-HTML-теги</strong> з поведінкою та ізольованими стилями, <em>без фреймворку</em>. Твій
-<code>&lt;user-card&gt;</code> працює в будь-якому проєкті — на React, Vue чи чистому HTML.</p>
-<p>Стандарт складається з трьох частин:</p>
-<ul>
-<li><strong>Custom Elements</strong> — реєстрація власного тега як класу;</li>
-<li><strong>Shadow DOM</strong> — ізольоване піддерево з власними стилями;</li>
-<li><strong>&lt;template&gt;</strong> — шаблон розмітки, що не рендериться, доки не використаний.</li>
-</ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Components та Shadow DOM · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="що-таке">1. Що таке Web Components</h1>
+        <p>
+          <strong>Web Components</strong> — вбудований у браузер спосіб створювати
+          <strong>власні HTML-теги</strong> з поведінкою та ізольованими стилями,
+          <em>без фреймворку</em>. Твій <code>&lt;user-card&gt;</code> працює в будь-якому проєкті —
+          на React, Vue чи чистому HTML.
+        </p>
+        <p>Стандарт складається з трьох частин:</p>
+        <ul>
+          <li><strong>Custom Elements</strong> — реєстрація власного тега як класу;</li>
+          <li><strong>Shadow DOM</strong> — ізольоване піддерево з власними стилями;</li>
+          <li>
+            <strong>&lt;template&gt;</strong> — шаблон розмітки, що не рендериться, доки не
+            використаний.
+          </li>
+        </ul>
 
-<h1 id="custom-element">2. Custom Element</h1>
-<p>Успадковуєш <code>HTMLElement</code> і реєструєш тег. Імʼя <strong>обовʼязково з дефісом</strong>
-(щоб не конфліктувати зі стандартними тегами).</p>
-<pre class="language-js"><code class="language-js">class GreetBadge extends HTMLElement {
+        <h1 id="custom-element">2. Custom Element</h1>
+        <p>
+          Успадковуєш <code>HTMLElement</code> і реєструєш тег. Імʼя
+          <strong>обовʼязково з дефісом</strong> (щоб не конфліктувати зі стандартними тегами).
+        </p>
+        <pre class="language-js"><code class="language-js">class GreetBadge extends HTMLElement {
   connectedCallback() {              // викликається, коли елемент додано в DOM
     const name = this.getAttribute('name') ?? 'Гість';
     this.innerHTML = `&lt;span&gt;Привіт, ${name}!&lt;/span&gt;`;
   }
 }
 customElements.define('greet-badge', GreetBadge);</code></pre>
-<pre class="language-markup"><code class="language-markup">&lt;greet-badge name="Аня"&gt;&lt;/greet-badge&gt;  &lt;!-- Привіт, Аня! --&gt;</code></pre>
-<p>Життєвий цикл: <code>connectedCallback</code> (додано в DOM),
-<code>disconnectedCallback</code> (прибрано), <code>attributeChangedCallback</code> (змінився
-атрибут зі списку <code>observedAttributes</code>).</p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;greet-badge name="Аня"&gt;&lt;/greet-badge&gt;  &lt;!-- Привіт, Аня! --&gt;</code></pre>
+        <p>
+          Життєвий цикл: <code>connectedCallback</code> (додано в DOM),
+          <code>disconnectedCallback</code> (прибрано),
+          <code>attributeChangedCallback</code> (змінився атрибут зі списку
+          <code>observedAttributes</code>).
+        </p>
 
-<h1 id="shadow-dom">3. Shadow DOM — ізоляція стилів</h1>
-<p><strong>Shadow DOM</strong> створює <em>окреме</em> піддерево, стилі якого <strong>не течуть</strong>
-назовні й не зазнають впливу глобального CSS. Це те, чого CSS Modules/CSS-in-JS
-досягають на збірці, а тут — на рівні браузера.</p>
-<pre class="language-js"><code class="language-js">class UserCard extends HTMLElement {
+        <h1 id="shadow-dom">3. Shadow DOM — ізоляція стилів</h1>
+        <p>
+          <strong>Shadow DOM</strong> створює <em>окреме</em> піддерево, стилі якого
+          <strong>не течуть</strong> назовні й не зазнають впливу глобального CSS. Це те, чого CSS
+          Modules/CSS-in-JS досягають на збірці, а тут — на рівні браузера.
+        </p>
+        <pre class="language-js"><code class="language-js">class UserCard extends HTMLElement {
   connectedCallback() {
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.innerHTML = `
@@ -54,38 +72,67 @@ customElements.define('greet-badge', GreetBadge);</code></pre>
   }
 }
 customElements.define('user-card', UserCard);</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>&lt;slot&gt;</code> — місце, куди підставляється вміст, який користувач поклав усередину
-тега. Так компонент лишається гнучким: <code>&lt;user-card&gt;Будь-який вміст&lt;/user-card&gt;</code>.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>&lt;slot&gt;</code> — місце, куди підставляється вміст, який користувач поклав
+              усередину тега. Так компонент лишається гнучким:
+              <code>&lt;user-card&gt;Будь-який вміст&lt;/user-card&gt;</code>.
+            </p>
+          </div>
+        </div>
 
-<h1 id="навіщо">4. Навіщо, якщо є React</h1>
-<ul>
-<li><strong>дизайн-системи</strong> — один набір компонентів для команд на різних фреймворках
-(так робить, напр., бібліотека Shoelace / Lit);</li>
-<li><strong>віджети для вбудовування</strong> на чужі сайти — не тягнеш React, стилі
-ізольовані;</li>
-<li><strong>довговічність</strong> — це веб-стандарт, не залежить від моди на фреймворки.</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Для складних застосунків «сирі» Web Components багатослівні — тоді беруть тонку
-бібліотеку <strong>Lit</strong> (реактивність + шаблони поверх стандарту). React лишається
-кращим для великих SPA; Web Components — для крос-фреймворкових компонентів і
-віджетів.</p></div></div>
+        <h1 id="навіщо">4. Навіщо, якщо є React</h1>
+        <ul>
+          <li>
+            <strong>дизайн-системи</strong> — один набір компонентів для команд на різних
+            фреймворках (так робить, напр., бібліотека Shoelace / Lit);
+          </li>
+          <li>
+            <strong>віджети для вбудовування</strong> на чужі сайти — не тягнеш React, стилі
+            ізольовані;
+          </li>
+          <li>
+            <strong>довговічність</strong> — це веб-стандарт, не залежить від моди на фреймворки.
+          </li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Для складних застосунків «сирі» Web Components багатослівні — тоді беруть тонку
+              бібліотеку <strong>Lit</strong> (реактивність + шаблони поверх стандарту). React
+              лишається кращим для великих SPA; Web Components — для крос-фреймворкових компонентів
+              і віджетів.
+            </p>
+          </div>
+        </div>
 
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components" target="_blank">MDN — Web Components</a></li>
-<li><a href="https://lit.dev/" target="_blank">Lit — бібліотека для Web Components</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components"
+              target="_blank"
+              >MDN — Web Components</a
+            >
+          </li>
+          <li>
+            <a href="https://lit.dev/" target="_blank">Lit — бібліотека для Web Components</a>
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

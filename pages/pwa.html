@@ -1,32 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PWA: маніфест, встановлення, офлайн · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="що-таке">1. Що таке PWA</h1>
-<p><strong>PWA (Progressive Web App)</strong> — це звичайний веб-застосунок, який завдяки
-кільком технологіям поводиться майже як «рідний» мобільний: його можна
-<strong>встановити</strong> на телефон/десктоп, він працює <strong>офлайн</strong>, має іконку й
-запускається у власному вікні без адресного рядка.</p>
-<p>PWA стоїть на трьох китах:</p>
-<ul>
-<li><strong>HTTPS</strong> — безпечний контекст (обовʼязково);</li>
-<li><strong>Service Worker</strong> — офлайн і кешування (попередній урок);</li>
-<li><strong>Web App Manifest</strong> — метадані для встановлення (нижче).</li>
-</ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PWA: маніфест, встановлення, офлайн · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="що-таке">1. Що таке PWA</h1>
+        <p>
+          <strong>PWA (Progressive Web App)</strong> — це звичайний веб-застосунок, який завдяки
+          кільком технологіям поводиться майже як «рідний» мобільний: його можна
+          <strong>встановити</strong> на телефон/десктоп, він працює <strong>офлайн</strong>, має
+          іконку й запускається у власному вікні без адресного рядка.
+        </p>
+        <p>PWA стоїть на трьох китах:</p>
+        <ul>
+          <li><strong>HTTPS</strong> — безпечний контекст (обовʼязково);</li>
+          <li><strong>Service Worker</strong> — офлайн і кешування (попередній урок);</li>
+          <li><strong>Web App Manifest</strong> — метадані для встановлення (нижче).</li>
+        </ul>
 
-<h1 id="manifest">2. Web App Manifest</h1>
-<p><code>manifest.json</code> описує застосунок для системи: назву, іконки, кольори, режим
-відображення. Підключається лінком у <code>&lt;head&gt;</code>.</p>
-<pre class="language-js"><code class="language-js">// manifest.json
+        <h1 id="manifest">2. Web App Manifest</h1>
+        <p>
+          <code>manifest.json</code> описує застосунок для системи: назву, іконки, кольори, режим
+          відображення. Підключається лінком у <code>&lt;head&gt;</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">// manifest.json
 {
   "name": "Мій нотатник",
   "short_name": "Нотатки",
@@ -39,14 +46,16 @@
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }</code></pre>
-<pre class="language-js"><code class="language-js">&lt;!-- index.html --&gt;
+        <pre class="language-js"><code class="language-js">&lt;!-- index.html --&gt;
 &lt;link rel="manifest" href="/manifest.json"&gt;
 &lt;meta name="theme-color" content="#2563eb"&gt;</code></pre>
 
-<h1 id="install">3. Встановлення</h1>
-<p>Якщо є маніфест, SW і HTTPS, браузер сам пропонує «Встановити застосунок». Можна
-перехопити цю подію й показати власну кнопку:</p>
-<pre class="language-js"><code class="language-js">let deferred;
+        <h1 id="install">3. Встановлення</h1>
+        <p>
+          Якщо є маніфест, SW і HTTPS, браузер сам пропонує «Встановити застосунок». Можна
+          перехопити цю подію й показати власну кнопку:
+        </p>
+        <pre class="language-js"><code class="language-js">let deferred;
 window.addEventListener('beforeinstallprompt', (e) =&gt; {
   e.preventDefault();
   deferred = e;            // зберегти подію
@@ -58,10 +67,12 @@ installBtn.addEventListener('click', async () =&gt; {
   await deferred.userChoice;
 });</code></pre>
 
-<h1 id="vite-pwa">4. Найпростіший шлях: vite-plugin-pwa</h1>
-<p>Руками робити маніфест, іконки й SW — марудно. Плагін <strong>vite-plugin-pwa</strong>
-(на базі Workbox) генерує SW із precache-маніфестом і під’єднує все автоматично:</p>
-<pre class="language-js"><code class="language-js">// vite.config.js
+        <h1 id="vite-pwa">4. Найпростіший шлях: vite-plugin-pwa</h1>
+        <p>
+          Руками робити маніфест, іконки й SW — марудно. Плагін <strong>vite-plugin-pwa</strong> (на
+          базі Workbox) генерує SW із precache-маніфестом і під’єднує все автоматично:
+        </p>
+        <pre class="language-js"><code class="language-js">// vite.config.js
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default {
@@ -76,38 +87,51 @@ export default {
     }),
   ],
 };</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>У Next.js PWA роблять через плагіни (напр. <code>next-pwa</code>) або власний SW у
-<code>public/</code>. Принцип той самий: manifest + Service Worker + HTTPS.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              У Next.js PWA роблять через плагіни (напр. <code>next-pwa</code>) або власний SW у
+              <code>public/</code>. Принцип той самий: manifest + Service Worker + HTTPS.
+            </p>
+          </div>
+        </div>
 
-<h1 id="перевірка">5. Перевірка й аудит</h1>
-<p>Готовність PWA перевіряють у DevTools: вкладка <strong>Application</strong> (Manifest, Service
-Workers, Cache) та аудит <strong>Lighthouse</strong> (розділ PWA/Best Practices). Він підкаже,
-чого бракує до встановлюваного офлайн-застосунку.</p>
+        <h1 id="перевірка">5. Перевірка й аудит</h1>
+        <p>
+          Готовність PWA перевіряють у DevTools: вкладка <strong>Application</strong> (Manifest,
+          Service Workers, Cache) та аудит <strong>Lighthouse</strong> (розділ PWA/Best Practices).
+          Він підкаже, чого бракує до встановлюваного офлайн-застосунку.
+        </p>
 
-<h1 id="коли">6. Коли PWA доречна</h1>
-<ul>
-<li>✅ контент/інструмент, яким користуються часто (пошта, нотатки, дашборд, читалка);</li>
-<li>✅ хочеш «встановлюваність» без магазинів застосунків;</li>
-<li>⚠️ потрібен глибокий доступ до заліза (Bluetooth, точні сенсори) — можливості PWA
-ширшають, але подекуди все ще поступаються нативним застосункам.</li>
-</ul>
+        <h1 id="коли">6. Коли PWA доречна</h1>
+        <ul>
+          <li>
+            ✅ контент/інструмент, яким користуються часто (пошта, нотатки, дашборд, читалка);
+          </li>
+          <li>✅ хочеш «встановлюваність» без магазинів застосунків;</li>
+          <li>
+            ⚠️ потрібен глибокий доступ до заліза (Bluetooth, точні сенсори) — можливості PWA
+            ширшають, але подекуди все ще поступаються нативним застосункам.
+          </li>
+        </ul>
 
-<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://web.dev/learn/pwa/" target="_blank">web.dev — Learn PWA</a></li>
-<li><a href="https://vite-pwa-org.netlify.app/" target="_blank">vite-plugin-pwa</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+        <ul>
+          <li><a href="https://web.dev/learn/pwa/" target="_blank">web.dev — Learn PWA</a></li>
+          <li><a href="https://vite-pwa-org.netlify.app/" target="_blank">vite-plugin-pwa</a></li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

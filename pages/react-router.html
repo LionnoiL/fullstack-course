@@ -1,23 +1,30 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Роутинг · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="роутинг">1. Навігація в SPA</h1>
-<p>React будує <strong>односторінкові застосунки (SPA)</strong>: сторінка не перезавантажується,
-змінюється лише вміст. Щоб різним URL відповідали різні екрани, використовують
-роутер. Стандарт де-факто — бібліотека <strong>React Router</strong>.</p>
-<pre class="language-js"><code class="language-js">npm install react-router-dom</code></pre>
-<h1 id="налаштування">2. Базове налаштування</h1>
-<pre class="language-js"><code class="language-js">import { BrowserRouter, Routes, Route } from 'react-router-dom';
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Роутинг · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="роутинг">1. Навігація в SPA</h1>
+        <p>
+          React будує <strong>односторінкові застосунки (SPA)</strong>: сторінка не
+          перезавантажується, змінюється лише вміст. Щоб різним URL відповідали різні екрани,
+          використовують роутер. Стандарт де-факто — бібліотека <strong>React Router</strong>.
+        </p>
+        <pre class="language-js"><code class="language-js">npm install react-router-dom</code></pre>
+        <h1 id="налаштування">2. Базове налаштування</h1>
+        <pre
+          class="language-js"
+        ><code class="language-js">import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
@@ -30,10 +37,12 @@ function App() {
     &lt;/BrowserRouter&gt;
   );
 }</code></pre>
-<h1 id="link">3. Посилання через Link</h1>
-<p>Для переходів використовують <code>Link</code> замість <code>&lt;a&gt;</code> — так сторінка не
-перезавантажується.</p>
-<pre class="language-js"><code class="language-js">import { Link } from 'react-router-dom';
+        <h1 id="link">3. Посилання через Link</h1>
+        <p>
+          Для переходів використовують <code>Link</code> замість <code>&lt;a&gt;</code> — так
+          сторінка не перезавантажується.
+        </p>
+        <pre class="language-js"><code class="language-js">import { Link } from 'react-router-dom';
 
 function Nav() {
   return (
@@ -43,9 +52,13 @@ function Nav() {
     &lt;/nav&gt;
   );
 }</code></pre>
-<h1 id="параметри">4. Динамічні параметри URL</h1>
-<p>Частину шляху позначають через <code>:param</code> і читають хуком <code>useParams</code>.</p>
-<pre class="language-js"><code class="language-js">&lt;Route path="/user/:id" element={&lt;User /&gt;} /&gt;;
+        <h1 id="параметри">4. Динамічні параметри URL</h1>
+        <p>
+          Частину шляху позначають через <code>:param</code> і читають хуком <code>useParams</code>.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">&lt;Route path="/user/:id" element={&lt;User /&gt;} /&gt;;
 
 import { useParams } from 'react-router-dom';
 
@@ -53,10 +66,14 @@ function User() {
   const { id } = useParams();
   return &lt;p&gt;Профіль користувача {id}&lt;/p&gt;;
 }</code></pre>
-<h1 id="програмна-навігація">5. Програмна навігація</h1>
-<p>Хук <code>useNavigate</code> дозволяє перейти на іншу сторінку з коду — наприклад, після
-успішного входу.</p>
-<pre class="language-js"><code class="language-js">import { useNavigate } from 'react-router-dom';
+        <h1 id="програмна-навігація">5. Програмна навігація</h1>
+        <p>
+          Хук <code>useNavigate</code> дозволяє перейти на іншу сторінку з коду — наприклад, після
+          успішного входу.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -66,24 +83,35 @@ function LoginForm() {
     navigate('/dashboard');
   }
 }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>React Router спирається на <code>history.pushState</code> з BOM: URL змінюється, а
-браузер не робить повний перезапит сторінки. Це та сама технологія, що й у
-розділі про об'єктну модель браузера.</p></div></div>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://reactrouter.com/en/main/start/tutorial" target="_blank">React Router — офіційний туторіал</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              React Router спирається на <code>history.pushState</code> з BOM: URL змінюється, а
+              браузер не робить повний перезапит сторінки. Це та сама технологія, що й у розділі про
+              об'єктну модель браузера.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://reactrouter.com/en/main/start/tutorial" target="_blank"
+              >React Router — офіційний туторіал</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

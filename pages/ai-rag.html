@@ -1,36 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAG: відповіді на твоїх даних · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="проблема">1. Проблема: модель не знає твоїх даних</h1>
-<p>LLM навчена на публічних текстах до певної дати. Вона <em>не знає</em> твоєї
-документації, бази знань чи вчорашніх тікетів — і якщо спитати, може
-<strong>вигадати</strong> (галюцинувати). Запхати всю базу в кожен промпт неможливо
-(контекстне вікно обмежене й дороге).</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RAG: відповіді на твоїх даних · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="проблема">1. Проблема: модель не знає твоїх даних</h1>
+        <p>
+          LLM навчена на публічних текстах до певної дати. Вона <em>не знає</em> твоєї документації,
+          бази знань чи вчорашніх тікетів — і якщо спитати, може
+          <strong>вигадати</strong> (галюцинувати). Запхати всю базу в кожен промпт неможливо
+          (контекстне вікно обмежене й дороге).
+        </p>
 
-<h1 id="що-таке">2. Що таке RAG</h1>
-<p><strong>RAG (Retrieval-Augmented Generation)</strong> — «генерація, доповнена пошуком». Ідея
-проста: перед відповіддю <strong>знайти</strong> релевантні шматки твоїх даних і <strong>вкласти
-їх у промпт</strong> як контекст. Модель відповідає на основі саме цих фрагментів, а не
-памʼяті.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>RAG різко зменшує галюцинації й дає <strong>свіжі, приватні</strong> знання без
-до-навчання моделі. Бонус — можна показати <em>джерела</em> («звідки це»), бо ти знаєш,
-які фрагменти вклав.</p></div></div>
+        <h1 id="що-таке">2. Що таке RAG</h1>
+        <p>
+          <strong>RAG (Retrieval-Augmented Generation)</strong> — «генерація, доповнена пошуком».
+          Ідея проста: перед відповіддю <strong>знайти</strong> релевантні шматки твоїх даних і
+          <strong>вкласти їх у промпт</strong> як контекст. Модель відповідає на основі саме цих
+          фрагментів, а не памʼяті.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              RAG різко зменшує галюцинації й дає <strong>свіжі, приватні</strong> знання без
+              до-навчання моделі. Бонус — можна показати <em>джерела</em> («звідки це»), бо ти
+              знаєш, які фрагменти вклав.
+            </p>
+          </div>
+        </div>
 
-<h1 id="embeddings">3. Embeddings — сенс у вигляді чисел</h1>
-<p>Щоб шукати «за змістом», а не за словами, текст перетворюють на <strong>embedding</strong> —
-вектор чисел, що кодує сенс. Тексти з близьким змістом дають близькі вектори, навіть
-якщо слова різні («авто» ↔ «машина»). Ембеддинг рахує окрема модель:</p>
-<pre class="language-js"><code class="language-js">// приклад: отримати embedding тексту (через Vercel AI SDK)
+        <h1 id="embeddings">3. Embeddings — сенс у вигляді чисел</h1>
+        <p>
+          Щоб шукати «за змістом», а не за словами, текст перетворюють на
+          <strong>embedding</strong> — вектор чисел, що кодує сенс. Тексти з близьким змістом дають
+          близькі вектори, навіть якщо слова різні («авто» ↔ «машина»). Ембеддинг рахує окрема
+          модель:
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">// приклад: отримати embedding тексту (через Vercel AI SDK)
 import { embed } from 'ai';
 import { openai } from '@ai-sdk/openai';
 
@@ -39,24 +58,46 @@ const { embedding } = await embed({
   value: 'Як налаштувати двофакторну автентифікацію?',
 });
 // embedding — масив чисел, напр. довжиною 1536</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Близькість двох векторів міряють <strong>косинусною подібністю</strong>: що ближче до 1 —
-то схожіший сенс. Саме за нею векторна БД знаходить релевантні фрагменти.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Близькість двох векторів міряють <strong>косинусною подібністю</strong>: що ближче до
+              1 — то схожіший сенс. Саме за нею векторна БД знаходить релевантні фрагменти.
+            </p>
+          </div>
+        </div>
 
-<h1 id="конвеєр">4. Конвеєр RAG</h1>
-<p>Дві фази: <strong>індексація</strong> (заздалегідь) і <strong>запит</strong> (під час діалогу).</p>
-<p><img src="images/rag-pipeline.svg" alt="Конвеєр RAG: індексація (документи → чанки → embeddings → векторна БД) і запит (питання → embedding → пошук → топ-K → промпт → LLM)" loading="lazy"></p>
-<ol>
-<li><strong>Chunking</strong> — розбити документи на шматки (напр. по кілька абзаців);</li>
-<li><strong>Embed</strong> — порахувати embedding кожного чанка;</li>
-<li><strong>Store</strong> — зберегти вектори + текст у векторну БД;</li>
-<li><strong>Retrieve</strong> — embedding запиту → знайти топ-K найближчих чанків;</li>
-<li><strong>Generate</strong> — вкласти чанки в промпт і попросити модель відповісти.</li>
-</ol>
+        <h1 id="конвеєр">4. Конвеєр RAG</h1>
+        <p>
+          Дві фази: <strong>індексація</strong> (заздалегідь) і <strong>запит</strong> (під час
+          діалогу).
+        </p>
+        <p>
+          <img
+            src="images/rag-pipeline.svg"
+            alt="Конвеєр RAG: індексація (документи → чанки → embeddings → векторна БД) і запит (питання → embedding → пошук → топ-K → промпт → LLM)"
+            loading="lazy"
+          />
+        </p>
+        <ol>
+          <li>
+            <strong>Chunking</strong> — розбити документи на шматки (напр. по кілька абзаців);
+          </li>
+          <li><strong>Embed</strong> — порахувати embedding кожного чанка;</li>
+          <li><strong>Store</strong> — зберегти вектори + текст у векторну БД;</li>
+          <li><strong>Retrieve</strong> — embedding запиту → знайти топ-K найближчих чанків;</li>
+          <li><strong>Generate</strong> — вкласти чанки в промпт і попросити модель відповісти.</li>
+        </ol>
 
-<h1 id="промпт">5. Складання промпту</h1>
-<p>Знайдені фрагменти передають моделі як контекст із чіткою інструкцією — відповідати
-<em>лише</em> за ними:</p>
-<pre class="language-js"><code class="language-js">const context = topChunks.map((c) =&gt; c.text).join('\n---\n');
+        <h1 id="промпт">5. Складання промпту</h1>
+        <p>
+          Знайдені фрагменти передають моделі як контекст із чіткою інструкцією — відповідати
+          <em>лише</em> за ними:
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">const context = topChunks.map((c) =&gt; c.text).join('\n---\n');
 
 const res = await client.messages.create({
   model: 'claude-opus-4-8',
@@ -68,38 +109,61 @@ const res = await client.messages.create({
     { role: 'user', content: `Контекст:\n${context}\n\nПитання: ${question}` },
   ],
 });</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Інструкція «відповідай лише за контекстом, інакше скажи що не знаєш» — ключова:
-вона й тримає модель у межах твоїх даних, і чесно зізнається, коли відповіді немає.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Інструкція «відповідай лише за контекстом, інакше скажи що не знаєш» — ключова: вона й
+              тримає модель у межах твоїх даних, і чесно зізнається, коли відповіді немає.
+            </p>
+          </div>
+        </div>
 
-<h1 id="нюанси">6. Практичні нюанси</h1>
-<ul>
-<li><strong>Розмір чанка</strong> — замалі втрачають контекст, завеликі розмивають пошук;
-типово кілька сотень токенів із невеликим перекриттям;</li>
-<li><strong>K</strong> — скільки фрагментів брати (3–8): більше контексту, але дорожче й
-шумніше;</li>
-<li><strong>оцінка якості</strong> — перевіряй на реальних питаннях; поганий retrieval →
-погана відповідь, хоч би яка модель;</li>
-<li><strong>джерела</strong> — зберігай метадані чанка (документ, розділ), щоб показати
-посилання.</li>
-</ul>
-<p>Де саме зберігати вектори й як шукати — у наступному уроці про векторні БД.</p>
+        <h1 id="нюанси">6. Практичні нюанси</h1>
+        <ul>
+          <li>
+            <strong>Розмір чанка</strong> — замалі втрачають контекст, завеликі розмивають пошук;
+            типово кілька сотень токенів із невеликим перекриттям;
+          </li>
+          <li>
+            <strong>K</strong> — скільки фрагментів брати (3–8): більше контексту, але дорожче й
+            шумніше;
+          </li>
+          <li>
+            <strong>оцінка якості</strong> — перевіряй на реальних питаннях; поганий retrieval →
+            погана відповідь, хоч би яка модель;
+          </li>
+          <li>
+            <strong>джерела</strong> — зберігай метадані чанка (документ, розділ), щоб показати
+            посилання.
+          </li>
+        </ul>
+        <p>Де саме зберігати вектори й як шукати — у наступному уроці про векторні БД.</p>
 
-<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://sdk.vercel.ai/docs/ai-sdk-core/embeddings" target="_blank">Vercel AI SDK — Embeddings</a></li>
-<li><a href="https://www.pinecone.io/learn/retrieval-augmented-generation/" target="_blank">Pinecone — Retrieval-Augmented Generation</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://sdk.vercel.ai/docs/ai-sdk-core/embeddings" target="_blank"
+              >Vercel AI SDK — Embeddings</a
+            >
+          </li>
+          <li>
+            <a href="https://www.pinecone.io/learn/retrieval-augmented-generation/" target="_blank"
+              >Pinecone — Retrieval-Augmented Generation</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

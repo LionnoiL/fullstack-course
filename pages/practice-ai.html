@@ -1,28 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Практика: AI-інтеграція · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="практика">Практика: AI-інтеграція</h1>
-<p>Візьми Node/Next.js-проєкт і ключ провайдера (<code>ANTHROPIC_API_KEY</code> у
-<code>.env</code>, лише на сервері). Пройди шлях від першого виклику до маленького
-RAG-асистента. <strong>Ключ ніколи не потрапляє у фронтенд-код.</strong></p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: AI-інтеграція · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: AI-інтеграція</h1>
+        <p>
+          Візьми Node/Next.js-проєкт і ключ провайдера (<code>ANTHROPIC_API_KEY</code> у
+          <code>.env</code>, лише на сервері). Пройди шлях від першого виклику до маленького
+          RAG-асистента. <strong>Ключ ніколи не потрапляє у фронтенд-код.</strong>
+        </p>
 
-<div class="task">
-<h2>Завдання 1. Перший виклик через свій бекенд</h2>
-<p class="task-goal">Зроби ендпоінт <code>POST /api/ask</code>, що приймає <code>question</code>,
-викликає модель і повертає текст відповіді. На фронті — поле й кнопка, що показують
-результат. Переконайся, що ключ читається з env на сервері.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">import Anthropic from '@anthropic-ai/sdk';
+        <div class="task">
+          <h2>Завдання 1. Перший виклик через свій бекенд</h2>
+          <p class="task-goal">
+            Зроби ендпоінт <code>POST /api/ask</code>, що приймає <code>question</code>, викликає
+            модель і повертає текст відповіді. На фронті — поле й кнопка, що показують результат.
+            Переконайся, що ключ читається з env на сервері.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre
+              class="language-js"
+            ><code class="language-js">import Anthropic from '@anthropic-ai/sdk';
 const client = new Anthropic();
 
 app.post('/api/ask', async (req, res) =&gt; {
@@ -33,25 +43,38 @@ app.post('/api/ask', async (req, res) =&gt; {
   });
   res.json({ answer: r.content.find((b) =&gt; b.type === 'text')?.text ?? '' });
 });</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 2. Стрімінг у чат</h2>
-<p class="task-goal">Переведи відповідь на <strong>стрімінг</strong>: сервер віддає токени через
-<code>text/event-stream</code>, клієнт дописує їх у UI по частинах. Історію повідомлень
-тримай на клієнті й надсилай усю.</p>
-<details class="hint"><summary>Підказка</summary><p>На сервері — <code>client.messages.stream(...)</code> + <code>stream.on('text', ...)</code>. На клієнті читай <code>res.body.getReader()</code> і парси кадри <code>data:</code>. Або візьми <code>useChat</code> з Vercel AI SDK — і ручний парсинг не потрібен.</p></details>
-</div>
+        <div class="task">
+          <h2>Завдання 2. Стрімінг у чат</h2>
+          <p class="task-goal">
+            Переведи відповідь на <strong>стрімінг</strong>: сервер віддає токени через
+            <code>text/event-stream</code>, клієнт дописує їх у UI по частинах. Історію повідомлень
+            тримай на клієнті й надсилай усю.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              На сервері — <code>client.messages.stream(...)</code> +
+              <code>stream.on('text', ...)</code>. На клієнті читай
+              <code>res.body.getReader()</code> і парси кадри <code>data:</code>. Або візьми
+              <code>useChat</code> з Vercel AI SDK — і ручний парсинг не потрібен.
+            </p>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 3. Інструмент (function calling)</h2>
-<p class="task-goal">Додай інструмент <code>get_time</code> (повертає поточний час) і проведи
-агентний цикл: доки <code>stop_reason === 'tool_use'</code> — виконуй інструмент і повертай
-<code>tool_result</code>. Спитай модель «котра година?» і переконайся, що вона кличе
-інструмент.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">const tools = [{
+        <div class="task">
+          <h2>Завдання 3. Інструмент (function calling)</h2>
+          <p class="task-goal">
+            Додай інструмент <code>get_time</code> (повертає поточний час) і проведи агентний цикл:
+            доки <code>stop_reason === 'tool_use'</code> — виконуй інструмент і повертай
+            <code>tool_result</code>. Спитай модель «котра година?» і переконайся, що вона кличе
+            інструмент.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">const tools = [{
   name: 'get_time',
   description: 'Повертає поточний час ISO. Викликай, коли питають про час.',
   input_schema: { type: 'object', properties: {}, required: [] },
@@ -66,41 +89,67 @@ while (true) {
     .map((b) =&gt; ({ type: 'tool_result', tool_use_id: b.id, content: new Date().toISOString() }));
   messages.push({ role: 'user', content: results });
 }</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 4. Vercel AI SDK + useChat</h2>
-<p class="task-goal">У Next.js зроби чат: Route Handler зі <code>streamText</code> і клієнтський
-компонент на <code>useChat</code>. Переконайся, що відповідь стрімиться без ручного парсингу
-SSE.</p>
-<details class="hint"><summary>Підказка</summary><p>Сервер: <code>return streamText({ model: anthropic('claude-opus-4-8'), messages }).toDataStreamResponse();</code>. Клієнт: <code>const { messages, input, handleInputChange, handleSubmit } = useChat();</code>.</p></details>
-</div>
+        <div class="task">
+          <h2>Завдання 4. Vercel AI SDK + useChat</h2>
+          <p class="task-goal">
+            У Next.js зроби чат: Route Handler зі <code>streamText</code> і клієнтський компонент на
+            <code>useChat</code>. Переконайся, що відповідь стрімиться без ручного парсингу SSE.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Сервер:
+              <code
+                >return streamText({ model: anthropic('claude-opus-4-8'), messages
+                }).toDataStreamResponse();</code
+              >. Клієнт:
+              <code>const { messages, input, handleInputChange, handleSubmit } = useChat();</code>.
+            </p>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 5. Міні-RAG (виклик)</h2>
-<p class="task-goal">Візьми 5–10 своїх текстових нотаток. Порахуй їхні embeddings і
-збережи (у памʼяті або в pgvector). На запит: порахуй embedding питання, знайди топ-3
-найближчі нотатки (косинусна подібність) і встав їх у промпт з інструкцією «відповідай
-лише за контекстом». Покажи джерела.</p>
-<details class="hint"><summary>Підказка</summary><p>Косинусна подібність двох векторів: скалярний добуток, поділений на добуток довжин. Для старту навіть не потрібна БД — тримай масив <code>{ text, embedding }</code> у памʼяті й сортуй за подібністю.</p></details>
-</div>
+        <div class="task">
+          <h2>Завдання 5. Міні-RAG (виклик)</h2>
+          <p class="task-goal">
+            Візьми 5–10 своїх текстових нотаток. Порахуй їхні embeddings і збережи (у памʼяті або в
+            pgvector). На запит: порахуй embedding питання, знайди топ-3 найближчі нотатки
+            (косинусна подібність) і встав їх у промпт з інструкцією «відповідай лише за
+            контекстом». Покажи джерела.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Косинусна подібність двох векторів: скалярний добуток, поділений на добуток довжин.
+              Для старту навіть не потрібна БД — тримай масив <code>{ text, embedding }</code> у
+              памʼяті й сортуй за подібністю.
+            </p>
+          </details>
+        </div>
 
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Вбудуй одну AI-фічу у свій fullstack-проєкт: пошук за змістом по нотатках або
-асистента, що відповідає на основі твоїх даних (RAG). Не забувай про безпеку ключа,
-ліміти запитів і чесну відповідь «не знаю», коли контексту бракує.</p></div></div>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Вбудуй одну AI-фічу у свій fullstack-проєкт: пошук за змістом по нотатках або
+              асистента, що відповідає на основі твоїх даних (RAG). Не забувай про безпеку ключа,
+              ліміти запитів і чесну відповідь «не знаю», коли контексту бракує.
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

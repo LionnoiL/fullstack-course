@@ -1,29 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Замикання · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="замикання">1. Замикання</h1>
-<p><strong> Замикання (closure) </strong> - це зв'язок між функцією і її ланцюжком областей
-видимості.</p>
-<p>Цей механізм можливий завдяки лексичному оточенню. При виконанні функції, її
-лексичне оточення отримує посилання на ту область видимості, де функція була
-оголошена (зовнішнє лексичне оточення), тим самим отримуючи доступ до змінних з
-неї, буквально утримуючи в пам'яті таблицю доступних змінних.</p>
-<p>Разом, замикання це термін який описує здатність функції запам'ятовувати
-лексичне оточення в якому вона була оголошена, і продовжувати отримувати доступ
-до змінних з цього лексичного оточення незалежно від того де вона була
-викликана.</p>
-<p>Розглянемо приклад функції-лічильника з недоступною із зовні змінної.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">createCounter</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Замикання · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="замикання">1. Замикання</h1>
+        <p>
+          <strong> Замикання (closure) </strong> - це зв'язок між функцією і її ланцюжком областей
+          видимості.
+        </p>
+        <p>
+          Цей механізм можливий завдяки лексичному оточенню. При виконанні функції, її лексичне
+          оточення отримує посилання на ту область видимості, де функція була оголошена (зовнішнє
+          лексичне оточення), тим самим отримуючи доступ до змінних з неї, буквально утримуючи в
+          пам'яті таблицю доступних змінних.
+        </p>
+        <p>
+          Разом, замикання це термін який описує здатність функції запам'ятовувати лексичне оточення
+          в якому вона була оголошена, і продовжувати отримувати доступ до змінних з цього
+          лексичного оточення незалежно від того де вона була викликана.
+        </p>
+        <p>Розглянемо приклад функції-лічильника з недоступною із зовні змінної.</p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">createCounter</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment">/*
    * Локальна змінна privateValue доступна тільки в замиканні.
    * Отримати до неї доступ в зовнішньому коді неможливо.
@@ -49,19 +59,28 @@ counterB<span class="token punctuation">.</span><span class="token function">inc
 counterB<span class="token punctuation">.</span><span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 2</span>
 counterB<span class="token punctuation">.</span><span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 3</span>
 </code></pre>
-<p>У прикладі функція <code>createCounter</code> створює локальну змінну <code>privateValue</code>, а
-також локальну функцію <code>increment</code>, яка збільшує значення <code>privateValue</code> і
-виводить значення в консоль.</p>
-<p>Функція <code>increment</code> не містить власної локальної змінної <code>privateValue</code>, але
-завдяки механізму замикання їй доступна змінна з зовнішнього оточення функції
-<code>createCounter</code>. В результаті вона може користуватися змінної <code>PrivateValue</code>,
-створеної під час виклику функції <code>createCounter</code>, навіть після того, як
-<code>increment</code> буде повернута з виклику <code>createCounter</code>.</p>
-<p>Якщо заглянути всередину <code>counterA</code> і <code>counterB</code> використовуючи
-<code>console.dir ()</code>, наочно видно механізм замикання.</p>
-<p><img src="images/counter-closure.png" alt="closure"></p>
-<p>Напишемо функцію приготування кухарем нікого страви.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">makeDish</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">shefName<span class="token punctuation">,</span> dish</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <p>
+          У прикладі функція <code>createCounter</code> створює локальну змінну
+          <code>privateValue</code>, а також локальну функцію <code>increment</code>, яка збільшує
+          значення <code>privateValue</code> і виводить значення в консоль.
+        </p>
+        <p>
+          Функція <code>increment</code> не містить власної локальної змінної
+          <code>privateValue</code>, але завдяки механізму замикання їй доступна змінна з
+          зовнішнього оточення функції <code>createCounter</code>. В результаті вона може
+          користуватися змінної <code>PrivateValue</code>, створеної під час виклику функції
+          <code>createCounter</code>, навіть після того, як <code>increment</code> буде повернута з
+          виклику <code>createCounter</code>.
+        </p>
+        <p>
+          Якщо заглянути всередину <code>counterA</code> і <code>counterB</code> використовуючи
+          <code>console.dir ()</code>, наочно видно механізм замикання.
+        </p>
+        <p><img src="images/counter-closure.png" alt="closure" /></p>
+        <p>Напишемо функцію приготування кухарем нікого страви.</p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">makeDish</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">shefName<span class="token punctuation">,</span> dish</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>shefName<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> is cooking </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>dish<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
@@ -73,11 +92,14 @@ counterB<span class="token punctuation">.</span><span class="token function">inc
 <span class="token function">makeDish</span><span class="token punctuation">(</span><span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'pork chops'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Poly is cooking pork chops</span>
 <span class="token function">makeDish</span><span class="token punctuation">(</span><span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'roast beef'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Poly is cooking roast beef</span>
 </code></pre>
-<p>Проблема такого підходу в тому, що при кожному виклику функції доводиться
-передавати ім'я кухаря який буде готувати страву. Розв'язати цю проблему можна
-використовуючи замикання. Пишемо функцію створення шефа з ім'ям, яка повертає
-іншу функцію для приготування страви.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">makeShef</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <p>
+          Проблема такого підходу в тому, що при кожному виклику функції доводиться передавати ім'я
+          кухаря який буде готувати страву. Розв'язати цю проблему можна використовуючи замикання.
+          Пишемо функцію створення шефа з ім'ям, яка повертає іншу функцію для приготування страви.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">makeShef</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment">/*
    * Параметр name це локальна змінна для функції makeShef.
    * Це означає що вона буде доступна функції makeDish через замикання.
@@ -95,25 +117,39 @@ counterB<span class="token punctuation">.</span><span class="token function">inc
 <span class="token function">poly</span><span class="token punctuation">(</span><span class="token string">'pancakes'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Poly is cooking pancakes</span>
 <span class="token function">poly</span><span class="token punctuation">(</span><span class="token string">'eggs and bacon'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Poly is cooking eggs and bacon</span>
 </code></pre>
-<p>Подивимося в консоль.</p>
-<p><img src="images/shef-closure.png" alt="closure"></p>
-<h1 id="додаткові-матеріали">2. Додаткові матеріали</h1>
-<p>Вичерпна стаття по замиканнях від <strong> Preethi Kasireddy </strong>, по посиланнях нижче,
-обов'язкова до прочитання у вільний від вивчення основного матеріалу час.</p>
-<ul>
-<li><a href="https://medium.com/@sshambir/%D0%BE%D1%81%D0%B2%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC-%D0%B7%D0%B0%D0%BC%D1%8B%D0%BA%D0%B0%D0%BD%D0%B8%D1%8F-%D0%B2-javascript-5b83267ef7d1" target="_blank">Освоюємо замикання в Javascript (переклад ru)</a></li>
-<li><a href="https://medium.freecodecamp.org/lets-learn-javascript-closures-66feb44f6a44" target="_blank">Let’s Learn JavaScript Closures (оригинал en)</a></li>
-</ul>
-  </main>
-</div>
+        <p>Подивимося в консоль.</p>
+        <p><img src="images/shef-closure.png" alt="closure" /></p>
+        <h1 id="додаткові-матеріали">2. Додаткові матеріали</h1>
+        <p>
+          Вичерпна стаття по замиканнях від <strong> Preethi Kasireddy </strong>, по посиланнях
+          нижче, обов'язкова до прочитання у вільний від вивчення основного матеріалу час.
+        </p>
+        <ul>
+          <li>
+            <a
+              href="https://medium.com/@sshambir/%D0%BE%D1%81%D0%B2%D0%B0%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC-%D0%B7%D0%B0%D0%BC%D1%8B%D0%BA%D0%B0%D0%BD%D0%B8%D1%8F-%D0%B2-javascript-5b83267ef7d1"
+              target="_blank"
+              >Освоюємо замикання в Javascript (переклад ru)</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://medium.freecodecamp.org/lets-learn-javascript-closures-66feb44f6a44"
+              target="_blank"
+              >Let’s Learn JavaScript Closures (оригинал en)</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

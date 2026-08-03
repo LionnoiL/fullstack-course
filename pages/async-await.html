@@ -1,35 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>async / await · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="async-await">1. async / await</h1>
-<p><code>async / await</code> — це синтаксичний «цукор» над промісами (ES2017), який дозволяє
-писати асинхронний код так, наче він синхронний: без ланцюжків <code>.then()</code>,
-зверху вниз, з природним <code>try...catch</code>. Під капотом усе одно працюють проміси.</p>
-<h1 id="async-функція">2. Функція async</h1>
-<p>Ключове слово <code>async</code> перед функцією означає, що вона <strong>завжди повертає
-проміс</strong>. Значення, яке ви повертаєте, автоматично загортається у виконаний
-проміс.</p>
-<pre class="language-js"><code class="language-js">async function getNumber() {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>async / await · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="async-await">1. async / await</h1>
+        <p>
+          <code>async / await</code> — це синтаксичний «цукор» над промісами (ES2017), який дозволяє
+          писати асинхронний код так, наче він синхронний: без ланцюжків <code>.then()</code>,
+          зверху вниз, з природним <code>try...catch</code>. Під капотом усе одно працюють проміси.
+        </p>
+        <h1 id="async-функція">2. Функція async</h1>
+        <p>
+          Ключове слово <code>async</code> перед функцією означає, що вона
+          <strong>завжди повертає проміс</strong>. Значення, яке ви повертаєте, автоматично
+          загортається у виконаний проміс.
+        </p>
+        <pre class="language-js"><code class="language-js">async function getNumber() {
   return 42;
 }
 
 getNumber().then((n) =&gt; console.log(n)); // 42
 // getNumber() повертає Promise, що резолвиться в 42</code></pre>
-<h1 id="await">3. Оператор await</h1>
-<p><code>await</code> ставиться перед промісом і «призупиняє» виконання <code>async</code>-функції, доки
-проміс не завершиться, повертаючи його результат. Використовувати <code>await</code>
-можна лише всередині <code>async</code>-функції (або на верхньому рівні модуля).</p>
-<pre class="language-js"><code class="language-js">// Було: ланцюжок then
+        <h1 id="await">3. Оператор await</h1>
+        <p>
+          <code>await</code> ставиться перед промісом і «призупиняє» виконання
+          <code>async</code>-функції, доки проміс не завершиться, повертаючи його результат.
+          Використовувати <code>await</code> можна лише всередині <code>async</code>-функції (або на
+          верхньому рівні модуля).
+        </p>
+        <pre class="language-js"><code class="language-js">// Було: ланцюжок then
 function loadOld() {
   return fetch('/api/user')
     .then((res) =&gt; res.json())
@@ -42,10 +52,12 @@ async function loadNew() {
   const user = await res.json();
   console.log(user.name);
 }</code></pre>
-<h1 id="обробка-помилок">4. Обробка помилок</h1>
-<p>З <code>await</code> помилки промісів перехоплюються звичайним <code>try...catch</code> — саме тому
-цей синтаксис такий зручний.</p>
-<pre class="language-js"><code class="language-js">async function load() {
+        <h1 id="обробка-помилок">4. Обробка помилок</h1>
+        <p>
+          З <code>await</code> помилки промісів перехоплюються звичайним <code>try...catch</code> —
+          саме тому цей синтаксис такий зручний.
+        </p>
+        <pre class="language-js"><code class="language-js">async function load() {
   try {
     const res = await fetch('/api/data');
     if (!res.ok) {
@@ -57,11 +69,15 @@ async function loadNew() {
     return null;
   }
 }</code></pre>
-<h1 id="паралельно">5. Послідовно проти паралельно</h1>
-<p>Кілька <code>await</code> поспіль виконуються <strong>послідовно</strong> — кожен чекає попередній.
-Якщо запити незалежні, це марна трата часу. Запускайте їх паралельно через
-<code>Promise.all</code>.</p>
-<pre class="language-js"><code class="language-js">// Повільно: 2 запити один за одним (сума часів)
+        <h1 id="паралельно">5. Послідовно проти паралельно</h1>
+        <p>
+          Кілька <code>await</code> поспіль виконуються <strong>послідовно</strong> — кожен чекає
+          попередній. Якщо запити незалежні, це марна трата часу. Запускайте їх паралельно через
+          <code>Promise.all</code>.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">// Повільно: 2 запити один за одним (сума часів)
 const a = await fetch('/api/a');
 const b = await fetch('/api/b');
 
@@ -70,13 +86,23 @@ const [resA, resB] = await Promise.all([
   fetch('/api/a'),
   fetch('/api/b'),
 ]);</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>Promise.all</code> відхиляється, щойно впаде <em>будь-який</em> з промісів. Якщо
-потрібно дочекатися всіх незалежно від помилок — використовуйте
-<code>Promise.allSettled</code>.</p></div></div>
-<h1 id="цикли">6. await у циклах</h1>
-<p>Щоб виконати асинхронну операцію для кожного елемента <strong>по черзі</strong>, підходить
-<code>for...of</code>. Для паралельного запуску — <code>map</code> + <code>Promise.all</code>.</p>
-<pre class="language-js"><code class="language-js">// По черзі
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>Promise.all</code> відхиляється, щойно впаде <em>будь-який</em> з промісів. Якщо
+              потрібно дочекатися всіх незалежно від помилок — використовуйте
+              <code>Promise.allSettled</code>.
+            </p>
+          </div>
+        </div>
+        <h1 id="цикли">6. await у циклах</h1>
+        <p>
+          Щоб виконати асинхронну операцію для кожного елемента <strong>по черзі</strong>, підходить
+          <code>for...of</code>. Для паралельного запуску — <code>map</code> +
+          <code>Promise.all</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">// По черзі
 for (const id of ids) {
   const item = await fetchItem(id);
   console.log(item);
@@ -84,24 +110,41 @@ for (const id of ids) {
 
 // Паралельно
 const items = await Promise.all(ids.map((id) =&gt; fetchItem(id)));</code></pre>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p><code>forEach</code> не «чекає» на <code>await</code> усередині себе. Для послідовної
-асинхронної обробки використовуйте <code>for...of</code>, а не <code>forEach</code>.</p></div></div>
-<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://uk.javascript.info/async-await" target="_blank">async/await — javascript.info</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function" target="_blank">async function — MDN</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>forEach</code> не «чекає» на <code>await</code> усередині себе. Для послідовної
+              асинхронної обробки використовуйте <code>for...of</code>, а не <code>forEach</code>.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://uk.javascript.info/async-await" target="_blank"
+              >async/await — javascript.info</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function"
+              target="_blank"
+              >async function — MDN</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

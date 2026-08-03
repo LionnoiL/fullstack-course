@@ -1,29 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Асинхронність у Redux Toolkit · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="thunk">1. createAsyncThunk</h1>
-<p>Редюсери синхронні й чисті, тож запити роблять окремо — через <strong>thunk</strong>.
-<code>createAsyncThunk</code> сам генерує три стани дії: <code>pending</code>, <code>fulfilled</code>,
-<code>rejected</code>.</p>
-<pre class="language-js"><code class="language-js">import { createAsyncThunk } from '@reduxjs/toolkit';
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Асинхронність у Redux Toolkit · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="thunk">1. createAsyncThunk</h1>
+        <p>
+          Редюсери синхронні й чисті, тож запити роблять окремо — через <strong>thunk</strong>.
+          <code>createAsyncThunk</code> сам генерує три стани дії: <code>pending</code>,
+          <code>fulfilled</code>, <code>rejected</code>.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchUsers = createAsyncThunk('users/fetch', async () =&gt; {
   const res = await fetch('/api/users');
   return res.json(); // потрапить у action.payload при fulfilled
 });</code></pre>
-<h1 id="extra">2. Обробка в extraReducers</h1>
-<p>Стани тунка ловлять у <code>extraReducers</code> слайса:</p>
-<pre class="language-js"><code class="language-js">const usersSlice = createSlice({
+        <h1 id="extra">2. Обробка в extraReducers</h1>
+        <p>Стани тунка ловлять у <code>extraReducers</code> слайса:</p>
+        <pre class="language-js"><code class="language-js">const usersSlice = createSlice({
   name: 'users',
   initialState: { items: [], status: 'idle', error: null },
   reducers: {},
@@ -40,12 +47,14 @@ export const fetchUsers = createAsyncThunk('users/fetch', async () =&gt; {
       });
   },
 });</code></pre>
-<pre class="language-js"><code class="language-js">// у компоненті
+        <pre class="language-js"><code class="language-js">// у компоненті
 useEffect(() =&gt; { dispatch(fetchUsers()); }, [dispatch]);</code></pre>
-<h1 id="rtk-query">3. RTK Query — коротко</h1>
-<p>Для роботи з API RTK має вбудований шар <strong>RTK Query</strong> — аналог TanStack Query
-всередині Redux (кеш, статуси, автогенеровані хуки).</p>
-<pre class="language-js"><code class="language-js">const api = createApi({
+        <h1 id="rtk-query">3. RTK Query — коротко</h1>
+        <p>
+          Для роботи з API RTK має вбудований шар <strong>RTK Query</strong> — аналог TanStack Query
+          всередині Redux (кеш, статуси, автогенеровані хуки).
+        </p>
+        <pre class="language-js"><code class="language-js">const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
   endpoints: (build) =&gt; ({
     getUsers: build.query({ query: () =&gt; 'users' }),
@@ -53,33 +62,52 @@ useEffect(() =&gt; { dispatch(fetchUsers()); }, [dispatch]);</code></pre>
 });
 export const { useGetUsersQuery } = api;
 // у компоненті: const { data, isLoading } = useGetUsersQuery();</code></pre>
-<h1 id="вибір">4. Що обрати для серверних даних</h1>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Якщо застосунок уже на Redux — бери <strong>RTK Query</strong>. Якщо ні —
-<strong>TanStack Query</strong> простіший і не тягне за собою Redux. Головне: не тримай
-серверні дані в звичайних слайсах вручну — для цього є спеціальні інструменти.</p></div></div>
-<h1 id="порівняння">5. Zustand vs Redux Toolkit — підсумок</h1>
-<ul>
-<li><strong>Zustand</strong> — мінімум коду, швидкий старт, малі/середні застосунки.</li>
-<li><strong>Redux Toolkit</strong> — структура й патерни, потужні devtools, великі команди
-й застосунки; RTK Query для даних.</li>
-<li>Для <em>серверного</em> стану в обох випадках згадай про TanStack Query / RTK Query.</li>
-</ul>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://redux-toolkit.js.org/api/createAsyncThunk" target="_blank">createAsyncThunk — RTK</a></li>
-<li><a href="https://redux-toolkit.js.org/rtk-query/overview" target="_blank">RTK Query — Overview</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="вибір">4. Що обрати для серверних даних</h1>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Якщо застосунок уже на Redux — бери <strong>RTK Query</strong>. Якщо ні —
+              <strong>TanStack Query</strong> простіший і не тягне за собою Redux. Головне: не
+              тримай серверні дані в звичайних слайсах вручну — для цього є спеціальні інструменти.
+            </p>
+          </div>
+        </div>
+        <h1 id="порівняння">5. Zustand vs Redux Toolkit — підсумок</h1>
+        <ul>
+          <li><strong>Zustand</strong> — мінімум коду, швидкий старт, малі/середні застосунки.</li>
+          <li>
+            <strong>Redux Toolkit</strong> — структура й патерни, потужні devtools, великі команди й
+            застосунки; RTK Query для даних.
+          </li>
+          <li>
+            Для <em>серверного</em> стану в обох випадках згадай про TanStack Query / RTK Query.
+          </li>
+        </ul>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://redux-toolkit.js.org/api/createAsyncThunk" target="_blank"
+              >createAsyncThunk — RTK</a
+            >
+          </li>
+          <li>
+            <a href="https://redux-toolkit.js.org/rtk-query/overview" target="_blank"
+              >RTK Query — Overview</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

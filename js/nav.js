@@ -495,9 +495,7 @@
     },
     {
       title: "Ресурси",
-      lessons: [
-        ["resources.html", "🔗 Корисні посилання"],
-      ],
+      lessons: [["resources.html", "🔗 Корисні посилання"]],
     },
   ];
 
@@ -643,8 +641,7 @@
     }
   }
 
-  const sidebar =
-    document.getElementById("sidebar") || document.querySelector(".sidebar");
+  const sidebar = document.getElementById("sidebar") || document.querySelector(".sidebar");
   if (!sidebar) {
     return;
   }

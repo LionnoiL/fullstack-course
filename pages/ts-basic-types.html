@@ -1,47 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Базові типи · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="анотації">1. Анотації типів</h1>
-<p>Тип змінної вказують після двокрапки. Якщо тип очевидний зі значення, TypeScript
-<strong>виведе</strong> його сам (type inference) — анотацію можна не писати.</p>
-<pre class="language-js"><code class="language-js">let name: string = 'Ada';
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Базові типи · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="анотації">1. Анотації типів</h1>
+        <p>
+          Тип змінної вказують після двокрапки. Якщо тип очевидний зі значення, TypeScript
+          <strong>виведе</strong> його сам (type inference) — анотацію можна не писати.
+        </p>
+        <pre class="language-js"><code class="language-js">let name: string = 'Ada';
 let age: number = 30;
 let isAdmin: boolean = false;
 
 let city = 'Kyiv'; // тип string виведено автоматично</code></pre>
-<h1 id="прості-типи">2. Прості типи</h1>
-<pre class="language-js"><code class="language-js">let a: number = 42;        // усі числа (цілі, дробові)
+        <h1 id="прості-типи">2. Прості типи</h1>
+        <pre
+          class="language-js"
+        ><code class="language-js">let a: number = 42;        // усі числа (цілі, дробові)
 let b: string = 'текст';
 let c: boolean = true;
 let d: null = null;
 let e: undefined = undefined;
 let big: bigint = 10n;
 let sym: symbol = Symbol('id');</code></pre>
-<h1 id="масиви-кортежі">3. Масиви та кортежі</h1>
-<pre class="language-js"><code class="language-js">let nums: number[] = [1, 2, 3];
+        <h1 id="масиви-кортежі">3. Масиви та кортежі</h1>
+        <pre class="language-js"><code class="language-js">let nums: number[] = [1, 2, 3];
 let names: string[] = ['a', 'b'];
 let matrix: number[][] = [[1, 2], [3, 4]];
 
 // Кортеж — масив фіксованої довжини з відомими типами
 let pair: [string, number] = ['age', 30];</code></pre>
-<h1 id="any-unknown">4. any, unknown, void, never</h1>
-<ul>
-<li><code>any</code> — вимикає перевірку типів (уникайте його);</li>
-<li><code>unknown</code> — «щось невідоме», але безпечне: перед використанням треба перевірити тип;</li>
-<li><code>void</code> — функція нічого не повертає;</li>
-<li><code>never</code> — функція ніколи не завершується нормально (кидає помилку або нескінченна).</li>
-</ul>
-<pre class="language-js"><code class="language-js">let risky: any = 5;
+        <h1 id="any-unknown">4. any, unknown, void, never</h1>
+        <ul>
+          <li><code>any</code> — вимикає перевірку типів (уникайте його);</li>
+          <li>
+            <code>unknown</code> — «щось невідоме», але безпечне: перед використанням треба
+            перевірити тип;
+          </li>
+          <li><code>void</code> — функція нічого не повертає;</li>
+          <li>
+            <code>never</code> — функція ніколи не завершується нормально (кидає помилку або
+            нескінченна).
+          </li>
+        </ul>
+        <pre class="language-js"><code class="language-js">let risky: any = 5;
 risky.foo.bar; // помилки немає — але це небезпечно
 
 let value: unknown = getData();
@@ -53,30 +66,47 @@ if (typeof value === 'string') {
 function fail(msg: string): never {
   throw new Error(msg);
 }</code></pre>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p><code>any</code> фактично «вимикає» TypeScript для значення і повертає всі проблеми
-чистого JS. Якщо тип справді невідомий — беріть <code>unknown</code>: він змусить вас
-перевірити тип перед використанням.</p></div></div>
-<h1 id="літеральні">5. Літеральні типи</h1>
-<p>Типом може бути конкретне значення. У поєднанні з обʼєднанням (<code>|</code>) це дає зручні
-переліки допустимих значень.</p>
-<pre class="language-js"><code class="language-js">let direction: 'left' | 'right' | 'up' | 'down';
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>any</code> фактично «вимикає» TypeScript для значення і повертає всі проблеми
+              чистого JS. Якщо тип справді невідомий — беріть <code>unknown</code>: він змусить вас
+              перевірити тип перед використанням.
+            </p>
+          </div>
+        </div>
+        <h1 id="літеральні">5. Літеральні типи</h1>
+        <p>
+          Типом може бути конкретне значення. У поєднанні з обʼєднанням (<code>|</code>) це дає
+          зручні переліки допустимих значень.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">let direction: 'left' | 'right' | 'up' | 'down';
 direction = 'left';  // ✅
 direction = 'top';   // ❌ такого значення немає в списку</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://www.typescriptlang.org/docs/handbook/2/everyday-types.html" target="_blank">Everyday Types — TypeScript Handbook</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+              target="_blank"
+              >Everyday Types — TypeScript Handbook</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

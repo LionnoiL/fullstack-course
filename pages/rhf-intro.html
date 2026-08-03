@@ -1,61 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Навіщо React Hook Form · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="проблема">1. Проблема «ручних» форм</h1>
-<p>У розділі React ми робили контрольовані форми: кожне поле — <code>useState</code> +
-<code>onChange</code>. На великій формі це багато коду, а ще й кожне натискання клавіші
-перемальовує весь компонент.</p>
-<pre class="language-js"><code class="language-js">// по стану на кожне поле — і ре-рендер на кожен символ
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Навіщо React Hook Form · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="проблема">1. Проблема «ручних» форм</h1>
+        <p>
+          У розділі React ми робили контрольовані форми: кожне поле — <code>useState</code> +
+          <code>onChange</code>. На великій формі це багато коду, а ще й кожне натискання клавіші
+          перемальовує весь компонент.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">// по стану на кожне поле — і ре-рендер на кожен символ
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
 const [name, setName] = useState('');
 // ...валідація, помилки, submit — усе вручну</code></pre>
-<h1 id="rhf">2. Що таке React Hook Form</h1>
-<p><strong>React Hook Form (RHF)</strong> — бібліотека для роботи з формами, яка спирається на
-<em>неконтрольовані</em> поля (через <code>ref</code>). Вона збирає значення без зайвих
-ре-рендерів, а валідацію, помилки й сабміт бере на себе.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Ключова перевага — <strong>продуктивність</strong>: набір тексту в полі не перемальовує
-всю форму, бо RHF не тримає кожне значення в стані React. На великих формах це
-відчутно швидше за підхід «useState на кожне поле».</p></div></div>
-<h1 id="переваги">3. Що дає з коробки</h1>
-<ul>
-<li>мінімум коду — поля реєструють одним викликом;</li>
-<li>вбудована й схемна (Zod) валідація;</li>
-<li>зручний доступ до помилок і станів (<code>isSubmitting</code>, <code>isValid</code>);</li>
-<li>менше ре-рендерів — краща продуктивність.</li>
-</ul>
-<h1 id="звязок-zod">4. І до чого тут Zod</h1>
-<p>RHF відповідає за <em>механіку</em> форми, а <strong>Zod</strong> — за <em>правила</em> валідації
-(схему даних). Разом вони дають типобезпечні форми: одна схема описує і перевірку,
-і TypeScript-тип даних. Далі в розділі складемо цей конвеєр по кроках.</p>
-<p><img src="images/form-validation-flow.svg" alt="Потік: поля → React Hook Form → Zod-схема → onSubmit або помилки"></p>
-<h1 id="встановлення">5. Встановлення</h1>
-<pre class="language-js"><code class="language-js">npm install react-hook-form</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://react-hook-form.com/get-started" target="_blank">React Hook Form — Get Started</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="rhf">2. Що таке React Hook Form</h1>
+        <p>
+          <strong>React Hook Form (RHF)</strong> — бібліотека для роботи з формами, яка спирається
+          на <em>неконтрольовані</em> поля (через <code>ref</code>). Вона збирає значення без зайвих
+          ре-рендерів, а валідацію, помилки й сабміт бере на себе.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Ключова перевага — <strong>продуктивність</strong>: набір тексту в полі не
+              перемальовує всю форму, бо RHF не тримає кожне значення в стані React. На великих
+              формах це відчутно швидше за підхід «useState на кожне поле».
+            </p>
+          </div>
+        </div>
+        <h1 id="переваги">3. Що дає з коробки</h1>
+        <ul>
+          <li>мінімум коду — поля реєструють одним викликом;</li>
+          <li>вбудована й схемна (Zod) валідація;</li>
+          <li>
+            зручний доступ до помилок і станів (<code>isSubmitting</code>, <code>isValid</code>);
+          </li>
+          <li>менше ре-рендерів — краща продуктивність.</li>
+        </ul>
+        <h1 id="звязок-zod">4. І до чого тут Zod</h1>
+        <p>
+          RHF відповідає за <em>механіку</em> форми, а <strong>Zod</strong> — за
+          <em>правила</em> валідації (схему даних). Разом вони дають типобезпечні форми: одна схема
+          описує і перевірку, і TypeScript-тип даних. Далі в розділі складемо цей конвеєр по кроках.
+        </p>
+        <p>
+          <img
+            src="images/form-validation-flow.svg"
+            alt="Потік: поля → React Hook Form → Zod-схема → onSubmit або помилки"
+          />
+        </p>
+        <h1 id="встановлення">5. Встановлення</h1>
+        <pre class="language-js"><code class="language-js">npm install react-hook-form</code></pre>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://react-hook-form.com/get-started" target="_blank"
+              >React Hook Form — Get Started</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

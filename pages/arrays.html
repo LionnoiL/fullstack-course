@@ -1,21 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Масиви · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="масиви">1. Масиви</h1>
-<p><strong>Масив</strong> — структура даних для зберігання і маніпулювання колекцією індексованих значень. Використовуються для зберігання впорядкованих колекцій даних, наприклад списку курортів, товарів, клієнтів в готелі й т. п.</p>
-<h1 id="створення">2. Створення</h1>
-<p>Синтаксис для створення нового масиву - квадратні дужки <code>[]</code> зі списком елементів розділених комами. У масиві може зберігатися будь-яке число елементів будь-якого типу.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">// Пустий масив</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Масиви · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="масиви">1. Масиви</h1>
+        <p>
+          <strong>Масив</strong> — структура даних для зберігання і маніпулювання колекцією
+          індексованих значень. Використовуються для зберігання впорядкованих колекцій даних,
+          наприклад списку курортів, товарів, клієнтів в готелі й т. п.
+        </p>
+        <h1 id="створення">2. Створення</h1>
+        <p>
+          Синтаксис для створення нового масиву - квадратні дужки <code>[]</code> зі списком
+          елементів розділених комами. У масиві може зберігатися будь-яке число елементів будь-якого
+          типу.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">// Пустий масив</span>
 <span class="token keyword">const</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
 <span class="token comment">// Масив clients с трьома елементами</span>
@@ -23,21 +36,33 @@
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["Mango", "Poly", "Ajax"]</span>
 </code></pre>
-<h1 id="доступ-до-елементів">3. Доступ до елементів</h1>
-<p>В якості ключів-індексів використовуються цифри, індексація починається з
-<strong>нуля</strong>.</p>
-<p><img src="images/indices.jpg" alt="array indices"></p>
-<p>Щоб отримати потрібний елемент з масиву, після імені змінної яка містить масив, вказується індекс елемента у квадратних дужках. На місце такого виразу буде підставлене значення зберігається в елементі масиву.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <h1 id="доступ-до-елементів">3. Доступ до елементів</h1>
+        <p>
+          В якості ключів-індексів використовуються цифри, індексація починається з
+          <strong>нуля</strong>.
+        </p>
+        <p><img src="images/indices.jpg" alt="array indices" /></p>
+        <p>
+          Щоб отримати потрібний елемент з масиву, після імені змінної яка містить масив, вказується
+          індекс елемента у квадратних дужках. На місце такого виразу буде підставлене значення
+          зберігається в елементі масиву.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
 <span class="token comment">// Вказуючи в дужках індекс елемента ми отримуємо його значення</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Mango</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Poly</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Ajax</span>
 </code></pre>
-<h1 id="перевизначення">4. Перевизначення</h1>
-<p>Елементи масиву можна замінювати та додавати, звертаючись до елементу масиву за індексом.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <h1 id="перевизначення">4. Перевизначення</h1>
+        <p>
+          Елементи масиву можна замінювати та додавати, звертаючись до елементу масиву за індексом.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
 <span class="token comment">// Значення елемента можна замінити</span>
 clients<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'Kiwi'</span><span class="token punctuation">;</span>
@@ -49,15 +74,27 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["Kiwi", "Poly", "Ajax", "Alex"]</span>
 </code></pre>
-<h1 id="довжина-масиву">5. Довжина масиву</h1>
-<p>Довжина масиву динамічна величина і змінюється автоматично при додаванні або видаленні елементів. Поточне число елементів масиву міститься в його властивості <code>length</code>.</p>
-<p>Властивість <code>length</code> можна змінювати безпосередньо.</p>
-<ul>
-<li>Якщо встановити для властивості <code>length</code> значення, що перевищує кількість елементів в масиві, нові елементи будуть додані з початковими значеннями
-<code>undefined</code>.</li>
-<li>Якщо задати довжину масиву менше ніж поточна кількість елементів в масиві то всі елементи, що "не влізли" в нову довжину просто видаляються.</li>
-</ul>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <h1 id="довжина-масиву">5. Довжина масиву</h1>
+        <p>
+          Довжина масиву динамічна величина і змінюється автоматично при додаванні або видаленні
+          елементів. Поточне число елементів масиву міститься в його властивості
+          <code>length</code>.
+        </p>
+        <p>Властивість <code>length</code> можна змінювати безпосередньо.</p>
+        <ul>
+          <li>
+            Якщо встановити для властивості <code>length</code> значення, що перевищує кількість
+            елементів в масиві, нові елементи будуть додані з початковими значеннями
+            <code>undefined</code>.
+          </li>
+          <li>
+            Якщо задати довжину масиву менше ніж поточна кількість елементів в масиві то всі
+            елементи, що "не влізли" в нову довжину просто видаляються.
+          </li>
+        </ul>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
 <span class="token comment">// length поверне поточну довжину масиву</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 3</span>
@@ -70,16 +107,23 @@ console<span class="token punctuation">.</span><span class="token function">log<
 clients<span class="token punctuation">.</span>length <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>clients<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ["Mango", "Poly"]</span>
 </code></pre>
-<h1 id="ітерація-по-масиву">6. Ітерація по масиву</h1>
-<p>Для ітерації по масиву або перебору масиву, використовуються цикли, зокрема цикл <code>for</code>. Переберемо масив клієнтів і виведемо їх імена.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <h1 id="ітерація-по-масиву">6. Ітерація по масиву</h1>
+        <p>
+          Для ітерації по масиву або перебору масиву, використовуються цикли, зокрема цикл
+          <code>for</code>. Переберемо масив клієнтів і виведемо їх імена.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
 <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator"><</span> clients<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Logging clients: '</span><span class="token punctuation">,</span> clients<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>За допомогою циклу масив можна заповнити даними.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <p>За допомогою циклу масив можна заповнити даними.</p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
 <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator"><</span> <span class="token number">3</span><span class="token punctuation">;</span> i <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   numbers<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`label-</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>i<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -87,17 +131,27 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'numbers: '</span><span class="token punctuation">,</span> numbers<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// ['label-0', 'label-1', 'label-2']</span>
 </code></pre>
-<h2 id="цикл-forof">6.1. Цикл for...of</h2>
-<p>Інструкція <code>for...of</code> створює цикл, перебирають ітеріруємі об'єкти, такі як масиви і рядки. Тіло циклу буде виконуватись для значення кожного окремого елемента. Це хороша заміна циклу <code>for</code> якщо не потрібен доступ до лічильника ітерації.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> variable <span class="token keyword">of</span> iterable<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <h2 id="цикл-forof">6.1. Цикл for...of</h2>
+        <p>
+          Інструкція <code>for...of</code> створює цикл, перебирають ітеріруємі об'єкти, такі як
+          масиви і рядки. Тіло циклу буде виконуватись для значення кожного окремого елемента. Це
+          хороша заміна циклу <code>for</code> якщо не потрібен доступ до лічильника ітерації.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> variable <span class="token keyword">of</span> iterable<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token comment">// statement</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<ul>
-<li><code>variable</code> — для кожної ітерації значення властивості присвоюється змінної.</li>
-<li><code>iterable</code> — колекція, яка має перелічуваних властивостей.</li>
-</ul>
-<pre class="language-"><code class="lang-js"><span class="token comment">// Ітерація по масиву</span>
+        <ul>
+          <li>
+            <code>variable</code> — для кожної ітерації значення властивості присвоюється змінної.
+          </li>
+          <li><code>iterable</code> — колекція, яка має перелічуваних властивостей.</li>
+        </ul>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">// Ітерація по масиву</span>
 <span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
 <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> client <span class="token keyword">of</span> clients<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -111,9 +165,14 @@ console<span class="token punctuation">.</span><span class="token function">log<
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>character<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<h2 id="інструкції-break-і-continue">6.2. Інструкції break і continue</h2>
-<p>Будемо шукати ім'я клієнта в масиві імен, якщо знайшли, перервемо цикл через те, що немає сенсу шукати далі, імена у нас унікальні.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <h2 id="інструкції-break-і-continue">6.2. Інструкції break і continue</h2>
+        <p>
+          Будемо шукати ім'я клієнта в масиві імен, якщо знайшли, перервемо цикл через те, що немає
+          сенсу шукати далі, імена у нас унікальні.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> clientNameToFind <span class="token operator">=</span> <span class="token string">'Poly'</span><span class="token punctuation">;</span>
 <span class="token keyword">let</span> message<span class="token punctuation">;</span>
 
@@ -135,8 +194,15 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Клієнт з таким іменем є в базі даних!</span>
 </code></pre>
-<p>Можна спочатку задати <code>message</code> значення невдачі пошуку, а в циклі перезаписати його на успіх якщо знайшли ім'я. Але <code>break</code> все одно стане в пригоді, тому що якщо у нас масив з 10000 клієнтів, а потрібний нам варто на позиції 2, то немає абсолютно ніякого сенсу перебирати 9998 елементів.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <p>
+          Можна спочатку задати <code>message</code> значення невдачі пошуку, а в циклі перезаписати
+          його на успіх якщо знайшли ім'я. Але <code>break</code> все одно стане в пригоді, тому що
+          якщо у нас масив з 10000 клієнтів, а потрібний нам варто на позиції 2, то немає абсолютно
+          ніякого сенсу перебирати 9998 елементів.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> clients <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Mango'</span><span class="token punctuation">,</span> <span class="token string">'Poly'</span><span class="token punctuation">,</span> <span class="token string">'Ajax'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> clientNameToFind <span class="token operator">=</span> <span class="token string">'Poly'</span><span class="token punctuation">;</span>
 <span class="token keyword">let</span> message <span class="token operator">=</span> <span class="token string">'Клієнта з таким іменем немає в базі даних!'</span><span class="token punctuation">;</span>
 
@@ -151,8 +217,8 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Клієнт з таким іменем є в базі даних!</span>
 </code></pre>
-<p>Використовуємо цикл для виведення тільки чисел більше певного значення.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">/*
+        <p>Використовуємо цикл для виведення тільки чисел більше певного значення.</p>
+        <pre class="language-"><code class="lang-js"><span class="token comment">/*
  * Для чисел менше ніж поріг спрацьовує continue, виконання тіла припиняється
  * і управління передається на наступну ітерацію.
  */</span>
@@ -167,9 +233,14 @@ console<span class="token punctuation">.</span><span class="token function">log<
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`Число більше ніж </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>threshold<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>numbers<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 18, 29, 34</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<h1 id="багатовимірні-масиви">7. Багатовимірні масиви</h1>
-<p>Масиви можуть містити інші масиви як елементи. Це можна використовувати для створення матриць.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> matrix <span class="token operator">=</span> <span class="token punctuation">[</span>
+        <h1 id="багатовимірні-масиви">7. Багатовимірні масиви</h1>
+        <p>
+          Масиви можуть містити інші масиви як елементи. Це можна використовувати для створення
+          матриць.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> matrix <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
@@ -179,8 +250,10 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>matrix<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 6</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>matrix<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 9</span>
 </code></pre>
-<p>Для того щоб перебрати такий масив використовуються вкладені цикли.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> matrix <span class="token operator">=</span> <span class="token punctuation">[</span>
+        <p>Для того щоб перебрати такий масив використовуються вкладені цикли.</p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> matrix <span class="token operator">=</span> <span class="token punctuation">[</span>
   <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
@@ -198,16 +271,16 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>total<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 45</span>
 </code></pre>
-  </main>
-</div>
+      </main>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

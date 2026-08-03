@@ -1,20 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zustand: асинхронність і middleware · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="async">1. Асинхронні дії</h1>
-<p>Дія може бути <code>async</code> — усередині просто викликаєш <code>set</code> у потрібний момент.
-Ніякої додаткової обгортки не треба.</p>
-<pre class="language-js"><code class="language-js">export const useUsers = create((set) =&gt; ({
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zustand: асинхронність і middleware · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="async">1. Асинхронні дії</h1>
+        <p>
+          Дія може бути <code>async</code> — усередині просто викликаєш <code>set</code> у потрібний
+          момент. Ніякої додаткової обгортки не треба.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">export const useUsers = create((set) =&gt; ({
   users: [],
   loading: false,
   fetchUsers: async () =&gt; {
@@ -23,13 +30,22 @@
     set({ users: await res.json(), loading: false });
   },
 }));</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Для даних із сервера краще підходить TanStack Query. Async-дії Zustand доречні
-для клієнтської логіки (напр. зберегти чернетку) або в невеликих застосунках,
-де окрема бібліотека запитів надлишкова.</p></div></div>
-<h1 id="persist">2. Middleware persist</h1>
-<p>Обгортка <code>persist</code> зберігає стан у <code>localStorage</code> й відновлює його при
-перезавантаженні — стан «переживає» оновлення сторінки.</p>
-<pre class="language-js"><code class="language-js">import { create } from 'zustand';
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Для даних із сервера краще підходить TanStack Query. Async-дії Zustand доречні для
+              клієнтської логіки (напр. зберегти чернетку) або в невеликих застосунках, де окрема
+              бібліотека запитів надлишкова.
+            </p>
+          </div>
+        </div>
+        <h1 id="persist">2. Middleware persist</h1>
+        <p>
+          Обгортка <code>persist</code> зберігає стан у <code>localStorage</code> й відновлює його
+          при перезавантаженні — стан «переживає» оновлення сторінки.
+        </p>
+        <pre class="language-js"><code class="language-js">import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export const useCart = create(
@@ -41,17 +57,21 @@ export const useCart = create(
     { name: 'cart' } // ключ у localStorage
   )
 );</code></pre>
-<h1 id="devtools">3. Middleware devtools</h1>
-<p>Обгортка <code>devtools</code> під'єднує стор до Redux DevTools — видно кожну зміну стану.</p>
-<pre class="language-js"><code class="language-js">import { devtools } from 'zustand/middleware';
+        <h1 id="devtools">3. Middleware devtools</h1>
+        <p>
+          Обгортка <code>devtools</code> під'єднує стор до Redux DevTools — видно кожну зміну стану.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">import { devtools } from 'zustand/middleware';
 
 export const useStore = create(
   devtools((set) =&gt; ({ /* ... */ }))
 );
 // middleware можна комбінувати: devtools(persist(...))</code></pre>
-<h1 id="slices">4. Розбиття на «слайси»</h1>
-<p>Великий стор ділять на частини-функції й об'єднують — щоб файл не розростався:</p>
-<pre class="language-js"><code class="language-js">const createUserSlice = (set) =&gt; ({
+        <h1 id="slices">4. Розбиття на «слайси»</h1>
+        <p>Великий стор ділять на частини-функції й об'єднують — щоб файл не розростався:</p>
+        <pre class="language-js"><code class="language-js">const createUserSlice = (set) =&gt; ({
   user: null,
   setUser: (user) =&gt; set({ user }),
 });
@@ -64,28 +84,36 @@ export const useStore = create((...a) =&gt; ({
   ...createUserSlice(...a),
   ...createCartSlice(...a),
 }));</code></pre>
-<h1 id="коли">5. Коли Zustand — правильний вибір</h1>
-<ul>
-<li>потрібен простий глобальний стан без церемоній;</li>
-<li>не хочеться провайдерів і бойлерплейту;</li>
-<li>команда невелика, а домовленості гнучкі.</li>
-</ul>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://zustand.docs.pmnd.rs/middlewares/persist" target="_blank">persist — Zustand</a></li>
-<li><a href="https://zustand.docs.pmnd.rs/guides/slices-pattern" target="_blank">Slices Pattern — Zustand</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="коли">5. Коли Zustand — правильний вибір</h1>
+        <ul>
+          <li>потрібен простий глобальний стан без церемоній;</li>
+          <li>не хочеться провайдерів і бойлерплейту;</li>
+          <li>команда невелика, а домовленості гнучкі.</li>
+        </ul>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://zustand.docs.pmnd.rs/middlewares/persist" target="_blank"
+              >persist — Zustand</a
+            >
+          </li>
+          <li>
+            <a href="https://zustand.docs.pmnd.rs/guides/slices-pattern" target="_blank"
+              >Slices Pattern — Zustand</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

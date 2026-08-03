@@ -1,38 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Auth.js (NextAuth): налаштування · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="що-таке">1. Що таке Auth.js</h1>
-<p><strong>Auth.js</strong> (раніше <strong>NextAuth.js</strong>) — популярна безкоштовна бібліотека
-автентифікації для веб-застосунків. Вона реалізує весь OAuth-потік з минулого уроку,
-керує сесіями й дає готові функції входу/виходу. Найкраще інтегрована з Next.js, але
-працює й з іншими фреймворками.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Приклади нижче — для <strong>Next.js (App Router)</strong> і Auth.js v5, бо це найтиповіша
-зв'язка. Ми спираємось на розділ Next.js: маршрути, middleware, серверні
-компоненти.</p></div></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auth.js (NextAuth): налаштування · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="що-таке">1. Що таке Auth.js</h1>
+        <p>
+          <strong>Auth.js</strong> (раніше <strong>NextAuth.js</strong>) — популярна безкоштовна
+          бібліотека автентифікації для веб-застосунків. Вона реалізує весь OAuth-потік з минулого
+          уроку, керує сесіями й дає готові функції входу/виходу. Найкраще інтегрована з Next.js,
+          але працює й з іншими фреймворками.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Приклади нижче — для <strong>Next.js (App Router)</strong> і Auth.js v5, бо це
+              найтиповіша зв'язка. Ми спираємось на розділ Next.js: маршрути, middleware, серверні
+              компоненти.
+            </p>
+          </div>
+        </div>
 
-<h1 id="встановлення">2. Встановлення</h1>
-<pre class="language-js"><code class="language-js">npm install next-auth@beta</code></pre>
-<p>Згенеруй секрет для підпису сесій і поклади змінні оточення:</p>
-<pre class="language-js"><code class="language-js">// .env.local
+        <h1 id="встановлення">2. Встановлення</h1>
+        <pre class="language-js"><code class="language-js">npm install next-auth@beta</code></pre>
+        <p>Згенеруй секрет для підпису сесій і поклади змінні оточення:</p>
+        <pre class="language-js"><code class="language-js">// .env.local
 AUTH_SECRET=згенерований_довгий_секрет   // npx auth secret
 AUTH_GITHUB_ID=...
 AUTH_GITHUB_SECRET=...</code></pre>
 
-<h1 id="конфіг">3. Головний конфіг</h1>
-<p>Уся конфігурація — в одному файлі. Тут перелічуємо <strong>провайдери</strong> й отримуємо
-хелпери: <code>handlers</code> (для роут-хендлера), <code>auth</code> (прочитати сесію),
-<code>signIn</code>/<code>signOut</code>.</p>
-<pre class="language-js"><code class="language-js">// auth.ts
+        <h1 id="конфіг">3. Головний конфіг</h1>
+        <p>
+          Уся конфігурація — в одному файлі. Тут перелічуємо <strong>провайдери</strong> й отримуємо
+          хелпери: <code>handlers</code> (для роут-хендлера), <code>auth</code> (прочитати сесію),
+          <code>signIn</code>/<code>signOut</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">// auth.ts
 import NextAuth from 'next-auth';
 import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
@@ -41,22 +55,30 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [GitHub, Google],
 });</code></pre>
 
-<h1 id="route">4. Роут-хендлер</h1>
-<p>Auth.js обробляє всі свої запити (<code>/api/auth/*</code>) через один динамічний роут:</p>
-<pre class="language-js"><code class="language-js">// app/api/auth/[...nextauth]/route.ts
+        <h1 id="route">4. Роут-хендлер</h1>
+        <p>
+          Auth.js обробляє всі свої запити (<code>/api/auth/*</code>) через один динамічний роут:
+        </p>
+        <pre class="language-js"><code class="language-js">// app/api/auth/[...nextauth]/route.ts
 import { handlers } from '@/auth';
 export const { GET, POST } = handlers;</code></pre>
-<p>Саме сюди провайдер повертає користувача (<code>/api/auth/callback/github</code>) — той
-самий Redirect URI, що ми реєстрували в консолі провайдера.</p>
+        <p>
+          Саме сюди провайдер повертає користувача (<code>/api/auth/callback/github</code>) — той
+          самий Redirect URI, що ми реєстрували в консолі провайдера.
+        </p>
 
-<h1 id="провайдери">5. Види провайдерів</h1>
-<ul>
-<li><strong>OAuth</strong> — Google, GitHub, Discord, Apple тощо (десятки з коробки);</li>
-<li><strong>Email (magic link)</strong> — вхід за посиланням з листа, без пароля;</li>
-<li><strong>Credentials</strong> — власна перевірка (email + пароль із твоєї БД), коли треба
-повний контроль.</li>
-</ul>
-<pre class="language-js"><code class="language-js">import Credentials from 'next-auth/providers/credentials';
+        <h1 id="провайдери">5. Види провайдерів</h1>
+        <ul>
+          <li><strong>OAuth</strong> — Google, GitHub, Discord, Apple тощо (десятки з коробки);</li>
+          <li><strong>Email (magic link)</strong> — вхід за посиланням з листа, без пароля;</li>
+          <li>
+            <strong>Credentials</strong> — власна перевірка (email + пароль із твоєї БД), коли треба
+            повний контроль.
+          </li>
+        </ul>
+        <pre
+          class="language-js"
+        ><code class="language-js">import Credentials from 'next-auth/providers/credentials';
 
 providers: [
   Credentials({
@@ -68,11 +90,19 @@ providers: [
     },
   }),
 ],</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>У <code>Credentials</code> перевірку пароля пишеш сам — тут якраз стають у пригоді
-<code>bcrypt.compare</code> з розділу «Бекенд». Auth.js бере на себе лише сесію та cookie.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              У <code>Credentials</code> перевірку пароля пишеш сам — тут якраз стають у пригоді
+              <code>bcrypt.compare</code> з розділу «Бекенд». Auth.js бере на себе лише сесію та
+              cookie.
+            </p>
+          </div>
+        </div>
 
-<h1 id="кнопки">6. Кнопки входу/виходу</h1>
-<pre class="language-js"><code class="language-js">// серверний компонент або server action
+        <h1 id="кнопки">6. Кнопки входу/виходу</h1>
+        <pre class="language-js"><code class="language-js">// серверний компонент або server action
 import { signIn, signOut } from '@/auth';
 
 &lt;form action={async () =&gt; { 'use server'; await signIn('github'); }}&gt;
@@ -82,24 +112,32 @@ import { signIn, signOut } from '@/auth';
 &lt;form action={async () =&gt; { 'use server'; await signOut(); }}&gt;
   &lt;button&gt;Вийти&lt;/button&gt;
 &lt;/form&gt;</code></pre>
-<p>Провайдери підключені — далі навчимося читати сесію й захищати сторінки.</p>
+        <p>Провайдери підключені — далі навчимося читати сесію й захищати сторінки.</p>
 
-<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://authjs.dev/getting-started/installation" target="_blank">Auth.js — Installation</a></li>
-<li><a href="https://authjs.dev/getting-started/providers" target="_blank">Auth.js — Providers</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://authjs.dev/getting-started/installation" target="_blank"
+              >Auth.js — Installation</a
+            >
+          </li>
+          <li>
+            <a href="https://authjs.dev/getting-started/providers" target="_blank"
+              >Auth.js — Providers</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

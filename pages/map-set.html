@@ -1,25 +1,32 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Map, Set, WeakMap · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="колекції">1. Сучасні колекції</h1>
-<p>Крім масивів і звичайних обʼєктів, JavaScript має спеціалізовані колекції:
-<code>Map</code> та <code>Set</code>. Вони зʼявилися в ES6 і часто зручніші й швидші за обʼєкт для
-задач «ключ → значення» та «набір унікальних елементів».</p>
-<h1 id="map">2. Map — словник ключ/значення</h1>
-<p><code>Map</code> зберігає пари «ключ → значення». На відміну від обʼєкта, ключем може бути
-<strong>будь-який тип</strong> (навіть обʼєкт чи функція), а порядок вставки гарантовано
-зберігається.</p>
-<pre class="language-js"><code class="language-js">const users = new Map();
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Map, Set, WeakMap · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="колекції">1. Сучасні колекції</h1>
+        <p>
+          Крім масивів і звичайних обʼєктів, JavaScript має спеціалізовані колекції:
+          <code>Map</code> та <code>Set</code>. Вони зʼявилися в ES6 і часто зручніші й швидші за
+          обʼєкт для задач «ключ → значення» та «набір унікальних елементів».
+        </p>
+        <h1 id="map">2. Map — словник ключ/значення</h1>
+        <p>
+          <code>Map</code> зберігає пари «ключ → значення». На відміну від обʼєкта, ключем може бути
+          <strong>будь-який тип</strong> (навіть обʼєкт чи функція), а порядок вставки гарантовано
+          зберігається.
+        </p>
+        <pre class="language-js"><code class="language-js">const users = new Map();
 
 users.set('id42', { name: 'Ada' });
 users.set(1, 'число як ключ');
@@ -29,8 +36,8 @@ users.has(1);          // true
 users.size;            // 2
 users.delete(1);       // видалити пару
 users.clear();         // очистити повністю</code></pre>
-<p>Map легко перебирається і зберігає порядок:</p>
-<pre class="language-js"><code class="language-js">const scores = new Map([
+        <p>Map легко перебирається і зберігає порядок:</p>
+        <pre class="language-js"><code class="language-js">const scores = new Map([
   ['math', 90],
   ['js', 100],
 ]);
@@ -41,12 +48,22 @@ for (const [subject, score] of scores) {
 
 [...scores.keys()];   // ['math', 'js']
 [...scores.values()]; // [90, 100]</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Обирайте <code>Map</code> замість обʼєкта, коли ключі динамічні, їх багато,
-або потрібні ключі-не-рядки. Обʼєкт залишається кращим для фіксованої
-структури з відомими полями.</p></div></div>
-<h1 id="set">3. Set — набір унікальних значень</h1>
-<p><code>Set</code> зберігає лише <strong>унікальні</strong> значення. Повторні додавання ігноруються.</p>
-<pre class="language-js"><code class="language-js">const tags = new Set();
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Обирайте <code>Map</code> замість обʼєкта, коли ключі динамічні, їх багато, або
+              потрібні ключі-не-рядки. Обʼєкт залишається кращим для фіксованої структури з відомими
+              полями.
+            </p>
+          </div>
+        </div>
+        <h1 id="set">3. Set — набір унікальних значень</h1>
+        <p>
+          <code>Set</code> зберігає лише <strong>унікальні</strong> значення. Повторні додавання
+          ігноруються.
+        </p>
+        <pre class="language-js"><code class="language-js">const tags = new Set();
 
 tags.add('js');
 tags.add('css');
@@ -54,44 +71,55 @@ tags.add('js');   // дублікат — проігноровано
 
 tags.has('css');  // true
 tags.size;        // 2</code></pre>
-<p>Класичний прийом — прибрати дублікати з масиву:</p>
-<pre class="language-js"><code class="language-js">const nums = [1, 2, 2, 3, 3, 3];
+        <p>Класичний прийом — прибрати дублікати з масиву:</p>
+        <pre class="language-js"><code class="language-js">const nums = [1, 2, 2, 3, 3, 3];
 const unique = [...new Set(nums)]; // [1, 2, 3]</code></pre>
-<h1 id="weakmap-weakset">4. WeakMap і WeakSet</h1>
-<p>«Слабкі» колекції зберігають лише обʼєкти як ключі і <strong>не заважають збиранню
-сміття</strong>: якщо на обʼєкт-ключ більше немає посилань, він разом із записом
-видаляється з памʼяті автоматично.</p>
-<pre class="language-js"><code class="language-js">const cache = new WeakMap();
+        <h1 id="weakmap-weakset">4. WeakMap і WeakSet</h1>
+        <p>
+          «Слабкі» колекції зберігають лише обʼєкти як ключі і
+          <strong>не заважають збиранню сміття</strong>: якщо на обʼєкт-ключ більше немає посилань,
+          він разом із записом видаляється з памʼяті автоматично.
+        </p>
+        <pre class="language-js"><code class="language-js">const cache = new WeakMap();
 
 let node = document.querySelector('#box');
 cache.set(node, { clicks: 0 });
 
 // коли node видалять і посилання зникне —
 // запис у cache очиститься сам собою</code></pre>
-<p>Обмеження: <code>WeakMap</code>/<code>WeakSet</code> не мають <code>size</code> і їх не можна перебрати —
-вони призначені лише для приватного зберігання даних, привʼязаних до обʼєкта.</p>
-<h1 id="порівняння">5. Коротке порівняння</h1>
-<ul>
-<li><code>Object</code> — структура з відомими рядковими ключами;</li>
-<li><code>Map</code> — динамічний словник, ключі будь-якого типу, збережений порядок;</li>
-<li><code>Set</code> — набір унікальних значень;</li>
-<li><code>WeakMap/WeakSet</code> — приватні дані на обʼєкти, дружні до збирача сміття.</li>
-</ul>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://uk.javascript.info/map-set" target="_blank">Map та Set — javascript.info</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <p>
+          Обмеження: <code>WeakMap</code>/<code>WeakSet</code> не мають <code>size</code> і їх не
+          можна перебрати — вони призначені лише для приватного зберігання даних, привʼязаних до
+          обʼєкта.
+        </p>
+        <h1 id="порівняння">5. Коротке порівняння</h1>
+        <ul>
+          <li><code>Object</code> — структура з відомими рядковими ключами;</li>
+          <li><code>Map</code> — динамічний словник, ключі будь-якого типу, збережений порядок;</li>
+          <li><code>Set</code> — набір унікальних значень;</li>
+          <li>
+            <code>WeakMap/WeakSet</code> — приватні дані на обʼєкти, дружні до збирача сміття.
+          </li>
+        </ul>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://uk.javascript.info/map-set" target="_blank"
+              >Map та Set — javascript.info</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

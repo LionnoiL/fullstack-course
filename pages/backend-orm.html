@@ -1,23 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ORM (Prisma) · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="orm">1. Що таке ORM</h1>
-<p><strong>ORM (Object-Relational Mapping)</strong> — інструмент, що дозволяє працювати з базою
-даних через обʼєкти й методи мови, а не сирий SQL. Запити стають типобезпечними,
-читабельними й захищеними від інʼєкцій. Сучасний вибір у Node.js — <strong>Prisma</strong>.</p>
-<h1 id="схема">2. Схема Prisma</h1>
-<p>Модель даних описують декларативно у файлі <code>schema.prisma</code>.</p>
-<pre class="language-js"><code class="language-js">model User {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ORM (Prisma) · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="orm">1. Що таке ORM</h1>
+        <p>
+          <strong>ORM (Object-Relational Mapping)</strong> — інструмент, що дозволяє працювати з
+          базою даних через обʼєкти й методи мови, а не сирий SQL. Запити стають типобезпечними,
+          читабельними й захищеними від інʼєкцій. Сучасний вибір у Node.js —
+          <strong>Prisma</strong>.
+        </p>
+        <h1 id="схема">2. Схема Prisma</h1>
+        <p>Модель даних описують декларативно у файлі <code>schema.prisma</code>.</p>
+        <pre class="language-js"><code class="language-js">model User {
   id    Int     @id @default(autoincrement())
   name  String
   email String  @unique
@@ -30,10 +36,14 @@ model Post {
   author   User   @relation(fields: [authorId], references: [id])
   authorId Int
 }</code></pre>
-<pre class="language-js"><code class="language-js">npx prisma migrate dev --name init   // створити таблиці в БД
+        <pre
+          class="language-js"
+        ><code class="language-js">npx prisma migrate dev --name init   // створити таблиці в БД
 npx prisma generate                  // згенерувати клієнт</code></pre>
-<h1 id="запити">3. Запити через клієнт</h1>
-<pre class="language-js"><code class="language-js">const { PrismaClient } = require('@prisma/client');
+        <h1 id="запити">3. Запити через клієнт</h1>
+        <pre
+          class="language-js"
+        ><code class="language-js">const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 // створити
@@ -53,8 +63,8 @@ await prisma.user.update({
 
 // видалити
 await prisma.user.delete({ where: { id: 1 } });</code></pre>
-<h1 id="звʼязки">4. Звʼязки та фільтри</h1>
-<pre class="language-js"><code class="language-js">// підвантажити повʼязані записи
+        <h1 id="звʼязки">4. Звʼязки та фільтри</h1>
+        <pre class="language-js"><code class="language-js">// підвантажити повʼязані записи
 const withPosts = await prisma.user.findMany({
   include: { posts: true },
 });
@@ -65,23 +75,30 @@ const found = await prisma.user.findMany({
   orderBy: { id: 'desc' },
   take: 10,
 });</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Prisma генерує типи TypeScript зі схеми — редактор підказує поля моделей
-і ловить помилки ще до запуску. Це чудово поєднується з розділом TypeScript.</p></div></div>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://www.prisma.io/docs" target="_blank">Документація Prisma</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Prisma генерує типи TypeScript зі схеми — редактор підказує поля моделей і ловить
+              помилки ще до запуску. Це чудово поєднується з розділом TypeScript.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li><a href="https://www.prisma.io/docs" target="_blank">Документація Prisma</a></li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

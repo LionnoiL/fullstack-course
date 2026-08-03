@@ -1,65 +1,97 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Що таке Vite · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="vite">1. Що таке Vite</h1>
-<p><strong>Vite</strong> (фр. «швидко», вимовляється «віт») — сучасний інструмент для збірки
-фронтенду. Він дає миттєвий dev-сервер під час розробки й оптимізовану збірку для
-продакшну. Сьогодні це стандарт де-факто для проєктів на React, Vue, Svelte та
-чистому JS — саме його пропонують офіційні стартери цих фреймворків.</p>
-<h1 id="проблема">2. Яку проблему вирішує</h1>
-<p>Класичні збирачі (як Webpack) перед запуском dev-сервера мусять зібрати <em>увесь</em>
-бандл. На великому проєкті це десятки секунд очікування, і що більший проєкт — то
-довше. Vite прибирає цю затримку.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Webpack ти вже бачив у розділі «Інструменти та збірка». Vite не скасовує тих
-знань про модулі й залежності — він лише робить розробку швидшою завдяки іншому
-підходу (нативні ESM у браузері замість повного бандлингу на кожен запуск).</p></div></div>
-<h1 id="як-працює">3. Як він досягає швидкості</h1>
-<ul>
-<li><strong>Нативні ES-модулі.</strong> У режимі розробки Vite віддає код браузеру як
-<code>&lt;script type="module"&gt;</code> — браузер сам підвантажує лише ті модулі, які
-потрібні поточній сторінці. Не треба збирати весь проєкт наперед.</li>
-<li><strong>esbuild для залежностей.</strong> Бібліотеки з <code>node_modules</code> Vite
-попередньо обробляє наднадшвидким збирачем на Go — <a href="https://esbuild.github.io/" target="_blank">esbuild</a>.</li>
-<li><strong>Rollup для продакшну.</strong> Фінальну збірку робить перевірений
-<a href="https://rollupjs.org/" target="_blank">Rollup</a> — з мініфікацією, tree-shaking і code splitting.</li>
-</ul>
-<h1 id="проти-webpack">4. Vite чи Webpack</h1>
-<ul>
-<li><strong>Vite</strong> — нові проєкти, швидкий старт, миттєвий HMR, проста конфігурація.
-Для більшості нового фронтенду — вибір за замовчуванням.</li>
-<li><strong>Webpack</strong> — усе ще живий у великих легасі-проєктах і там, де потрібні
-специфічні лоадери/плагіни з його багатої екосистеми.</li>
-</ul>
-<h1 id="вимоги">5. Що потрібно</h1>
-<p>Лише <strong>Node.js</strong> (актуальна LTS-версія) і <code>npm</code> — усе, що ми проходили в
-розділі про NPM. Перевір версію:</p>
-<pre class="language-js"><code class="language-js">node -v   // має бути свіжа LTS-версія
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Що таке Vite · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="vite">1. Що таке Vite</h1>
+        <p>
+          <strong>Vite</strong> (фр. «швидко», вимовляється «віт») — сучасний інструмент для збірки
+          фронтенду. Він дає миттєвий dev-сервер під час розробки й оптимізовану збірку для
+          продакшну. Сьогодні це стандарт де-факто для проєктів на React, Vue, Svelte та чистому JS
+          — саме його пропонують офіційні стартери цих фреймворків.
+        </p>
+        <h1 id="проблема">2. Яку проблему вирішує</h1>
+        <p>
+          Класичні збирачі (як Webpack) перед запуском dev-сервера мусять зібрати
+          <em>увесь</em> бандл. На великому проєкті це десятки секунд очікування, і що більший
+          проєкт — то довше. Vite прибирає цю затримку.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Webpack ти вже бачив у розділі «Інструменти та збірка». Vite не скасовує тих знань про
+              модулі й залежності — він лише робить розробку швидшою завдяки іншому підходу (нативні
+              ESM у браузері замість повного бандлингу на кожен запуск).
+            </p>
+          </div>
+        </div>
+        <h1 id="як-працює">3. Як він досягає швидкості</h1>
+        <ul>
+          <li>
+            <strong>Нативні ES-модулі.</strong> У режимі розробки Vite віддає код браузеру як
+            <code>&lt;script type="module"&gt;</code> — браузер сам підвантажує лише ті модулі, які
+            потрібні поточній сторінці. Не треба збирати весь проєкт наперед.
+          </li>
+          <li>
+            <strong>esbuild для залежностей.</strong> Бібліотеки з <code>node_modules</code> Vite
+            попередньо обробляє наднадшвидким збирачем на Go —
+            <a href="https://esbuild.github.io/" target="_blank">esbuild</a>.
+          </li>
+          <li>
+            <strong>Rollup для продакшну.</strong> Фінальну збірку робить перевірений
+            <a href="https://rollupjs.org/" target="_blank">Rollup</a> — з мініфікацією,
+            tree-shaking і code splitting.
+          </li>
+        </ul>
+        <h1 id="проти-webpack">4. Vite чи Webpack</h1>
+        <ul>
+          <li>
+            <strong>Vite</strong> — нові проєкти, швидкий старт, миттєвий HMR, проста конфігурація.
+            Для більшості нового фронтенду — вибір за замовчуванням.
+          </li>
+          <li>
+            <strong>Webpack</strong> — усе ще живий у великих легасі-проєктах і там, де потрібні
+            специфічні лоадери/плагіни з його багатої екосистеми.
+          </li>
+        </ul>
+        <h1 id="вимоги">5. Що потрібно</h1>
+        <p>
+          Лише <strong>Node.js</strong> (актуальна LTS-версія) і <code>npm</code> — усе, що ми
+          проходили в розділі про NPM. Перевір версію:
+        </p>
+        <pre class="language-js"><code class="language-js">node -v   // має бути свіжа LTS-версія
 npm -v</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://vite.dev/guide/why.html" target="_blank">Why Vite — офіційна документація</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://vite.dev/guide/why.html" target="_blank"
+              >Why Vite — офіційна документація</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

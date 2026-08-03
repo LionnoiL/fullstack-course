@@ -1,21 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Групування, копіювання, hasOwn · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="groupby">1. <code>Object.groupBy</code> — групування (ES2024)</h1>
-<p>Дуже частий сценарій — згрупувати масив за ознакою. Раніше писали <code>reduce</code>
-вручну; тепер є вбудований <code>Object.groupBy(items, fn)</code>: <code>fn</code> повертає ключ
-групи, а результат — обʼєкт «ключ → масив елементів».</p>
-<pre class="language-js"><code class="language-js">const products = [
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Групування, копіювання, hasOwn · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="groupby">1. <code>Object.groupBy</code> — групування (ES2024)</h1>
+        <p>
+          Дуже частий сценарій — згрупувати масив за ознакою. Раніше писали
+          <code>reduce</code> вручну; тепер є вбудований <code>Object.groupBy(items, fn)</code>:
+          <code>fn</code> повертає ключ групи, а результат — обʼєкт «ключ → масив елементів».
+        </p>
+        <pre class="language-js"><code class="language-js">const products = [
   { name: 'Молоко', type: 'їжа' },
   { name: 'Хліб', type: 'їжа' },
   { name: 'Мило', type: 'побут' },
@@ -23,14 +28,24 @@
 
 const byType = Object.groupBy(products, (p) =&gt; p.type);
 // { 'їжа': [Молоко, Хліб], 'побут': [Мило] }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Якщо ключі — не рядки (обʼєкти, числа з важливим типом), бери <code>Map.groupBy</code>:
-той самий принцип, але повертає <code>Map</code> і зберігає тип ключа.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Якщо ключі — не рядки (обʼєкти, числа з важливим типом), бери
+              <code>Map.groupBy</code>: той самий принцип, але повертає <code>Map</code> і зберігає
+              тип ключа.
+            </p>
+          </div>
+        </div>
 
-<h1 id="structuredclone">2. <code>structuredClone</code> — справжня глибока копія</h1>
-<p>Трюк <code>JSON.parse(JSON.stringify(obj))</code> ламається на <code>Date</code>, <code>Map</code>,
-<code>Set</code> і циклічних посиланнях. Вбудований <code>structuredClone(value)</code> робить
-<strong>глибоку копію</strong> правильно:</p>
-<pre class="language-js"><code class="language-js">const original = {
+        <h1 id="structuredclone">2. <code>structuredClone</code> — справжня глибока копія</h1>
+        <p>
+          Трюк <code>JSON.parse(JSON.stringify(obj))</code> ламається на <code>Date</code>,
+          <code>Map</code>, <code>Set</code> і циклічних посиланнях. Вбудований
+          <code>structuredClone(value)</code> робить <strong>глибоку копію</strong> правильно:
+        </p>
+        <pre class="language-js"><code class="language-js">const original = {
   date: new Date(),
   set: new Set([1, 2]),
   nested: { a: 1 },
@@ -40,13 +55,22 @@ const copy = structuredClone(original);
 copy.nested.a = 99;
 console.log(original.nested.a); // 1 — оригінал незалежний
 console.log(copy.date instanceof Date); // true — Date збережено</code></pre>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p><code>structuredClone</code> <strong>не</strong> копіює функції та DOM-вузли — кине помилку.
-Для даних (стан, конфіги) — ідеально; для обʼєктів із методами — ні.</p></div></div>
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>structuredClone</code> <strong>не</strong> копіює функції та DOM-вузли — кине
+              помилку. Для даних (стан, конфіги) — ідеально; для обʼєктів із методами — ні.
+            </p>
+          </div>
+        </div>
 
-<h1 id="hasown">3. <code>Object.hasOwn</code> — безпечна перевірка поля (ES2022)</h1>
-<p>Заміна незручному <code>obj.hasOwnProperty(key)</code>: <code>Object.hasOwn(obj, key)</code>
-працює й для обʼєктів без прототипу та безпечніша.</p>
-<pre class="language-js"><code class="language-js">const obj = { a: 1 };
+        <h1 id="hasown">3. <code>Object.hasOwn</code> — безпечна перевірка поля (ES2022)</h1>
+        <p>
+          Заміна незручному <code>obj.hasOwnProperty(key)</code>:
+          <code>Object.hasOwn(obj, key)</code> працює й для обʼєктів без прототипу та безпечніша.
+        </p>
+        <pre class="language-js"><code class="language-js">const obj = { a: 1 };
 Object.hasOwn(obj, 'a');        // true
 Object.hasOwn(obj, 'toString'); // false — успадковане не рахується
 
@@ -55,31 +79,45 @@ const dict = Object.create(null);
 dict.hasOwnProperty; // undefined — метод відсутній!
 Object.hasOwn(dict, 'x'); // працює завжди</code></pre>
 
-<h1 id="entries">4. Нагадування: <code>Object.entries</code> / <code>fromEntries</code></h1>
-<p>Разом із групуванням часто йдуть перетворення обʼєкт↔масив пар:</p>
-<pre class="language-js"><code class="language-js">Object.entries({ a: 1, b: 2 });        // [['a',1],['b',2]]
+        <h1 id="entries">4. Нагадування: <code>Object.entries</code> / <code>fromEntries</code></h1>
+        <p>Разом із групуванням часто йдуть перетворення обʼєкт↔масив пар:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">Object.entries({ a: 1, b: 2 });        // [['a',1],['b',2]]
 Object.fromEntries([['a', 1], ['b', 2]]); // { a: 1, b: 2 }
 // зручно фільтрувати/мапити обʼєкт:
 const filtered = Object.fromEntries(
   Object.entries({ a: 1, b: 0 }).filter(([, v]) =&gt; v &gt; 0),
 ); // { a: 1 }</code></pre>
 
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/groupBy" target="_blank">MDN — Object.groupBy</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/structuredClone" target="_blank">MDN — structuredClone</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/groupBy"
+              target="_blank"
+              >MDN — Object.groupBy</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/Window/structuredClone"
+              target="_blank"
+              >MDN — structuredClone</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

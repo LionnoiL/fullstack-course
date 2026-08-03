@@ -1,33 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Рядки · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="вступ">1. Вступ</h1>
-<p><strong>Рядок</strong> — це індексований набір з нуля або більше символів, укладених в одинарні або подвійні лапки.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'Mango'</span><span class="token punctuation">;</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Рядки · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="вступ">1. Вступ</h1>
+        <p>
+          <strong>Рядок</strong> — це індексований набір з нуля або більше символів, укладених в
+          одинарні або подвійні лапки.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'Mango'</span><span class="token punctuation">;</span>
 </code></pre>
-<p>Важливо пам'ятати що індексація елементів рядка починається з нуля. Наприклад, в рядку <code>'JavaScript'</code> буква <code>'J'</code> стоїть на позиції з індексом <code>0</code>, а <code>'t'</code> йде під індексом <code>9</code>.</p>
-<p><img src="images/string-idx.png" alt="string indexing"></p>
-<p>Вміст рядка можна змінити. Не можна взяти символ посередині та замінити його. Як тільки рядок створений - він такий назавжди. Можна лише створити цілком новий рядок і привласнити в змінну замість старого.</p>
-<h1 id="конкатенація-рядків">2. Конкатенація рядків</h1>
-<p>Якщо застосувати оператор <code>+</code> до рядка і будь-якого іншого типу даних,
-результатом операції «складання» буде рядок. Ця операція називається
-конкатенація, або складання рядків.</p>
-<p>Під час конкатенації, будь-який тип даних приводиться до рядка і зшивається з
-рядком, але є особливість - послідовність запису операндів.</p>
-<p>Послідовність операцій має значення, перетворення типів відбувається тільки в
-момент операції додавання з рядком, до цього моменту діють звичайні правила
-математики.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> message <span class="token operator">=</span> <span class="token string">'Mango '</span> <span class="token operator">+</span> <span class="token string">'is'</span> <span class="token operator">+</span> <span class="token string">' happy'</span><span class="token punctuation">;</span>
+        <p>
+          Важливо пам'ятати що індексація елементів рядка починається з нуля. Наприклад, в рядку
+          <code>'JavaScript'</code> буква <code>'J'</code> стоїть на позиції з індексом
+          <code>0</code>, а <code>'t'</code> йде під індексом <code>9</code>.
+        </p>
+        <p><img src="images/string-idx.png" alt="string indexing" /></p>
+        <p>
+          Вміст рядка можна змінити. Не можна взяти символ посередині та замінити його. Як тільки
+          рядок створений - він такий назавжди. Можна лише створити цілком новий рядок і привласнити
+          в змінну замість старого.
+        </p>
+        <h1 id="конкатенація-рядків">2. Конкатенація рядків</h1>
+        <p>
+          Якщо застосувати оператор <code>+</code> до рядка і будь-якого іншого типу даних,
+          результатом операції «складання» буде рядок. Ця операція називається конкатенація, або
+          складання рядків.
+        </p>
+        <p>
+          Під час конкатенації, будь-який тип даних приводиться до рядка і зшивається з рядком, але
+          є особливість - послідовність запису операндів.
+        </p>
+        <p>
+          Послідовність операцій має значення, перетворення типів відбувається тільки в момент
+          операції додавання з рядком, до цього моменту діють звичайні правила математики.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> message <span class="token operator">=</span> <span class="token string">'Mango '</span> <span class="token operator">+</span> <span class="token string">'is'</span> <span class="token operator">+</span> <span class="token string">' happy'</span><span class="token punctuation">;</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Mango is happy</span>
 
 <span class="token comment">// Тепер подивимося на порядок операндів</span>
@@ -50,15 +73,27 @@ result <span class="token operator">=</span> <span class="token number">5</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// '105'</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// string</span>
 </code></pre>
-<h1 id="властивості-та-методи-рядків">3. Властивості та методи рядків</h1>
-<p>У кожного рядка є вбудовані властивості і методи, розглянемо деякі з них.</p>
-<ul>
-<li><code>length</code> - властивість, зберігає довжину рядка</li>
-<li><code>toLowerCase()</code> і <code>toUpperCase()</code> - повернуть новий рядок у відповідному регістрі, не змінюють оригінальний рядок</li>
-<li><code>indexOf()</code> - поверне позицію (індекс) на якій знаходиться перший збіг підрядка або <code>-1</code>, якщо нічого не знайдено</li>
-<li><code>includes()</code> - один з найбільш часто використовуваних методів, в більшості випадків замінює <code>indexOf</code>, перевіряє чи входить підрядок в рядок, повертає <code>true</code> або <code>false</code></li>
-</ul>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> message <span class="token operator">=</span> <span class="token string">'Welcome to Bahamas!'</span><span class="token punctuation">;</span>
+        <h1 id="властивості-та-методи-рядків">3. Властивості та методи рядків</h1>
+        <p>У кожного рядка є вбудовані властивості і методи, розглянемо деякі з них.</p>
+        <ul>
+          <li><code>length</code> - властивість, зберігає довжину рядка</li>
+          <li>
+            <code>toLowerCase()</code> і <code>toUpperCase()</code> - повернуть новий рядок у
+            відповідному регістрі, не змінюють оригінальний рядок
+          </li>
+          <li>
+            <code>indexOf()</code> - поверне позицію (індекс) на якій знаходиться перший збіг
+            підрядка або <code>-1</code>, якщо нічого не знайдено
+          </li>
+          <li>
+            <code>includes()</code> - один з найбільш часто використовуваних методів, в більшості
+            випадків замінює <code>indexOf</code>, перевіряє чи входить підрядок в рядок, повертає
+            <code>true</code> або <code>false</code>
+          </li>
+        </ul>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> message <span class="token operator">=</span> <span class="token string">'Welcome to Bahamas!'</span><span class="token punctuation">;</span>
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 19</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'There is nothing impossible to him who will try'</span><span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 47</span>
@@ -76,10 +111,22 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span><span class="token string">'welcome'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span><span class="token string">'Welcome'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
 </code></pre>
-<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#Methods_2" target="_blank">Повний список методів на MDN</a></p>
-<h1 id="шаблонні-рядки-та-інтерполяція">4. Шаблонні рядки та інтерполяція</h1>
-<p>Шаблонні рядки це альтернатива конкатенації з більш зручним синтаксисом. Вони поміщенні у зворотні лапки замість подвійних або одинарних і можуть містити місце заповнювачі, які позначаються знаком долара і фігурними дужками.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">// Використовуючи змінні необхідно скласти рядок підперті значеннями</span>
+        <p>
+          <a
+            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#Methods_2"
+            target="_blank"
+            >Повний список методів на MDN</a
+          >
+        </p>
+        <h1 id="шаблонні-рядки-та-інтерполяція">4. Шаблонні рядки та інтерполяція</h1>
+        <p>
+          Шаблонні рядки це альтернатива конкатенації з більш зручним синтаксисом. Вони поміщенні у
+          зворотні лапки замість подвійних або одинарних і можуть містити місце заповнювачі, які
+          позначаються знаком долара і фігурними дужками.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">// Використовуючи змінні необхідно скласти рядок підперті значеннями</span>
 <span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">'Mango'</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> age <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> mood <span class="token operator">=</span> <span class="token string">'happy'</span><span class="token punctuation">;</span>
@@ -101,16 +148,16 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token comment">// В інтерполяції можна використовувати будь-який валідності вираз</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`Результат додавання дорівнює </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token number">2</span> <span class="token operator">+</span> <span class="token number">2</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Результат додавання дорівнює 4.</span>
 </code></pre>
-  </main>
-</div>
+      </main>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

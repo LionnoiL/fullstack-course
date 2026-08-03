@@ -1,42 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Практика: події · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="практика">Практика: події</h1>
-<p>Обробка подій, делегування, форми. Роби на
-<a href="https://codepen.io/pen/" target="_blank">CodePen</a> або локально.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: події · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: події</h1>
+        <p>
+          Обробка подій, делегування, форми. Роби на
+          <a href="https://codepen.io/pen/" target="_blank">CodePen</a> або локально.
+        </p>
 
-<div class="task">
-<h2>Завдання 1. Делегування подій</h2>
-<p class="task-goal">У списку задач додай <em>один</em> обробник на контейнер, який
-видаляє <code>&lt;li&gt;</code> при кліку по кнопці «×» усередині нього.</p>
-<details class="hint"><summary>Підказка</summary><p>Слухай <code>click</code> на <code>ul</code>, перевіряй <code>event.target</code> та шукай <code>closest('li')</code>.</p></details>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">const list = document.querySelector('#todos');
+        <div class="task">
+          <h2>Завдання 1. Делегування подій</h2>
+          <p class="task-goal">
+            У списку задач додай <em>один</em> обробник на контейнер, який видаляє
+            <code>&lt;li&gt;</code> при кліку по кнопці «×» усередині нього.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Слухай <code>click</code> на <code>ul</code>, перевіряй <code>event.target</code> та
+              шукай <code>closest('li')</code>.
+            </p>
+          </details>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre
+              class="language-js"
+            ><code class="language-js">const list = document.querySelector('#todos');
 
 list.addEventListener('click', (event) =&gt; {
   if (event.target.classList.contains('remove')) {
     event.target.closest('li').remove();
   }
 });</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 2. Живий пошук із debounce</h2>
-<p class="task-goal">Фільтруй список під час введення в поле пошуку, але виконуй
-фільтрацію не частіше ніж раз на 300 мс.</p>
-<details class="solution"><summary>Рішення</summary>
-<pre class="language-js"><code class="language-js">function debounce(fn, delay) {
+        <div class="task">
+          <h2>Завдання 2. Живий пошук із debounce</h2>
+          <p class="task-goal">
+            Фільтруй список під час введення в поле пошуку, але виконуй фільтрацію не частіше ніж
+            раз на 300 мс.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function debounce(fn, delay) {
   let timer;
   return (...args) =&gt; {
     clearTimeout(timer);
@@ -49,26 +68,27 @@ input.addEventListener('input', debounce((e) =&gt; {
   const q = e.target.value.toLowerCase();
   // ...фільтрація списку за q
 }, 300));</code></pre>
-</details>
-</div>
+          </details>
+        </div>
 
-<div class="task">
-<h2>Завдання 3. Валідація форми (виклик)</h2>
-<p class="task-goal">Перехопи <code>submit</code>, перевір поля й покажи повідомлення про
-помилку без перезавантаження сторінки.</p>
-</div>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="task">
+          <h2>Завдання 3. Валідація форми (виклик)</h2>
+          <p class="task-goal">
+            Перехопи <code>submit</code>, перевір поля й покажи повідомлення про помилку без
+            перезавантаження сторінки.
+          </p>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

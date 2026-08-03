@@ -1,73 +1,106 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Знайомство із Sass/SCSS · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="sass">1. Що таке Sass</h1>
-<p><strong>Sass</strong> — це <strong>препроцесор CSS</strong>: мова, що розширює CSS змінними,
-вкладеністю, міксинами й функціями. Браузер не розуміє Sass напряму — спеціальний
-компілятор перетворює ваш код на звичайний <code>.css</code>, який уже підключається до
-сторінки.</p>
-<pre class="language-scss"><code class="language-scss">$primary: #2563eb;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Знайомство із Sass/SCSS · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="sass">1. Що таке Sass</h1>
+        <p>
+          <strong>Sass</strong> — це <strong>препроцесор CSS</strong>: мова, що розширює CSS
+          змінними, вкладеністю, міксинами й функціями. Браузер не розуміє Sass напряму —
+          спеціальний компілятор перетворює ваш код на звичайний <code>.css</code>, який уже
+          підключається до сторінки.
+        </p>
+        <pre class="language-scss"><code class="language-scss">$primary: #2563eb;
 
 .button {
   background: $primary;
   &amp;:hover { background: darken($primary, 10%); }
 }</code></pre>
-<h1 id="scss-vs-sass">2. Два синтаксиси: SCSS і Sass</h1>
-<ul>
-<li><strong>SCSS</strong> (<code>.scss</code>) — надмножина CSS: будь-який валідний CSS є валідним SCSS.
-Використовує дужки <code>{}</code> і крапки з комою. Це стандарт де-факто.</li>
-<li><strong>Sass</strong> (<code>.sass</code>) — старіший синтаксис на відступах, без дужок і <code>;</code>.</li>
-</ul>
-<pre class="language-scss"><code class="language-scss">// SCSS — далі в курсі використовуємо саме його
+        <h1 id="scss-vs-sass">2. Два синтаксиси: SCSS і Sass</h1>
+        <ul>
+          <li>
+            <strong>SCSS</strong> (<code>.scss</code>) — надмножина CSS: будь-який валідний CSS є
+            валідним SCSS. Використовує дужки <code>{}</code> і крапки з комою. Це стандарт
+            де-факто.
+          </li>
+          <li>
+            <strong>Sass</strong> (<code>.sass</code>) — старіший синтаксис на відступах, без дужок
+            і <code>;</code>.
+          </li>
+        </ul>
+        <pre
+          class="language-scss"
+        ><code class="language-scss">// SCSS — далі в курсі використовуємо саме його
 .card {
   padding: 1rem;
   .title { font-weight: bold; }
 }</code></pre>
-<h1 id="навіщо">3. Навіщо він потрібен</h1>
-<p>Sass прибирає повторення й дає структуру великим стилям: змінні для кольорів,
-вкладеність замість довгих селекторів, міксини для повторюваних блоків, розбиття
-на файли. Частину цього вже вміє й сучасний CSS, але Sass дає більше й працює
-всюди.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Bootstrap написаний на Sass — саме тому його кастомізують через SCSS-змінні
-(див. урок «Кастомізація (Sass)» у розділі Bootstrap). Знання Sass відкриває
-глибоку кастомізацію багатьох фреймворків.</p></div></div>
-<h1 id="компіляція">4. Встановлення і компіляція</h1>
-<p>Офіційна реалізація — <strong>Dart Sass</strong>. Найпростіше поставити через npm:</p>
-<pre class="language-js"><code class="language-js">npm install -D sass</code></pre>
-<pre class="language-js"><code class="language-js">// разова компіляція
+        <h1 id="навіщо">3. Навіщо він потрібен</h1>
+        <p>
+          Sass прибирає повторення й дає структуру великим стилям: змінні для кольорів, вкладеність
+          замість довгих селекторів, міксини для повторюваних блоків, розбиття на файли. Частину
+          цього вже вміє й сучасний CSS, але Sass дає більше й працює всюди.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Bootstrap написаний на Sass — саме тому його кастомізують через SCSS-змінні (див. урок
+              «Кастомізація (Sass)» у розділі Bootstrap). Знання Sass відкриває глибоку кастомізацію
+              багатьох фреймворків.
+            </p>
+          </div>
+        </div>
+        <h1 id="компіляція">4. Встановлення і компіляція</h1>
+        <p>Офіційна реалізація — <strong>Dart Sass</strong>. Найпростіше поставити через npm:</p>
+        <pre class="language-js"><code class="language-js">npm install -D sass</code></pre>
+        <pre class="language-js"><code class="language-js">// разова компіляція
 npx sass src/style.scss dist/style.css
 
 // стежити за змінами й перекомпільовувати автоматично
 npx sass --watch src/style.scss:dist/style.css</code></pre>
-<p>У проєктах на Vite підтримка ще простіша: достатньо встановити <code>sass</code>, і можна
-одразу імпортувати <code>.scss</code>-файли — збірник скомпілює їх сам.</p>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>У браузер підключають <strong>скомпільований</strong> <code>.css</code>, а не <code>.scss</code>. Файли
-<code>.scss</code> — це вихідний код для розробки; у продакшн іде результат компіляції.</p></div></div>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://sass-lang.com/guide/" target="_blank">Sass Basics — офіційний гайд</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <p>
+          У проєктах на Vite підтримка ще простіша: достатньо встановити <code>sass</code>, і можна
+          одразу імпортувати <code>.scss</code>-файли — збірник скомпілює їх сам.
+        </p>
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              У браузер підключають <strong>скомпільований</strong> <code>.css</code>, а не
+              <code>.scss</code>. Файли <code>.scss</code> — це вихідний код для розробки; у
+              продакшн іде результат компіляції.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://sass-lang.com/guide/" target="_blank">Sass Basics — офіційний гайд</a>
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

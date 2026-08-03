@@ -1,66 +1,83 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Що таке Next.js · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="nextjs">1. Що таке Next.js</h1>
-<p><strong>Next.js</strong> — це фреймворк над React від компанії Vercel. Він додає до React
-те, чого тому бракує «з коробки»: роутинг, рендеринг на сервері, отримання
-даних, оптимізацію і збірку. Фактично це стандарт для повноцінних застосунків
-на React.</p>
-<h1 id="навіщо">2. Що дає Next.js</h1>
-<ul>
-<li><strong>файловий роутинг</strong> — сторінки визначаються структурою папок;</li>
-<li><strong>рендеринг на сервері</strong> (SSR) і статична генерація (SSG);</li>
-<li><strong>серверні компоненти</strong> — менше JavaScript у браузері;</li>
-<li><strong>Route Handlers</strong> — бекенд-ендпоінти в тому ж проєкті (фулстек);</li>
-<li>вбудована оптимізація зображень, шрифтів, коду.</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Чистий React рендериться лише в браузері (CSR). Next.js дозволяє рендерити
-сторінку ще на сервері — це швидший перший показ і краще SEO, бо пошуковик
-одразу бачить готовий HTML.</p></div></div>
-<h1 id="старт">3. Створення проєкту</h1>
-<pre class="language-js"><code class="language-js">npx create-next-app@latest my-app
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Що таке Next.js · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="nextjs">1. Що таке Next.js</h1>
+        <p>
+          <strong>Next.js</strong> — це фреймворк над React від компанії Vercel. Він додає до React
+          те, чого тому бракує «з коробки»: роутинг, рендеринг на сервері, отримання даних,
+          оптимізацію і збірку. Фактично це стандарт для повноцінних застосунків на React.
+        </p>
+        <h1 id="навіщо">2. Що дає Next.js</h1>
+        <ul>
+          <li><strong>файловий роутинг</strong> — сторінки визначаються структурою папок;</li>
+          <li><strong>рендеринг на сервері</strong> (SSR) і статична генерація (SSG);</li>
+          <li><strong>серверні компоненти</strong> — менше JavaScript у браузері;</li>
+          <li><strong>Route Handlers</strong> — бекенд-ендпоінти в тому ж проєкті (фулстек);</li>
+          <li>вбудована оптимізація зображень, шрифтів, коду.</li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Чистий React рендериться лише в браузері (CSR). Next.js дозволяє рендерити сторінку ще
+              на сервері — це швидший перший показ і краще SEO, бо пошуковик одразу бачить готовий
+              HTML.
+            </p>
+          </div>
+        </div>
+        <h1 id="старт">3. Створення проєкту</h1>
+        <pre class="language-js"><code class="language-js">npx create-next-app@latest my-app
 cd my-app
 npm run dev   // http://localhost:3000</code></pre>
-<h1 id="app-router">4. Структура (App Router)</h1>
-<p>Сучасний Next.js використовує <strong>App Router</strong> — папку <code>app/</code>, де кожна тека
-відповідає маршруту, а спеціальні файли — його частинам.</p>
-<pre class="language-js"><code class="language-js">app/
+        <h1 id="app-router">4. Структура (App Router)</h1>
+        <p>
+          Сучасний Next.js використовує <strong>App Router</strong> — папку <code>app/</code>, де
+          кожна тека відповідає маршруту, а спеціальні файли — його частинам.
+        </p>
+        <pre class="language-js"><code class="language-js">app/
 ├─ layout.jsx     // спільна оболонка
 ├─ page.jsx       // сторінка "/"
 ├─ about/
 │  └─ page.jsx    // сторінка "/about"
 └─ globals.css</code></pre>
-<h1 id="перша-сторінка">5. Перша сторінка</h1>
-<pre class="language-js"><code class="language-js">// app/page.jsx
+        <h1 id="перша-сторінка">5. Перша сторінка</h1>
+        <pre class="language-js"><code class="language-js">// app/page.jsx
 export default function HomePage() {
   return &lt;h1&gt;Привіт із Next.js!&lt;/h1&gt;;
 }</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://nextjs.org/docs" target="_blank">Офіційна документація Next.js</a></li>
-<li><a href="https://nextjs.org/learn" target="_blank">Інтерактивний курс Next.js Learn</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://nextjs.org/docs" target="_blank">Офіційна документація Next.js</a>
+          </li>
+          <li>
+            <a href="https://nextjs.org/learn" target="_blank">Інтерактивний курс Next.js Learn</a>
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

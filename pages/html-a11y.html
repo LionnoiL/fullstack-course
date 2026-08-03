@@ -1,68 +1,93 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Доступність (a11y) · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="a11y">1. Що таке доступність</h1>
-<p><strong>Доступність (accessibility, a11y)</strong> — це практика створення сайтів, якими
-можуть користуватися <em>усі</em>, зокрема люди з порушеннями зору, слуху чи
-моторики, які застосовують читачі екрана та навігацію з клавіатури.</p>
-<h1 id="основи">2. Що дає доступність «безкоштовно»</h1>
-<p>Значна частина доступності — це просто <strong>правильний HTML</strong>:</p>
-<ul>
-<li>семантичні теги (<code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;button&gt;</code>) замість <code>&lt;div&gt;</code>;</li>
-<li>атрибут <code>alt</code> у зображень;</li>
-<li><code>&lt;label&gt;</code> для кожного поля форми;</li>
-<li>коректна ієрархія заголовків;</li>
-<li><code>lang</code> на елементі <code>&lt;html&gt;</code>.</li>
-</ul>
-<h1 id="клавіатура">3. Навігація з клавіатури</h1>
-<p>Інтерактивні елементи мають бути доступні з клавіші <kbd>Tab</kbd>. Використовуйте
-справжні <code>&lt;button&gt;</code> та <code>&lt;a&gt;</code> — вони фокусуються самі. Саморобна «кнопка» з
-<code>&lt;div onclick&gt;</code> недоступна без додаткових зусиль.</p>
-<pre class="language-markup"><code class="language-markup">&lt;!-- ❌ недоступно з клавіатури --&gt;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Доступність (a11y) · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="a11y">1. Що таке доступність</h1>
+        <p>
+          <strong>Доступність (accessibility, a11y)</strong> — це практика створення сайтів, якими
+          можуть користуватися <em>усі</em>, зокрема люди з порушеннями зору, слуху чи моторики, які
+          застосовують читачі екрана та навігацію з клавіатури.
+        </p>
+        <h1 id="основи">2. Що дає доступність «безкоштовно»</h1>
+        <p>Значна частина доступності — це просто <strong>правильний HTML</strong>:</p>
+        <ul>
+          <li>
+            семантичні теги (<code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>,
+            <code>&lt;button&gt;</code>) замість <code>&lt;div&gt;</code>;
+          </li>
+          <li>атрибут <code>alt</code> у зображень;</li>
+          <li><code>&lt;label&gt;</code> для кожного поля форми;</li>
+          <li>коректна ієрархія заголовків;</li>
+          <li><code>lang</code> на елементі <code>&lt;html&gt;</code>.</li>
+        </ul>
+        <h1 id="клавіатура">3. Навігація з клавіатури</h1>
+        <p>
+          Інтерактивні елементи мають бути доступні з клавіші <kbd>Tab</kbd>. Використовуйте
+          справжні <code>&lt;button&gt;</code> та <code>&lt;a&gt;</code> — вони фокусуються самі.
+          Саморобна «кнопка» з <code>&lt;div onclick&gt;</code> недоступна без додаткових зусиль.
+        </p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;!-- ❌ недоступно з клавіатури --&gt;
 &lt;div onclick="save()"&gt;Зберегти&lt;/div&gt;
 
 &lt;!-- ✅ доступно з коробки --&gt;
 &lt;button onclick="save()"&gt;Зберегти&lt;/button&gt;</code></pre>
-<h1 id="aria">4. ARIA-атрибути</h1>
-<p>Коли семантики HTML не вистачає, роль елемента уточнюють ARIA-атрибутами.</p>
-<pre class="language-markup"><code class="language-markup">&lt;button aria-label="Закрити"&gt;×&lt;/button&gt;
+        <h1 id="aria">4. ARIA-атрибути</h1>
+        <p>Коли семантики HTML не вистачає, роль елемента уточнюють ARIA-атрибутами.</p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;button aria-label="Закрити"&gt;×&lt;/button&gt;
 &lt;nav aria-label="Основне меню"&gt;...&lt;/nav&gt;
 &lt;div role="alert"&gt;Помилка збереження&lt;/div&gt;</code></pre>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Головне правило ARIA: «немає ARIA краще за погану ARIA». Спершу
-використовуйте правильний семантичний тег і лише за потреби додавайте
-ARIA — неправильні атрибути шкодять більше, ніж їх відсутність.</p></div></div>
-<h1 id="контраст">5. Контраст і зручність</h1>
-<ul>
-<li>достатній контраст тексту й фону (мінімум 4.5:1);</li>
-<li>не передавайте зміст лише кольором;</li>
-<li>помітний стан фокуса (<code>:focus</code>);</li>
-<li>читабельний розмір шрифту.</li>
-</ul>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/uk/docs/Learn/Accessibility" target="_blank">Доступність — MDN</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Головне правило ARIA: «немає ARIA краще за погану ARIA». Спершу використовуйте
+              правильний семантичний тег і лише за потреби додавайте ARIA — неправильні атрибути
+              шкодять більше, ніж їх відсутність.
+            </p>
+          </div>
+        </div>
+        <h1 id="контраст">5. Контраст і зручність</h1>
+        <ul>
+          <li>достатній контраст тексту й фону (мінімум 4.5:1);</li>
+          <li>не передавайте зміст лише кольором;</li>
+          <li>помітний стан фокуса (<code>:focus</code>);</li>
+          <li>читабельний розмір шрифту.</li>
+        </ul>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://developer.mozilla.org/uk/docs/Learn/Accessibility" target="_blank"
+              >Доступність — MDN</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

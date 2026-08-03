@@ -1,20 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Типізація хуків · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="useref-context">1. useContext</h1>
-<p>Контекст типізують у момент створення — далі <code>useContext</code> поверне вже
-відомий тип.</p>
-<pre class="language-js"><code class="language-js">type Theme = 'light' | 'dark';
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Типізація хуків · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="useref-context">1. useContext</h1>
+        <p>
+          Контекст типізують у момент створення — далі <code>useContext</code> поверне вже відомий
+          тип.
+        </p>
+        <pre class="language-js"><code class="language-js">type Theme = 'light' | 'dark';
 type ThemeCtx = { theme: Theme; toggle: () =&gt; void };
 
 const ThemeContext = createContext&lt;ThemeCtx | null&gt;(null);
@@ -24,13 +29,22 @@ function useTheme() {
   if (!ctx) throw new Error('useTheme must be used within ThemeProvider');
   return ctx; // тут тип уже ThemeCtx (без null)
 }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Патерн «контекст + власний хук із перевіркою на <code>null</code>» позбавляє від
-постійних перевірок у компонентах: усередині <code>useTheme</code> ми один раз відсікаємо
-<code>null</code>, і далі тип завжди повний.</p></div></div>
-<h1 id="usereducer">2. useReducer</h1>
-<p>Типізують стан і <strong>об'єднання</strong> дій — тоді TS перевіряє кожну гілку
-редюсера й підказує доступні <code>action.type</code>.</p>
-<pre class="language-js"><code class="language-js">type State = { count: number };
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Патерн «контекст + власний хук із перевіркою на <code>null</code>» позбавляє від
+              постійних перевірок у компонентах: усередині <code>useTheme</code> ми один раз
+              відсікаємо <code>null</code>, і далі тип завжди повний.
+            </p>
+          </div>
+        </div>
+        <h1 id="usereducer">2. useReducer</h1>
+        <p>
+          Типізують стан і <strong>об'єднання</strong> дій — тоді TS перевіряє кожну гілку редюсера
+          й підказує доступні <code>action.type</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">type State = { count: number };
 type Action =
   | { type: 'inc' }
   | { type: 'dec' }
@@ -46,19 +60,23 @@ function reducer(state: State, action: Action): State {
 
 const [state, dispatch] = useReducer(reducer, { count: 0 });
 dispatch({ type: 'set', payload: 10 }); // ✅ payload обов'язковий</code></pre>
-<h1 id="custom">3. Власні хуки</h1>
-<p>Кастомний хук типізують як звичайну функцію. Якщо він повертає кортеж —
-корисно зафіксувати його через <code>as const</code>, щоб типи були точними.</p>
-<pre class="language-js"><code class="language-js">function useToggle(initial = false) {
+        <h1 id="custom">3. Власні хуки</h1>
+        <p>
+          Кастомний хук типізують як звичайну функцію. Якщо він повертає кортеж — корисно
+          зафіксувати його через <code>as const</code>, щоб типи були точними.
+        </p>
+        <pre class="language-js"><code class="language-js">function useToggle(initial = false) {
   const [on, setOn] = useState(initial);
   const toggle = () =&gt; setOn((v) =&gt; !v);
   return [on, toggle] as const; // тип: readonly [boolean, () =&gt; void]
 }
 
 const [open, toggleOpen] = useToggle();</code></pre>
-<h1 id="generic-hook">4. Дженерик-хук</h1>
-<p>Хук може бути узагальненим — тип «протікає» від аргументу до результату:</p>
-<pre class="language-js"><code class="language-js">function useLocalStorage&lt;T&gt;(key: string, initial: T) {
+        <h1 id="generic-hook">4. Дженерик-хук</h1>
+        <p>Хук може бути узагальненим — тип «протікає» від аргументу до результату:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">function useLocalStorage&lt;T&gt;(key: string, initial: T) {
   const [value, setValue] = useState&lt;T&gt;(() =&gt; {
     const raw = localStorage.getItem(key);
     return raw ? (JSON.parse(raw) as T) : initial;
@@ -70,25 +88,39 @@ const [open, toggleOpen] = useToggle();</code></pre>
 }
 
 const [todos, setTodos] = useLocalStorage&lt;string[]&gt;('todos', []);</code></pre>
-<h1 id="useeffect">5. useEffect</h1>
-<p><code>useEffect</code> не потребує типів — головне повертати або нічого, або
-функцію-очищення. TS перевірить це сам.</p>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/context/" target="_blank">Context — Cheatsheet</a></li>
-<li><a href="https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/hooks/" target="_blank">Hooks — Cheatsheet</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="useeffect">5. useEffect</h1>
+        <p>
+          <code>useEffect</code> не потребує типів — головне повертати або нічого, або
+          функцію-очищення. TS перевірить це сам.
+        </p>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/context/"
+              target="_blank"
+              >Context — Cheatsheet</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/hooks/"
+              target="_blank"
+              >Hooks — Cheatsheet</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

@@ -15,8 +15,7 @@
 }
 
 body {
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
   line-height: 1.65;
@@ -410,7 +409,9 @@ pre[class*="lang-"] {
   border-radius: 8px;
   text-decoration: none;
   color: var(--text);
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
 }
 
 .page-nav-link:hover {
@@ -1159,7 +1160,9 @@ details[open].solution summary {
   padding: 0.1rem 0.3rem;
   border-radius: 4px;
   line-height: 1;
-  transition: color 0.15s, background 0.15s;
+  transition:
+    color 0.15s,
+    background 0.15s;
 }
 .note-card-delete:hover {
   color: #e06c75;
@@ -1238,7 +1241,9 @@ details[open].solution summary {
   color: #7aa2f7;
   text-decoration: none;
 }
-.nav-user-profile:hover { text-decoration: underline; }
+.nav-user-profile:hover {
+  text-decoration: underline;
+}
 
 .nav-user-signout {
   flex-shrink: 0;
@@ -1249,7 +1254,9 @@ details[open].solution summary {
   font-size: 0.8rem;
   padding: 0.25rem 0.5rem;
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
   line-height: 1;
 }
 .nav-user-signout:hover {

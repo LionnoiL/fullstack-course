@@ -1,33 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Встановлення та ініціалізація tRPC · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="встановлення">1. Встановлення</h1>
-<p>На сервері потрібні <code>@trpc/server</code> і <code>zod</code>, на клієнті — <code>@trpc/client</code>
-(а для React ще <code>@trpc/react-query</code> з <code>@tanstack/react-query</code>). У монорепо
-ставимо все разом:</p>
-<pre class="language-js"><code class="language-js">npm install @trpc/server @trpc/client zod
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Встановлення та ініціалізація tRPC · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="встановлення">1. Встановлення</h1>
+        <p>
+          На сервері потрібні <code>@trpc/server</code> і <code>zod</code>, на клієнті —
+          <code>@trpc/client</code> (а для React ще <code>@trpc/react-query</code> з
+          <code>@tanstack/react-query</code>). У монорепо ставимо все разом:
+        </p>
+        <pre class="language-js"><code class="language-js">npm install @trpc/server @trpc/client zod
 # для React-клієнта (наступні уроки):
 npm install @trpc/react-query @tanstack/react-query</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>tRPC потребує <strong>TypeScript у strict-режимі</strong> (<code>"strict": true</code> у
-<code>tsconfig.json</code>). Саме на суворих типах тримається виведення назв процедур і
-їхніх аргументів.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              tRPC потребує <strong>TypeScript у strict-режимі</strong> (<code>"strict": true</code>
+              у <code>tsconfig.json</code>). Саме на суворих типах тримається виведення назв
+              процедур і їхніх аргументів.
+            </p>
+          </div>
+        </div>
 
-<h1 id="ініціалізація">2. Ініціалізація: <code>initTRPC</code></h1>
-<p>Усе починається з одного разу створеного екземпляра tRPC. З нього ми дістаємо
-будівельні блоки: <code>router</code> (щоб збирати роутери) і <code>procedure</code> (базова
-процедура, від якої походять усі інші). Виносимо це в окремий файл, щоб уникнути
-циклічних імпортів.</p>
-<pre class="language-js"><code class="language-js">// server/trpc.ts — ядро, створюємо РІВНО один раз
+        <h1 id="ініціалізація">2. Ініціалізація: <code>initTRPC</code></h1>
+        <p>
+          Усе починається з одного разу створеного екземпляра tRPC. З нього ми дістаємо будівельні
+          блоки: <code>router</code> (щоб збирати роутери) і <code>procedure</code> (базова
+          процедура, від якої походять усі інші). Виносимо це в окремий файл, щоб уникнути циклічних
+          імпортів.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">// server/trpc.ts — ядро, створюємо РІВНО один раз
 import { initTRPC } from '@trpc/server';
 
 const t = initTRPC.create();
@@ -36,10 +52,13 @@ const t = initTRPC.create();
 export const router = t.router;
 export const publicProcedure = t.procedure;</code></pre>
 
-<h1 id="перша-процедура">3. Перша процедура й роутер</h1>
-<p><strong>Процедура</strong> — це один ендпоінт (аналог маршруту в REST). <strong>Роутер</strong> —
-набір процедур. Найпростіша процедура-<code>query</code> просто щось повертає:</p>
-<pre class="language-js"><code class="language-js">// server/router.ts
+        <h1 id="перша-процедура">3. Перша процедура й роутер</h1>
+        <p>
+          <strong>Процедура</strong> — це один ендпоінт (аналог маршруту в REST).
+          <strong>Роутер</strong> — набір процедур. Найпростіша процедура-<code>query</code> просто
+          щось повертає:
+        </p>
+        <pre class="language-js"><code class="language-js">// server/router.ts
 import { router, publicProcedure } from './trpc';
 
 export const appRouter = router({
@@ -50,14 +69,23 @@ export const appRouter = router({
 
 // ГОЛОВНЕ: експортуємо ТИП роутера — його імпортує клієнт
 export type AppRouter = typeof appRouter;</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>export type AppRouter = typeof appRouter;</code> — це той самий тип зі схеми в
-попередньому уроці. Клієнт імпортує його через <code>import type</code>, тож жоден рядок
-серверного коду не потрапляє в бандл фронтенду.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>export type AppRouter = typeof appRouter;</code> — це той самий тип зі схеми в
+              попередньому уроці. Клієнт імпортує його через <code>import type</code>, тож жоден
+              рядок серверного коду не потрапляє в бандл фронтенду.
+            </p>
+          </div>
+        </div>
 
-<h1 id="адаптер">4. Підключення до сервера (адаптер)</h1>
-<p>Роутер сам не слухає порт — його «вмикають» через <em>адаптер</em> під конкретний
-сервер. Для окремого Node/Express це <code>@trpc/server/adapters/express</code>:</p>
-<pre class="language-js"><code class="language-js">// server/index.ts
+        <h1 id="адаптер">4. Підключення до сервера (адаптер)</h1>
+        <p>
+          Роутер сам не слухає порт — його «вмикають» через <em>адаптер</em> під конкретний сервер.
+          Для окремого Node/Express це <code>@trpc/server/adapters/express</code>:
+        </p>
+        <pre class="language-js"><code class="language-js">// server/index.ts
 import express from 'express';
 import { createExpressMiddleware } from '@trpc/server/adapters/express';
 import { appRouter } from './router';
@@ -65,34 +93,51 @@ import { appRouter } from './router';
 const app = express();
 app.use('/trpc', createExpressMiddleware({ router: appRouter }));
 app.listen(3000);</code></pre>
-<p>У Next.js замість цього використовують Route Handler (<code>app/api/trpc/[trpc]/route.ts</code>)
-з <code>fetchRequestHandler</code> — принцип той самий, змінюється лише адаптер.</p>
+        <p>
+          У Next.js замість цього використовують Route Handler
+          (<code>app/api/trpc/[trpc]/route.ts</code>) з <code>fetchRequestHandler</code> — принцип
+          той самий, змінюється лише адаптер.
+        </p>
 
-<h1 id="структура">5. Підсумок структури</h1>
-<ul>
-<li><code>server/trpc.ts</code> — <code>initTRPC.create()</code>, експорт <code>router</code> та <code>publicProcedure</code>;</li>
-<li><code>server/router.ts</code> — <code>appRouter</code> і <code>export type AppRouter</code>;</li>
-<li><code>server/index.ts</code> — адаптер, що вмикає роутер у HTTP-сервер.</li>
-</ul>
-<p>У наступному уроці наповнимо роутер процедурами: <code>query</code> для читання,
-<code>mutation</code> для змін, і додамо валідацію входів через Zod.</p>
+        <h1 id="структура">5. Підсумок структури</h1>
+        <ul>
+          <li>
+            <code>server/trpc.ts</code> — <code>initTRPC.create()</code>, експорт
+            <code>router</code> та <code>publicProcedure</code>;
+          </li>
+          <li>
+            <code>server/router.ts</code> — <code>appRouter</code> і
+            <code>export type AppRouter</code>;
+          </li>
+          <li><code>server/index.ts</code> — адаптер, що вмикає роутер у HTTP-сервер.</li>
+        </ul>
+        <p>
+          У наступному уроці наповнимо роутер процедурами: <code>query</code> для читання,
+          <code>mutation</code> для змін, і додамо валідацію входів через Zod.
+        </p>
 
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://trpc.io/docs/server/routers" target="_blank">tRPC — Define Routers</a></li>
-<li><a href="https://trpc.io/docs/server/adapters" target="_blank">tRPC — Server Adapters</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://trpc.io/docs/server/routers" target="_blank">tRPC — Define Routers</a>
+          </li>
+          <li>
+            <a href="https://trpc.io/docs/server/adapters" target="_blank"
+              >tRPC — Server Adapters</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

@@ -1,33 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Вступ до бекенду · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="бекенд">1. Що таке бекенд</h1>
-<p><strong>Бекенд (back-end)</strong> — це серверна частина застосунку: вона працює не в
-браузері користувача, а на сервері. Бекенд обробляє запити, виконує бізнес-логіку,
-звертається до бази даних і повертає дані клієнту (фронтенду).</p>
-<h1 id="клієнт-сервер">2. Модель клієнт-сервер</h1>
-<ul>
-<li><strong>Клієнт</strong> (браузер) надсилає HTTP-запит;</li>
-<li><strong>Сервер</strong> приймає запит, виконує логіку, звертається до БД;</li>
-<li>сервер повертає <strong>відповідь</strong> (зазвичай JSON або HTML).</li>
-</ul>
-<p><img src="images/client-server.svg" alt="Модель клієнт-сервер: запит, відповідь, база даних"></p>
-<p>На фронтенді ви вже бачили клієнтський бік — <code>fetch</code> до API. Тепер побудуємо
-той бік, що відповідає на ці запити.</p>
-<h1 id="node">3. Node.js як середовище</h1>
-<p>Бекенд на JavaScript пишуть у середовищі <strong>Node.js</strong>, яке виконує JS поза
-браузером — з доступом до файлової системи, мережі й бази даних.</p>
-<pre class="language-js"><code class="language-js">// найпростіший HTTP-сервер на «чистому» Node
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Вступ до бекенду · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="бекенд">1. Що таке бекенд</h1>
+        <p>
+          <strong>Бекенд (back-end)</strong> — це серверна частина застосунку: вона працює не в
+          браузері користувача, а на сервері. Бекенд обробляє запити, виконує бізнес-логіку,
+          звертається до бази даних і повертає дані клієнту (фронтенду).
+        </p>
+        <h1 id="клієнт-сервер">2. Модель клієнт-сервер</h1>
+        <ul>
+          <li><strong>Клієнт</strong> (браузер) надсилає HTTP-запит;</li>
+          <li><strong>Сервер</strong> приймає запит, виконує логіку, звертається до БД;</li>
+          <li>сервер повертає <strong>відповідь</strong> (зазвичай JSON або HTML).</li>
+        </ul>
+        <p>
+          <img
+            src="images/client-server.svg"
+            alt="Модель клієнт-сервер: запит, відповідь, база даних"
+          />
+        </p>
+        <p>
+          На фронтенді ви вже бачили клієнтський бік — <code>fetch</code> до API. Тепер побудуємо
+          той бік, що відповідає на ці запити.
+        </p>
+        <h1 id="node">3. Node.js як середовище</h1>
+        <p>
+          Бекенд на JavaScript пишуть у середовищі <strong>Node.js</strong>, яке виконує JS поза
+          браузером — з доступом до файлової системи, мережі й бази даних.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">// найпростіший HTTP-сервер на «чистому» Node
 const http = require('http');
 
 const server = http.createServer((req, res) =&gt; {
@@ -36,32 +52,39 @@ const server = http.createServer((req, res) =&gt; {
 });
 
 server.listen(3000, () =&gt; console.log('Сервер на http://localhost:3000'));</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Писати сервер на «голому» <code>http</code> незручно вже за кількох маршрутів.
-Тому на практиці використовують фреймворк — найпопулярніший це <strong>Express</strong>,
-якому присвячено наступний урок.</p></div></div>
-<h1 id="що-вміє">4. Типові задачі бекенду</h1>
-<ul>
-<li>надавати REST API (або GraphQL);</li>
-<li>працювати з базою даних (CRUD);</li>
-<li>автентифікація та авторизація користувачів;</li>
-<li>валідація й обробка даних;</li>
-<li>інтеграція із зовнішніми сервісами (оплата, пошта).</li>
-</ul>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://nodejs.org/uk/docs" target="_blank">Документація Node.js</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Писати сервер на «голому» <code>http</code> незручно вже за кількох маршрутів. Тому на
+              практиці використовують фреймворк — найпопулярніший це <strong>Express</strong>, якому
+              присвячено наступний урок.
+            </p>
+          </div>
+        </div>
+        <h1 id="що-вміє">4. Типові задачі бекенду</h1>
+        <ul>
+          <li>надавати REST API (або GraphQL);</li>
+          <li>працювати з базою даних (CRUD);</li>
+          <li>автентифікація та авторизація користувачів;</li>
+          <li>валідація й обробка даних;</li>
+          <li>інтеграція із зовнішніми сервісами (оплата, пошта).</li>
+        </ul>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li><a href="https://nodejs.org/uk/docs" target="_blank">Документація Node.js</a></li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

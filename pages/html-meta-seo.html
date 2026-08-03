@@ -1,63 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Метадані та SEO · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="head">1. Вміст head</h1>
-<p>Тег <code>&lt;head&gt;</code> містить невидиму службову інформацію про сторінку: кодування,
-назву, опис, підключення ресурсів. Саме ці дані використовують браузер,
-пошукові системи та соцмережі.</p>
-<h1 id="базові-мета">2. Базові метатеги</h1>
-<pre class="language-markup"><code class="language-markup">&lt;meta charset="UTF-8"&gt;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Метадані та SEO · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="head">1. Вміст head</h1>
+        <p>
+          Тег <code>&lt;head&gt;</code> містить невидиму службову інформацію про сторінку:
+          кодування, назву, опис, підключення ресурсів. Саме ці дані використовують браузер,
+          пошукові системи та соцмережі.
+        </p>
+        <h1 id="базові-мета">2. Базові метатеги</h1>
+        <pre class="language-markup"><code class="language-markup">&lt;meta charset="UTF-8"&gt;
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
 &lt;title&gt;Заголовок сторінки (50–60 символів)&lt;/title&gt;
 &lt;meta name="description" content="Короткий опис для пошуку"&gt;</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>&lt;title&gt;</code> і <code>description</code> — це те, що бачить користувач у результатах
-пошуку Google. Роблячи їх точними й унікальними для кожної сторінки, ви прямо
-впливаєте на клікабельність.</p></div></div>
-<h1 id="seo">3. Основи SEO</h1>
-<p><strong>SEO (Search Engine Optimization)</strong> — оптимізація під пошукові системи. Що
-допомагає:</p>
-<ul>
-<li>семантична розмітка й правильна ієрархія заголовків;</li>
-<li>унікальні <code>&lt;title&gt;</code> та <code>description</code>;</li>
-<li>атрибути <code>alt</code> у зображень;</li>
-<li>швидке завантаження й адаптивність;</li>
-<li>«людські» URL і внутрішні посилання.</li>
-</ul>
-<h1 id="open-graph">4. Open Graph для соцмереж</h1>
-<p>Метатеги Open Graph керують тим, як виглядає посилання при поширенні у Facebook,
-Telegram, LinkedIn тощо.</p>
-<pre class="language-markup"><code class="language-markup">&lt;meta property="og:title" content="Назва статті"&gt;
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>&lt;title&gt;</code> і <code>description</code> — це те, що бачить користувач у
+              результатах пошуку Google. Роблячи їх точними й унікальними для кожної сторінки, ви
+              прямо впливаєте на клікабельність.
+            </p>
+          </div>
+        </div>
+        <h1 id="seo">3. Основи SEO</h1>
+        <p>
+          <strong>SEO (Search Engine Optimization)</strong> — оптимізація під пошукові системи. Що
+          допомагає:
+        </p>
+        <ul>
+          <li>семантична розмітка й правильна ієрархія заголовків;</li>
+          <li>унікальні <code>&lt;title&gt;</code> та <code>description</code>;</li>
+          <li>атрибути <code>alt</code> у зображень;</li>
+          <li>швидке завантаження й адаптивність;</li>
+          <li>«людські» URL і внутрішні посилання.</li>
+        </ul>
+        <h1 id="open-graph">4. Open Graph для соцмереж</h1>
+        <p>
+          Метатеги Open Graph керують тим, як виглядає посилання при поширенні у Facebook, Telegram,
+          LinkedIn тощо.
+        </p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;meta property="og:title" content="Назва статті"&gt;
 &lt;meta property="og:description" content="Опис"&gt;
 &lt;meta property="og:image" content="https://site.com/preview.jpg"&gt;
 &lt;meta property="og:url" content="https://site.com/article"&gt;</code></pre>
-<h1 id="інші">5. Іконка та мова</h1>
-<pre class="language-markup"><code class="language-markup">&lt;link rel="icon" href="/favicon.ico"&gt;
+        <h1 id="інші">5. Іконка та мова</h1>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;link rel="icon" href="/favicon.ico"&gt;
 &lt;html lang="uk"&gt; &lt;!-- мова важлива для пошуку й читачів екрана --&gt;</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/uk/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML" target="_blank">Метадані в head — MDN</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://developer.mozilla.org/uk/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML"
+              target="_blank"
+              >Метадані в head — MDN</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

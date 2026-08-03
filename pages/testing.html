@@ -1,27 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Тестування · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="тестування">1. Навіщо тестувати</h1>
-<p>Автоматичні тести перевіряють, що код працює правильно, і не дають зламати вже
-готове під час змін. Вони економлять час на ручній перевірці й додають
-впевненості при рефакторингу.</p>
-<p>Основні види: <strong>модульні</strong> (окрема функція), <strong>інтеграційні</strong> (кілька частин
-разом), <strong>e2e</strong> (сценарій користувача цілком).</p>
-<h1 id="vitest">2. Модульні тести (Vitest)</h1>
-<p><strong>Vitest</strong> (та схожий <strong>Jest</strong>) — популярні тест-раннери. Тест складається з
-<code>describe</code>, <code>test</code>/<code>it</code> та перевірок <code>expect</code>.</p>
-<pre class="language-js"><code class="language-js">npm install -D vitest</code></pre>
-<pre class="language-js"><code class="language-js">// sum.js
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Тестування · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="тестування">1. Навіщо тестувати</h1>
+        <p>
+          Автоматичні тести перевіряють, що код працює правильно, і не дають зламати вже готове під
+          час змін. Вони економлять час на ручній перевірці й додають впевненості при рефакторингу.
+        </p>
+        <p>
+          Основні види: <strong>модульні</strong> (окрема функція),
+          <strong>інтеграційні</strong> (кілька частин разом), <strong>e2e</strong> (сценарій
+          користувача цілком).
+        </p>
+        <h1 id="vitest">2. Модульні тести (Vitest)</h1>
+        <p>
+          <strong>Vitest</strong> (та схожий <strong>Jest</strong>) — популярні тест-раннери. Тест
+          складається з <code>describe</code>, <code>test</code>/<code>it</code> та перевірок
+          <code>expect</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">npm install -D vitest</code></pre>
+        <pre class="language-js"><code class="language-js">// sum.js
 export function sum(a, b) {
   return a + b;
 }
@@ -39,16 +49,22 @@ describe('sum', () =&gt; {
     expect(sum(-1, 1)).toBe(0);
   });
 });</code></pre>
-<h1 id="матчери">3. Поширені перевірки (matchers)</h1>
-<pre class="language-js"><code class="language-js">expect(value).toBe(5);              // строга рівність
+        <h1 id="матчери">3. Поширені перевірки (matchers)</h1>
+        <pre
+          class="language-js"
+        ><code class="language-js">expect(value).toBe(5);              // строга рівність
 expect(obj).toEqual({ a: 1 });      // глибока рівність
 expect(arr).toContain('js');
 expect(value).toBeTruthy();
 expect(fn).toThrow();
 expect(value).toBeGreaterThan(3);</code></pre>
-<h1 id="rtl">4. Тестування React (Testing Library)</h1>
-<p><strong>React Testing Library</strong> перевіряє компоненти так, як їх бачить користувач.</p>
-<pre class="language-js"><code class="language-js">import { render, screen } from '@testing-library/react';
+        <h1 id="rtl">4. Тестування React (Testing Library)</h1>
+        <p>
+          <strong>React Testing Library</strong> перевіряє компоненти так, як їх бачить користувач.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Counter from './Counter';
 
@@ -60,27 +76,38 @@ test('лічильник збільшується', async () =&gt; {
 
   expect(screen.getByText('1')).toBeInTheDocument();
 });</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Тестуйте <em>поведінку</em>, а не деталі реалізації: «при кліку зʼявляється
-результат», а не «викликано таку функцію». Такі тести переживають рефакторинг.</p></div></div>
-<h1 id="запуск">5. Запуск</h1>
-<pre class="language-js"><code class="language-js">npx vitest          # стежити за змінами
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Тестуйте <em>поведінку</em>, а не деталі реалізації: «при кліку зʼявляється
+              результат», а не «викликано таку функцію». Такі тести переживають рефакторинг.
+            </p>
+          </div>
+        </div>
+        <h1 id="запуск">5. Запуск</h1>
+        <pre class="language-js"><code class="language-js">npx vitest          # стежити за змінами
 npx vitest run      # разово (для CI)</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://vitest.dev/" target="_blank">Документація Vitest</a></li>
-<li><a href="https://testing-library.com/docs/react-testing-library/intro/" target="_blank">React Testing Library</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li><a href="https://vitest.dev/" target="_blank">Документація Vitest</a></li>
+          <li>
+            <a href="https://testing-library.com/docs/react-testing-library/intro/" target="_blank"
+              >React Testing Library</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

@@ -1,81 +1,113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Таймери: setTimeout і setInterval · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="таймери">1. Таймери</h1>
-<p>Таймери дозволяють виконати код <em>через певний час</em> або <em>повторювати</em> його з
-інтервалом. Це найпростіший приклад асинхронності: функція ставиться в чергу
-і виконується пізніше, не блокуючи решту коду.</p>
-<h1 id="settimeout">2. setTimeout — виконати один раз згодом</h1>
-<p><code>setTimeout(callback, delay)</code> запускає функцію один раз через <code>delay</code>
-мілісекунд і повертає ідентифікатор таймера.</p>
-<pre class="language-js"><code class="language-js">console.log('до');
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Таймери: setTimeout і setInterval · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="таймери">1. Таймери</h1>
+        <p>
+          Таймери дозволяють виконати код <em>через певний час</em> або <em>повторювати</em> його з
+          інтервалом. Це найпростіший приклад асинхронності: функція ставиться в чергу і виконується
+          пізніше, не блокуючи решту коду.
+        </p>
+        <h1 id="settimeout">2. setTimeout — виконати один раз згодом</h1>
+        <p>
+          <code>setTimeout(callback, delay)</code> запускає функцію один раз через
+          <code>delay</code> мілісекунд і повертає ідентифікатор таймера.
+        </p>
+        <pre class="language-js"><code class="language-js">console.log('до');
 
 setTimeout(() =&gt; {
   console.log('через 2 секунди');
 }, 2000);
 
 console.log('після'); // виведеться РАНІШЕ, ніж рядок з таймера</code></pre>
-<p>Порядок у консолі: <code>до</code> → <code>після</code> → (через 2с) <code>через 2 секунди</code>. Це
-показує, що <code>setTimeout</code> не зупиняє виконання коду.</p>
-<p>Додаткові аргументи після затримки передаються у функцію:</p>
-<pre class="language-js"><code class="language-js">function greet(name) {
+        <p>
+          Порядок у консолі: <code>до</code> → <code>після</code> → (через 2с)
+          <code>через 2 секунди</code>. Це показує, що <code>setTimeout</code> не зупиняє виконання
+          коду.
+        </p>
+        <p>Додаткові аргументи після затримки передаються у функцію:</p>
+        <pre class="language-js"><code class="language-js">function greet(name) {
   console.log('Привіт, ' + name);
 }
 setTimeout(greet, 1000, 'Ada'); // через 1с: 'Привіт, Ada'</code></pre>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Затримка — це <strong>мінімальний</strong>, а не точний час. Якщо основний потік
-зайнятий, колбек виконається пізніше. Для <code>delay = 0</code> код усе одно
-відкладається до завершення поточної роботи.</p></div></div>
-<h1 id="setinterval">3. setInterval — повторювати з інтервалом</h1>
-<pre class="language-js"><code class="language-js">let seconds = 0;
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Затримка — це <strong>мінімальний</strong>, а не точний час. Якщо основний потік
+              зайнятий, колбек виконається пізніше. Для <code>delay = 0</code> код усе одно
+              відкладається до завершення поточної роботи.
+            </p>
+          </div>
+        </div>
+        <h1 id="setinterval">3. setInterval — повторювати з інтервалом</h1>
+        <pre class="language-js"><code class="language-js">let seconds = 0;
 
 const timerId = setInterval(() =&gt; {
   seconds += 1;
   console.log('Минуло секунд:', seconds);
 }, 1000);</code></pre>
-<h1 id="скасування">4. Скасування таймерів</h1>
-<p>Ідентифікатор, який повертають <code>setTimeout</code>/<code>setInterval</code>, потрібен, щоб
-зупинити таймер через <code>clearTimeout</code>/<code>clearInterval</code>.</p>
-<pre class="language-js"><code class="language-js">const id = setInterval(tick, 1000);
+        <h1 id="скасування">4. Скасування таймерів</h1>
+        <p>
+          Ідентифікатор, який повертають <code>setTimeout</code>/<code>setInterval</code>, потрібен,
+          щоб зупинити таймер через <code>clearTimeout</code>/<code>clearInterval</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">const id = setInterval(tick, 1000);
 
 // зупинити через 5 секунд
 setTimeout(() =&gt; clearInterval(id), 5000);</code></pre>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Завжди очищайте інтервали, коли вони більше не потрібні (напр., при
-видаленні компонента). Забутий <code>setInterval</code> продовжує працювати у фоні й
-призводить до витоку памʼяті.</p></div></div>
-<h1 id="рекурсивний-settimeout">5. Рекурсивний setTimeout</h1>
-<p>Часто замість <code>setInterval</code> використовують «ланцюжок» <code>setTimeout</code> — це
-гарантує паузу <em>між</em> завершенням однієї ітерації й початком наступної, навіть
-якщо робота триває довго.</p>
-<pre class="language-js"><code class="language-js">function poll() {
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Завжди очищайте інтервали, коли вони більше не потрібні (напр., при видаленні
+              компонента). Забутий <code>setInterval</code> продовжує працювати у фоні й призводить
+              до витоку памʼяті.
+            </p>
+          </div>
+        </div>
+        <h1 id="рекурсивний-settimeout">5. Рекурсивний setTimeout</h1>
+        <p>
+          Часто замість <code>setInterval</code> використовують «ланцюжок» <code>setTimeout</code> —
+          це гарантує паузу <em>між</em> завершенням однієї ітерації й початком наступної, навіть
+          якщо робота триває довго.
+        </p>
+        <pre class="language-js"><code class="language-js">function poll() {
   console.log('перевіряю сервер...');
   setTimeout(poll, 3000); // запланувати наступний запуск після цього
 }
 poll();</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://uk.javascript.info/settimeout-setinterval" target="_blank">setTimeout та setInterval — javascript.info</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://uk.javascript.info/settimeout-setinterval" target="_blank"
+              >setTimeout та setInterval — javascript.info</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

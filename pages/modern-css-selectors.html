@@ -1,20 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Нові селектори: :has(), :is(), :where() · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="has">1. :has() — батьківський селектор</h1>
-<p><code>:has()</code> обирає елемент <em>залежно від його вмісту</em> чи наступних елементів.
-Роками це було неможливо в чистому CSS — тепер є.</p>
-<pre class="language-css"><code class="language-css">/* картка, ВСЕРЕДИНІ якої є зображення */
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Нові селектори: :has(), :is(), :where() · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="has">1. :has() — батьківський селектор</h1>
+        <p>
+          <code>:has()</code> обирає елемент <em>залежно від його вмісту</em> чи наступних
+          елементів. Роками це було неможливо в чистому CSS — тепер є.
+        </p>
+        <pre
+          class="language-css"
+        ><code class="language-css">/* картка, ВСЕРЕДИНІ якої є зображення */
 .card:has(img) {
   padding: 0;
 }
@@ -24,10 +31,9 @@ label:has(+ input:required)::after {
   content: " *";
   color: red;
 }</code></pre>
-<h1 id="has-стани">2. :has() для станів</h1>
-<p>Особливо потужно у поєднанні з іншими псевдокласами — реагувати на стан
-всередині:</p>
-<pre class="language-css"><code class="language-css">/* форма, де є невалідне поле */
+        <h1 id="has-стани">2. :has() для станів</h1>
+        <p>Особливо потужно у поєднанні з іншими псевдокласами — реагувати на стан всередині:</p>
+        <pre class="language-css"><code class="language-css">/* форма, де є невалідне поле */
 form:has(input:invalid) button[type="submit"] {
   opacity: .5;
   pointer-events: none;
@@ -35,37 +41,64 @@ form:has(input:invalid) button[type="submit"] {
 
 /* світла/темна тема без JS — за станом чекбокса десь вище */
 body:has(#theme-toggle:checked) { background: #111; color: #eee; }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>:has()</code> закриває купу задач, які раніше вимагали JavaScript: реакція батька на
-дитину, залежності між сусідами, «розумні» стани форм. Часто тепер достатньо
-самого CSS.</p></div></div>
-<h1 id="is">3. :is() — коротший запис груп</h1>
-<p><code>:is()</code> скорочує повторювані групи селекторів:</p>
-<pre class="language-css"><code class="language-css">/* замість h1 a, h2 a, h3 a { ... } */
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>:has()</code> закриває купу задач, які раніше вимагали JavaScript: реакція
+              батька на дитину, залежності між сусідами, «розумні» стани форм. Часто тепер достатньо
+              самого CSS.
+            </p>
+          </div>
+        </div>
+        <h1 id="is">3. :is() — коротший запис груп</h1>
+        <p><code>:is()</code> скорочує повторювані групи селекторів:</p>
+        <pre class="language-css"><code class="language-css">/* замість h1 a, h2 a, h3 a { ... } */
 :is(h1, h2, h3) a { color: inherit; }</code></pre>
-<h1 id="where">4. :where() — те саме, але без специфічності</h1>
-<p><code>:where()</code> працює як <code>:is()</code>, але має <strong>нульову специфічність</strong> — його стилі
-легко перевизначити. Ідеально для базових стилів.</p>
-<pre class="language-css"><code class="language-css">/* базовий стиль, який легко перебити пізніше */
+        <h1 id="where">4. :where() — те саме, але без специфічності</h1>
+        <p>
+          <code>:where()</code> працює як <code>:is()</code>, але має
+          <strong>нульову специфічність</strong> — його стилі легко перевизначити. Ідеально для
+          базових стилів.
+        </p>
+        <pre
+          class="language-css"
+        ><code class="language-css">/* базовий стиль, який легко перебити пізніше */
 :where(ul, ol) { margin: 0; padding: 0; }</code></pre>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Різниця у специфічності: <code>:is()</code> бере найвищу специфічність зі своїх аргументів,
-а <code>:where()</code> завжди 0. Для скидання й базових стилів обирай <code>:where()</code>, щоб не
-створювати «важких» правил, які потім важко перекрити.</p></div></div>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:has" target="_blank">:has() — MDN</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:where" target="_blank">:where() — MDN</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Різниця у специфічності: <code>:is()</code> бере найвищу специфічність зі своїх
+              аргументів, а <code>:where()</code> завжди 0. Для скидання й базових стилів обирай
+              <code>:where()</code>, щоб не створювати «важких» правил, які потім важко перекрити.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:has" target="_blank"
+              >:has() — MDN</a
+            >
+          </li>
+          <li>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:where" target="_blank"
+              >:where() — MDN</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

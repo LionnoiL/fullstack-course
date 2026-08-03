@@ -1,54 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Playwright: локатори та дії · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="локатори">1. Локатори — як знайти елемент</h1>
-<p><strong>Локатор</strong> описує, <em>як знайти</em> елемент на сторінці. Playwright радить шукати
-так, як елемент бачить користувач — за <strong>роллю</strong>, <strong>текстом</strong>, <strong>підписом</strong> —
-а не за крихкими CSS-класами.</p>
-<pre class="language-js"><code class="language-js">page.getByRole('button', { name: 'Увійти' });   // за ARIA-роллю + назвою
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playwright: локатори та дії · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="локатори">1. Локатори — як знайти елемент</h1>
+        <p>
+          <strong>Локатор</strong> описує, <em>як знайти</em> елемент на сторінці. Playwright радить
+          шукати так, як елемент бачить користувач — за <strong>роллю</strong>,
+          <strong>текстом</strong>, <strong>підписом</strong> — а не за крихкими CSS-класами.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">page.getByRole('button', { name: 'Увійти' });   // за ARIA-роллю + назвою
 page.getByText('Ласкаво просимо');               // за текстом
 page.getByLabel('Email');                        // поле за &lt;label&gt;
 page.getByPlaceholder('Пошук...');               // за placeholder
 page.getByRole('link', { name: 'Головна' });
 page.getByTestId('cart-total');                  // за data-testid (запасний варіант)</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Пріоритет: <code>getByRole</code> → <code>getByLabel</code>/<code>getByPlaceholder</code> →
-<code>getByText</code> → <code>getByTestId</code>. Пошук за роллю ще й перевіряє <strong>доступність</strong>:
-якщо кнопку не знайдено за роллю, можливо, вона недоступна для читалок екрана.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Пріоритет: <code>getByRole</code> → <code>getByLabel</code>/<code
+                >getByPlaceholder</code
+              >
+              → <code>getByText</code> → <code>getByTestId</code>. Пошук за роллю ще й перевіряє
+              <strong>доступність</strong>: якщо кнопку не знайдено за роллю, можливо, вона
+              недоступна для читалок екрана.
+            </p>
+          </div>
+        </div>
 
-<h1 id="дії">2. Дії з елементами</h1>
-<pre class="language-js"><code class="language-js">await page.getByRole('button', { name: 'Додати' }).click();
+        <h1 id="дії">2. Дії з елементами</h1>
+        <pre
+          class="language-js"
+        ><code class="language-js">await page.getByRole('button', { name: 'Додати' }).click();
 await page.getByLabel('Email').fill('ann@mail.com');   // ввести текст
 await page.getByLabel('Згода').check();                // чекбокс
 await page.getByRole('combobox').selectOption('ua');   // select
 await page.getByRole('link', { name: 'Профіль' }).hover();
 await page.keyboard.press('Enter');</code></pre>
 
-<h1 id="очікування">3. Авто-очікування — головна суперсила</h1>
-<p>Перед кожною дією Playwright <strong>сам чекає</strong>, поки елемент існує, видимий,
-стабільний і готовий приймати події. Не треба вручну ставити <code>sleep</code>.</p>
-<pre class="language-js"><code class="language-js">// НЕ роби так — крихко й повільно:
+        <h1 id="очікування">3. Авто-очікування — головна суперсила</h1>
+        <p>
+          Перед кожною дією Playwright <strong>сам чекає</strong>, поки елемент існує, видимий,
+          стабільний і готовий приймати події. Не треба вручну ставити <code>sleep</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">// НЕ роби так — крихко й повільно:
 await page.waitForTimeout(3000);
 await page.getByRole('button').click();
 
 // достатньо просто:
 await page.getByRole('button', { name: 'Зберегти' }).click(); // сам дочекається</code></pre>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p><code>waitForTimeout</code> (фіксована пауза) — джерело «мерехтливих» (flaky) тестів:
-на швидкій машині зайве очікування, на повільній — замало. Довіряй авто-очікуванню
-й web-first перевіркам (наступний урок).</p></div></div>
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>waitForTimeout</code> (фіксована пауза) — джерело «мерехтливих» (flaky) тестів:
+              на швидкій машині зайве очікування, на повільній — замало. Довіряй авто-очікуванню й
+              web-first перевіркам (наступний урок).
+            </p>
+          </div>
+        </div>
 
-<h1 id="кілька">4. Кілька елементів і фільтри</h1>
-<p>Якщо локатор збігається з кількома елементами, уточнюй його, а не хапай «перший-ліпший»:</p>
-<pre class="language-js"><code class="language-js">// уточнити фільтром за текстом усередині
+        <h1 id="кілька">4. Кілька елементів і фільтри</h1>
+        <p>
+          Якщо локатор збігається з кількома елементами, уточнюй його, а не хапай «перший-ліпший»:
+        </p>
+        <pre class="language-js"><code class="language-js">// уточнити фільтром за текстом усередині
 page.getByRole('listitem').filter({ hasText: 'Молоко' });
 
 // конкретний за індексом (уникай, якщо можна уточнити змістовно)
@@ -58,28 +88,36 @@ page.getByRole('listitem').nth(2);
 // порахувати
 const count = await page.getByRole('listitem').count();</code></pre>
 
-<h1 id="скоуп">5. Пошук усередині контейнера</h1>
-<p>Локатори <strong>ланцюжкові</strong> — можна звузити пошук до частини сторінки:</p>
-<pre class="language-js"><code class="language-js">const card = page.getByRole('article').filter({ hasText: 'Замовлення #42' });
+        <h1 id="скоуп">5. Пошук усередині контейнера</h1>
+        <p>Локатори <strong>ланцюжкові</strong> — можна звузити пошук до частини сторінки:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">const card = page.getByRole('article').filter({ hasText: 'Замовлення #42' });
 await card.getByRole('button', { name: 'Скасувати' }).click(); // кнопка саме в цій картці</code></pre>
-<p>Елементи знаходимо й діємо — далі навчимося <em>перевіряти</em> результат.</p>
+        <p>Елементи знаходимо й діємо — далі навчимося <em>перевіряти</em> результат.</p>
 
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://playwright.dev/docs/locators" target="_blank">Playwright — Locators</a></li>
-<li><a href="https://playwright.dev/docs/actionability" target="_blank">Playwright — Auto-waiting</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://playwright.dev/docs/locators" target="_blank">Playwright — Locators</a>
+          </li>
+          <li>
+            <a href="https://playwright.dev/docs/actionability" target="_blank"
+              >Playwright — Auto-waiting</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

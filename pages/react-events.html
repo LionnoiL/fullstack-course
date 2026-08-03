@@ -1,50 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Обробка подій · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="події">1. Обробники подій</h1>
-<p>Події в React підключають через пропси в <code>camelCase</code>: <code>onClick</code>, <code>onChange</code>,
-<code>onSubmit</code>. У проп передають <strong>функцію</strong> (а не її виклик).</p>
-<pre class="language-js"><code class="language-js">function Button() {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Обробка подій · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="події">1. Обробники подій</h1>
+        <p>
+          Події в React підключають через пропси в <code>camelCase</code>: <code>onClick</code>,
+          <code>onChange</code>, <code>onSubmit</code>. У проп передають <strong>функцію</strong> (а
+          не її виклик).
+        </p>
+        <pre class="language-js"><code class="language-js">function Button() {
   function handleClick() {
     console.log('Клік!');
   }
 
   return &lt;button onClick={handleClick}&gt;Натисни&lt;/button&gt;;
 }</code></pre>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Передавайте саме функцію: <code>onClick={handleClick}</code>. Якщо написати
-<code>onClick={handleClick()}</code> — функція викличеться одразу під час рендеру, а не
-при кліку.</p></div></div>
-<h1 id="аргументи">2. Передавання аргументів</h1>
-<p>Щоб передати аргумент, обгортають виклик у стрілкову функцію.</p>
-<pre class="language-js"><code class="language-js">function List() {
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Передавайте саме функцію: <code>onClick={handleClick}</code>. Якщо написати
+              <code>onClick={handleClick()}</code> — функція викличеться одразу під час рендеру, а
+              не при кліку.
+            </p>
+          </div>
+        </div>
+        <h1 id="аргументи">2. Передавання аргументів</h1>
+        <p>Щоб передати аргумент, обгортають виклик у стрілкову функцію.</p>
+        <pre class="language-js"><code class="language-js">function List() {
   function remove(id) {
     console.log('Видалити', id);
   }
 
   return &lt;button onClick={() =&gt; remove(5)}&gt;Видалити&lt;/button&gt;;
 }</code></pre>
-<h1 id="обєкт-події">3. Обʼєкт події</h1>
-<p>Обробник отримує синтетичну подію React — обгортку над нативною, з тим самим
-інтерфейсом (<code>preventDefault</code>, <code>target</code> тощо).</p>
-<pre class="language-js"><code class="language-js">function Input() {
+        <h1 id="обєкт-події">3. Обʼєкт події</h1>
+        <p>
+          Обробник отримує синтетичну подію React — обгортку над нативною, з тим самим інтерфейсом
+          (<code>preventDefault</code>, <code>target</code> тощо).
+        </p>
+        <pre class="language-js"><code class="language-js">function Input() {
   function handleChange(event) {
     console.log('Значення:', event.target.value);
   }
 
   return &lt;input onChange={handleChange} /&gt;;
 }</code></pre>
-<h1 id="форма">4. Скасування дії за замовчуванням</h1>
-<pre class="language-js"><code class="language-js">function SearchForm() {
+        <h1 id="форма">4. Скасування дії за замовчуванням</h1>
+        <pre class="language-js"><code class="language-js">function SearchForm() {
   function handleSubmit(event) {
     event.preventDefault(); // не перезавантажувати сторінку
     console.log('Пошук');
@@ -57,9 +72,9 @@
     &lt;/form&gt;
   );
 }</code></pre>
-<h1 id="стан-в-обробнику">5. Зміна стану в обробнику</h1>
-<p>Найчастіше обробник події оновлює стан — це запускає перерендер.</p>
-<pre class="language-js"><code class="language-js">function Toggle() {
+        <h1 id="стан-в-обробнику">5. Зміна стану в обробнику</h1>
+        <p>Найчастіше обробник події оновлює стан — це запускає перерендер.</p>
+        <pre class="language-js"><code class="language-js">function Toggle() {
   const [on, setOn] = useState(false);
   return (
     &lt;button onClick={() =&gt; setOn((prev) =&gt; !prev)}&gt;
@@ -67,21 +82,25 @@
     &lt;/button&gt;
   );
 }</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://react.dev/learn/responding-to-events" target="_blank">Responding to Events — react.dev</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://react.dev/learn/responding-to-events" target="_blank"
+              >Responding to Events — react.dev</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

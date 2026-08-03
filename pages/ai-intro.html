@@ -1,93 +1,138 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Навіщо AI-інтеграція · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="навіщо">1. Навіщо це фулстек-розробнику</h1>
-<p>У 2026 «AI-фіча» — це вже не окремий продукт, а звичайний елемент застосунку: чат
-підтримки, пошук за змістом, підсумки, автозаповнення, класифікація, генерація
-чернеток. Для тебе це <strong>ще один зовнішній API</strong>, який викликаєш з бекенду й
-показуєш результат на фронті. Уся складність — у деталях: стрімінг, вартість,
-контекст, безпека ключів.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Навіщо AI-інтеграція · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="навіщо">1. Навіщо це фулстек-розробнику</h1>
+        <p>
+          У 2026 «AI-фіча» — це вже не окремий продукт, а звичайний елемент застосунку: чат
+          підтримки, пошук за змістом, підсумки, автозаповнення, класифікація, генерація чернеток.
+          Для тебе це <strong>ще один зовнішній API</strong>, який викликаєш з бекенду й показуєш
+          результат на фронті. Уся складність — у деталях: стрімінг, вартість, контекст, безпека
+          ключів.
+        </p>
 
-<h1 id="як-працює">2. Як влаштований чат-API</h1>
-<p>Ти надсилаєш <strong>список повідомлень</strong> з ролями, а модель повертає наступне
-повідомлення. Ролі:</p>
-<ul>
-<li><strong>system</strong> — інструкція, що задає поведінку («ти — асистент підтримки, відповідай
-українською»);</li>
-<li><strong>user</strong> — репліки користувача;</li>
-<li><strong>assistant</strong> — попередні відповіді моделі.</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>API <strong>без стану</strong>: сервер не памʼятає діалог. Щоб модель «памʼятала»
-контекст, ти щоразу надсилаєш <em>усю</em> історію повідомлень. Це важливо для розуміння
-вартості (нижче).</p></div></div>
+        <h1 id="як-працює">2. Як влаштований чат-API</h1>
+        <p>
+          Ти надсилаєш <strong>список повідомлень</strong> з ролями, а модель повертає наступне
+          повідомлення. Ролі:
+        </p>
+        <ul>
+          <li>
+            <strong>system</strong> — інструкція, що задає поведінку («ти — асистент підтримки,
+            відповідай українською»);
+          </li>
+          <li><strong>user</strong> — репліки користувача;</li>
+          <li><strong>assistant</strong> — попередні відповіді моделі.</li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              API <strong>без стану</strong>: сервер не памʼятає діалог. Щоб модель «памʼятала»
+              контекст, ти щоразу надсилаєш <em>усю</em> історію повідомлень. Це важливо для
+              розуміння вартості (нижче).
+            </p>
+          </div>
+        </div>
 
-<h1 id="токени">3. Токени й вартість</h1>
-<p>Моделі оперують <strong>токенами</strong> — шматками тексту (приблизно ¾ слова). Оплата йде
-за токени входу (твій промпт + історія) і виходу (відповідь). Тому:</p>
-<ul>
-<li>довга історія діалогу коштує дорожче з кожним ходом;</li>
-<li><code>max_tokens</code> обмежує <em>довжину відповіді</em>;</li>
-<li>у моделей є <strong>контекстне вікно</strong> — максимум токенів на запит (напр. 200K–1M).</li>
-</ul>
+        <h1 id="токени">3. Токени й вартість</h1>
+        <p>
+          Моделі оперують <strong>токенами</strong> — шматками тексту (приблизно ¾ слова). Оплата
+          йде за токени входу (твій промпт + історія) і виходу (відповідь). Тому:
+        </p>
+        <ul>
+          <li>довга історія діалогу коштує дорожче з кожним ходом;</li>
+          <li><code>max_tokens</code> обмежує <em>довжину відповіді</em>;</li>
+          <li>
+            у моделей є <strong>контекстне вікно</strong> — максимум токенів на запит (напр.
+            200K–1M).
+          </li>
+        </ul>
 
-<h1 id="провайдери">4. Провайдери й моделі</h1>
-<p>Основні LLM-провайдери — <strong>Anthropic</strong> (моделі Claude) та <strong>OpenAI</strong> (GPT).
-API схожі за формою (ролі, повідомлення, стрімінг, виклик інструментів), тож знання
-переносяться. У прикладах цього розділу використаємо Anthropic SDK; актуальні моделі
-Claude на момент курсу — <code>claude-opus-4-8</code> (найпотужніша),
-<code>claude-sonnet-4-6</code> (баланс) і <code>claude-haiku-4-5</code> (швидка й дешева).</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Обирай модель під задачу: проста класифікація — швидка/дешева модель; складні
-міркування чи агентні задачі — найпотужніша. Керувати «творчістю» відповіді в
-сучасних моделях зазвичай простіше <em>формулюванням промпту</em>, ніж параметрами.</p></div></div>
+        <h1 id="провайдери">4. Провайдери й моделі</h1>
+        <p>
+          Основні LLM-провайдери — <strong>Anthropic</strong> (моделі Claude) та
+          <strong>OpenAI</strong> (GPT). API схожі за формою (ролі, повідомлення, стрімінг, виклик
+          інструментів), тож знання переносяться. У прикладах цього розділу використаємо Anthropic
+          SDK; актуальні моделі Claude на момент курсу —
+          <code>claude-opus-4-8</code> (найпотужніша), <code>claude-sonnet-4-6</code> (баланс) і
+          <code>claude-haiku-4-5</code> (швидка й дешева).
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Обирай модель під задачу: проста класифікація — швидка/дешева модель; складні
+              міркування чи агентні задачі — найпотужніша. Керувати «творчістю» відповіді в сучасних
+              моделях зазвичай простіше <em>формулюванням промпту</em>, ніж параметрами.
+            </p>
+          </div>
+        </div>
 
-<h1 id="безпека">5. Безпека: ключ — тільки на сервері</h1>
-<p>API-ключ провайдера дає доступ до платного акаунта. Він має жити <strong>лише на
-бекенді</strong>, у змінних оточення. Ніколи не клади його у фронтенд-код чи публічні
-змінні (<code>VITE_…</code>/<code>NEXT_PUBLIC_…</code>) — вони потрапляють у бандл, і ключ украдуть.</p>
-<pre class="language-js"><code class="language-js">// .env на сервері (не комітити!)
+        <h1 id="безпека">5. Безпека: ключ — тільки на сервері</h1>
+        <p>
+          API-ключ провайдера дає доступ до платного акаунта. Він має жити
+          <strong>лише на бекенді</strong>, у змінних оточення. Ніколи не клади його у фронтенд-код
+          чи публічні змінні (<code>VITE_…</code>/<code>NEXT_PUBLIC_…</code>) — вони потрапляють у
+          бандл, і ключ украдуть.
+        </p>
+        <pre class="language-js"><code class="language-js">// .env на сервері (не комітити!)
 ANTHROPIC_API_KEY=sk-ant-...
 
 // фронтенд шле запит на ТВІЙ бекенд, а той уже — до LLM
 fetch('/api/chat', { method: 'POST', body: JSON.stringify({ message }) });</code></pre>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Браузер ніколи не звертається до LLM-провайдера напряму зі своїм ключем. Завжди
-через власний бекенд-проксі — там і ключ, і контроль (ліміти, логи, модерація).</p></div></div>
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Браузер ніколи не звертається до LLM-провайдера напряму зі своїм ключем. Завжди через
+              власний бекенд-проксі — там і ключ, і контроль (ліміти, логи, модерація).
+            </p>
+          </div>
+        </div>
 
-<h1 id="план">6. План розділу</h1>
-<ol>
-<li>перший виклик API й багатоходова розмова;</li>
-<li>стрімінг відповіді по токенах;</li>
-<li>tool / function calling — модель викликає твої функції;</li>
-<li>Vercel AI SDK і побудова чату;</li>
-<li>RAG — відповіді на основі твоїх даних;</li>
-<li>embeddings і векторні БД.</li>
-</ol>
+        <h1 id="план">6. План розділу</h1>
+        <ol>
+          <li>перший виклик API й багатоходова розмова;</li>
+          <li>стрімінг відповіді по токенах;</li>
+          <li>tool / function calling — модель викликає твої функції;</li>
+          <li>Vercel AI SDK і побудова чату;</li>
+          <li>RAG — відповіді на основі твоїх даних;</li>
+          <li>embeddings і векторні БД.</li>
+        </ol>
 
-<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://docs.claude.com/en/docs/intro" target="_blank">Anthropic — документація Claude API</a></li>
-<li><a href="https://sdk.vercel.ai/docs" target="_blank">Vercel AI SDK</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://docs.claude.com/en/docs/intro" target="_blank"
+              >Anthropic — документація Claude API</a
+            >
+          </li>
+          <li><a href="https://sdk.vercel.ai/docs" target="_blank">Vercel AI SDK</a></li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

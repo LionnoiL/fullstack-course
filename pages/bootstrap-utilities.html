@@ -1,66 +1,95 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Утиліти та типографіка · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="утиліти">1. Класи-утиліти</h1>
-<p><strong>Утиліти</strong> — це маленькі класи, що задають одну властивість. З них можна
-скласти майже будь-який вигляд без власного CSS. Це головна сила Bootstrap.</p>
-<h1 id="відступи">2. Відступи (spacing)</h1>
-<p>Формат: <code>{властивість}{сторона}-{розмір 0–5}</code>. <code>m</code> — margin, <code>p</code> — padding.</p>
-<pre class="language-markup"><code class="language-markup">&lt;div class="mt-3"&gt;margin-top&lt;/div&gt;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Утиліти та типографіка · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="утиліти">1. Класи-утиліти</h1>
+        <p>
+          <strong>Утиліти</strong> — це маленькі класи, що задають одну властивість. З них можна
+          скласти майже будь-який вигляд без власного CSS. Це головна сила Bootstrap.
+        </p>
+        <h1 id="відступи">2. Відступи (spacing)</h1>
+        <p>
+          Формат: <code>{властивість}{сторона}-{розмір 0–5}</code>. <code>m</code> — margin,
+          <code>p</code> — padding.
+        </p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;div class="mt-3"&gt;margin-top&lt;/div&gt;
 &lt;div class="p-4"&gt;padding з усіх боків&lt;/div&gt;
 &lt;div class="mx-auto"&gt;центрування по горизонталі&lt;/div&gt;
 &lt;div class="mb-0 px-2"&gt;без нижнього margin, padding по боках&lt;/div&gt;</code></pre>
-<p>Сторони: <code>t</code> (top), <code>b</code> (bottom), <code>s</code> (start/ліво), <code>e</code> (end/право),
-<code>x</code> (горизонталь), <code>y</code> (вертикаль).</p>
-<h1 id="кольори">3. Кольори тексту й фону</h1>
-<pre class="language-markup"><code class="language-markup">&lt;p class="text-primary"&gt;синій&lt;/p&gt;
+        <p>
+          Сторони: <code>t</code> (top), <code>b</code> (bottom), <code>s</code> (start/ліво),
+          <code>e</code> (end/право), <code>x</code> (горизонталь), <code>y</code> (вертикаль).
+        </p>
+        <h1 id="кольори">3. Кольори тексту й фону</h1>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;p class="text-primary"&gt;синій&lt;/p&gt;
 &lt;p class="text-success"&gt;зелений&lt;/p&gt;
 &lt;p class="text-danger"&gt;червоний&lt;/p&gt;
 &lt;p class="text-muted"&gt;приглушений&lt;/p&gt;
 
 &lt;div class="bg-primary text-white p-2"&gt;фон&lt;/div&gt;
 &lt;div class="bg-light border"&gt;світлий фон із рамкою&lt;/div&gt;</code></pre>
-<h1 id="типографіка">4. Типографіка</h1>
-<pre class="language-markup"><code class="language-markup">&lt;h1 class="display-1"&gt;Великий заголовок&lt;/h1&gt;
+        <h1 id="типографіка">4. Типографіка</h1>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;h1 class="display-1"&gt;Великий заголовок&lt;/h1&gt;
 &lt;p class="lead"&gt;Вступний абзац&lt;/p&gt;
 &lt;p class="fw-bold fst-italic"&gt;жирний курсив&lt;/p&gt;
 &lt;p class="text-center text-uppercase"&gt;по центру, великими&lt;/p&gt;
 &lt;p class="fs-4"&gt;розмір шрифту&lt;/p&gt;</code></pre>
-<h1 id="flex">5. Флекс-утиліти</h1>
-<pre class="language-markup"><code class="language-markup">&lt;div class="d-flex justify-content-between align-items-center"&gt;
+        <h1 id="flex">5. Флекс-утиліти</h1>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;div class="d-flex justify-content-between align-items-center"&gt;
   &lt;span&gt;Ліворуч&lt;/span&gt;
   &lt;span&gt;Праворуч&lt;/span&gt;
 &lt;/div&gt;
 
 &lt;div class="d-none d-md-block"&gt;видно лише від планшета&lt;/div&gt;</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Утиліти покривають більшість дрібних задач: відступи, вирівнювання,
-кольори, рамки, тіні, заокруглення. Перш ніж писати власний CSS — пошукайте
-готовий клас у документації.</p></div></div>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://getbootstrap.com/docs/5.3/utilities/spacing/" target="_blank">Utilities — Bootstrap docs</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Утиліти покривають більшість дрібних задач: відступи, вирівнювання, кольори, рамки,
+              тіні, заокруглення. Перш ніж писати власний CSS — пошукайте готовий клас у
+              документації.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://getbootstrap.com/docs/5.3/utilities/spacing/" target="_blank"
+              >Utilities — Bootstrap docs</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

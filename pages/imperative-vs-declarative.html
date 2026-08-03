@@ -1,42 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Імперативний і декларативний код · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="імперативний-код">1. Імперативний код</h1>
-<p>Описує процес обчислення у вигляді заданої послідовності інструкцій, змінюють
-стан програми. Опис того, як щось виконує.</p>
-<p>Імперативний стиль програмування це такий, який дає машині набір детальних
-інструкцій для виконання завдання. Наприклад, цикл <code>for</code>, який надає точні
-вказівки для ітерації за індексами масиву.</p>
-<p>Можна провести аналогію з рецептом приготування страви. Рецепт це набір
-покрокових інструкцій для отримання бажаного результату.</p>
-<p><img src="images/imperative-recipe.jpg" alt="food recipe"></p>
-<h1 id="декларативний-код">2. Декларативний код</h1>
-<p>Описує те, що ми хочемо отримати в результаті, а не як це зробити. Порядок
-виконання і спосіб досягнення не важливий.</p>
-<p>Коли ми пишемо HTML-код, то декларативно, за допомогою тегів і атрибутів,
-описуємо що хочемо отримати в результаті. Браузер читає цей код і сам виконує
-всі необхідні операції по створенню HTML-елементів і переміщенню їх на сторінку.</p>
-<p>Можна провести аналогію з меню ресторану. Це декларативний набір можливих до
-замовлення страв, деталі приготування і подачі яких приховані.</p>
-<p><img src="images/declarative-menu.jpg" alt="menu"></p>
-<p>Декларативний опис завдання більш наочно і легше формулюється. Ми говоримо що
-хочемо зробити, викликавши метод або функцію. Її реалізація швидше за все
-використовує імперативний код, але він прихований всередині і не ускладнює
-розуміння основного коду.</p>
-<h1 id="імперативний-vs-декларативний">3. Імперативний vs декларативний</h1>
-<p>Розглянемо різницю підходів на прикладі базової операції фільтрації колекції.
-Напишемо код перебору і фільтрації масиву чисел по якихось критеріях.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">// Імперативний підхід</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Імперативний і декларативний код · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="імперативний-код">1. Імперативний код</h1>
+        <p>
+          Описує процес обчислення у вигляді заданої послідовності інструкцій, змінюють стан
+          програми. Опис того, як щось виконує.
+        </p>
+        <p>
+          Імперативний стиль програмування це такий, який дає машині набір детальних інструкцій для
+          виконання завдання. Наприклад, цикл <code>for</code>, який надає точні вказівки для
+          ітерації за індексами масиву.
+        </p>
+        <p>
+          Можна провести аналогію з рецептом приготування страви. Рецепт це набір покрокових
+          інструкцій для отримання бажаного результату.
+        </p>
+        <p><img src="images/imperative-recipe.jpg" alt="food recipe" /></p>
+        <h1 id="декларативний-код">2. Декларативний код</h1>
+        <p>
+          Описує те, що ми хочемо отримати в результаті, а не як це зробити. Порядок виконання і
+          спосіб досягнення не важливий.
+        </p>
+        <p>
+          Коли ми пишемо HTML-код, то декларативно, за допомогою тегів і атрибутів, описуємо що
+          хочемо отримати в результаті. Браузер читає цей код і сам виконує всі необхідні операції
+          по створенню HTML-елементів і переміщенню їх на сторінку.
+        </p>
+        <p>
+          Можна провести аналогію з меню ресторану. Це декларативний набір можливих до замовлення
+          страв, деталі приготування і подачі яких приховані.
+        </p>
+        <p><img src="images/declarative-menu.jpg" alt="menu" /></p>
+        <p>
+          Декларативний опис завдання більш наочно і легше формулюється. Ми говоримо що хочемо
+          зробити, викликавши метод або функцію. Її реалізація швидше за все використовує
+          імперативний код, але він прихований всередині і не ускладнює розуміння основного коду.
+        </p>
+        <h1 id="імперативний-vs-декларативний">3. Імперативний vs декларативний</h1>
+        <p>
+          Розглянемо різницю підходів на прикладі базової операції фільтрації колекції. Напишемо код
+          перебору і фільтрації масиву чисел по якихось критеріях.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">// Імперативний підхід</span>
 <span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> filteredNumbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
@@ -48,10 +68,14 @@
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>filteredNumbers<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [4, 5]</span>
 </code></pre>
-<p><code>Array.prototype.filter()</code> це метод масиву який приховує в собі логіку перебору
-колекції й викликає callback-функцію яку ми йому передаємо для кожного елемента,
-повертаючи масив елементів підійшли під критерій.</p>
-<pre class="language-"><code class="lang-js"><span class="token comment">// Декларативний підхід</span>
+        <p>
+          <code>Array.prototype.filter()</code> це метод масиву який приховує в собі логіку перебору
+          колекції й викликає callback-функцію яку ми йому передаємо для кожного елемента,
+          повертаючи масив елементів підійшли під критерій.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token comment">// Декларативний підхід</span>
 <span class="token keyword">const</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> filteredNumbers <span class="token operator">=</span> numbers<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">value</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> value <span class="token operator">></span> <span class="token number">3</span><span class="token punctuation">;</span>
@@ -59,16 +83,16 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>filteredNumbers<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [4, 5]</span>
 </code></pre>
-  </main>
-</div>
+      </main>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

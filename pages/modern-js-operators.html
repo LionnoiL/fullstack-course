@@ -1,46 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Сучасні оператори JS · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="logical-assign">1. Логічне присвоєння (ES2021)</h1>
-<p>Три оператори поєднують логіку й присвоєння — коротший запис поширених патернів:</p>
-<pre class="language-js"><code class="language-js">a ||= b;   // a = a || b   — присвоїти, якщо a хибне (0, '', null, undefined...)
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Сучасні оператори JS · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="logical-assign">1. Логічне присвоєння (ES2021)</h1>
+        <p>Три оператори поєднують логіку й присвоєння — коротший запис поширених патернів:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">a ||= b;   // a = a || b   — присвоїти, якщо a хибне (0, '', null, undefined...)
 a &amp;&amp;= b;   // a = a &amp;&amp; b   — присвоїти, якщо a істинне
 a ??= b;   // a = a ?? b   — присвоїти, ЛИШЕ якщо a === null або undefined</code></pre>
-<pre class="language-js"><code class="language-js">// типове застосування — значення за замовчуванням
+        <pre
+          class="language-js"
+        ><code class="language-js">// типове застосування — значення за замовчуванням
 function greet(opts = {}) {
   opts.name ??= 'Гість';   // лише якщо name не задано (0 чи '' лишились би)
   return `Привіт, ${opts.name}`;
 }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Різниця <code>??=</code> vs <code>||=</code> критична: <code>||=</code> спрацює на <code>0</code> і
-<code>''</code> (вважає їх «порожніми»), а <code>??=</code> — лише на <code>null</code>/<code>undefined</code>.
-Для чисел і рядків майже завжди потрібен <code>??=</code>.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Різниця <code>??=</code> vs <code>||=</code> критична: <code>||=</code> спрацює на
+              <code>0</code> і <code>''</code> (вважає їх «порожніми»), а <code>??=</code> — лише на
+              <code>null</code>/<code>undefined</code>. Для чисел і рядків майже завжди потрібен
+              <code>??=</code>.
+            </p>
+          </div>
+        </div>
 
-<h1 id="nullish">2. Нагадування: <code>??</code> та <code>?.</code></h1>
-<p>Логічне присвоєння спирається на два оператори, які варто мати в пальцях:</p>
-<pre class="language-js"><code class="language-js">const port = config.port ?? 3000;        // 3000 лише якщо port null/undefined
+        <h1 id="nullish">2. Нагадування: <code>??</code> та <code>?.</code></h1>
+        <p>Логічне присвоєння спирається на два оператори, які варто мати в пальцях:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">const port = config.port ?? 3000;        // 3000 лише якщо port null/undefined
 const city = user?.address?.city;        // undefined замість помилки, якщо ланцюг обірвано
 const first = arr?.[0];                   // безпечний доступ до елемента
 const res = obj.method?.();               // виклик, лише якщо метод існує</code></pre>
 
-<h1 id="separators">3. Числові роздільники</h1>
-<p>Підкреслення в числах — суто для читабельності, на значення не впливають:</p>
-<pre class="language-js"><code class="language-js">const million = 1_000_000;      // === 1000000
+        <h1 id="separators">3. Числові роздільники</h1>
+        <p>Підкреслення в числах — суто для читабельності, на значення не впливають:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">const million = 1_000_000;      // === 1000000
 const bytes   = 0xFF_FF_FF;
 const price   = 19_999_99;      // копійки: легше прочитати</code></pre>
 
-<h1 id="promise">4. Комбінатори промісів</h1>
-<p>Окрім <code>Promise.all</code> (падає, якщо хоч один відхилився), є ще два корисних:</p>
-<pre class="language-js"><code class="language-js">// allSettled — дочекатися ВСІХ, і успішних, і невдалих
+        <h1 id="promise">4. Комбінатори промісів</h1>
+        <p>Окрім <code>Promise.all</code> (падає, якщо хоч один відхилився), є ще два корисних:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">// allSettled — дочекатися ВСІХ, і успішних, і невдалих
 const results = await Promise.allSettled([fetchA(), fetchB()]);
 results.forEach((r) =&gt; {
   if (r.status === 'fulfilled') console.log(r.value);
@@ -49,26 +70,45 @@ results.forEach((r) =&gt; {
 
 // any — перший, що УСПІШНО виконався (ігнорує відхилення)
 const fastest = await Promise.any([mirror1(), mirror2(), mirror3()]);</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>Promise.all</code> — «усі або нічого» (падає на першій помилці).
-<code>allSettled</code> — «зібрати всі результати, включно з помилками».
-<code>any</code> — «дай перший успіх». Обирай за задачею.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>Promise.all</code> — «усі або нічого» (падає на першій помилці).
+              <code>allSettled</code> — «зібрати всі результати, включно з помилками».
+              <code>any</code> — «дай перший успіх». Обирай за задачею.
+            </p>
+          </div>
+        </div>
 
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND_assignment" target="_blank">MDN — Logical assignment</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled" target="_blank">MDN — Promise.allSettled</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND_assignment"
+              target="_blank"
+              >MDN — Logical assignment</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled"
+              target="_blank"
+              >MDN — Promise.allSettled</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

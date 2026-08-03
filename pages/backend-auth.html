@@ -1,25 +1,30 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Автентифікація · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="auth">1. Автентифікація vs авторизація</h1>
-<ul>
-<li><strong>Автентифікація</strong> — хто ти? (перевірка логіна/пароля);</li>
-<li><strong>Авторизація</strong> — що тобі дозволено? (доступ до ресурсів за роллю).</li>
-</ul>
-<h1 id="паролі">2. Ніколи не зберігайте паролі відкрито</h1>
-<p>Паролі зберігають лише у вигляді <strong>хешу</strong> — необоротного перетворення. Для
-цього беруть <code>bcrypt</code>.</p>
-<pre class="language-js"><code class="language-js">const bcrypt = require('bcrypt');
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Автентифікація · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="auth">1. Автентифікація vs авторизація</h1>
+        <ul>
+          <li><strong>Автентифікація</strong> — хто ти? (перевірка логіна/пароля);</li>
+          <li><strong>Авторизація</strong> — що тобі дозволено? (доступ до ресурсів за роллю).</li>
+        </ul>
+        <h1 id="паролі">2. Ніколи не зберігайте паролі відкрито</h1>
+        <p>
+          Паролі зберігають лише у вигляді <strong>хешу</strong> — необоротного перетворення. Для
+          цього беруть <code>bcrypt</code>.
+        </p>
+        <pre class="language-js"><code class="language-js">const bcrypt = require('bcrypt');
 
 // при реєстрації
 const hash = await bcrypt.hash(password, 10);
@@ -28,13 +33,22 @@ const hash = await bcrypt.hash(password, 10);
 // при вході
 const ok = await bcrypt.compare(password, user.passwordHash);
 if (!ok) return res.status(401).json({ error: 'Невірні дані' });</code></pre>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Зберігання паролів у відкритому вигляді — критична вразливість. Хешування
-з «сіллю» (bcrypt робить це автоматично) обовʼязкове завжди.</p></div></div>
-<h1 id="jwt">3. JWT-токени</h1>
-<p><strong>JWT (JSON Web Token)</strong> — підписаний токен, який сервер видає після входу.
-Клієнт надсилає його з кожним запитом, а сервер перевіряє підпис.</p>
-<p><img src="images/jwt-flow.svg" alt="Потік автентифікації через JWT-токен"></p>
-<pre class="language-js"><code class="language-js">const jwt = require('jsonwebtoken');
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Зберігання паролів у відкритому вигляді — критична вразливість. Хешування з «сіллю»
+              (bcrypt робить це автоматично) обовʼязкове завжди.
+            </p>
+          </div>
+        </div>
+        <h1 id="jwt">3. JWT-токени</h1>
+        <p>
+          <strong>JWT (JSON Web Token)</strong> — підписаний токен, який сервер видає після входу.
+          Клієнт надсилає його з кожним запитом, а сервер перевіряє підпис.
+        </p>
+        <p><img src="images/jwt-flow.svg" alt="Потік автентифікації через JWT-токен" /></p>
+        <pre class="language-js"><code class="language-js">const jwt = require('jsonwebtoken');
 
 // видати токен після успішного входу
 const token = jwt.sign(
@@ -43,9 +57,9 @@ const token = jwt.sign(
   { expiresIn: '1h' },
 );
 res.json({ token });</code></pre>
-<h1 id="захист">4. Захист маршрутів</h1>
-<p>Middleware перевіряє токен і додає користувача до запиту.</p>
-<pre class="language-js"><code class="language-js">function auth(req, res, next) {
+        <h1 id="захист">4. Захист маршрутів</h1>
+        <p>Middleware перевіряє токен і додає користувача до запиту.</p>
+        <pre class="language-js"><code class="language-js">function auth(req, res, next) {
   const header = req.headers.authorization; // "Bearer &lt;token&gt;"
   const token = header &amp;&amp; header.split(' ')[1];
   if (!token) return res.status(401).json({ error: 'Немає токена' });
@@ -61,8 +75,8 @@ res.json({ token });</code></pre>
 app.get('/api/profile', auth, (req, res) =&gt; {
   res.json({ userId: req.user.userId });
 });</code></pre>
-<h1 id="авторизація">5. Перевірка ролей</h1>
-<pre class="language-js"><code class="language-js">function requireRole(role) {
+        <h1 id="авторизація">5. Перевірка ролей</h1>
+        <pre class="language-js"><code class="language-js">function requireRole(role) {
   return (req, res, next) =&gt; {
     if (req.user.role !== role) {
       return res.status(403).json({ error: 'Немає прав' });
@@ -72,23 +86,30 @@ app.get('/api/profile', auth, (req, res) =&gt; {
 }
 
 app.delete('/api/users/:id', auth, requireRole('admin'), handler);</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Альтернатива JWT — сесії з cookie. JWT зручні для API та мобільних
-клієнтів; сесії — для класичних вебдодатків. Обидва підходи валідні.</p></div></div>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://jwt.io/introduction" target="_blank">Вступ до JWT</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Альтернатива JWT — сесії з cookie. JWT зручні для API та мобільних клієнтів; сесії —
+              для класичних вебдодатків. Обидва підходи валідні.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li><a href="https://jwt.io/introduction" target="_blank">Вступ до JWT</a></li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

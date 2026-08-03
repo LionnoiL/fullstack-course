@@ -1,61 +1,85 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Роутинг (App Router) · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="файловий-роутинг">1. Файловий роутинг</h1>
-<p>У Next.js маршрути не описують у коді — вони визначаються <strong>структурою папок</strong>
-усередині <code>app/</code>. Тека стає сегментом URL, а файл <code>page.jsx</code> робить її
-доступною сторінкою.</p>
-<pre class="language-js"><code class="language-js">app/page.jsx          →  /
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Роутинг (App Router) · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="файловий-роутинг">1. Файловий роутинг</h1>
+        <p>
+          У Next.js маршрути не описують у коді — вони визначаються
+          <strong>структурою папок</strong> усередині <code>app/</code>. Тека стає сегментом URL, а
+          файл <code>page.jsx</code> робить її доступною сторінкою.
+        </p>
+        <pre class="language-js"><code class="language-js">app/page.jsx          →  /
 app/blog/page.jsx     →  /blog
 app/blog/new/page.jsx →  /blog/new</code></pre>
-<h1 id="динамічні">2. Динамічні маршрути</h1>
-<p>Квадратні дужки в назві теки роблять сегмент динамічним. Значення приходить у
-проп <code>params</code>.</p>
-<pre class="language-js"><code class="language-js">// app/blog/[slug]/page.jsx  →  /blog/будь-що
+        <h1 id="динамічні">2. Динамічні маршрути</h1>
+        <p>
+          Квадратні дужки в назві теки роблять сегмент динамічним. Значення приходить у проп
+          <code>params</code>.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">// app/blog/[slug]/page.jsx  →  /blog/будь-що
 export default function Post({ params }) {
   return &lt;h1&gt;Стаття: {params.slug}&lt;/h1&gt;;
 }</code></pre>
-<pre class="language-js"><code class="language-js">// app/shop/[...all]/page.jsx  → перехоплює всі вкладені сегменти
+        <pre
+          class="language-js"
+        ><code class="language-js">// app/shop/[...all]/page.jsx  → перехоплює всі вкладені сегменти
 // /shop/a/b/c  →  params.all === ['a', 'b', 'c']</code></pre>
-<h1 id="спеціальні-файли">3. Спеціальні файли маршруту</h1>
-<ul>
-<li><code>page.jsx</code> — сама сторінка (публічний URL);</li>
-<li><code>layout.jsx</code> — спільна оболонка для сегмента й вкладених;</li>
-<li><code>loading.jsx</code> — стан завантаження;</li>
-<li><code>error.jsx</code> — обробка помилок;</li>
-<li><code>not-found.jsx</code> — сторінка 404.</li>
-</ul>
-<h1 id="групування">4. Групи маршрутів</h1>
-<p>Тека в круглих дужках групує файли <em>без</em> впливу на URL — зручно для організації.</p>
-<pre class="language-js"><code class="language-js">app/(marketing)/about/page.jsx  →  /about
+        <h1 id="спеціальні-файли">3. Спеціальні файли маршруту</h1>
+        <ul>
+          <li><code>page.jsx</code> — сама сторінка (публічний URL);</li>
+          <li><code>layout.jsx</code> — спільна оболонка для сегмента й вкладених;</li>
+          <li><code>loading.jsx</code> — стан завантаження;</li>
+          <li><code>error.jsx</code> — обробка помилок;</li>
+          <li><code>not-found.jsx</code> — сторінка 404.</li>
+        </ul>
+        <h1 id="групування">4. Групи маршрутів</h1>
+        <p>
+          Тека в круглих дужках групує файли <em>без</em> впливу на URL — зручно для організації.
+        </p>
+        <pre class="language-js"><code class="language-js">app/(marketing)/about/page.jsx  →  /about
 app/(shop)/cart/page.jsx        →  /cart</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Файл <code>loading.jsx</code> автоматично показується, поки серверний компонент
-завантажує дані — це вбудований Suspense без ручного налаштування.</p></div></div>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://nextjs.org/docs/app/building-your-application/routing" target="_blank">Routing — Next.js docs</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Файл <code>loading.jsx</code> автоматично показується, поки серверний компонент
+              завантажує дані — це вбудований Suspense без ручного налаштування.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://nextjs.org/docs/app/building-your-application/routing" target="_blank"
+              >Routing — Next.js docs</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

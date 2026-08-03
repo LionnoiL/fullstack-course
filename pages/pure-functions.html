@@ -1,26 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Чисті функції · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<!-- ex_nonav -->
-<!-- ex_nolevel -->
-<h1 id="чисті-функції">Чисті функції</h1>
-<p><strong>Функція з побічними ефектами</strong> — функція, яка в процесі виконання може
-модифікувати або використовувати значення глобальних змінних, змінювати
-посилальні аргументи, виконувати операції введення-виведення і т. п.</p>
-<p>Використовуємо звичний імперативний підхід і напишемо функцію, що множить кожний
-елемент масиву на значення параметра <code>value</code>. Ця функція буде мутувати
-(Змінювати) вихідний масив за посиланням.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">dirtyMultiply</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">array<span class="token punctuation">,</span> value</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Чисті функції · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <!-- ex_nonav -->
+        <!-- ex_nolevel -->
+        <h1 id="чисті-функції">Чисті функції</h1>
+        <p>
+          <strong>Функція з побічними ефектами</strong> — функція, яка в процесі виконання може
+          модифікувати або використовувати значення глобальних змінних, змінювати посилальні
+          аргументи, виконувати операції введення-виведення і т. п.
+        </p>
+        <p>
+          Використовуємо звичний імперативний підхід і напишемо функцію, що множить кожний елемент
+          масиву на значення параметра <code>value</code>. Ця функція буде мутувати (Змінювати)
+          вихідний масив за посиланням.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">dirtyMultiply</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">array<span class="token punctuation">,</span> value</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
   <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator"><</span> array<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     array<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> array<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> value<span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
@@ -33,13 +42,19 @@
 <span class="token comment">// Відбулася мутація вихідних Даних</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>numbers<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [2, 4, 6, 8, 10]</span>
 </code></pre>
-<p><strong>Чисті функції (pure functions)</strong> — функції, результат яких залежить тільки від
-значень переданих аргументів і стабільних змінних локальної області видимості,
-які при однакових аргументах завжди повертають один і той же результат, і не
-мають видимих побічних ефектів, тобто не змінюють стан програми.</p>
-<p>Тепер напишемо реалізацію чистої функції множення елементів масиву, повертає
-новий масив, що не мутує вихідний.</p>
-<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">pureMultiply</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">array<span class="token punctuation">,</span> value</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <p>
+          <strong>Чисті функції (pure functions)</strong> — функції, результат яких залежить тільки
+          від значень переданих аргументів і стабільних змінних локальної області видимості, які при
+          однакових аргументах завжди повертають один і той же результат, і не мають видимих
+          побічних ефектів, тобто не змінюють стан програми.
+        </p>
+        <p>
+          Тепер напишемо реалізацію чистої функції множення елементів масиву, повертає новий масив,
+          що не мутує вихідний.
+        </p>
+        <pre
+          class="language-"
+        ><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">pureMultiply</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">array<span class="token punctuation">,</span> value</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
   <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
   <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator"><</span> array<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -58,16 +73,16 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <span class="token comment">// Функція повернула новий масив зі зміненими даними</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>doubledNumbers<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// [2, 4, 6, 8, 10]</span>
 </code></pre>
-  </main>
-</div>
+      </main>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

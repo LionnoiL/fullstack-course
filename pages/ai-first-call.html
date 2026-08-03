@@ -1,32 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Перший виклик LLM-API · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="встановлення">1. Встановлення SDK</h1>
-<p>На бекенді (Node) ставимо офіційний SDK Anthropic:</p>
-<pre class="language-js"><code class="language-js">npm install @anthropic-ai/sdk</code></pre>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Перший виклик LLM-API · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="встановлення">1. Встановлення SDK</h1>
+        <p>На бекенді (Node) ставимо офіційний SDK Anthropic:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">npm install @anthropic-ai/sdk</code></pre>
 
-<h1 id="клієнт">2. Ініціалізація клієнта</h1>
-<p>Клієнт сам читає ключ зі змінної оточення <code>ANTHROPIC_API_KEY</code> — не передавай
-його в коді.</p>
-<pre class="language-js"><code class="language-js">import Anthropic from '@anthropic-ai/sdk';
+        <h1 id="клієнт">2. Ініціалізація клієнта</h1>
+        <p>
+          Клієнт сам читає ключ зі змінної оточення <code>ANTHROPIC_API_KEY</code> — не передавай
+          його в коді.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">import Anthropic from '@anthropic-ai/sdk';
 
 const client = new Anthropic(); // читає ANTHROPIC_API_KEY з env</code></pre>
 
-<h1 id="перший-виклик">3. Перший запит</h1>
-<p>Метод <code>messages.create</code> приймає модель, ліміт відповіді (<code>max_tokens</code>),
-необовʼязковий <code>system</code>-промпт і масив повідомлень. Відповідь — масив блоків;
-беремо текстові.</p>
-<pre class="language-js"><code class="language-js">const response = await client.messages.create({
+        <h1 id="перший-виклик">3. Перший запит</h1>
+        <p>
+          Метод <code>messages.create</code> приймає модель, ліміт відповіді
+          (<code>max_tokens</code>), необовʼязковий <code>system</code>-промпт і масив повідомлень.
+          Відповідь — масив блоків; беремо текстові.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">const response = await client.messages.create({
   model: 'claude-opus-4-8',
   max_tokens: 1024,
   system: 'Ти — лаконічний асистент. Відповідай українською.',
@@ -41,13 +54,20 @@ const text = response.content
   .map((b) =&gt; b.text)
   .join('');
 console.log(text);</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>max_tokens</code> — це ліміт <em>відповіді</em>, а не запиту. Якщо відповідь
-обірвалася, <code>response.stop_reason</code> буде <code>'max_tokens'</code> — підніми ліміт. Для
-довгих відповідей використовуй стрімінг (наступний урок).</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              <code>max_tokens</code> — це ліміт <em>відповіді</em>, а не запиту. Якщо відповідь
+              обірвалася, <code>response.stop_reason</code> буде <code>'max_tokens'</code> — підніми
+              ліміт. Для довгих відповідей використовуй стрімінг (наступний урок).
+            </p>
+          </div>
+        </div>
 
-<h1 id="ендпоінт">4. Загорнути у свій ендпоінт</h1>
-<p>Фронтенд не ходить до LLM напряму — він звертається до твого бекенду:</p>
-<pre class="language-js"><code class="language-js">// Express-роут
+        <h1 id="ендпоінт">4. Загорнути у свій ендпоінт</h1>
+        <p>Фронтенд не ходить до LLM напряму — він звертається до твого бекенду:</p>
+        <pre class="language-js"><code class="language-js">// Express-роут
 app.post('/api/ask', async (req, res) =&gt; {
   const response = await client.messages.create({
     model: 'claude-opus-4-8',
@@ -58,10 +78,12 @@ app.post('/api/ask', async (req, res) =&gt; {
   res.json({ answer: text });
 });</code></pre>
 
-<h1 id="історія">5. Багатоходова розмова</h1>
-<p>API без стану, тож «памʼять» — це <strong>вся історія</strong>, яку ти надсилаєш щоразу.
-Додавай відповіді моделі назад у масив як <code>assistant</code>:</p>
-<pre class="language-js"><code class="language-js">const messages = [
+        <h1 id="історія">5. Багатоходова розмова</h1>
+        <p>
+          API без стану, тож «памʼять» — це <strong>вся історія</strong>, яку ти надсилаєш щоразу.
+          Додавай відповіді моделі назад у масив як <code>assistant</code>:
+        </p>
+        <pre class="language-js"><code class="language-js">const messages = [
   { role: 'user', content: 'Мене звати Аня.' },
 ];
 let res1 = await client.messages.create({ model: 'claude-opus-4-8', max_tokens: 512, messages });
@@ -72,13 +94,24 @@ messages.push({ role: 'user', content: 'Як мене звати?' });
 
 let res2 = await client.messages.create({ model: 'claude-opus-4-8', max_tokens: 512, messages });
 // модель «памʼятає»: Аня</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Перше повідомлення має бути <code>user</code>. Історія росте з кожним ходом — а отже,
-росте й вартість. У довгих діалогах старі повідомлення підсумовують або обрізають.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Перше повідомлення має бути <code>user</code>. Історія росте з кожним ходом — а отже,
+              росте й вартість. У довгих діалогах старі повідомлення підсумовують або обрізають.
+            </p>
+          </div>
+        </div>
 
-<h1 id="помилки">6. Обробка помилок</h1>
-<p>Мережа, ліміти, невалідний запит — усе це кидає типізовані помилки. Найчастіша —
-<strong>429</strong> (ліміт запитів); SDK сам робить повтори з відступом.</p>
-<pre class="language-js"><code class="language-js">import Anthropic from '@anthropic-ai/sdk';
+        <h1 id="помилки">6. Обробка помилок</h1>
+        <p>
+          Мережа, ліміти, невалідний запит — усе це кидає типізовані помилки. Найчастіша —
+          <strong>429</strong> (ліміт запитів); SDK сам робить повтори з відступом.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">import Anthropic from '@anthropic-ai/sdk';
 
 try {
   const res = await client.messages.create({ /* ... */ });
@@ -90,22 +123,30 @@ try {
   }
 }</code></pre>
 
-<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://docs.claude.com/en/api/messages" target="_blank">Anthropic — Messages API</a></li>
-<li><a href="https://github.com/anthropics/anthropic-sdk-typescript" target="_blank">anthropic-sdk-typescript</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://docs.claude.com/en/api/messages" target="_blank"
+              >Anthropic — Messages API</a
+            >
+          </li>
+          <li>
+            <a href="https://github.com/anthropics/anthropic-sdk-typescript" target="_blank"
+              >anthropic-sdk-typescript</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

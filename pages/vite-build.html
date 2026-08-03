@@ -1,66 +1,97 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Продакшн-збірка у Vite · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="build">1. Збірка для продакшну</h1>
-<p>Команда <code>npm run build</code> збирає оптимізований застосунок у папку <code>dist/</code>. Під
-капотом працює Rollup: об'єднує модулі, мініфікує код, вирізає невикористане.</p>
-<pre class="language-js"><code class="language-js">npm run build
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Продакшн-збірка у Vite · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="build">1. Збірка для продакшну</h1>
+        <p>
+          Команда <code>npm run build</code> збирає оптимізований застосунок у папку
+          <code>dist/</code>. Під капотом працює Rollup: об'єднує модулі, мініфікує код, вирізає
+          невикористане.
+        </p>
+        <pre class="language-js"><code class="language-js">npm run build
 
 // dist/index.html                 0.46 kB
 // dist/assets/index-a1b2c3.css    4.12 kB │ gzip: 1.34 kB
 // dist/assets/index-d4e5f6.js    142.9 kB │ gzip: 46.1 kB</code></pre>
-<h1 id="оптимізації">2. Що робить збірка автоматично</h1>
-<ul>
-<li><strong>Мініфікація</strong> JS і CSS — прибирає пробіли, скорочує імена.</li>
-<li><strong>Tree-shaking</strong> — вирізає код, який ніде не імпортується.</li>
-<li><strong>Code splitting</strong> — ділить бандл на частини, щоб браузер вантажив лише
-потрібне.</li>
-<li><strong>Хешування імен</strong> (<code>index-a1b2c3.js</code>) — для надійного кешування:
-змінився вміст → змінилось ім'я → браузер підвантажить нове.</li>
-</ul>
-<h1 id="split">3. Розбиття на частини (lazy loading)</h1>
-<p>Динамічний <code>import()</code> створює окремий чанк, який завантажиться лише за потреби —
-корисно для важких модулів чи маршрутів.</p>
-<pre class="language-js"><code class="language-js">button.addEventListener('click', async () =&gt; {
+        <h1 id="оптимізації">2. Що робить збірка автоматично</h1>
+        <ul>
+          <li><strong>Мініфікація</strong> JS і CSS — прибирає пробіли, скорочує імена.</li>
+          <li><strong>Tree-shaking</strong> — вирізає код, який ніде не імпортується.</li>
+          <li>
+            <strong>Code splitting</strong> — ділить бандл на частини, щоб браузер вантажив лише
+            потрібне.
+          </li>
+          <li>
+            <strong>Хешування імен</strong> (<code>index-a1b2c3.js</code>) — для надійного
+            кешування: змінився вміст → змінилось ім'я → браузер підвантажить нове.
+          </li>
+        </ul>
+        <h1 id="split">3. Розбиття на частини (lazy loading)</h1>
+        <p>
+          Динамічний <code>import()</code> створює окремий чанк, який завантажиться лише за потреби
+          — корисно для важких модулів чи маршрутів.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">button.addEventListener('click', async () =&gt; {
   const { showChart } = await import('./chart.js'); // окремий чанк
   showChart();
 });</code></pre>
-<h1 id="preview">4. Локальна перевірка збірки</h1>
-<p>Перед деплоєм переглянь саме зібрану версію (а не dev-сервер):</p>
-<pre class="language-js"><code class="language-js">npm run build
+        <h1 id="preview">4. Локальна перевірка збірки</h1>
+        <p>Перед деплоєм переглянь саме зібрану версію (а не dev-сервер):</p>
+        <pre class="language-js"><code class="language-js">npm run build
 npm run preview   // підніме статику з dist/ локально</code></pre>
-<h1 id="deploy">5. Деплой</h1>
-<p>Результат у <code>dist/</code> — це статичні файли. Їх можна залити на будь-який статичний
-хостинг: Netlify, Vercel, GitHub Pages, Cloudflare Pages чи звичайний Nginx.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Якщо застосунок деплоїться не в корінь домену, а в підпапку (напр. GitHub
-Pages: <code>/repo/</code>), задай базовий шлях: <code>base: '/repo/'</code> у <code>vite.config.js</code> —
-інакше шляхи до ассетів зламаються.</p></div></div>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://vite.dev/guide/build.html" target="_blank">Building for Production — Vite</a></li>
-<li><a href="https://vite.dev/guide/static-deploy.html" target="_blank">Deploying a Static Site — Vite</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="deploy">5. Деплой</h1>
+        <p>
+          Результат у <code>dist/</code> — це статичні файли. Їх можна залити на будь-який статичний
+          хостинг: Netlify, Vercel, GitHub Pages, Cloudflare Pages чи звичайний Nginx.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Якщо застосунок деплоїться не в корінь домену, а в підпапку (напр. GitHub Pages:
+              <code>/repo/</code>), задай базовий шлях: <code>base: '/repo/'</code> у
+              <code>vite.config.js</code> — інакше шляхи до ассетів зламаються.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://vite.dev/guide/build.html" target="_blank"
+              >Building for Production — Vite</a
+            >
+          </li>
+          <li>
+            <a href="https://vite.dev/guide/static-deploy.html" target="_blank"
+              >Deploying a Static Site — Vite</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

@@ -1,42 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flexbox · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="flexbox">1. Що таке Flexbox</h1>
-<p><strong>Flexbox</strong> — одновимірна система розкладки: вона розподіляє елементи вздовж
-<em>однієї осі</em> (у рядок або в колонку). Ідеальна для меню, панелей, вирівнювання
-елементів.</p>
-<p><img src="images/flexbox-axes.svg" alt="Головна і поперечна осі Flexbox"></p>
-<pre class="language-css"><code class="language-css">.container {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexbox · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="flexbox">1. Що таке Flexbox</h1>
+        <p>
+          <strong>Flexbox</strong> — одновимірна система розкладки: вона розподіляє елементи вздовж
+          <em>однієї осі</em> (у рядок або в колонку). Ідеальна для меню, панелей, вирівнювання
+          елементів.
+        </p>
+        <p><img src="images/flexbox-axes.svg" alt="Головна і поперечна осі Flexbox" /></p>
+        <pre class="language-css"><code class="language-css">.container {
   display: flex; /* діти стають flex-елементами */
 }</code></pre>
-<h1 id="напрямок">2. Напрямок осі</h1>
-<pre class="language-css"><code class="language-css">.container {
+        <h1 id="напрямок">2. Напрямок осі</h1>
+        <pre class="language-css"><code class="language-css">.container {
   display: flex;
   flex-direction: row;    /* за замовчуванням — у рядок */
   /* column — у колонку; row-reverse; column-reverse */
 }</code></pre>
-<h1 id="вирівнювання">3. Вирівнювання</h1>
-<p><code>justify-content</code> — уздовж головної осі, <code>align-items</code> — уздовж поперечної.</p>
-<pre class="language-css"><code class="language-css">.container {
+        <h1 id="вирівнювання">3. Вирівнювання</h1>
+        <p>
+          <code>justify-content</code> — уздовж головної осі, <code>align-items</code> — уздовж
+          поперечної.
+        </p>
+        <pre class="language-css"><code class="language-css">.container {
   display: flex;
   justify-content: space-between; /* center | flex-start | space-around */
   align-items: center;            /* stretch | flex-start | flex-end */
   gap: 16px;                       /* відступ між елементами */
 }</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Класичне центрування по обох осях — це просто <code>display:flex; justify-content:center; align-items:center;</code>.
-Flexbox назавжди вирішив стару проблему «як відцентрувати div».</p></div></div>
-<h1 id="гнучкість">4. Гнучкість елементів</h1>
-<pre class="language-css"><code class="language-css">.item {
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Класичне центрування по обох осях — це просто
+              <code>display:flex; justify-content:center; align-items:center;</code>. Flexbox
+              назавжди вирішив стару проблему «як відцентрувати div».
+            </p>
+          </div>
+        </div>
+        <h1 id="гнучкість">4. Гнучкість елементів</h1>
+        <pre class="language-css"><code class="language-css">.item {
   flex-grow: 1;   /* займати вільний простір */
   flex-shrink: 0; /* не стискатися */
   flex-basis: 200px; /* базовий розмір */
@@ -44,27 +60,35 @@ Flexbox назавжди вирішив стару проблему «як ві�
 
 /* скорочено: grow shrink basis */
 .item { flex: 1; }        /* рівномірно розтягнутися */</code></pre>
-<h1 id="перенос">5. Перенос і вирівнювання рядків</h1>
-<pre class="language-css"><code class="language-css">.container {
+        <h1 id="перенос">5. Перенос і вирівнювання рядків</h1>
+        <pre class="language-css"><code class="language-css">.container {
   display: flex;
   flex-wrap: wrap; /* переносити на новий рядок за нестачі місця */
 }</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">A Complete Guide to Flexbox — CSS-Tricks</a></li>
-<li><a href="https://flexboxfroggy.com/#uk" target="_blank">Flexbox Froggy — гра-тренажер</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank"
+              >A Complete Guide to Flexbox — CSS-Tricks</a
+            >
+          </li>
+          <li>
+            <a href="https://flexboxfroggy.com/#uk" target="_blank"
+              >Flexbox Froggy — гра-тренажер</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

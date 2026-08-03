@@ -1,21 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Редактор, Git-хуки, CI · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="редактор">1. Інтеграція з редактором</h1>
-<p>Найзручніше — бачити помилки й форматувати прямо під час набору. У VS Code
-постав розширення <strong>ESLint</strong> і <strong>Prettier — Code formatter</strong> та ввімкни
-форматування при збереженні:</p>
-<pre class="language-js"><code class="language-js">// .vscode/settings.json
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Редактор, Git-хуки, CI · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="редактор">1. Інтеграція з редактором</h1>
+        <p>
+          Найзручніше — бачити помилки й форматувати прямо під час набору. У VS Code постав
+          розширення <strong>ESLint</strong> і <strong>Prettier — Code formatter</strong> та ввімкни
+          форматування при збереженні:
+        </p>
+        <pre class="language-js"><code class="language-js">// .vscode/settings.json
 {
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -23,53 +28,71 @@
     "source.fixAll.eslint": "explicit"
   }
 }</code></pre>
-<p>Тепер збереження файлу автоматично форматує його Prettier і виправляє те, що
-може, ESLint. Файл <code>.vscode/settings.json</code> кладуть у репозиторій — і в усіх
-однаково.</p>
-<h1 id="хуки">2. Git-хуки: перевірка перед комітом</h1>
-<p>Щоб у репозиторій не потрапляв неохайний код, ставлять хук <code>pre-commit</code> через
-<strong>Husky</strong>:</p>
-<pre class="language-js"><code class="language-js">npm install -D husky
+        <p>
+          Тепер збереження файлу автоматично форматує його Prettier і виправляє те, що може, ESLint.
+          Файл <code>.vscode/settings.json</code> кладуть у репозиторій — і в усіх однаково.
+        </p>
+        <h1 id="хуки">2. Git-хуки: перевірка перед комітом</h1>
+        <p>
+          Щоб у репозиторій не потрапляв неохайний код, ставлять хук <code>pre-commit</code> через
+          <strong>Husky</strong>:
+        </p>
+        <pre class="language-js"><code class="language-js">npm install -D husky
 npx husky init   // створить .husky/pre-commit</code></pre>
-<h1 id="lint-staged">3. lint-staged — лише змінені файли</h1>
-<p>Перевіряти весь проєкт на кожен коміт довго. <strong>lint-staged</strong> запускає
-інструменти лише на файлах, доданих у коміт.</p>
-<pre class="language-js"><code class="language-js">npm install -D lint-staged</code></pre>
-<pre class="language-js"><code class="language-js">// package.json
+        <h1 id="lint-staged">3. lint-staged — лише змінені файли</h1>
+        <p>
+          Перевіряти весь проєкт на кожен коміт довго. <strong>lint-staged</strong> запускає
+          інструменти лише на файлах, доданих у коміт.
+        </p>
+        <pre class="language-js"><code class="language-js">npm install -D lint-staged</code></pre>
+        <pre class="language-js"><code class="language-js">// package.json
 "lint-staged": {
   "*.{js,ts}": ["eslint --fix", "prettier --write"],
   "*.{css,scss,json,md}": ["prettier --write"]
 }</code></pre>
-<pre class="language-js"><code class="language-js">// .husky/pre-commit
+        <pre class="language-js"><code class="language-js">// .husky/pre-commit
 npx lint-staged</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Зв'язка Husky + lint-staged — стандарт де-факто: код автоматично чиститься на
-кожному коміті, і в історію потрапляє лише охайне. Розробнику не треба нічого
-пам'ятати — хук спрацьовує сам.</p></div></div>
-<h1 id="ci">4. Перевірка в CI</h1>
-<p>Хуки можна обійти (<code>git commit --no-verify</code>), тож остання лінія захисту —
-<strong>CI</strong>. Додай крок перевірки в pipeline (напр. GitHub Actions):</p>
-<pre class="language-js"><code class="language-js"># .github/workflows/ci.yml (фрагмент)
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Зв'язка Husky + lint-staged — стандарт де-факто: код автоматично чиститься на кожному
+              коміті, і в історію потрапляє лише охайне. Розробнику не треба нічого пам'ятати — хук
+              спрацьовує сам.
+            </p>
+          </div>
+        </div>
+        <h1 id="ci">4. Перевірка в CI</h1>
+        <p>
+          Хуки можна обійти (<code>git commit --no-verify</code>), тож остання лінія захисту —
+          <strong>CI</strong>. Додай крок перевірки в pipeline (напр. GitHub Actions):
+        </p>
+        <pre class="language-js"><code class="language-js"># .github/workflows/ci.yml (фрагмент)
 - run: npm ci
 - run: npm run lint
 - run: npx prettier . --check</code></pre>
-<p>Якщо лінт або форматування не проходять — збірка «падає», і проблемний код не
-потрапляє в основну гілку.</p>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://typicode.github.io/husky/" target="_blank">Husky</a></li>
-<li><a href="https://github.com/lint-staged/lint-staged" target="_blank">lint-staged</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <p>
+          Якщо лінт або форматування не проходять — збірка «падає», і проблемний код не потрапляє в
+          основну гілку.
+        </p>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li><a href="https://typicode.github.io/husky/" target="_blank">Husky</a></li>
+          <li>
+            <a href="https://github.com/lint-staged/lint-staged" target="_blank">lint-staged</a>
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

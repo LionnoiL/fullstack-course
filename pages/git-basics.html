@@ -16,9 +16,7 @@
       <main class="content">
         <h1 id="cli">1. Командний рядок</h1>
         <p>Розробник щодня працює в терміналі. Базові команди:</p>
-        <pre
-          class="language-js"
-        ><code class="language-js">pwd            # де я зараз
+        <pre class="language-js"><code class="language-js">pwd            # де я зараз
 ls             # список файлів (dir у Windows)
 cd projects    # перейти в папку
 cd ..          # на рівень вгору
@@ -27,10 +25,9 @@ touch file.js  # створити файл
 rm file.js     # видалити файл</code></pre>
         <h1 id="git">2. Що таке Git</h1>
         <p>
-          <strong>Git</strong> — система контролю версій. Вона зберігає історію
-          змін проєкту, дозволяє повертатися назад і працювати командою без
-          конфліктів. <strong>GitHub</strong> — хмарний хостинг
-          Git-репозиторіїв.
+          <strong>Git</strong> — система контролю версій. Вона зберігає історію змін проєкту,
+          дозволяє повертатися назад і працювати командою без конфліктів. <strong>GitHub</strong> —
+          хмарний хостинг Git-репозиторіїв.
         </p>
         <h1 id="базовий-цикл">3. Базовий цикл роботи</h1>
         <pre
@@ -46,9 +43,8 @@ git log --oneline        # історія комітів</code></pre>
           <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
           <div class="hints-container">
             <p>
-              Пиши змістовні повідомлення комітів у наказовому способі: «Add
-              login form», а не «зміни». Через місяць саме за ними ти
-              орієнтуватимешся в історії.
+              Пиши змістовні повідомлення комітів у наказовому способі: «Add login form», а не
+              «зміни». Через місяць саме за ними ти орієнтуватимешся в історії.
             </p>
           </div>
         </div>
@@ -60,10 +56,7 @@ git push -u origin main   # надіслати на GitHub
 git pull                  # забрати зміни з сервера
 git clone &lt;url&gt;           # скопіювати чужий репозиторій</code></pre>
         <h1 id="гілки">5. Гілки</h1>
-        <p>
-          Гілки дозволяють розробляти функції ізольовано, не чіпаючи основну
-          гілку.
-        </p>
+        <p>Гілки дозволяють розробляти функції ізольовано, не чіпаючи основну гілку.</p>
         <pre
           class="language-js"
         ><code class="language-js">git branch feature-login    # створити гілку
@@ -72,26 +65,21 @@ git checkout -b feature-x   # створити і одразу перейти
 
 git merge feature-login     # злити гілку в поточну</code></pre>
         <p>
-          Командна робота будується навколо <strong>Pull Request</strong> —
-          пропозиції злити гілку після рев'ю коду.
+          Командна робота будується навколо <strong>Pull Request</strong> — пропозиції злити гілку
+          після рев'ю коду.
         </p>
         <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
         <ul>
           <li>
             <a href="https://gitbybit.com/uk" target="_blank"
-              >GitByBit — курс, який вчить Git* через практику прямо в редакторі
-              коду</a
+              >GitByBit — курс, який вчить Git* через практику прямо в редакторі коду</a
             >
           </li>
           <li>
-            <a href="https://git-scm.com/book/uk/v2" target="_blank"
-              >Pro Git (українською)</a
-            >
+            <a href="https://git-scm.com/book/uk/v2" target="_blank">Pro Git (українською)</a>
           </li>
           <li>
-            <a
-              href="https://learngitbranching.js.org/?locale=uk"
-              target="_blank"
+            <a href="https://learngitbranching.js.org/?locale=uk" target="_blank"
               >Learn Git Branching — інтерактивно</a
             >
           </li>
@@ -99,12 +87,12 @@ git merge feature-login     # злити гілку в поточну</code></pr
       </main>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
+    <script src="../js/course-tools.js"></script>
     <script src="../js/nav.js"></script>
     <script src="../js/search-index.js"></script>
     <script src="../js/search.js"></script>

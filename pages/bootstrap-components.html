@@ -1,21 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Компоненти Bootstrap · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="компоненти">1. Готові компоненти</h1>
-<p>Bootstrap дає десятки готових UI-блоків. Розглянемо найпоширеніші — їх достатньо
-для більшості інтерфейсів.</p>
-<h1 id="кнопки">2. Кнопки та бейджі</h1>
-<pre class="language-markup"><code class="language-markup">&lt;button class="btn btn-primary"&gt;Основна&lt;/button&gt;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Компоненти Bootstrap · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="компоненти">1. Готові компоненти</h1>
+        <p>
+          Bootstrap дає десятки готових UI-блоків. Розглянемо найпоширеніші — їх достатньо для
+          більшості інтерфейсів.
+        </p>
+        <h1 id="кнопки">2. Кнопки та бейджі</h1>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;button class="btn btn-primary"&gt;Основна&lt;/button&gt;
 &lt;button class="btn btn-outline-secondary"&gt;Контурна&lt;/button&gt;
 &lt;button class="btn btn-danger btn-sm"&gt;Маленька&lt;/button&gt;
 
@@ -23,11 +30,15 @@
 &lt;button class="btn btn-primary"&gt;
   Повідомлення &lt;span class="badge bg-light text-dark"&gt;4&lt;/span&gt;
 &lt;/button&gt;</code></pre>
-<h1 id="сповіщення">3. Сповіщення (alerts)</h1>
-<pre class="language-markup"><code class="language-markup">&lt;div class="alert alert-success" role="alert"&gt;Успішно збережено!&lt;/div&gt;
+        <h1 id="сповіщення">3. Сповіщення (alerts)</h1>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;div class="alert alert-success" role="alert"&gt;Успішно збережено!&lt;/div&gt;
 &lt;div class="alert alert-danger" role="alert"&gt;Сталася помилка&lt;/div&gt;</code></pre>
-<h1 id="картки">4. Картки (cards)</h1>
-<pre class="language-markup"><code class="language-markup">&lt;div class="card" style="width: 18rem;"&gt;
+        <h1 id="картки">4. Картки (cards)</h1>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;div class="card" style="width: 18rem;"&gt;
   &lt;img src="cover.jpg" class="card-img-top" alt="..."&gt;
   &lt;div class="card-body"&gt;
     &lt;h5 class="card-title"&gt;Заголовок&lt;/h5&gt;
@@ -35,8 +46,10 @@
     &lt;a href="#" class="btn btn-primary"&gt;Детальніше&lt;/a&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-<h1 id="навбар">5. Навігаційна панель (navbar)</h1>
-<pre class="language-markup"><code class="language-markup">&lt;nav class="navbar navbar-expand-lg bg-light"&gt;
+        <h1 id="навбар">5. Навігаційна панель (navbar)</h1>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;nav class="navbar navbar-expand-lg bg-light"&gt;
   &lt;div class="container-fluid"&gt;
     &lt;a class="navbar-brand" href="#"&gt;Логотип&lt;/a&gt;
     &lt;div class="navbar-nav"&gt;
@@ -45,29 +58,40 @@
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/nav&gt;</code></pre>
-<h1 id="список">6. Список-група</h1>
-<pre class="language-markup"><code class="language-markup">&lt;ul class="list-group"&gt;
+        <h1 id="список">6. Список-група</h1>
+        <pre class="language-markup"><code class="language-markup">&lt;ul class="list-group"&gt;
   &lt;li class="list-group-item active"&gt;Активний&lt;/li&gt;
   &lt;li class="list-group-item"&gt;Другий&lt;/li&gt;
   &lt;li class="list-group-item"&gt;Третій&lt;/li&gt;
 &lt;/ul&gt;</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Компоненти зручно поєднувати із сіткою та утилітами: напр., сітка карток —
-це <code>row</code> з <code>col</code>, у кожній — <code>card</code>.</p></div></div>
-<h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://getbootstrap.com/docs/5.3/components/" target="_blank">Components — Bootstrap docs</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Компоненти зручно поєднувати із сіткою та утилітами: напр., сітка карток — це
+              <code>row</code> з <code>col</code>, у кожній — <code>card</code>.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">7. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://getbootstrap.com/docs/5.3/components/" target="_blank"
+              >Components — Bootstrap docs</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

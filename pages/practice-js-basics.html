@@ -1,159 +1,204 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Практика: основи JS · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-<script src="../js/practice.js"></script>
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="практика">Практика: основи JavaScript</h1>
-<p>Змінні, оператори, розгалуження, цикли, рядки й числа. Пиши код у редакторі й
-тисни <strong>«Запустити»</strong> — авто-тести перевірять рішення. Код зберігається в
-браузері.</p>
-<div id="tasks"></div>
-<script>
-Practice.load('tasks', [
-  {
-    title: 'Конвертер температури',
-    desc: 'Реалізуй <code>celsiusToFahrenheit(c)</code> за формулою <code>c × 9/5 + 32</code>.',
-    entry: 'celsiusToFahrenheit',
-    starter: 'function celsiusToFahrenheit(c) {\n  \n}',
-    hint: 'Поверни результат виразу.',
-    solution: 'function celsiusToFahrenheit(c) {\n  return c * 9 / 5 + 32;\n}',
-    tests: [
-      { name: 'celsiusToFahrenheit(0) === 32', test: (e) => e.celsiusToFahrenheit(0) === 32 },
-      { name: 'celsiusToFahrenheit(100) === 212', test: (e) => e.celsiusToFahrenheit(100) === 212 },
-      { name: 'celsiusToFahrenheit(-40) === -40', test: (e) => e.celsiusToFahrenheit(-40) === -40 },
-    ],
-  },
-  {
-    title: 'FizzBuzz',
-    desc: 'Поверни масив 1..n: кратні 3 → <code>Fizz</code>, 5 → <code>Buzz</code>, 15 → <code>FizzBuzz</code>.',
-    entry: 'fizzBuzz',
-    starter: 'function fizzBuzz(n) {\n  const result = [];\n  \n  return result;\n}',
-    hint: 'Перевіряй i % 15 першим.',
-    solution: "function fizzBuzz(n) {\n  const result = [];\n  for (let i = 1; i <= n; i += 1) {\n    if (i % 15 === 0) result.push('FizzBuzz');\n    else if (i % 3 === 0) result.push('Fizz');\n    else if (i % 5 === 0) result.push('Buzz');\n    else result.push(i);\n  }\n  return result;\n}",
-    tests: [
-      { name: "fizzBuzz(5) === [1,2,'Fizz',4,'Buzz']", test: (e) => JSON.stringify(e.fizzBuzz(5)) === JSON.stringify([1,2,'Fizz',4,'Buzz']) },
-      { name: "fizzBuzz(15)[14] === 'FizzBuzz'", test: (e) => e.fizzBuzz(15)[14] === 'FizzBuzz' },
-    ],
-  },
-  {
-    title: 'Валідація пароля',
-    desc: '<code>isStrongPassword(str)</code>: ≥ 8 символів, є цифра й велика літера.',
-    entry: 'isStrongPassword',
-    starter: 'function isStrongPassword(str) {\n  \n}',
-    solution: "function isStrongPassword(str) {\n  return str.length >= 8 && /[0-9]/.test(str) && /[A-Z]/.test(str);\n}",
-    tests: [
-      { name: "'Abcdefg1' → true", test: (e) => e.isStrongPassword('Abcdefg1') === true },
-      { name: "'short1A' → false", test: (e) => e.isStrongPassword('short1A') === false },
-      { name: "'alllowercase1' → false", test: (e) => e.isStrongPassword('alllowercase1') === false },
-      { name: "'NoDigitsHere' → false", test: (e) => e.isStrongPassword('NoDigitsHere') === false },
-    ],
-  },
-  {
-    title: 'Діапазон чисел',
-    desc: '<code>range(start, end)</code> → масив цілих від start до end включно.',
-    entry: 'range',
-    starter: 'function range(start, end) {\n  \n}',
-    solution: 'function range(start, end) {\n  const result = [];\n  for (let i = start; i <= end; i += 1) result.push(i);\n  return result;\n}',
-    tests: [
-      { name: 'range(1, 5) === [1,2,3,4,5]', test: (e) => JSON.stringify(e.range(1,5)) === JSON.stringify([1,2,3,4,5]) },
-      { name: 'range(0, 0) === [0]', test: (e) => JSON.stringify(e.range(0,0)) === JSON.stringify([0]) },
-    ],
-  },
-  {
-    title: 'Паліндром',
-    desc: '<code>isPalindrome(str)</code> → true, якщо читається однаково в обидва боки (без регістру).',
-    entry: 'isPalindrome',
-    starter: 'function isPalindrome(str) {\n  \n}',
-    hint: 'Порівняй рядок у нижньому регістрі з його оберненою версією.',
-    solution: "function isPalindrome(str) {\n  const s = str.toLowerCase();\n  return s === [...s].reverse().join('');\n}",
-    tests: [
-      { name: "'Level' → true", test: (e) => e.isPalindrome('Level') === true },
-      { name: "'hello' → false", test: (e) => e.isPalindrome('hello') === false },
-    ],
-  },
-  {
-    title: 'Обернути рядок',
-    desc: '<code>reverseString(str)</code> → рядок задом наперед.',
-    entry: 'reverseString',
-    starter: 'function reverseString(str) {\n  \n}',
-    solution: "function reverseString(str) {\n  return str.split('').reverse().join('');\n}",
-    tests: [
-      { name: "reverseString('abc') === 'cba'", test: (e) => e.reverseString('abc') === 'cba' },
-      { name: "reverseString('') === ''", test: (e) => e.reverseString('') === '' },
-    ],
-  },
-  {
-    title: 'Максимум із трьох',
-    desc: '<code>maxOfThree(a, b, c)</code> → найбільше з трьох чисел.',
-    entry: 'maxOfThree',
-    starter: 'function maxOfThree(a, b, c) {\n  \n}',
-    solution: 'function maxOfThree(a, b, c) {\n  return Math.max(a, b, c);\n}',
-    tests: [
-      { name: 'maxOfThree(1,2,3) === 3', test: (e) => e.maxOfThree(1,2,3) === 3 },
-      { name: 'maxOfThree(5,1,2) === 5', test: (e) => e.maxOfThree(5,1,2) === 5 },
-      { name: 'maxOfThree(-1,-2,-3) === -1', test: (e) => e.maxOfThree(-1,-2,-3) === -1 },
-    ],
-  },
-  {
-    title: 'Порахувати голосні',
-    desc: '<code>countVowels(str)</code> → кількість голосних (a, e, i, o, u; будь-який регістр).',
-    entry: 'countVowels',
-    starter: 'function countVowels(str) {\n  \n}',
-    hint: 'Регулярка /[aeiou]/gi та .match().',
-    solution: 'function countVowels(str) {\n  return (str.match(/[aeiou]/gi) || []).length;\n}',
-    tests: [
-      { name: "countVowels('hello') === 2", test: (e) => e.countVowels('hello') === 2 },
-      { name: "countVowels('xyz') === 0", test: (e) => e.countVowels('xyz') === 0 },
-      { name: "countVowels('AEIOU') === 5", test: (e) => e.countVowels('AEIOU') === 5 },
-    ],
-  },
-  {
-    title: 'Сума цифр',
-    desc: '<code>sumDigits(n)</code> → сума цифр невід’ємного цілого числа.',
-    entry: 'sumDigits',
-    starter: 'function sumDigits(n) {\n  \n}',
-    solution: "function sumDigits(n) {\n  return String(n).split('').reduce((acc, d) => acc + Number(d), 0);\n}",
-    tests: [
-      { name: 'sumDigits(123) === 6', test: (e) => e.sumDigits(123) === 6 },
-      { name: 'sumDigits(99) === 18', test: (e) => e.sumDigits(99) === 18 },
-      { name: 'sumDigits(0) === 0', test: (e) => e.sumDigits(0) === 0 },
-    ],
-  },
-  {
-    title: 'Найбільший спільний дільник',
-    desc: '<code>gcd(a, b)</code> → НСД двох чисел (алгоритм Евкліда).',
-    entry: 'gcd',
-    starter: 'function gcd(a, b) {\n  \n}',
-    hint: 'gcd(a, b) = b === 0 ? a : gcd(b, a % b).',
-    solution: 'function gcd(a, b) {\n  return b === 0 ? a : gcd(b, a % b);\n}',
-    tests: [
-      { name: 'gcd(12, 8) === 4', test: (e) => e.gcd(12,8) === 4 },
-      { name: 'gcd(7, 3) === 1', test: (e) => e.gcd(7,3) === 1 },
-      { name: 'gcd(100, 10) === 10', test: (e) => e.gcd(100,10) === 10 },
-    ],
-  },
-]);
-</script>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: основи JS · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+    <script src="../js/practice.js"></script>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: основи JavaScript</h1>
+        <p>
+          Змінні, оператори, розгалуження, цикли, рядки й числа. Пиши код у редакторі й тисни
+          <strong>«Запустити»</strong> — авто-тести перевірять рішення. Код зберігається в браузері.
+        </p>
+        <div id="tasks"></div>
+        <script>
+          Practice.load("tasks", [
+            {
+              title: "Конвертер температури",
+              desc: "Реалізуй <code>celsiusToFahrenheit(c)</code> за формулою <code>c × 9/5 + 32</code>.",
+              entry: "celsiusToFahrenheit",
+              starter: "function celsiusToFahrenheit(c) {\n  \n}",
+              hint: "Поверни результат виразу.",
+              solution: "function celsiusToFahrenheit(c) {\n  return c * 9 / 5 + 32;\n}",
+              tests: [
+                {
+                  name: "celsiusToFahrenheit(0) === 32",
+                  test: (e) => e.celsiusToFahrenheit(0) === 32,
+                },
+                {
+                  name: "celsiusToFahrenheit(100) === 212",
+                  test: (e) => e.celsiusToFahrenheit(100) === 212,
+                },
+                {
+                  name: "celsiusToFahrenheit(-40) === -40",
+                  test: (e) => e.celsiusToFahrenheit(-40) === -40,
+                },
+              ],
+            },
+            {
+              title: "FizzBuzz",
+              desc: "Поверни масив 1..n: кратні 3 → <code>Fizz</code>, 5 → <code>Buzz</code>, 15 → <code>FizzBuzz</code>.",
+              entry: "fizzBuzz",
+              starter: "function fizzBuzz(n) {\n  const result = [];\n  \n  return result;\n}",
+              hint: "Перевіряй i % 15 першим.",
+              solution:
+                "function fizzBuzz(n) {\n  const result = [];\n  for (let i = 1; i <= n; i += 1) {\n    if (i % 15 === 0) result.push('FizzBuzz');\n    else if (i % 3 === 0) result.push('Fizz');\n    else if (i % 5 === 0) result.push('Buzz');\n    else result.push(i);\n  }\n  return result;\n}",
+              tests: [
+                {
+                  name: "fizzBuzz(5) === [1,2,'Fizz',4,'Buzz']",
+                  test: (e) =>
+                    JSON.stringify(e.fizzBuzz(5)) === JSON.stringify([1, 2, "Fizz", 4, "Buzz"]),
+                },
+                {
+                  name: "fizzBuzz(15)[14] === 'FizzBuzz'",
+                  test: (e) => e.fizzBuzz(15)[14] === "FizzBuzz",
+                },
+              ],
+            },
+            {
+              title: "Валідація пароля",
+              desc: "<code>isStrongPassword(str)</code>: ≥ 8 символів, є цифра й велика літера.",
+              entry: "isStrongPassword",
+              starter: "function isStrongPassword(str) {\n  \n}",
+              solution:
+                "function isStrongPassword(str) {\n  return str.length >= 8 && /[0-9]/.test(str) && /[A-Z]/.test(str);\n}",
+              tests: [
+                { name: "'Abcdefg1' → true", test: (e) => e.isStrongPassword("Abcdefg1") === true },
+                { name: "'short1A' → false", test: (e) => e.isStrongPassword("short1A") === false },
+                {
+                  name: "'alllowercase1' → false",
+                  test: (e) => e.isStrongPassword("alllowercase1") === false,
+                },
+                {
+                  name: "'NoDigitsHere' → false",
+                  test: (e) => e.isStrongPassword("NoDigitsHere") === false,
+                },
+              ],
+            },
+            {
+              title: "Діапазон чисел",
+              desc: "<code>range(start, end)</code> → масив цілих від start до end включно.",
+              entry: "range",
+              starter: "function range(start, end) {\n  \n}",
+              solution:
+                "function range(start, end) {\n  const result = [];\n  for (let i = start; i <= end; i += 1) result.push(i);\n  return result;\n}",
+              tests: [
+                {
+                  name: "range(1, 5) === [1,2,3,4,5]",
+                  test: (e) => JSON.stringify(e.range(1, 5)) === JSON.stringify([1, 2, 3, 4, 5]),
+                },
+                {
+                  name: "range(0, 0) === [0]",
+                  test: (e) => JSON.stringify(e.range(0, 0)) === JSON.stringify([0]),
+                },
+              ],
+            },
+            {
+              title: "Паліндром",
+              desc: "<code>isPalindrome(str)</code> → true, якщо читається однаково в обидва боки (без регістру).",
+              entry: "isPalindrome",
+              starter: "function isPalindrome(str) {\n  \n}",
+              hint: "Порівняй рядок у нижньому регістрі з його оберненою версією.",
+              solution:
+                "function isPalindrome(str) {\n  const s = str.toLowerCase();\n  return s === [...s].reverse().join('');\n}",
+              tests: [
+                { name: "'Level' → true", test: (e) => e.isPalindrome("Level") === true },
+                { name: "'hello' → false", test: (e) => e.isPalindrome("hello") === false },
+              ],
+            },
+            {
+              title: "Обернути рядок",
+              desc: "<code>reverseString(str)</code> → рядок задом наперед.",
+              entry: "reverseString",
+              starter: "function reverseString(str) {\n  \n}",
+              solution:
+                "function reverseString(str) {\n  return str.split('').reverse().join('');\n}",
+              tests: [
+                {
+                  name: "reverseString('abc') === 'cba'",
+                  test: (e) => e.reverseString("abc") === "cba",
+                },
+                { name: "reverseString('') === ''", test: (e) => e.reverseString("") === "" },
+              ],
+            },
+            {
+              title: "Максимум із трьох",
+              desc: "<code>maxOfThree(a, b, c)</code> → найбільше з трьох чисел.",
+              entry: "maxOfThree",
+              starter: "function maxOfThree(a, b, c) {\n  \n}",
+              solution: "function maxOfThree(a, b, c) {\n  return Math.max(a, b, c);\n}",
+              tests: [
+                { name: "maxOfThree(1,2,3) === 3", test: (e) => e.maxOfThree(1, 2, 3) === 3 },
+                { name: "maxOfThree(5,1,2) === 5", test: (e) => e.maxOfThree(5, 1, 2) === 5 },
+                {
+                  name: "maxOfThree(-1,-2,-3) === -1",
+                  test: (e) => e.maxOfThree(-1, -2, -3) === -1,
+                },
+              ],
+            },
+            {
+              title: "Порахувати голосні",
+              desc: "<code>countVowels(str)</code> → кількість голосних (a, e, i, o, u; будь-який регістр).",
+              entry: "countVowels",
+              starter: "function countVowels(str) {\n  \n}",
+              hint: "Регулярка /[aeiou]/gi та .match().",
+              solution:
+                "function countVowels(str) {\n  return (str.match(/[aeiou]/gi) || []).length;\n}",
+              tests: [
+                { name: "countVowels('hello') === 2", test: (e) => e.countVowels("hello") === 2 },
+                { name: "countVowels('xyz') === 0", test: (e) => e.countVowels("xyz") === 0 },
+                { name: "countVowels('AEIOU') === 5", test: (e) => e.countVowels("AEIOU") === 5 },
+              ],
+            },
+            {
+              title: "Сума цифр",
+              desc: "<code>sumDigits(n)</code> → сума цифр невід’ємного цілого числа.",
+              entry: "sumDigits",
+              starter: "function sumDigits(n) {\n  \n}",
+              solution:
+                "function sumDigits(n) {\n  return String(n).split('').reduce((acc, d) => acc + Number(d), 0);\n}",
+              tests: [
+                { name: "sumDigits(123) === 6", test: (e) => e.sumDigits(123) === 6 },
+                { name: "sumDigits(99) === 18", test: (e) => e.sumDigits(99) === 18 },
+                { name: "sumDigits(0) === 0", test: (e) => e.sumDigits(0) === 0 },
+              ],
+            },
+            {
+              title: "Найбільший спільний дільник",
+              desc: "<code>gcd(a, b)</code> → НСД двох чисел (алгоритм Евкліда).",
+              entry: "gcd",
+              starter: "function gcd(a, b) {\n  \n}",
+              hint: "gcd(a, b) = b === 0 ? a : gcd(b, a % b).",
+              solution: "function gcd(a, b) {\n  return b === 0 ? a : gcd(b, a % b);\n}",
+              tests: [
+                { name: "gcd(12, 8) === 4", test: (e) => e.gcd(12, 8) === 4 },
+                { name: "gcd(7, 3) === 1", test: (e) => e.gcd(7, 3) === 1 },
+                { name: "gcd(100, 10) === 10", test: (e) => e.gcd(100, 10) === 10 },
+              ],
+            },
+          ]);
+        </script>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

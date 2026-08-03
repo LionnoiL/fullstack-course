@@ -1,26 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESLint + Prettier разом · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="конфлікт">1. У чому конфлікт</h1>
-<p>ESLint історично теж має правила форматування (відступи, лапки). Якщо їх лишити
-ввімкненими, ESLint і Prettier почнуть «перетягувати» код туди-сюди. Рішення —
-<strong>віддати все форматування Prettier</strong>, а в ESLint вимкнути стильові правила.</p>
-<h1 id="eslint-config-prettier">2. eslint-config-prettier</h1>
-<p>Пакет <code>eslint-config-prettier</code> вимикає всі правила ESLint, які конфліктують із
-Prettier. Його додають <strong>останнім</strong> у конфізі, щоб він перекрив стильові
-правила попередніх наборів.</p>
-<pre class="language-js"><code class="language-js">npm install -D eslint-config-prettier</code></pre>
-<pre class="language-js"><code class="language-js">// eslint.config.js
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ESLint + Prettier разом · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="конфлікт">1. У чому конфлікт</h1>
+        <p>
+          ESLint історично теж має правила форматування (відступи, лапки). Якщо їх лишити
+          ввімкненими, ESLint і Prettier почнуть «перетягувати» код туди-сюди. Рішення —
+          <strong>віддати все форматування Prettier</strong>, а в ESLint вимкнути стильові правила.
+        </p>
+        <h1 id="eslint-config-prettier">2. eslint-config-prettier</h1>
+        <p>
+          Пакет <code>eslint-config-prettier</code> вимикає всі правила ESLint, які конфліктують із
+          Prettier. Його додають <strong>останнім</strong> у конфізі, щоб він перекрив стильові
+          правила попередніх наборів.
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">npm install -D eslint-config-prettier</code></pre>
+        <pre class="language-js"><code class="language-js">// eslint.config.js
 import js from '@eslint/js';
 import prettier from 'eslint-config-prettier';
 
@@ -29,42 +38,62 @@ export default [
   // ...твої правила...
   prettier,   // ← останнім: вимикає стильові правила ESLint
 ];</code></pre>
-<h1 id="розподіл">3. Розподіл обов'язків</h1>
-<ul>
-<li><strong>ESLint</strong> — знаходить помилки й проблеми якості (<code>eqeqeq</code>,
-<code>no-unused-vars</code>, правила хуків тощо).</li>
-<li><strong>Prettier</strong> — відповідає за весь вигляд коду.</li>
-</ul>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Раніше форматування вбудовували в ESLint через <code>eslint-plugin-prettier</code>. Зараз
-рекомендований підхід простіший: <strong>запускати Prettier окремо</strong>, а
-<code>eslint-config-prettier</code> лише гасить конфлікти. Менше шуму й швидша перевірка.</p></div></div>
-<h1 id="порядок">4. Порядок запуску</h1>
-<p>Типовий конвеєр: спершу відформатувати, потім перевірити якість.</p>
-<pre class="language-js"><code class="language-js">"scripts": {
+        <h1 id="розподіл">3. Розподіл обов'язків</h1>
+        <ul>
+          <li>
+            <strong>ESLint</strong> — знаходить помилки й проблеми якості (<code>eqeqeq</code>,
+            <code>no-unused-vars</code>, правила хуків тощо).
+          </li>
+          <li><strong>Prettier</strong> — відповідає за весь вигляд коду.</li>
+        </ul>
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Раніше форматування вбудовували в ESLint через <code>eslint-plugin-prettier</code>.
+              Зараз рекомендований підхід простіший: <strong>запускати Prettier окремо</strong>, а
+              <code>eslint-config-prettier</code> лише гасить конфлікти. Менше шуму й швидша
+              перевірка.
+            </p>
+          </div>
+        </div>
+        <h1 id="порядок">4. Порядок запуску</h1>
+        <p>Типовий конвеєр: спершу відформатувати, потім перевірити якість.</p>
+        <pre class="language-js"><code class="language-js">"scripts": {
   "format": "prettier . --write",
   "lint": "eslint .",
   "check": "prettier . --check &amp;&amp; eslint ."
 }</code></pre>
-<h1 id="перевірка">5. Перевірка, що конфлікту немає</h1>
-<p>Швидкий тест: код, який Prettier вважає відформатованим, не має давати
-стильових скарг від ESLint. Якщо дає — <code>eslint-config-prettier</code> не підключено
-або стоїть не останнім.</p>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://github.com/prettier/eslint-config-prettier" target="_blank">eslint-config-prettier</a></li>
-<li><a href="https://prettier.io/docs/integrating-with-linters" target="_blank">Integrating with Linters — Prettier</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="перевірка">5. Перевірка, що конфлікту немає</h1>
+        <p>
+          Швидкий тест: код, який Prettier вважає відформатованим, не має давати стильових скарг від
+          ESLint. Якщо дає — <code>eslint-config-prettier</code> не підключено або стоїть не
+          останнім.
+        </p>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://github.com/prettier/eslint-config-prettier" target="_blank"
+              >eslint-config-prettier</a
+            >
+          </li>
+          <li>
+            <a href="https://prettier.io/docs/integrating-with-linters" target="_blank"
+              >Integrating with Linters — Prettier</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

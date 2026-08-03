@@ -1,30 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tool / function calling · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="навіщо">1. Навіщо інструменти</h1>
-<p>Модель сама по собі не має доступу до твоєї БД, погоди чи актуальних цін — і не вміє
-надійно рахувати. <strong>Tool calling</strong> (function calling) розвʼязує це: ти описуєш
-функції, які модель <em>може попросити викликати</em>, вона повертає назву й аргументи, а
-<strong>виконуєш її ти</strong> — своїм кодом. Результат повертаєш моделі, і вона формулює
-відповідь.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Важливо: модель <strong>не виконує</strong> код — вона лише каже «виклич <code>getWeather</code> з
-<code>{city: "Kyiv"}</code>». Виконання, права й безпека — на твоєму боці. Це основа
-«агентів»: цикл «модель просить інструмент → ти виконуєш → модель продовжує».</p></div></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tool / function calling · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="навіщо">1. Навіщо інструменти</h1>
+        <p>
+          Модель сама по собі не має доступу до твоєї БД, погоди чи актуальних цін — і не вміє
+          надійно рахувати. <strong>Tool calling</strong> (function calling) розвʼязує це: ти
+          описуєш функції, які модель <em>може попросити викликати</em>, вона повертає назву й
+          аргументи, а <strong>виконуєш її ти</strong> — своїм кодом. Результат повертаєш моделі, і
+          вона формулює відповідь.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Важливо: модель <strong>не виконує</strong> код — вона лише каже «виклич
+              <code>getWeather</code> з <code>{city: "Kyiv"}</code>». Виконання, права й безпека —
+              на твоєму боці. Це основа «агентів»: цикл «модель просить інструмент → ти виконуєш →
+              модель продовжує».
+            </p>
+          </div>
+        </div>
 
-<h1 id="опис">2. Опис інструмента</h1>
-<p>Інструмент — це назва, опис (модель за ним вирішує, коли викликати) і JSON-схема
-входу:</p>
-<pre class="language-js"><code class="language-js">const tools = [
+        <h1 id="опис">2. Опис інструмента</h1>
+        <p>
+          Інструмент — це назва, опис (модель за ним вирішує, коли викликати) і JSON-схема входу:
+        </p>
+        <pre class="language-js"><code class="language-js">const tools = [
   {
     name: 'get_weather',
     description: 'Отримати поточну погоду в місті. Викликай, коли питають про погоду.',
@@ -37,14 +51,26 @@
     },
   },
 ];</code></pre>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Пиши <strong>чіткий опис — коли саме</strong> викликати інструмент, а не лише що він робить.
-Від якості опису й схеми напряму залежить, чи модель викличе інструмент правильно.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Пиши <strong>чіткий опис — коли саме</strong> викликати інструмент, а не лише що він
+              робить. Від якості опису й схеми напряму залежить, чи модель викличе інструмент
+              правильно.
+            </p>
+          </div>
+        </div>
 
-<h1 id="цикл">3. Запит і відповідь із <code>tool_use</code></h1>
-<p>Передаємо <code>tools</code> у запит. Якщо модель хоче інструмент, <code>stop_reason</code> буде
-<code>'tool_use'</code>, а в <code>content</code> буде блок <code>tool_use</code> з <code>name</code> та
-<code>input</code>:</p>
-<pre class="language-js"><code class="language-js">const messages = [{ role: 'user', content: 'Яка погода в Києві?' }];
+        <h1 id="цикл">3. Запит і відповідь із <code>tool_use</code></h1>
+        <p>
+          Передаємо <code>tools</code> у запит. Якщо модель хоче інструмент,
+          <code>stop_reason</code> буде <code>'tool_use'</code>, а в <code>content</code> буде блок
+          <code>tool_use</code> з <code>name</code> та <code>input</code>:
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">const messages = [{ role: 'user', content: 'Яка погода в Києві?' }];
 
 const res = await client.messages.create({
   model: 'claude-opus-4-8',
@@ -57,10 +83,15 @@ const res = await client.messages.create({
 const toolUse = res.content.find((b) =&gt; b.type === 'tool_use');
 // toolUse.name === 'get_weather', toolUse.input === { city: 'Київ' }</code></pre>
 
-<h1 id="результат">4. Виконати й повернути <code>tool_result</code></h1>
-<p>Виконуємо функцію своїм кодом і повертаємо результат моделі — <strong>обовʼязково</strong> з
-тим самим <code>tool_use_id</code>. Не забудь спершу додати відповідь моделі в історію:</p>
-<pre class="language-js"><code class="language-js">const result = await getWeather(toolUse.input.city); // твоя функція
+        <h1 id="результат">4. Виконати й повернути <code>tool_result</code></h1>
+        <p>
+          Виконуємо функцію своїм кодом і повертаємо результат моделі —
+          <strong>обовʼязково</strong> з тим самим <code>tool_use_id</code>. Не забудь спершу додати
+          відповідь моделі в історію:
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">const result = await getWeather(toolUse.input.city); // твоя функція
 
 messages.push({ role: 'assistant', content: res.content }); // echo моделі
 messages.push({
@@ -78,11 +109,13 @@ const final = await client.messages.create({
   messages,
 });</code></pre>
 
-<h1 id="агентний-цикл">5. Агентний цикл</h1>
-<p>Модель може попросити <em>кілька</em> інструментів поспіль. Тому обгортаємо все в цикл:
-доки <code>stop_reason === 'tool_use'</code> — виконуємо інструменти й продовжуємо; коли
-<code>'end_turn'</code> — готово.</p>
-<pre class="language-js"><code class="language-js">while (true) {
+        <h1 id="агентний-цикл">5. Агентний цикл</h1>
+        <p>
+          Модель може попросити <em>кілька</em> інструментів поспіль. Тому обгортаємо все в цикл:
+          доки <code>stop_reason === 'tool_use'</code> — виконуємо інструменти й продовжуємо; коли
+          <code>'end_turn'</code> — готово.
+        </p>
+        <pre class="language-js"><code class="language-js">while (true) {
   const res = await client.messages.create({ model: 'claude-opus-4-8', max_tokens: 1024, tools, messages });
   messages.push({ role: 'assistant', content: res.content });
 
@@ -96,26 +129,44 @@ const final = await client.messages.create({
   }
   messages.push({ role: 'user', content: results });
 }</code></pre>
-<div class="alert alert-danger hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Інструменти з побічними ефектами (запис у БД, надсилання листа, оплата) —
-<strong>перевіряй і за потреби підтверджуй</strong> перед виконанням. Модель може попросити
-будь-що; довіряй перевіреним аргументам і своїй авторизації, а не самому проханню.</p></div></div>
+        <div class="alert alert-danger hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Інструменти з побічними ефектами (запис у БД, надсилання листа, оплата) —
+              <strong>перевіряй і за потреби підтверджуй</strong> перед виконанням. Модель може
+              попросити будь-що; довіряй перевіреним аргументам і своїй авторизації, а не самому
+              проханню.
+            </p>
+          </div>
+        </div>
 
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://docs.claude.com/en/docs/agents-and-tools/tool-use/overview" target="_blank">Anthropic — Tool use</a></li>
-<li><a href="https://modelcontextprotocol.io/" target="_blank">Model Context Protocol (MCP)</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://docs.claude.com/en/docs/agents-and-tools/tool-use/overview"
+              target="_blank"
+              >Anthropic — Tool use</a
+            >
+          </li>
+          <li>
+            <a href="https://modelcontextprotocol.io/" target="_blank"
+              >Model Context Protocol (MCP)</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

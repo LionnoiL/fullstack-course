@@ -1,34 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Декоратори · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="декоратори">1. Що таке декоратори</h1>
-<p><strong>Декоратор</strong> — це функція, яку можна «навісити» на клас, метод, властивість чи
-параметр, щоб змінити або доповнити їхню поведінку. Декоратори активно
-використовують фреймворки на кшталт <strong>Angular</strong> і <strong>NestJS</strong>.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Синтаксис декораторів довго був експериментальним. У TypeScript 5+ реалізовано
-стандартні декоратори зі специфікації ECMAScript. Приклади нижче показують
-загальну ідею; конкретне API залежить від версії та налаштувань.</p></div></div>
-<h1 id="увімкнення">2. Увімкнення</h1>
-<p>Для «класичних» декораторів у <code>tsconfig.json</code> вмикають опцію:</p>
-<pre class="language-js"><code class="language-js">{
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Декоратори · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="декоратори">1. Що таке декоратори</h1>
+        <p>
+          <strong>Декоратор</strong> — це функція, яку можна «навісити» на клас, метод, властивість
+          чи параметр, щоб змінити або доповнити їхню поведінку. Декоратори активно використовують
+          фреймворки на кшталт <strong>Angular</strong> і <strong>NestJS</strong>.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Синтаксис декораторів довго був експериментальним. У TypeScript 5+ реалізовано
+              стандартні декоратори зі специфікації ECMAScript. Приклади нижче показують загальну
+              ідею; конкретне API залежить від версії та налаштувань.
+            </p>
+          </div>
+        </div>
+        <h1 id="увімкнення">2. Увімкнення</h1>
+        <p>Для «класичних» декораторів у <code>tsconfig.json</code> вмикають опцію:</p>
+        <pre class="language-js"><code class="language-js">{
   "compilerOptions": {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   }
 }</code></pre>
-<h1 id="декоратор-класу">3. Декоратор класу</h1>
-<p>Декоратор класу отримує конструктор і може його змінити чи розширити.</p>
-<pre class="language-js"><code class="language-js">function sealed(constructor: Function) {
+        <h1 id="декоратор-класу">3. Декоратор класу</h1>
+        <p>Декоратор класу отримує конструктор і може його змінити чи розширити.</p>
+        <pre class="language-js"><code class="language-js">function sealed(constructor: Function) {
   Object.seal(constructor);
   Object.seal(constructor.prototype);
 }
@@ -37,9 +49,11 @@
 class Product {
   constructor(public name: string) {}
 }</code></pre>
-<h1 id="декоратор-методу">4. Декоратор методу</h1>
-<p>Отримує доступ до дескриптора методу — можна «обгорнути» оригінальну логіку.</p>
-<pre class="language-js"><code class="language-js">function log(target: unknown, key: string, descriptor: PropertyDescriptor) {
+        <h1 id="декоратор-методу">4. Декоратор методу</h1>
+        <p>Отримує доступ до дескриптора методу — можна «обгорнути» оригінальну логіку.</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">function log(target: unknown, key: string, descriptor: PropertyDescriptor) {
   const original = descriptor.value;
   descriptor.value = function (...args: unknown[]) {
     console.log(`Виклик ${key} з`, args);
@@ -53,10 +67,9 @@ class Calculator {
     return a + b;
   }
 }</code></pre>
-<h1 id="фабрика">5. Фабрика декораторів</h1>
-<p>Щоб передати декоратору параметри, його загортають у функцію, що повертає
-декоратор.</p>
-<pre class="language-js"><code class="language-js">function role(name: string) {
+        <h1 id="фабрика">5. Фабрика декораторів</h1>
+        <p>Щоб передати декоратору параметри, його загортають у функцію, що повертає декоратор.</p>
+        <pre class="language-js"><code class="language-js">function role(name: string) {
   return function (constructor: Function) {
     constructor.prototype.requiredRole = name;
   };
@@ -64,21 +77,25 @@ class Calculator {
 
 @role('admin')
 class AdminPanel {}</code></pre>
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://www.typescriptlang.org/docs/handbook/decorators.html" target="_blank">Decorators — TypeScript Handbook</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://www.typescriptlang.org/docs/handbook/decorators.html" target="_blank"
+              >Decorators — TypeScript Handbook</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

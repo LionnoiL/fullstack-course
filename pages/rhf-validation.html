@@ -1,20 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Вбудована валідація RHF · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="правила">1. Правила прямо в register</h1>
-<p>Найпростіша валідація задається другим аргументом <code>register</code> — об'єктом
-правил.</p>
-<pre class="language-js"><code class="language-js">&lt;input {...register('email', {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Вбудована валідація RHF · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="правила">1. Правила прямо в register</h1>
+        <p>
+          Найпростіша валідація задається другим аргументом <code>register</code> — об'єктом правил.
+        </p>
+        <pre class="language-js"><code class="language-js">&lt;input {...register('email', {
   required: 'Вкажіть email',
   pattern: { value: /^\S+@\S+$/, message: 'Некоректний email' },
 })} /&gt;
@@ -23,45 +27,62 @@
   required: 'Введіть пароль',
   minLength: { value: 8, message: 'Мінімум 8 символів' },
 })} /&gt;</code></pre>
-<h1 id="показ">2. Показ помилок</h1>
-<p>Повідомлення дістають з <code>errors</code> за ім'ям поля:</p>
-<pre class="language-js"><code class="language-js">const { register, formState: { errors } } = useForm();
+        <h1 id="показ">2. Показ помилок</h1>
+        <p>Повідомлення дістають з <code>errors</code> за ім'ям поля:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">const { register, formState: { errors } } = useForm();
 
 &lt;input {...register('email', { required: 'Вкажіть email' })} /&gt;
 {errors.email &amp;&amp; &lt;p className="error"&gt;{errors.email.message}&lt;/p&gt;}</code></pre>
-<h1 id="правила-список">3. Доступні правила</h1>
-<ul>
-<li><code>required</code> — обов'язкове поле;</li>
-<li><code>min</code> / <code>max</code> — межі числа;</li>
-<li><code>minLength</code> / <code>maxLength</code> — довжина рядка;</li>
-<li><code>pattern</code> — регулярний вираз (тема з розділу «Основи»);</li>
-<li><code>validate</code> — власна функція перевірки.</li>
-</ul>
-<pre class="language-js"><code class="language-js">&lt;input {...register('age', {
+        <h1 id="правила-список">3. Доступні правила</h1>
+        <ul>
+          <li><code>required</code> — обов'язкове поле;</li>
+          <li><code>min</code> / <code>max</code> — межі числа;</li>
+          <li><code>minLength</code> / <code>maxLength</code> — довжина рядка;</li>
+          <li><code>pattern</code> — регулярний вираз (тема з розділу «Основи»);</li>
+          <li><code>validate</code> — власна функція перевірки.</li>
+        </ul>
+        <pre class="language-js"><code class="language-js">&lt;input {...register('age', {
   validate: (v) =&gt; Number(v) &gt;= 18 || 'Тільки 18+',
 })} /&gt;</code></pre>
-<h1 id="mode">4. Коли перевіряти: mode</h1>
-<p>За замовчуванням валідація спрацьовує при сабміті. Опція <code>mode</code> змінює момент:</p>
-<pre class="language-js"><code class="language-js">useForm({ mode: 'onBlur' });   // при втраті фокуса
+        <h1 id="mode">4. Коли перевіряти: mode</h1>
+        <p>
+          За замовчуванням валідація спрацьовує при сабміті. Опція <code>mode</code> змінює момент:
+        </p>
+        <pre
+          class="language-js"
+        ><code class="language-js">useForm({ mode: 'onBlur' });   // при втраті фокуса
 useForm({ mode: 'onChange' }); // на кожну зміну</code></pre>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Вбудовані правила зручні для простих випадків. Але коли форма складна або ті
-самі правила потрібні й на бекенді, краще винести валідацію в <strong>схему Zod</strong> —
-одне джерело правди. Саме цим займемось далі.</p></div></div>
-<h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://react-hook-form.com/docs/useform/register" target="_blank">register (правила) — React Hook Form</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Вбудовані правила зручні для простих випадків. Але коли форма складна або ті самі
+              правила потрібні й на бекенді, краще винести валідацію в <strong>схему Zod</strong> —
+              одне джерело правди. Саме цим займемось далі.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">5. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://react-hook-form.com/docs/useform/register" target="_blank"
+              >register (правила) — React Hook Form</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

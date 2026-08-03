@@ -1,71 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Проєкт: лендинг (HTML/CSS) · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="проєкт">Мілстоун 1: адаптивний лендинг</h1>
-<p><strong>Етап:</strong> після розділів HTML і CSS. Мета — зверстати повноцінну односторінкову
-презентацію продукту без JavaScript.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Проєкт: лендинг (HTML/CSS) · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="проєкт">Мілстоун 1: адаптивний лендинг</h1>
+        <p>
+          <strong>Етап:</strong> після розділів HTML і CSS. Мета — зверстати повноцінну
+          односторінкову презентацію продукту без JavaScript.
+        </p>
 
-<h1 id="що-зробити">Що зробити</h1>
-<p>Лендинг вигаданого продукту (застосунок, кав'ярня, портфоліо — на твій вибір) із
-такими секціями:</p>
-<ul>
-<li><strong>шапка</strong> з логотипом і навігацією;</li>
-<li><strong>hero</strong> — великий заголовок, підзаголовок і кнопка заклику;</li>
-<li><strong>переваги</strong> — сітка з 3–4 карток;</li>
-<li><strong>відгуки або галерея</strong>;</li>
-<li><strong>форма підписки</strong>;</li>
-<li><strong>підвал</strong> із контактами й соцмережами.</li>
-</ul>
+        <h1 id="що-зробити">Що зробити</h1>
+        <p>
+          Лендинг вигаданого продукту (застосунок, кав'ярня, портфоліо — на твій вибір) із такими
+          секціями:
+        </p>
+        <ul>
+          <li><strong>шапка</strong> з логотипом і навігацією;</li>
+          <li><strong>hero</strong> — великий заголовок, підзаголовок і кнопка заклику;</li>
+          <li><strong>переваги</strong> — сітка з 3–4 карток;</li>
+          <li><strong>відгуки або галерея</strong>;</li>
+          <li><strong>форма підписки</strong>;</li>
+          <li><strong>підвал</strong> із контактами й соцмережами.</li>
+        </ul>
 
-<h1 id="вимоги">Вимоги (acceptance criteria)</h1>
-<ul>
-<li>семантична розмітка (<code>header</code>, <code>main</code>, <code>section</code>, <code>footer</code>);</li>
-<li>Flexbox і/або Grid для розкладки;</li>
-<li>адаптивність: коректний вигляд на мобільному й десктопі;</li>
-<li>hover-ефекти на кнопках і картках (<code>transition</code>);</li>
-<li>CSS-змінні для кольорів;</li>
-<li>усі зображення мають <code>alt</code>.</li>
-</ul>
+        <h1 id="вимоги">Вимоги (acceptance criteria)</h1>
+        <ul>
+          <li>
+            семантична розмітка (<code>header</code>, <code>main</code>, <code>section</code>,
+            <code>footer</code>);
+          </li>
+          <li>Flexbox і/або Grid для розкладки;</li>
+          <li>адаптивність: коректний вигляд на мобільному й десктопі;</li>
+          <li>hover-ефекти на кнопках і картках (<code>transition</code>);</li>
+          <li>CSS-змінні для кольорів;</li>
+          <li>усі зображення мають <code>alt</code>.</li>
+        </ul>
 
-<h1 id="кроки">Рекомендовані кроки</h1>
-<ul>
-<li>склади HTML-структуру всіх секцій;</li>
-<li>задай базові стилі й змінні теми в <code>:root</code>;</li>
-<li>зв"яжи секції через Flexbox/Grid;</li>
-<li>додай адаптивність медіазапитами (mobile-first);</li>
-<li>відшліфуй дрібниці: відступи, типографіку, стани наведення.</li>
-</ul>
+        <h1 id="кроки">Рекомендовані кроки</h1>
+        <ul>
+          <li>склади HTML-структуру всіх секцій;</li>
+          <li>задай базові стилі й змінні теми в <code>:root</code>;</li>
+          <li>зв"яжи секції через Flexbox/Grid;</li>
+          <li>додай адаптивність медіазапитами (mobile-first);</li>
+          <li>відшліфуй дрібниці: відступи, типографіку, стани наведення.</li>
+        </ul>
 
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Роби на <a href="https://codepen.io/pen/" target="_blank">CodePen</a> або локально.
-Це перший проєкт для портфоліо — вибери приємну палітру й акуратні відступи,
-візуал справляє враження.</p></div></div>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Роби на <a href="https://codepen.io/pen/" target="_blank">CodePen</a> або локально. Це
+              перший проєкт для портфоліо — вибери приємну палітру й акуратні відступи, візуал
+              справляє враження.
+            </p>
+          </div>
+        </div>
 
-<h1 id="далі">Розвиток проєкту</h1>
-<p>Пізніше повернися й «оживи» лендинг: працююча форма підписки (розділ «Форми та
-валідація»), мобільне меню-бургер, плавна поява секцій при прокрутці
-(IntersectionObserver).</p>
-
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="далі">Розвиток проєкту</h1>
+        <p>
+          Пізніше повернися й «оживи» лендинг: працююча форма підписки (розділ «Форми та
+          валідація»), мобільне меню-бургер, плавна поява секцій при прокрутці
+          (IntersectionObserver).
+        </p>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

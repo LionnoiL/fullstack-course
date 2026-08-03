@@ -1,83 +1,127 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Навіщо реалтайм · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="проблема">1. Проблема: HTTP-запит ініціює лише клієнт</h1>
-<p>Класичний HTTP влаштований так: клієнт <em>запитує</em> — сервер <em>відповідає</em>. Сервер
-не може сам «постукати» до браузера, коли зʼявились нові дані. Але чат, сповіщення,
-живі ціни, спільне редагування, індикатор «друкує…» потребують саме цього — <strong>сервер
-має надсилати оновлення сам</strong>, щойно вони стались.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Навіщо реалтайм · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="проблема">1. Проблема: HTTP-запит ініціює лише клієнт</h1>
+        <p>
+          Класичний HTTP влаштований так: клієнт <em>запитує</em> — сервер <em>відповідає</em>.
+          Сервер не може сам «постукати» до браузера, коли зʼявились нові дані. Але чат, сповіщення,
+          живі ціни, спільне редагування, індикатор «друкує…» потребують саме цього —
+          <strong>сервер має надсилати оновлення сам</strong>, щойно вони стались.
+        </p>
 
-<h1 id="polling">2. Наївне рішення: polling</h1>
-<p>Найпростіше — <strong>опитувати</strong> сервер за таймером: «є щось нове? а тепер?». Працює,
-але марнує ресурси й додає затримку до наступного запиту.</p>
-<pre class="language-js"><code class="language-js">// short polling — багато зайвих запитів
+        <h1 id="polling">2. Наївне рішення: polling</h1>
+        <p>
+          Найпростіше — <strong>опитувати</strong> сервер за таймером: «є щось нове? а тепер?».
+          Працює, але марнує ресурси й додає затримку до наступного запиту.
+        </p>
+        <pre class="language-js"><code class="language-js">// short polling — багато зайвих запитів
 setInterval(async () =&gt; {
   const res = await fetch('/api/messages?after=' + lastId);
   const data = await res.json();
   if (data.length) render(data);
 }, 3000);</code></pre>
-<p><strong>Long polling</strong> — покращення: запит «висить», доки сервер не має що відповісти.
-Менше порожніх відповідей, але все одно постійні перепідключення. Обидва — обхідні
-шляхи; для справжнього реалтайму є кращі транспорти.</p>
+        <p>
+          <strong>Long polling</strong> — покращення: запит «висить», доки сервер не має що
+          відповісти. Менше порожніх відповідей, але все одно постійні перепідключення. Обидва —
+          обхідні шляхи; для справжнього реалтайму є кращі транспорти.
+        </p>
 
-<h1 id="транспорти">3. Три транспорти реального часу</h1>
-<p><img src="images/realtime-transports.svg" alt="Порівняння Polling, SSE та WebSocket: кількість запитів і напрямок передачі" loading="lazy"></p>
-<ul>
-<li><strong>Polling</strong> — багато окремих HTTP-запитів; просто, але неефективно;</li>
-<li><strong>SSE (Server-Sent Events)</strong> — одне з'єднання, <em>однобічний</em> потік подій
-сервер→клієнт поверх HTTP; ідеально для стрічок і сповіщень;</li>
-<li><strong>WebSocket</strong> — одне постійне <em>двобічне</em> з'єднання; для чатів, ігор,
-спільного редагування.</li>
-</ul>
+        <h1 id="транспорти">3. Три транспорти реального часу</h1>
+        <p>
+          <img
+            src="images/realtime-transports.svg"
+            alt="Порівняння Polling, SSE та WebSocket: кількість запитів і напрямок передачі"
+            loading="lazy"
+          />
+        </p>
+        <ul>
+          <li><strong>Polling</strong> — багато окремих HTTP-запитів; просто, але неефективно;</li>
+          <li>
+            <strong>SSE (Server-Sent Events)</strong> — одне з'єднання, <em>однобічний</em> потік
+            подій сервер→клієнт поверх HTTP; ідеально для стрічок і сповіщень;
+          </li>
+          <li>
+            <strong>WebSocket</strong> — одне постійне <em>двобічне</em> з'єднання; для чатів, ігор,
+            спільного редагування.
+          </li>
+        </ul>
 
-<h1 id="вибір">4. Як обрати</h1>
-<ul>
-<li>тільки сервер→клієнт (сповіщення, прогрес, live-лічильники) → <strong>SSE</strong>: простіше,
-працює поверх звичайного HTTP, автоперепідключення з коробки;</li>
-<li>потрібен обмін в обидва боки з низькою затримкою (чат, курсор, гра) →
-<strong>WebSocket</strong>;</li>
-<li>оновлення рідкісні й нема жорстких вимог до затримки → інколи вистачає й
-<strong>polling</strong>.</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Правило великого пальця: <strong>починай зі SSE</strong>, якщо дані течуть лише від сервера —
-менше рухомих частин. Переходь на WebSocket, коли реально потрібен двобічний
-канал.</p></div></div>
+        <h1 id="вибір">4. Як обрати</h1>
+        <ul>
+          <li>
+            тільки сервер→клієнт (сповіщення, прогрес, live-лічильники) → <strong>SSE</strong>:
+            простіше, працює поверх звичайного HTTP, автоперепідключення з коробки;
+          </li>
+          <li>
+            потрібен обмін в обидва боки з низькою затримкою (чат, курсор, гра) →
+            <strong>WebSocket</strong>;
+          </li>
+          <li>
+            оновлення рідкісні й нема жорстких вимог до затримки → інколи вистачає й
+            <strong>polling</strong>.
+          </li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Правило великого пальця: <strong>починай зі SSE</strong>, якщо дані течуть лише від
+              сервера — менше рухомих частин. Переходь на WebSocket, коли реально потрібен двобічний
+              канал.
+            </p>
+          </div>
+        </div>
 
-<h1 id="план">5. План розділу</h1>
-<ol>
-<li>SSE: <code>EventSource</code> і <code>text/event-stream</code>;</li>
-<li>WebSocket-протокол і браузерний API;</li>
-<li>Socket.io: події, кімнати, fallback;</li>
-<li>патерни: broadcast, кімнати, presence, авторизація, масштабування;</li>
-<li>надійність: reconnect, heartbeat, доставка, керовані сервіси.</li>
-</ol>
+        <h1 id="план">5. План розділу</h1>
+        <ol>
+          <li>SSE: <code>EventSource</code> і <code>text/event-stream</code>;</li>
+          <li>WebSocket-протокол і браузерний API;</li>
+          <li>Socket.io: події, кімнати, fallback;</li>
+          <li>патерни: broadcast, кімнати, presence, авторизація, масштабування;</li>
+          <li>надійність: reconnect, heartbeat, доставка, керовані сервіси.</li>
+        </ol>
 
-<h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API" target="_blank">MDN — WebSockets API</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events" target="_blank">MDN — Server-Sent Events</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">6. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API"
+              target="_blank"
+              >MDN — WebSockets API</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events"
+              target="_blank"
+              >MDN — Server-Sent Events</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

@@ -1,63 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Знайомство з TypeScript · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="typescript">1. Що таке TypeScript</h1>
-<p><strong>TypeScript</strong> — це надмножина (superset) JavaScript від Microsoft, яка додає
-<strong>статичну типізацію</strong>. Будь-який валідний JS-код є валідним TS-кодом, але TS
-дозволяє описувати типи даних і ловить помилки ще до запуску програми.</p>
-<p>Браузер не розуміє TypeScript напряму — код спочатку <strong>компілюється</strong>
-(транспілюється) у звичайний JavaScript компілятором <code>tsc</code>. Типи існують лише
-на етапі розробки і повністю зникають зі скомпільованого коду.</p>
-<h1 id="навіщо">2. Навіщо це потрібно</h1>
-<p>У чистому JS помилка типу проявляється лише під час виконання:</p>
-<pre class="language-js"><code class="language-js">// JavaScript — помилки немає до запуску
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Знайомство з TypeScript · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="typescript">1. Що таке TypeScript</h1>
+        <p>
+          <strong>TypeScript</strong> — це надмножина (superset) JavaScript від Microsoft, яка додає
+          <strong>статичну типізацію</strong>. Будь-який валідний JS-код є валідним TS-кодом, але TS
+          дозволяє описувати типи даних і ловить помилки ще до запуску програми.
+        </p>
+        <p>
+          Браузер не розуміє TypeScript напряму — код спочатку
+          <strong>компілюється</strong> (транспілюється) у звичайний JavaScript компілятором
+          <code>tsc</code>. Типи існують лише на етапі розробки і повністю зникають зі
+          скомпільованого коду.
+        </p>
+        <h1 id="навіщо">2. Навіщо це потрібно</h1>
+        <p>У чистому JS помилка типу проявляється лише під час виконання:</p>
+        <pre class="language-js"><code class="language-js">// JavaScript — помилки немає до запуску
 function total(price, qty) {
   return price * qty;
 }
 total('10', 5); // '10' * 5 = 50, але це випадковість; total(10) -&gt; NaN</code></pre>
-<p>У TypeScript таку помилку видно одразу в редакторі:</p>
-<pre class="language-js"><code class="language-js">function total(price: number, qty: number): number {
+        <p>У TypeScript таку помилку видно одразу в редакторі:</p>
+        <pre
+          class="language-js"
+        ><code class="language-js">function total(price: number, qty: number): number {
   return price * qty;
 }
 
 total('10', 5); // ❌ Помилка: рядок не можна передати замість number
 total(10);      // ❌ Помилка: очікувалось 2 аргументи</code></pre>
-<h1 id="переваги">3. Переваги</h1>
-<ul>
-<li>помилки типів ловляться до запуску, а не в продакшені;</li>
-<li>автодоповнення і підказки в редакторі стають набагато точнішими;</li>
-<li>типи слугують живою документацією коду;</li>
-<li>безпечний рефакторинг великих проєктів.</li>
-</ul>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>TypeScript не робить код швидшим під час виконання — після компіляції це
-звичайний JavaScript. Його цінність саме в <em>процесі розробки</em>: менше багів і
-впевненіший рефакторинг.</p></div></div>
-<h1 id="додаткові-матеріали">4. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://www.typescriptlang.org/docs/" target="_blank">Офіційна документація TypeScript</a></li>
-<li><a href="https://www.typescriptlang.org/play" target="_blank">TypeScript Playground — код прямо в браузері</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="переваги">3. Переваги</h1>
+        <ul>
+          <li>помилки типів ловляться до запуску, а не в продакшені;</li>
+          <li>автодоповнення і підказки в редакторі стають набагато точнішими;</li>
+          <li>типи слугують живою документацією коду;</li>
+          <li>безпечний рефакторинг великих проєктів.</li>
+        </ul>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              TypeScript не робить код швидшим під час виконання — після компіляції це звичайний
+              JavaScript. Його цінність саме в <em>процесі розробки</em>: менше багів і впевненіший
+              рефакторинг.
+            </p>
+          </div>
+        </div>
+        <h1 id="додаткові-матеріали">4. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://www.typescriptlang.org/docs/" target="_blank"
+              >Офіційна документація TypeScript</a
+            >
+          </li>
+          <li>
+            <a href="https://www.typescriptlang.org/play" target="_blank"
+              >TypeScript Playground — код прямо в браузері</a
+            >
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>

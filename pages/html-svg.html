@@ -1,28 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Робота з SVG · JS Course</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-</head>
-<body>
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="content">
-<h1 id="svg">1. Що таке SVG</h1>
-<p><strong>SVG (Scalable Vector Graphics)</strong> — це формат <em>векторної</em> графіки, описаний
-XML-розміткою. На відміну від растрових зображень (JPEG, PNG), SVG складається не
-з пікселів, а з фігур, заданих математично, тому масштабується <strong>без втрати
-якості</strong> й лишається чітким на будь-якому екрані, зокрема Retina.</p>
-<p>SVG найкращий для іконок, логотипів, простих ілюстрацій, графіків і діаграм.
-Растр — для фотографій.</p>
-<div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Оскільки SVG — це текст (розмітка), він мало важить для простих зображень,
-його можна редагувати руками чи кодом, стилізувати через CSS і анімувати.</p></div></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Робота з SVG · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="svg">1. Що таке SVG</h1>
+        <p>
+          <strong>SVG (Scalable Vector Graphics)</strong> — це формат <em>векторної</em> графіки,
+          описаний XML-розміткою. На відміну від растрових зображень (JPEG, PNG), SVG складається не
+          з пікселів, а з фігур, заданих математично, тому масштабується
+          <strong>без втрати якості</strong> й лишається чітким на будь-якому екрані, зокрема
+          Retina.
+        </p>
+        <p>
+          SVG найкращий для іконок, логотипів, простих ілюстрацій, графіків і діаграм. Растр — для
+          фотографій.
+        </p>
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Оскільки SVG — це текст (розмітка), він мало важить для простих зображень, його можна
+              редагувати руками чи кодом, стилізувати через CSS і анімувати.
+            </p>
+          </div>
+        </div>
 
-<h1 id="способи-вставки">2. Способи вставки</h1>
-<pre class="language-markup"><code class="language-markup">&lt;!-- 1. Inline: розмітка прямо в HTML (можна стилізувати з CSS/JS) --&gt;
+        <h1 id="способи-вставки">2. Способи вставки</h1>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;!-- 1. Inline: розмітка прямо в HTML (можна стилізувати з CSS/JS) --&gt;
 &lt;svg width="24" height="24" viewBox="0 0 24 24"&gt;
   &lt;circle cx="12" cy="12" r="10" /&gt;
 &lt;/svg&gt;
@@ -32,26 +49,33 @@ XML-розміткою. На відміну від растрових зобра
 
 &lt;!-- 3. Як фон у CSS --&gt;
 &lt;div class="icon"&gt;&lt;/div&gt;</code></pre>
-<pre class="language-css"><code class="language-css">.icon {
+        <pre class="language-css"><code class="language-css">.icon {
   background: url("icon.svg") no-repeat center;
   width: 24px;
   height: 24px;
 }</code></pre>
-<p><strong>Inline</strong> дає повний контроль (стилі, анімація, зміна з JS), але роздуває HTML.
-<code>&lt;img&gt;</code> і CSS-фон простіші й кешуються, але не дають керувати внутрішніми
-елементами SVG.</p>
+        <p>
+          <strong>Inline</strong> дає повний контроль (стилі, анімація, зміна з JS), але роздуває
+          HTML. <code>&lt;img&gt;</code> і CSS-фон простіші й кешуються, але не дають керувати
+          внутрішніми елементами SVG.
+        </p>
 
-<h1 id="viewbox">3. Система координат і viewBox</h1>
-<p>Атрибут <code>viewBox="minX minY width height"</code> задає внутрішню систему координат.
-Фігури малюються в цих координатах, а SVG розтягується до реального розміру
-(<code>width</code>/<code>height</code> або CSS). Саме завдяки <code>viewBox</code> графіка масштабується.</p>
-<pre class="language-markup"><code class="language-markup">&lt;svg viewBox="0 0 100 100" width="200" height="200"&gt;
+        <h1 id="viewbox">3. Система координат і viewBox</h1>
+        <p>
+          Атрибут <code>viewBox="minX minY width height"</code> задає внутрішню систему координат.
+          Фігури малюються в цих координатах, а SVG розтягується до реального розміру
+          (<code>width</code>/<code>height</code> або CSS). Саме завдяки
+          <code>viewBox</code> графіка масштабується.
+        </p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;svg viewBox="0 0 100 100" width="200" height="200"&gt;
   &lt;!-- координати 0..100, але на екрані 200×200 px --&gt;
   &lt;rect x="10" y="10" width="80" height="80" /&gt;
 &lt;/svg&gt;</code></pre>
 
-<h1 id="фігури">4. Базові фігури</h1>
-<pre class="language-markup"><code class="language-markup">&lt;svg viewBox="0 0 200 100"&gt;
+        <h1 id="фігури">4. Базові фігури</h1>
+        <pre class="language-markup"><code class="language-markup">&lt;svg viewBox="0 0 200 100"&gt;
   &lt;rect x="10" y="10" width="60" height="40" rx="6" /&gt;
   &lt;circle cx="120" cy="30" r="25" /&gt;
   &lt;ellipse cx="170" cy="30" rx="25" ry="15" /&gt;
@@ -60,19 +84,27 @@ XML-розміткою. На відміну від растрових зобра
   &lt;polygon points="120,70 150,95 130,95" /&gt;
   &lt;text x="10" y="55"&gt;Текст&lt;/text&gt;
 &lt;/svg&gt;</code></pre>
-<p>Найгнучкіший елемент — <code>&lt;path&gt;</code> з атрибутом <code>d</code>: ним описують довільні криві
-й лінії. Складні шляхи зазвичай не пишуть руками, а експортують із Figma чи
-Illustrator.</p>
-<pre class="language-markup"><code class="language-markup">&lt;path d="M4 12 L12 4 L20 12" fill="none" stroke="black" /&gt;</code></pre>
+        <p>
+          Найгнучкіший елемент — <code>&lt;path&gt;</code> з атрибутом <code>d</code>: ним описують
+          довільні криві й лінії. Складні шляхи зазвичай не пишуть руками, а експортують із Figma чи
+          Illustrator.
+        </p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;path d="M4 12 L12 4 L20 12" fill="none" stroke="black" /&gt;</code></pre>
 
-<h1 id="стилізація">5. Стилізація</h1>
-<p>Колір заливки — <code>fill</code>, обведення — <code>stroke</code> і <code>stroke-width</code>. Їх задають
-як атрибути або через CSS. Спеціальне значення <code>currentColor</code> змушує SVG
-успадкувати колір тексту — базовий прийом для іконок.</p>
-<pre class="language-markup"><code class="language-markup">&lt;svg viewBox="0 0 24 24" class="star"&gt;
+        <h1 id="стилізація">5. Стилізація</h1>
+        <p>
+          Колір заливки — <code>fill</code>, обведення — <code>stroke</code> і
+          <code>stroke-width</code>. Їх задають як атрибути або через CSS. Спеціальне значення
+          <code>currentColor</code> змушує SVG успадкувати колір тексту — базовий прийом для іконок.
+        </p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;svg viewBox="0 0 24 24" class="star"&gt;
   &lt;path d="M12 2 l3 7 h7 l-5 5 2 8 -7-5 -7 5 2-8 -5-5 h7 z" /&gt;
 &lt;/svg&gt;</code></pre>
-<pre class="language-css"><code class="language-css">.star {
+        <pre class="language-css"><code class="language-css">.star {
   width: 24px;
   height: 24px;
   fill: currentColor;   /* колір як у тексту поруч */
@@ -81,18 +113,27 @@ Illustrator.</p>
   fill: gold;
 }</code></pre>
 
-<h1 id="спрайти">6. SVG-спрайти</h1>
-<p><strong>SVG-спрайт</strong> — це один файл (або один inline-блок), що містить <em>багато</em>
-іконок, кожну в елементі <code>&lt;symbol&gt;</code> з унікальним <code>id</code>. Замість десятків
-окремих файлів і запитів ви підключаєте спрайт один раз, а потрібну іконку
-вставляєте через <code>&lt;use&gt;</code>.</p>
-<p><strong>Навіщо:</strong> менше HTTP-запитів, одне кешування, кожну іконку можна стилізувати
-через CSS (зокрема <code>currentColor</code>), і не дублювати розмітку.</p>
+        <h1 id="спрайти">6. SVG-спрайти</h1>
+        <p>
+          <strong>SVG-спрайт</strong> — це один файл (або один inline-блок), що містить
+          <em>багато</em> іконок, кожну в елементі <code>&lt;symbol&gt;</code> з унікальним
+          <code>id</code>. Замість десятків окремих файлів і запитів ви підключаєте спрайт один раз,
+          а потрібну іконку вставляєте через <code>&lt;use&gt;</code>.
+        </p>
+        <p>
+          <strong>Навіщо:</strong> менше HTTP-запитів, одне кешування, кожну іконку можна
+          стилізувати через CSS (зокрема <code>currentColor</code>), і не дублювати розмітку.
+        </p>
 
-<h1 id="inline-спрайт">6.1. Inline-спрайт</h1>
-<p>Прихований <code>&lt;svg&gt;</code> зі <code>&lt;symbol&gt;</code> кладуть на початку <code>&lt;body&gt;</code>, а далі
-посилаються на іконки за <code>id</code>. Зверни увагу: <code>viewBox</code> задають на <code>&lt;symbol&gt;</code>.</p>
-<pre class="language-markup"><code class="language-markup">&lt;!-- визначення спрайта (сховане) --&gt;
+        <h1 id="inline-спрайт">6.1. Inline-спрайт</h1>
+        <p>
+          Прихований <code>&lt;svg&gt;</code> зі <code>&lt;symbol&gt;</code> кладуть на початку
+          <code>&lt;body&gt;</code>, а далі посилаються на іконки за <code>id</code>. Зверни увагу:
+          <code>viewBox</code> задають на <code>&lt;symbol&gt;</code>.
+        </p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;!-- визначення спрайта (сховане) --&gt;
 &lt;svg xmlns="http://www.w3.org/2000/svg" style="display: none"&gt;
   &lt;symbol id="icon-home" viewBox="0 0 24 24"&gt;
     &lt;path d="M3 12 L12 3 L21 12 M6 10 V20 H18 V10" fill="none" stroke="currentColor" /&gt;
@@ -106,40 +147,64 @@ Illustrator.</p>
 &lt;!-- використання будь-де на сторінці --&gt;
 &lt;svg class="icon"&gt;&lt;use href="#icon-home"&gt;&lt;/use&gt;&lt;/svg&gt;
 &lt;svg class="icon"&gt;&lt;use href="#icon-user"&gt;&lt;/use&gt;&lt;/svg&gt;</code></pre>
-<pre class="language-css"><code class="language-css">.icon {
+        <pre class="language-css"><code class="language-css">.icon {
   width: 24px;
   height: 24px;
   fill: currentColor;   /* іконка переймає колір тексту */
 }</code></pre>
 
-<h1 id="зовнішній-спрайт">6.2. Зовнішній файл спрайта</h1>
-<p>Спрайт зручно винести в окремий файл <code>sprite.svg</code> (кешується й не роздуває
-HTML) та посилатися на іконку через фрагмент <code>#id</code>.</p>
-<pre class="language-markup"><code class="language-markup">&lt;svg class="icon"&gt;&lt;use href="sprite.svg#icon-home"&gt;&lt;/use&gt;&lt;/svg&gt;</code></pre>
-<div class="alert alert-warning hints-alert"><div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div><div class="hints-container"><p>Зовнішній спрайт із фрагментом працює в сучасних браузерах. Дуже старі
-(IE) потребували поліфіла (svg4everybody). Також файл має віддаватися з того
-самого джерела (CORS). Атрибут <code>xlink:href</code> застарів — використовуй <code>href</code>.</p></div></div>
-<p>Такі спрайти й набори іконок зручно генерувати в
-<a href="https://icomoon.io/app" target="_blank">IcoMoon</a> — він збирає обрані
-іконки у спрайт або іконковий шрифт.</p>
+        <h1 id="зовнішній-спрайт">6.2. Зовнішній файл спрайта</h1>
+        <p>
+          Спрайт зручно винести в окремий файл <code>sprite.svg</code> (кешується й не роздуває
+          HTML) та посилатися на іконку через фрагмент <code>#id</code>.
+        </p>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;svg class="icon"&gt;&lt;use href="sprite.svg#icon-home"&gt;&lt;/use&gt;&lt;/svg&gt;</code></pre>
+        <div class="alert alert-warning hints-alert">
+          <div class="hints-icon"><i class="fa fa-exclamation-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Зовнішній спрайт із фрагментом працює в сучасних браузерах. Дуже старі (IE)
+              потребували поліфіла (svg4everybody). Також файл має віддаватися з того самого джерела
+              (CORS). Атрибут <code>xlink:href</code> застарів — використовуй <code>href</code>.
+            </p>
+          </div>
+        </div>
+        <p>
+          Такі спрайти й набори іконок зручно генерувати в
+          <a href="https://icomoon.io/app" target="_blank">IcoMoon</a> — він збирає обрані іконки у
+          спрайт або іконковий шрифт.
+        </p>
 
-<h1 id="оптимізація-a11y">7. Оптимізація та доступність</h1>
-<ul>
-<li>проганяй SVG через <strong>SVGO</strong> (або <a href="https://jakearchibald.github.io/svgomg/" target="_blank">SVGOMG</a>) — прибирає зайві метадані й зменшує розмір;</li>
-<li>для змістовних іконок додавай <code>role="img"</code> і <code>&lt;title&gt;</code> усередині SVG;</li>
-<li>декоративні іконки ховай від читачів екрана: <code>aria-hidden="true"</code>.</li>
-</ul>
-<pre class="language-markup"><code class="language-markup">&lt;svg class="icon" role="img" aria-labelledby="t1"&gt;
+        <h1 id="оптимізація-a11y">7. Оптимізація та доступність</h1>
+        <ul>
+          <li>
+            проганяй SVG через <strong>SVGO</strong> (або
+            <a href="https://jakearchibald.github.io/svgomg/" target="_blank">SVGOMG</a>) — прибирає
+            зайві метадані й зменшує розмір;
+          </li>
+          <li>
+            для змістовних іконок додавай <code>role="img"</code> і
+            <code>&lt;title&gt;</code> усередині SVG;
+          </li>
+          <li>декоративні іконки ховай від читачів екрана: <code>aria-hidden="true"</code>.</li>
+        </ul>
+        <pre
+          class="language-markup"
+        ><code class="language-markup">&lt;svg class="icon" role="img" aria-labelledby="t1"&gt;
   &lt;title id="t1"&gt;Головна&lt;/title&gt;
   &lt;use href="#icon-home"&gt;&lt;/use&gt;
 &lt;/svg&gt;</code></pre>
 
-<h1 id="анімація-react">8. Анімація та SVG у React</h1>
-<p>SVG можна анімувати звичайним CSS (напр. обертати спінер через <code>@keyframes</code>) або
-JS-бібліотеками (GSAP). У React inline-SVG — це просто JSX: атрибути пишуться в
-camelCase (<code>strokeWidth</code>, <code>viewBox</code>), а сам SVG зручно винести в окремий
-компонент-іконку.</p>
-<pre class="language-js"><code class="language-js">function IconHome(props) {
+        <h1 id="анімація-react">8. Анімація та SVG у React</h1>
+        <p>
+          SVG можна анімувати звичайним CSS (напр. обертати спінер через <code>@keyframes</code>)
+          або JS-бібліотеками (GSAP). У React inline-SVG — це просто JSX: атрибути пишуться в
+          camelCase (<code>strokeWidth</code>, <code>viewBox</code>), а сам SVG зручно винести в
+          окремий компонент-іконку.
+        </p>
+        <pre class="language-js"><code class="language-js">function IconHome(props) {
   return (
     &lt;svg viewBox="0 0 24 24" width="24" height="24" {...props}&gt;
       &lt;path d="M3 12 L12 3 L21 12" fill="none" stroke="currentColor" /&gt;
@@ -147,23 +212,31 @@ camelCase (<code>strokeWidth</code>, <code>viewBox</code>), а сам SVG зру
   );
 }</code></pre>
 
-<h1 id="додаткові-матеріали">9. Додаткові матеріали</h1>
-<ul>
-<li><a href="https://developer.mozilla.org/uk/docs/Web/SVG" target="_blank">SVG — MDN</a></li>
-<li><a href="https://jakearchibald.github.io/svgomg/" target="_blank">SVGOMG — оптимізатор SVG</a></li>
-<li><a href="https://icomoon.io/app" target="_blank">IcoMoon — набори іконок і спрайти</a></li>
-</ul>
-  </main>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <h1 id="додаткові-матеріали">9. Додаткові матеріали</h1>
+        <ul>
+          <li>
+            <a href="https://developer.mozilla.org/uk/docs/Web/SVG" target="_blank">SVG — MDN</a>
+          </li>
+          <li>
+            <a href="https://jakearchibald.github.io/svgomg/" target="_blank"
+              >SVGOMG — оптимізатор SVG</a
+            >
+          </li>
+          <li>
+            <a href="https://icomoon.io/app" target="_blank">IcoMoon — набори іконок і спрайти</a>
+          </li>
+        </ul>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/auth-guard.js"></script>
-<script src="../js/course-tools.js"></script>
-<script src="../js/nav.js"></script>
-<script src="../js/search-index.js"></script>
-<script src="../js/search.js"></script>
-</body>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+  </body>
 </html>
