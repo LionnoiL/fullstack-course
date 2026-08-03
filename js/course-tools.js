@@ -311,6 +311,7 @@
     notesBtn.classList.toggle("has-note", !!getNote().trim());
   }
   function openPanel() {
+    area.value = getNote(); // читаємо свіже з localStorage (sync міг завершитись після init)
     panel.classList.add("open");
     document.body.classList.add("notes-open");
     area.focus();
