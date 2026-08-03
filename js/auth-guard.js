@@ -94,8 +94,9 @@
         }
         if (prefSnap.exists && prefSnap.data().theme) {
           var remoteTheme = prefSnap.data().theme;
-          // Застосовуємо тему з Firestore тільки якщо вона відрізняється від локальної
-          if (remoteTheme !== lsRead(KEYS.THEME, null) && window.CourseTheme) {
+          // Порівнюємо через getItem напряму — theme.js зберігає рядок без JSON.stringify
+          var localTheme = localStorage.getItem(KEYS.THEME);
+          if (remoteTheme !== localTheme && window.CourseTheme) {
             window.CourseTheme.set(remoteTheme);
           }
         }

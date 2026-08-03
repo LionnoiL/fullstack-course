@@ -88,9 +88,18 @@
 
     set: function (id, callback) {
       loadTheme(id, function (resolvedId) {
-        // Синхронізуємо з Firestore через CourseFirebase
         if (window.CourseFirebase) {
+          // Звичайні сторінки уроків: через CourseFirebase
           window.CourseFirebase.onWrite("jscourse.theme", resolvedId);
+        } else if (window._db && window._currentUser) {
+          // profile.html: auth-guard повертає раніше, тому пишемо напряму
+          window._db
+            .collection("users")
+            .doc(window._currentUser.uid)
+            .collection("data")
+            .doc("preferences")
+            .set({ theme: resolvedId }, { merge: true })
+            .catch(function () {});
         }
         if (callback) callback(resolvedId);
       });
