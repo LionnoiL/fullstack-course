@@ -4,18 +4,19 @@
 //  Project Settings → General → Your apps → Web app
 // ============================================================
 const firebaseConfig = {
-  apiKey:            "YOUR_API_KEY",
-  authDomain:        "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId:         "YOUR_PROJECT_ID",
-  storageBucket:     "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId:             "YOUR_APP_ID",
+  apiKey: "AIzaSyCMdduxPPZtBNHizlv7SzvRiIfGY8kFZ2I",
+  authDomain: "fullstack-course-48abe.firebaseapp.com",
+  projectId: "fullstack-course-48abe",
+  storageBucket: "fullstack-course-48abe.firebasestorage.app",
+  messagingSenderId: "973462201739",
+  appId: "1:973462201739:web:b73aacfa90a16975c9bb8e",
+  measurementId: "G-0FPG5Z0XH2",
 };
 
 firebase.initializeApp(firebaseConfig);
 
 window._auth = firebase.auth();
-window._db   = firebase.firestore();
+window._db = firebase.firestore();
 
 // Увімкнення офлайн-кешу Firestore (необов'язково, але корисно)
 window._db.enablePersistence({ synchronizeTabs: true }).catch(function () {
