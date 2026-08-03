@@ -16,9 +16,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 window._auth = firebase.auth();
-window._db = firebase.firestore();
+window._db   = firebase.firestore();
 
-// Увімкнення офлайн-кешу Firestore (необов'язково, але корисно)
-window._db.enablePersistence({ synchronizeTabs: true }).catch(function () {
-  /* ігноруємо — приватний режим або кілька вкладок */
-});
+// enablePersistence навмисно прибрано: воно утримує постійне WebChannel-з'єднання,
+// що блокується ad-блокерами та породжує хибне "client is offline".
+// Наша localStorage-стратегія вже забезпечує кешування між сесіями.
