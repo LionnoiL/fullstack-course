@@ -55,9 +55,14 @@
 
   // --- Firestore read --------------------------------------------------------
 
+  // Синхронізація даних. Максимальний час очікування — SYNC_TIMEOUT мс,
+  // після чого сторінка показується з даними з localStorage (не блокуємо UI).
+  var SYNC_TIMEOUT = 5000;
+
   function syncFromFirestore(uid) {
     var userRef = db.collection("users").doc(uid).collection("data");
-    return Promise.all([
+
+    var fetchPromise = Promise.all([
       userRef.doc("progress").get(),
       userRef.doc("notes").get(),
       userRef.doc("highlights").get(),
@@ -78,8 +83,24 @@
         lsWrite(KEYS.HIGHLIGHTS, mergedH);
       }
     }).catch(function (err) {
-      console.warn("[AuthGuard] Firestore sync failed:", err);
+      // Офлайн або заблоковано ad-блокером — продовжуємо з localStorage.
+      // Помилка не критична, тому не виводимо stack trace.
+      if (err && err.code === "unavailable") {
+        console.info("[AuthGuard] Firestore недоступний (офлайн або заблоковано). Використовуємо localStorage.");
+      } else {
+        console.warn("[AuthGuard] Firestore sync failed:", err && err.message);
+      }
     });
+
+    // Таймаут: якщо Firestore не відповідає — не тримаємо сторінку прихованою
+    var timeoutPromise = new Promise(function (resolve) {
+      setTimeout(function () {
+        console.info("[AuthGuard] Firestore sync timeout — показуємо сторінку з localStorage.");
+        resolve();
+      }, SYNC_TIMEOUT);
+    });
+
+    return Promise.race([fetchPromise, timeoutPromise]);
   }
 
   // --- Firestore write -------------------------------------------------------
@@ -88,7 +109,11 @@
     if (!_uid) return;
     db.collection("users").doc(_uid).collection("data").doc(docName)
       .set({ lessons: lessons }, { merge: true })
-      .catch(function (err) { console.warn("[AuthGuard] Firestore write error:", err); });
+      .catch(function (err) {
+        // Офлайн / заблоковано — дані вже є в localStorage, не шумимо
+        if (!err || err.code === "unavailable") return;
+        console.warn("[AuthGuard] Firestore write error:", err.message);
+      });
   }
 
   var saveProgress   = function (v) { fsWrite("progress", v); };
