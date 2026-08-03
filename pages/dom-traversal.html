@@ -43,7 +43,7 @@ elem.</li>
 <li><code>elem.previousSibling</code> - вибере елемент "зліва" від elem (його попереднього<br>сусіда)</li>
 <li><code>elem.previousElementSibling</code> - вибере вузол-елемент "зліва" від elem (його<br>попереднього сусіда)</li>
 <li><code>elem.nextSibling</code> - вибере елемент "справа" від elem (його наступного сусіда)</li>
-<li><code>elem.nextElementSibling</code> - вибере вузол-елемент "справа" від elem (його<br>попереднього сусіда)</li>
+<li><code>elem.nextElementSibling</code> - вибере вузол-елемент "справа" від elem (його<br>наступного сусіда)</li>
 </ul>
 <p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>DOM-колекції, такі як <code>childNodes</code> і <code>children</code> —
 псевдомасиви, у них немає більшості методів масивів.</p>
@@ -52,7 +52,7 @@ elem.</li>
 <h1 id="пошук-dom-вузлів">2. Пошук DOM-вузлів</h1>
 <p>Отже, ми вже знаємо що DOM-вузол це об'єкт. У нього є методи і властивості. Саме
 час навчитися знаходити елемент за довільним CSS-селектору.</p>
-<p>Методи <code>elem.querySelector *</code> це сучасний стандарт для пошуку DOM-вузлів. Вони
+<p>Методи <code>elem.querySelector*</code> — сучасний стандарт для пошуку DOM-вузлів. Вони
 дозволяють знайти вузол або групу вузлів по CSS-селектору будь-якої складності.</p>
 <pre class="language-"><code class="lang-bash">elem.querySelector<span class="token punctuation">(</span>selector<span class="token punctuation">)</span>
 </code></pre>
@@ -64,12 +64,49 @@ elem.</li>
 </ul>
 <pre class="language-"><code class="lang-bash">elem.querySelectorAll<span class="token punctuation">(</span>selector<span class="token punctuation">)</span>
 </code></pre>
-<p>Використовується, коли ми свідомо знаємо, що підходячих елементів більше одного.</p>
+<p>Використовується, коли ми свідомо знаємо, що підходящих елементів більше одного.</p>
 <ul>
-<li>Повертає псевдомасив всіх елементів всередині <code>elem</code>, що задовольняють<br>CSS-селектору <code>selector</code>.</li>
-<li>Якщо нічого не знайдено поверне порожній масив.</li>
+<li>Повертає <code>NodeList</code> (псевдомасив) всіх елементів всередині <code>elem</code>, що задовольняють CSS-селектору <code>selector</code>.</li>
+<li>Якщо нічого не знайдено, поверне порожній <code>NodeList</code>.</li>
 </ul>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p><code>NodeList</code> — не звичайний масив. У нього немає
+більшості методів масиву (наприклад <code>map</code>, <code>filter</code>). Щоб перетворити в масив,
+використайте <code>Array.from(nodeList)</code> або оператор spread: <code>[...nodeList]</code>.</p>
+</div></div></p>
 <p><a href="https://codepen.io/goit-fe-adv/pen/NvVpMw/" target="_blank">Посилання на приклад в Codepen.io</a></p>
+<h2 id="застарілі-методи-пошуку">2.1. Застарілі методи пошуку</h2>
+<p>До появи <code>querySelector</code> пошук виконувався іншими методами. Їх все ще можна
+зустріти в старому коді, тому варто знати:</p>
+<ul>
+<li><code>document.getElementById(id)</code> — повертає елемент із зазначеним <code>id</code> або <code>null</code>. Найшвидший метод пошуку за ідентифікатором.</li>
+<li><code>elem.getElementsByClassName(cls)</code> — повертає живу HTML-колекцію елементів із зазначеним класом. <em>Жива</em> — означає, що колекція автоматично оновлюється при змінах DOM.</li>
+<li><code>elem.getElementsByTagName(tag)</code> — повертає живу HTML-колекцію елементів із зазначеним тегом. Передайте <code>'*'</code>, щоб отримати всі елементи.</li>
+</ul>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> header <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'header'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> items  <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementsByClassName</span><span class="token punctuation">(</span><span class="token string">'item'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> links  <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementsByTagName</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h1 id="перевірка-та-пошук-у-дереві">3. Перевірка та пошук у дереві</h1>
+<h2 id="метод-matches">3.1. Метод matches()</h2>
+<pre class="language-"><code class="lang-bash">elem.matches<span class="token punctuation">(</span>selector<span class="token punctuation">)</span>
+</code></pre>
+<p>Перевіряє, чи відповідає <code>elem</code> CSS-селектору. Повертає <code>true</code> або <code>false</code>.
+Зручний при обробці подій для перевірки цільового елемента:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>target<span class="token punctuation">.</span><span class="token function">matches</span><span class="token punctuation">(</span><span class="token string">'.btn-primary'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// кнопку натиснуто</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="метод-closest">3.2. Метод closest()</h2>
+<pre class="language-"><code class="lang-bash">elem.closest<span class="token punctuation">(</span>selector<span class="token punctuation">)</span>
+</code></pre>
+<p>Шукає найближчого предка (або сам елемент), що відповідає CSS-селектору. Рухається
+вгору по DOM від <code>elem</code> до кореня. Повертає знайдений елемент або <code>null</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Знаходимо батьківську картку для будь-якого кліку всередині неї</span>
+<span class="token keyword">const</span> card <span class="token operator">=</span> clickedElem<span class="token punctuation">.</span><span class="token function">closest</span><span class="token punctuation">(</span><span class="token string">'.card'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p><code>closest()</code> — зворотній до <code>querySelector()</code>:
+<code>querySelector</code> шукає <em>вниз</em> по нащадках, <code>closest</code> — <em>вгору</em> по предках.</p>
+</div></div></p>
   </main>
 </div>
 <script src="../js/course-tools.js"></script>

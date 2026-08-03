@@ -64,6 +64,45 @@ btn.addEventListener('click', () =&gt; {
 окрему кнопку <strong>скидання</strong> лічильника до нуля. Тримай значення в змінній, а при
 кожному кліку оновлюй <em>лише текст потрібного вузла</em> (<code>textContent</code>), а не
 перемальовуй усю сторінку — це базова звичка ефективної роботи з DOM.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">// HTML:
+// &lt;p&gt;Натиснуто: &lt;span id="count"&gt;0&lt;/span&gt; разів&lt;/p&gt;
+// &lt;button id="inc"&gt;Натисни мене&lt;/button&gt;
+// &lt;button id="reset"&gt;Скинути&lt;/button&gt;
+
+let count = 0;
+const countEl = document.querySelector('#count');
+
+document.querySelector('#inc').addEventListener('click', () =&gt; {
+  count += 1;
+  countEl.textContent = count;
+});
+
+document.querySelector('#reset').addEventListener('click', () =&gt; {
+  count = 0;
+  countEl.textContent = count;
+});</code></pre>
+</details>
+</div>
+
+<div class="task">
+<h2>Завдання 4. DocumentFragment — масовий рендер</h2>
+<p class="task-goal">Є масив із 100 чисел (згенеруй через <code>Array.from</code>). Склади всі
+<code>&lt;li&gt;</code>-елементи у <code>DocumentFragment</code> і встав у DOM одним <code>append()</code>.
+Порівняй у DevTools вкладці Performance кількість reflow при такому підході
+і при вставці кожного <code>&lt;li&gt;</code> напряму в <code>&lt;ul&gt;</code>.</p>
+<details class="solution"><summary>Рішення</summary>
+<pre class="language-js"><code class="language-js">const numbers = Array.from({ length: 100 }, (_, i) =&gt; i + 1);
+const fragment = document.createDocumentFragment();
+
+numbers.forEach((n) =&gt; {
+  const li = document.createElement('li');
+  li.textContent = n;
+  fragment.append(li);
+});
+
+document.querySelector('ul').append(fragment);</code></pre>
+</details>
 </div>
 
   </main>

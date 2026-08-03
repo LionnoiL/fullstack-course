@@ -51,7 +51,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 </ul>
 <p><a href="https://codepen.io/goit-fe-adv/pen/eEaRME/" target="_blank">Посилання на приклад в Codepen.io</a></p>
 <h1 id="атрибути">2. Атрибути</h1>
-<p>DOM-елементів відповідають HTML-теги, які мають атрибути тексту. Доступ до
+<p>DOM-елементи відповідають HTML-тегам, які мають атрибути. Доступ до
 атрибутів здійснюється за допомогою стандартних методів. Ці методи працюють зі
 значенням, яке знаходиться в HTML.</p>
 <ul>
@@ -63,13 +63,56 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li><code>elem.attributes</code> - властивість, повертає колекцію всіх атрибутів елемента</li>
 </ul>
 <p><a href="https://codepen.io/goit-fe-adv/pen/zdQzPP/" target="_blank">Посилання на приклад в Codepen.io</a></p>
-<h2 id="htm5-data-атрибути">2.1. HTM5 data-атрибути</h2>
-<p>У HTML5 можна створювати довільний атрибут і отримувати значення цього атрибута
-в JavaScript. Цю можливість використовують для того, щоб спростити написання
-коду, наприклад зв'язати дані і розмітку за унікальним ідентифікатором, вказати
-тип дії кнопки й т. п.</p>
+<h2 id="html5-data-атрибути">2.1. HTML5 data-атрибути</h2>
+<p>У HTML5 можна створювати власні атрибути з префіксом <code>data-</code> і отримувати їхні
+значення в JavaScript. Цю можливість використовують для того, щоб зв'язати дані
+і розмітку за унікальним ідентифікатором, вказати тип дії кнопки й т. п.</p>
+<pre class="language-"><code class="lang-html"><span class="token tag"><span class="token punctuation">&lt;</span>button data-action<span class="token attr-value">="delete"</span> data-id<span class="token attr-value">="42"</span><span class="token punctuation">&gt;</span></span>Видалити<span class="token tag"><span class="token punctuation">&lt;/</span>button<span class="token punctuation">&gt;</span></span>
+</code></pre>
+<h2 id="властивість-dataset">2.2. Властивість dataset</h2>
+<p>Властивість <code>elem.dataset</code> — сучасний спосіб роботи з <code>data-*</code> атрибутами. Вона
+повертає об'єкт <code>DOMStringMap</code>, де ключами є назви атрибутів без префікса <code>data-</code>
+(у camelCase для дефісних назв).</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> btn <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'button'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Читання</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>btn<span class="token punctuation">.</span>dataset<span class="token punctuation">.</span>action<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// "delete"</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>btn<span class="token punctuation">.</span>dataset<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">// "42" (завжди рядок!)</span>
+
+<span class="token comment">// Запис — автоматично додає атрибут data-*</span>
+btn<span class="token punctuation">.</span>dataset<span class="token punctuation">.</span>userId <span class="token operator">=</span> <span class="token string">'99'</span><span class="token punctuation">;</span>        <span class="token comment">// → data-user-id="99"</span>
+</code></pre>
+<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Значення з <code>dataset</code> завжди повертаються як рядки.
+Якщо зберігаєте число, не забудьте перетворити: <code>Number(btn.dataset.id)</code>.</p>
+</div></div></p>
 <p><a href="https://codepen.io/goit-fe-adv/pen/YOKWxQ/" target="_blank">Посилання на приклад в Codepen.io</a></p>
 <p><a href="https://www.sitepoint.com/how-why-use-html5-custom-data-attributes/" target="_blank">How You Can Use HTML5 Custom Data Attributes and Why</a></p>
+<h1 id="різниця-між-властивостями-та-атрибутами">3. Різниця між властивостями та атрибутами</h1>
+<p>Властивість (property) і атрибут (attribute) — близькі, але різні речі.
+<strong>Атрибут</strong> — це те, що записано в HTML-коді. <strong>Властивість</strong> — це поле
+JavaScript-об'єкта, що відповідає DOM-вузлу.</p>
+<p>Коли браузер будує DOM, більшість атрибутів перетворюються на відповідні
+властивості, але між ними є важлива різниця — особливо для полів форм:</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// HTML: &lt;input value="Привіт"&gt;</span>
+<span class="token keyword">const</span> input <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'input'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Атрибут — початкове значення, завжди рядок</span>
+input<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span><span class="token string">'value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// "Привіт"</span>
+
+<span class="token comment">// Користувач змінив текст у полі на "Світ"</span>
+input<span class="token punctuation">.</span>value<span class="token punctuation">;</span>                    <span class="token comment">// "Світ" (поточне значення)</span>
+input<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span><span class="token string">'value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// "Привіт" (атрибут не змінився!)</span>
+</code></pre>
+<ul>
+<li>Властивість <code>input.value</code> відображає <strong>поточний стан</strong>.</li>
+<li>Атрибут <code>getAttribute('value')</code> зберігає <strong>початкове значення</strong> з HTML.</li>
+<li>Аналогічно для <code>checked</code>, <code>selected</code> та інших.</li>
+</ul>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p>Правило: для роботи з поточним станом елемента
+використовуйте <strong>властивості</strong> (<code>elem.value</code>, <code>elem.checked</code>). Для
+читання/запису початкових значень HTML або нестандартних атрибутів — методи
+<strong>getAttribute / setAttribute</strong>.</p>
+</div></div></p>
   </main>
 </div>
 <script src="../js/course-tools.js"></script>

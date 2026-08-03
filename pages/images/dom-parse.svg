@@ -1,0 +1,50 @@
+<svg width="700" height="220" viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+  <rect width="700" height="220" fill="#282c34" rx="10"/>
+  <rect width="700" height="36" fill="#21252b" rx="10"/>
+  <rect y="26" width="700" height="10" fill="#21252b"/>
+  <circle cx="18" cy="18" r="5" fill="#e06c75" opacity="0.8"/>
+  <circle cx="36" cy="18" r="5" fill="#e5c07b" opacity="0.8"/>
+  <circle cx="54" cy="18" r="5" fill="#98c379" opacity="0.8"/>
+  <text x="350" y="23" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="12" fill="#abb2bf">Процес побудови DOM</text>
+
+  <!-- Step 1: HTML bytes -->
+  <rect x="20" y="60" width="155" height="120" rx="8" fill="#21252b" stroke="#3e4451" stroke-width="1.5"/>
+  <text x="97" y="83" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#e5c07b" font-weight="bold">HTML-байти</text>
+  <text x="30" y="106" font-family="Consolas,monospace" font-size="11" fill="#e06c75">&lt;html&gt;</text>
+  <text x="30" y="123" font-family="Consolas,monospace" font-size="11" fill="#e06c75">  &lt;head&gt;...</text>
+  <text x="30" y="140" font-family="Consolas,monospace" font-size="11" fill="#e06c75">  &lt;body&gt;</text>
+  <text x="30" y="157" font-family="Consolas,monospace" font-size="11" fill="#e06c75">    &lt;div&gt;...</text>
+  <text x="30" y="174" font-family="Consolas,monospace" font-size="11" fill="#4b5263">  ▼ поступово...</text>
+
+  <!-- Arrow 1 -->
+  <line x1="182" y1="120" x2="222" y2="120" stroke="#61afef" stroke-width="2"/>
+  <polygon points="222,115 234,120 222,125" fill="#61afef"/>
+
+  <!-- Step 2: HTML Parser -->
+  <rect x="240" y="60" width="155" height="120" rx="8" fill="#1e3a5f" stroke="#61afef" stroke-width="2"/>
+  <text x="317" y="83" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#61afef" font-weight="bold">HTML-парсер</text>
+  <text x="317" y="110" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#abb2bf">Читає теги</text>
+  <text x="317" y="127" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#abb2bf">і текст</text>
+  <text x="317" y="148" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="18" fill="#61afef">⚙</text>
+  <text x="317" y="172" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#abb2bf">Перетворює</text>
+
+  <!-- Arrow 2 -->
+  <line x1="402" y1="120" x2="442" y2="120" stroke="#98c379" stroke-width="2"/>
+  <polygon points="442,115 454,120 442,125" fill="#98c379"/>
+
+  <!-- Step 3: DOM tree -->
+  <rect x="460" y="60" width="220" height="120" rx="8" fill="#1a3320" stroke="#98c379" stroke-width="2"/>
+  <text x="570" y="83" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#98c379" font-weight="bold">DOM-дерево</text>
+  <!-- mini tree -->
+  <text x="490" y="106" font-family="Consolas,monospace" font-size="11" fill="#61afef">document</text>
+  <text x="498" y="122" font-family="Consolas,monospace" font-size="11" fill="#4b5263">└─</text>
+  <text x="516" y="122" font-family="Consolas,monospace" font-size="11" fill="#61afef">html</text>
+  <text x="506" y="138" font-family="Consolas,monospace" font-size="11" fill="#4b5263">  ├─</text>
+  <text x="530" y="138" font-family="Consolas,monospace" font-size="11" fill="#61afef">head</text>
+  <text x="506" y="154" font-family="Consolas,monospace" font-size="11" fill="#4b5263">  └─</text>
+  <text x="530" y="154" font-family="Consolas,monospace" font-size="11" fill="#61afef">body</text>
+  <text x="506" y="170" font-family="Consolas,monospace" font-size="11" fill="#4b5263">      └─ div ...</text>
+
+  <!-- note at bottom -->
+  <text x="350" y="203" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#4b5263">Браузер будує DOM поступово — перші вузли з'являються ще до завершення завантаження сторінки</text>
+</svg>

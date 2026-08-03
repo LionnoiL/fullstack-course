@@ -43,10 +43,9 @@
 блокує конструкцію DOM, він блокує рендеринг. Браузер нічого не відобразить,
 поки не буде DOM і CSSOM. Це пов'язано з тим, що сторінки без CSS часто
 непридатні для використання. Якщо браузер показав безладну сторінку без CSS, а
-через кілька миттєвостей стилізовану, це називається <strong> Flash of Unstyled
-Content </strong>.</p>
-<p>Раптові зміщення вмісту і візуальні зміни погано впливають на <strong> UX (user
-experience) </strong>. Щоб обійти ці проблеми, ви повинні прагнути якомога швидше
+через кілька миттєвостей стилізовану, це називається <strong>Flash of Unstyled Content</strong>.</p>
+<p>Раптові зміщення вмісту і візуальні зміни погано впливають на <strong>UX (user
+experience)</strong>. Щоб обійти ці проблеми, ви повинні прагнути якомога швидше
 доставити CSS. Пам'ятайте правило «стилі нагорі, сценарії внизу»? Тепер ви
 знаєте навіщо робити саме так.</p>
 <h1 id="атрибути-defer-і-async">2. Атрибути defer і async</h1>
@@ -77,10 +76,71 @@ experience) </strong>. Щоб обійти ці проблеми, ви пови�
 </code></pre>
 <p><img src="images/async.png" alt="defer"></p>
 <p>Де б вони не були вказані, асинхронні скрипти завантажуються з низьким
-пріоритетом. Вони часто завантажуються після всіх інших скриптів, які не
+пріоритетом. Вони часто завантажуються після всіх інших скриптів, не
 блокуючи створення DOM. Однак, якщо <code>async</code> скрипт завершує завантаження раніше,
-його виконання може блокувати створення DOM і все синхронні скрипти, які згодом
+його виконання може блокувати створення DOM і всі синхронні скрипти, які згодом
 завершують завантаження.</p>
+<h1 id="порівняння-defer-async">3. Порівняння: без атрибута, defer, async</h1>
+<table>
+<thead>
+<tr>
+<th>Поведінка</th>
+<th><code>&lt;script&gt;</code></th>
+<th><code>defer</code></th>
+<th><code>async</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Блокує парсинг HTML</td>
+<td>✅ Так</td>
+<td>❌ Ні</td>
+<td>❌ Ні</td>
+</tr>
+<tr>
+<td>Завантажується паралельно</td>
+<td>❌ Ні</td>
+<td>✅ Так</td>
+<td>✅ Так</td>
+</tr>
+<tr>
+<td>Гарантований порядок виконання</td>
+<td>✅ Так</td>
+<td>✅ Так</td>
+<td>❌ Ні</td>
+</tr>
+<tr>
+<td>Виконання після побудови DOM</td>
+<td>❌ Ні</td>
+<td>✅ Так</td>
+<td>❌ Ні</td>
+</tr>
+<tr>
+<td>Коли використовувати</td>
+<td>Дуже рідко</td>
+<td>Основні скрипти</td>
+<td>Незалежні (аналітика)</td>
+</tr>
+</tbody>
+</table>
+<h1 id="подія-domcontentloaded">4. Подія DOMContentLoaded</h1>
+<p>Подія <code>DOMContentLoaded</code> спрацьовує, коли браузер повністю завантажив HTML і
+побудував DOM-дерево. Зображення (<code>&lt;img&gt;</code>) і стилі можуть ще не завантажитись.</p>
+<pre class="language-"><code class="lang-js">document<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'DOMContentLoaded'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// DOM готовий, можна безпечно звертатись до елементів</span>
+  <span class="token keyword">const</span> el <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'.app'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Подія <code>load</code> на об'єкті <code>window</code> спрацьовує пізніше — коли завантажені
+абсолютно всі ресурси сторінки (зображення, шрифти, CSS).</p>
+<pre class="language-"><code class="lang-js">window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'load'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// Всі ресурси сторінки завантажено</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><div class="alert alert-success hints-alert"><div class="hints-icon"><i class="fa fa-mortar-board"></i></div><div class="hints-container"><p>Скрипти з атрибутом <code>defer</code> виконуються до події
+<code>DOMContentLoaded</code> — це гарантує, що DOM вже побудований. Скрипт з атрибутом
+<code>type="module"</code> автоматично поводиться як <code>defer</code>.</p>
+</div></div></p>
   </main>
 </div>
 <script src="../js/course-tools.js"></script>
