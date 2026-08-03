@@ -97,8 +97,10 @@
 
   function fsWrite(docName, lessons) {
     if (!_uid) return;
+    // Без merge:true — повна заміна документа. Це потрібно щоб видалення ключів
+    // (нотатки, прогрес) теж відображались у Firestore, а не зберігались через deep merge.
     db.collection("users").doc(_uid).collection("data").doc(docName)
-      .set({ lessons: lessons }, { merge: true })
+      .set({ lessons: lessons })
       .catch(function (err) {
         if (!err || err.code === "unavailable") return;
         console.warn("[AuthGuard] Firestore write error:", err.message);
