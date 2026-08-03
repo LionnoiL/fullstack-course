@@ -8,6 +8,8 @@
       try {
         var _raw = localStorage.getItem("jscourse.lastPage");
         if (_raw) { try { last = JSON.parse(_raw); } catch (e) { last = _raw; } }
+        // старі значення могли зберігати повний URL — беремо тільки pathname
+        if (last && last.indexOf("://") !== -1) { last = new URL(last).pathname; }
       } catch (e) {}
       window.location.replace(last || "pages/intro.html");
     </script>

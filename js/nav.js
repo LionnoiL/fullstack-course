@@ -648,15 +648,15 @@
 
   // Запам'ятовуємо поточну сторінку для відновлення при наступному відкритті сайту
   try {
-    localStorage.setItem("jscourse.lastPage", JSON.stringify(location.href));
+    localStorage.setItem("jscourse.lastPage", JSON.stringify(location.pathname));
   } catch (e) {}
   if (window.CourseFirebase) {
-    window.CourseFirebase.onWrite("jscourse.lastPage", location.href);
+    window.CourseFirebase.onWrite("jscourse.lastPage", location.pathname);
   } else {
     // CourseFirebase ще не готовий — чекаємо на authready
     window.addEventListener("jscourse:authready", function () {
       if (window.CourseFirebase) {
-        window.CourseFirebase.onWrite("jscourse.lastPage", location.href);
+        window.CourseFirebase.onWrite("jscourse.lastPage", location.pathname);
       }
     }, { once: true });
   }
