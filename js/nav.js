@@ -691,8 +691,28 @@
       }
     });
 
+    const themeBtn = document.createElement("button");
+    themeBtn.type = "button";
+    themeBtn.className = "nav-theme-btn";
+    themeBtn.title = "Перемкнути тему";
+
+    function syncThemeIcon() {
+      var theme = window.CourseTheme ? window.CourseTheme.get() : "dark";
+      themeBtn.textContent = theme === "dark" ? "☀" : "🌙";
+      themeBtn.setAttribute("aria-label", theme === "dark" ? "Увімкнути світлу тему" : "Увімкнути темну тему");
+    }
+    syncThemeIcon();
+
+    themeBtn.addEventListener("click", function () {
+      if (window.CourseTheme) window.CourseTheme.toggle();
+      syncThemeIcon();
+    });
+
+    window.addEventListener("jscourse:themechange", syncThemeIcon);
+
     panel.appendChild(avatar);
     panel.appendChild(info);
+    panel.appendChild(themeBtn);
     panel.appendChild(signOutBtn);
     return panel;
   }
