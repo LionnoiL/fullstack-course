@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Профіль · Fullstack Course</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+
+<h1 id="profile-title">Профіль</h1>
+
+<!-- Блок користувача -->
+<div id="profile-user" style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem;padding:1.25rem;background:var(--surface,#1e2030);border:1px solid var(--border,#414868);border-radius:12px;">
+  <img id="profile-avatar" src="" alt="Avatar" width="64" height="64"
+       style="border-radius:50%;object-fit:cover;display:none;">
+  <div id="profile-avatar-fallback"
+       style="width:64px;height:64px;border-radius:50%;background:#7aa2f7;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;color:#1a1b26;flex-shrink:0;">?</div>
+  <div>
+    <div id="profile-name" style="font-size:1.1rem;font-weight:700;color:var(--text-primary,#c0caf5)">—</div>
+    <div id="profile-email" style="font-size:.85rem;color:var(--text-muted,#565f89);margin-top:.2rem">—</div>
+  </div>
+  <button id="btn-signout" type="button" class="course-btn" style="margin-left:auto">Вийти</button>
+</div>
+
+<!-- Прогрес -->
+<h2 id="stats-heading">Прогрес навчання</h2>
+<div id="stats-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin:1rem 0 2rem">
+  <div class="stat-card">
+    <div class="stat-value" id="stat-done">—</div>
+    <div class="stat-label">Уроків вивчено</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" id="stat-total">—</div>
+    <div class="stat-label">Всього уроків</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" id="stat-pct">—</div>
+    <div class="stat-label">% завершено</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" id="stat-notes">—</div>
+    <div class="stat-label">Нотаток збережено</div>
+  </div>
+</div>
+
+<!-- Список розділів -->
+<h2>Розділи</h2>
+<div id="section-list" style="margin-top:1rem"></div>
+
+<style>
+.stat-card {
+  background: var(--surface, #1e2030);
+  border: 1px solid var(--border, #414868);
+  border-radius: 10px;
+  padding: 1.1rem 1.25rem;
+}
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #7aa2f7;
+  line-height: 1;
+}
+.stat-label {
+  font-size: .8rem;
+  color: var(--text-muted, #565f89);
+  margin-top: .35rem;
+}
+.section-row {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .6rem 0;
+  border-bottom: 1px solid var(--border, #414868);
+}
+.section-row:last-child { border-bottom: none; }
+.section-row .name { flex: 1; font-size: .9rem; }
+.section-row .pct  { font-size: .8rem; color: var(--text-muted, #565f89); white-space: nowrap; }
+.mini-bar { width: 80px; height: 6px; background: var(--border, #414868); border-radius: 3px; flex-shrink: 0; }
+.mini-bar span { display: block; height: 100%; background: #7aa2f7; border-radius: 3px; }
+</style>
+
+  </main>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="../js/firebase-config.js"></script>
+<script src="../js/auth-guard.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/search-index.js"></script>
+<script src="../js/search.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var auth = window._auth;
+  if (!auth) return;
+
+  document.getElementById('btn-signout').addEventListener('click', function () {
+    if (window.CourseFirebase) window.CourseFirebase.signOut();
+    else auth.signOut().then(function () { window.location.href = 'login.html'; });
+  });
+
+  window.addEventListener('jscourse:authready', function (e) {
+    var user = e.detail.user;
+    renderUser(user);
+    renderStats();
+  });
+
+  // Якщо auth вже відпрацював до нашого listener
+  if (window._currentUser) {
+    renderUser(window._currentUser);
+    renderStats();
+  }
+
+  function renderUser(user) {
+    document.getElementById('profile-name').textContent  = user.displayName || user.email || 'Користувач';
+    document.getElementById('profile-email').textContent = user.email || '';
+
+    var avatar = document.getElementById('profile-avatar');
+    var fallback = document.getElementById('profile-avatar-fallback');
+    if (user.photoURL) {
+      avatar.src = user.photoURL;
+      avatar.style.display = 'block';
+      fallback.style.display = 'none';
+    } else {
+      var letter = (user.displayName || user.email || '?')[0].toUpperCase();
+      fallback.textContent = letter;
+    }
+  }
+
+  function renderStats() {
+    var progress = {};
+    var notes    = {};
+    try { progress = JSON.parse(localStorage.getItem('jscourse.progress'))  || {}; } catch(e) {}
+    try { notes    = JSON.parse(localStorage.getItem('jscourse.notes'))     || {}; } catch(e) {}
+
+    // Отримуємо sections з nav.js (вже завантажений)
+    var allLessons = [];
+    document.querySelectorAll('.nav-section').forEach(function (sec) {
+      var links = sec.querySelectorAll('.nav-lesson a');
+      links.forEach(function (a) { allLessons.push(a.getAttribute('href')); });
+    });
+
+    var total = allLessons.length || 1;
+    var done  = Object.keys(progress).filter(function (k) { return progress[k]; }).length;
+    var pct   = Math.round(done / total * 100);
+    var notesCount = Object.keys(notes).filter(function (k) { return notes[k] && notes[k].trim(); }).length;
+
+    document.getElementById('stat-done').textContent  = done;
+    document.getElementById('stat-total').textContent = total;
+    document.getElementById('stat-pct').textContent   = pct + '%';
+    document.getElementById('stat-notes').textContent = notesCount;
+
+    // Розбивка по розділах
+    var list = document.getElementById('section-list');
+    list.innerHTML = '';
+    document.querySelectorAll('.nav-section').forEach(function (sec) {
+      var titleEl = sec.querySelector('.nav-section-title span:last-child');
+      if (!titleEl) return;
+      var sectionName = titleEl.textContent;
+      var links = Array.from(sec.querySelectorAll('.nav-lesson a'));
+      if (!links.length) return;
+      var secTotal = links.length;
+      var secDone  = links.filter(function (a) {
+        var href = a.getAttribute('href');
+        return href && progress[href];
+      }).length;
+      var secPct = Math.round(secDone / secTotal * 100);
+
+      var row = document.createElement('div');
+      row.className = 'section-row';
+
+      var name = document.createElement('span');
+      name.className = 'name';
+      name.textContent = sectionName;
+
+      var bar = document.createElement('div');
+      bar.className = 'mini-bar';
+      var fill = document.createElement('span');
+      fill.style.width = secPct + '%';
+      bar.appendChild(fill);
+
+      var pctSpan = document.createElement('span');
+      pctSpan.className = 'pct';
+      pctSpan.textContent = secDone + ' / ' + secTotal;
+
+      row.appendChild(name);
+      row.appendChild(bar);
+      row.appendChild(pctSpan);
+      list.appendChild(row);
+    });
+  }
+})();
+</script>
+</body>
+</html>

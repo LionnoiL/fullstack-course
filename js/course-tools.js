@@ -1,5 +1,5 @@
 // Інструменти учня: виділення тексту, нотатки до уроку, позначка "вивчено".
-// Усі дані зберігаються локально в браузері (localStorage).
+// Дані зберігаються в localStorage і синхронізуються з Firestore (auth-guard.js).
 (function () {
   "use strict";
 
@@ -26,6 +26,9 @@
       localStorage.setItem(key, JSON.stringify(val));
     } catch (e) {
       /* приватний режим / переповнення — ігноруємо */
+    }
+    if (window.CourseFirebase) {
+      window.CourseFirebase.onWrite(key, val);
     }
   }
 
@@ -342,4 +345,12 @@
   } else {
     window.addEventListener("load", applyStoredHighlights);
   }
+
+  /* Після синхронізації Firestore → оновлюємо стан кнопки та виділення */
+  window.addEventListener("jscourse:datasynced", function () {
+    refreshLearnedBtn();
+    area.value = getNote();
+    refreshNotesBtn();
+    applyStoredHighlights();
+  });
 })();
