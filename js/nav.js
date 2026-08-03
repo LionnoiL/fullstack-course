@@ -703,10 +703,15 @@
   function build() {
     const progress = getProgress();
     const searchBox = sidebar.querySelector(".search-box");
+
+    // Відокремлюємо існуючий аватар перед очищенням — img вже завантажено,
+    // повторне створення елемента робить новий HTTP-запит до Google CDN (→ 429)
+    const existingUserPanel = sidebar.querySelector(".nav-user");
+
     sidebar.innerHTML = "";
 
-    // Блок авторизованого користувача
-    const userPanel = buildUserPanel();
+    // Переприкріплюємо збережений блок або будуємо вперше
+    const userPanel = existingUserPanel || buildUserPanel();
     if (userPanel) sidebar.appendChild(userPanel);
 
     // Загальний прогрес курсу
