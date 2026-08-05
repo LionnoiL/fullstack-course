@@ -271,8 +271,89 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>total<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 45</span>
 </code></pre>
+
+        <h1 id="способи-створення">8. Способи створення масивів</h1>
+        <p>
+          Крім літерального синтаксису <code>[]</code>, існують й інші способи створення масивів.
+        </p>
+
+        <h2 id="new-array">8.1. new Array()</h2>
+        <p>
+          Конструктор <code>new Array(n)</code> створює масив із <code>n</code> порожніх слотів
+          (значення <code>undefined</code>). Якщо передати кілька аргументів — вони стануть
+          елементами.
+        </p>
+        <pre class="language-js"><code class="language-js">// Масив із 3 порожніх слотів
+const empty = new Array(3);
+console.log(empty.length); // 3
+console.log(empty[0]);     // undefined
+
+// Масив з елементами через конструктор
+const colors = new Array('red', 'green', 'blue');
+console.log(colors); // ['red', 'green', 'blue']
+
+// Переважно використовують літеральний синтаксис — він коротший та зрозуміліший
+const same = ['red', 'green', 'blue'];</code></pre>
+
+        <h2 id="array-from">8.2. Array.from()</h2>
+        <p>
+          <code>Array.from(iterable)</code> — створює масив із будь-якого ітерованого об'єкта
+          (рядка, <code>Set</code>, <code>NodeList</code> тощо) або масивоподібного об'єкта.
+          Другим аргументом можна передати функцію-маппер.
+        </p>
+        <pre class="language-js"><code class="language-js">// Зі рядка
+const letters = Array.from('hello');
+console.log(letters); // ['h', 'e', 'l', 'l', 'o']
+
+// З Set (прибирає дублікати)
+const unique = Array.from(new Set([1, 2, 2, 3, 3]));
+console.log(unique); // [1, 2, 3]
+
+// Генерація числового масиву за допомогою маппера
+const nums = Array.from({ length: 5 }, (_, i) => i + 1);
+console.log(nums); // [1, 2, 3, 4, 5]</code></pre>
+
+        <h2 id="array-of">8.3. Array.of()</h2>
+        <p>
+          <code>Array.of(...items)</code> — створює масив із переданих аргументів. На відміну від
+          <code>new Array(n)</code>, навіть один числовий аргумент стає елементом, а не довжиною.
+        </p>
+        <pre class="language-js"><code class="language-js">const a = Array.of(7);      // [7]      — елемент, не довжина!
+const b = Array.of(1, 2, 3); // [1, 2, 3]
+
+// Порівняйте з new Array:
+const c = new Array(7);     // [ , , , , , ,  ] — 7 порожніх слотів</code></pre>
+
+        <h2 id="spread-copy">8.4. Spread-копія масиву</h2>
+        <p>
+          Оператор розпаковки <code>...</code> дозволяє скопіювати або об'єднати масиви без мутації
+          оригіналу.
+        </p>
+        <pre class="language-js"><code class="language-js">const original = [1, 2, 3];
+
+// Поверхнева копія
+const copy = [...original];
+console.log(copy);    // [1, 2, 3]
+console.log(copy === original); // false — різні об'єкти
+
+// Об'єднання масивів
+const a = [1, 2];
+const b = [3, 4];
+const merged = [...a, ...b];
+console.log(merged); // [1, 2, 3, 4]
+
+// Додавання елементів на початок або кінець
+const withExtra = [0, ...original, 4, 5];
+console.log(withExtra); // [0, 1, 2, 3, 4, 5]</code></pre>
+
+
+        <p>
+          Детальніше про методи масиву читай на сторінці
+          <a href="array-methods.html">Методи масиву</a>.
+        </p>
       </main>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
