@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: Тетріс · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+    <style>
+      .game-preview {
+        background: #1a1a2e;
+        border: 2px solid #16213e;
+        border-radius: 8px;
+        padding: 16px;
+        display: flex;
+        gap: 24px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        margin: 16px 0;
+      }
+      .game-preview canvas {
+        display: block;
+        border: 1px solid #333;
+      }
+      .game-preview .game-info {
+        color: #e0e0e0;
+        font-family: monospace;
+        min-width: 120px;
+      }
+      .game-preview .game-info p {
+        margin: 4px 0;
+      }
+      .game-preview button {
+        margin-top: 12px;
+        padding: 6px 18px;
+        background: #2563eb;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .game-preview button:hover {
+        background: #1d4ed8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: Тетріс</h1>
+        <p>
+          Покрокова реалізація класичного Тетрісу на чистому JavaScript та Canvas API.
+          Кожне завдання — окремий шар логіки; до кінця матимеш повністю робочу гру.
+        </p>
+
+        <!-- LIVE DEMO -->
+        <div class="game-preview" id="tetris-demo-wrap">
+          <div>
+            <canvas id="tetris-demo" width="200" height="400"></canvas>
+          </div>
+          <div class="game-info">
+            <p>Рахунок: <span id="td-score">0</span></p>
+            <p>Рівень: <span id="td-level">1</span></p>
+            <p>Лінії: <span id="td-lines">0</span></p>
+            <button id="td-start">Старт / Пауза</button>
+            <p style="margin-top:12px;font-size:12px;color:#888">
+              ← → — рух<br>↑ — обертання<br>↓ — швидше
+            </p>
+          </div>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 1. Сітка та константи</h2>
+          <p class="task-goal">
+            Визнач константи гри: розміри поля (<code>COLS = 10</code>, <code>ROWS = 20</code>),
+            розмір блоку в пікселях (<code>BLOCK = 30</code>). Створи функцію
+            <code>createBoard()</code>, що повертає двовимірний масив <code>ROWS × COLS</code>,
+            заповнений нулями — це і є ігрове поле. Нуль означає порожню клітинку,
+            будь-яке інше число — колір зафіксованого блоку.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              <code>Array.from({ length: ROWS }, () => Array(COLS).fill(0))</code> —
+              найчистіший спосіб. Не роби <code>new Array(ROWS).fill([])</code> —
+              усі рядки будуть <em>одним і тим самим</em> масивом.
+            </p>
+          </details>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">const COLS = 10;
+const ROWS = 20;
+const BLOCK = 30;
+
+function createBoard() {
+  return Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+}
+
+const board = createBoard();</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 2. Малювання поля</h2>
+          <p class="task-goal">
+            Отримай 2D-контекст Canvas (<code>getContext('2d')</code>) і напиши функцію
+            <code>drawBoard(ctx, board)</code>. Для кожної клітинки (<code>board[r][c]</code>)
+            де значення не нуль — малюй кольоровий прямокутник (<code>fillRect</code>); де нуль —
+            темний фон з тонкою сіткою (<code>strokeRect</code>). Зроби масив
+            <code>COLORS</code> із щонайменше 7 кольорів для різних типів фігур.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">const COLORS = [
+  null,
+  '#00f0f0', // I — блакитний
+  '#f0f000', // O — жовтий
+  '#a000f0', // T — фіолетовий
+  '#00f000', // S — зелений
+  '#f00000', // Z — червоний
+  '#0000f0', // J — синій
+  '#f0a000', // L — помаранчевий
+];
+
+const canvas = document.querySelector('#game');
+const ctx = canvas.getContext('2d');
+
+function drawBlock(ctx, x, y, colorIdx) {
+  ctx.fillStyle = COLORS[colorIdx];
+  ctx.fillRect(x * BLOCK, y * BLOCK, BLOCK - 1, BLOCK - 1);
+}
+
+function drawBoard(ctx, board) {
+  ctx.fillStyle = '#111';
+  ctx.fillRect(0, 0, COLS * BLOCK, ROWS * BLOCK);
+
+  board.forEach((row, r) => {
+    row.forEach((val, c) => {
+      if (val) {
+        drawBlock(ctx, c, r, val);
+      } else {
+        ctx.strokeStyle = '#222';
+        ctx.strokeRect(c * BLOCK, r * BLOCK, BLOCK, BLOCK);
+      }
+    });
+  });
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 3. Фігури (тетроміно)</h2>
+          <p class="task-goal">
+            Визнач усі 7 тетроміно як двовимірні масиви з числами (число = індекс кольору).
+            Кожна фігура — матриця де <code>0</code> — порожньо, <code>N</code> — блок
+            відповідного кольору. Напиши функцію <code>randomPiece()</code>, що повертає обʼєкт
+            <code>{ matrix, x, y }</code> з випадковою фігурою та початковою позицією
+            (по центру, зверху).
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              I-подібна: <code>[[0,0,0,0],[1,1,1,1],[0,0,0,0],[0,0,0,0]]</code>.
+              O-подібна: <code>[[2,2],[2,2]]</code>.
+              Решта аналогічно. Початкова позиція: <code>x = Math.floor(COLS/2) - 2</code>, <code>y = 0</code>.
+            </p>
+          </details>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">const PIECES = [
+  [[0,0,0,0],[1,1,1,1],[0,0,0,0],[0,0,0,0]], // I
+  [[2,2],[2,2]],                               // O
+  [[0,3,0],[3,3,3],[0,0,0]],                   // T
+  [[0,4,4],[4,4,0],[0,0,0]],                   // S
+  [[5,5,0],[0,5,5],[0,0,0]],                   // Z
+  [[6,0,0],[6,6,6],[0,0,0]],                   // J
+  [[0,0,7],[7,7,7],[0,0,0]],                   // L
+];
+
+function randomPiece() {
+  const matrix = PIECES[Math.floor(Math.random() * PIECES.length)];
+  return {
+    matrix,
+    x: Math.floor(COLS / 2) - Math.floor(matrix[0].length / 2),
+    y: 0,
+  };
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 4. Малювання фігури</h2>
+          <p class="task-goal">
+            Напиши функцію <code>drawPiece(ctx, piece)</code>, яка малює поточну фігуру
+            поверх поля. Ітеруй по матриці фігури: якщо клітинка не нуль — малюй блок
+            за координатами <code>piece.x + c</code>, <code>piece.y + r</code>.
+            Потім об'єднай <code>drawBoard</code> і <code>drawPiece</code> у функцію
+            <code>render()</code> — вона перемальовуватиме весь Canvas за одним викликом.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function drawPiece(ctx, piece) {
+  piece.matrix.forEach((row, r) => {
+    row.forEach((val, c) => {
+      if (val) {
+        drawBlock(ctx, piece.x + c, piece.y + r, val);
+      }
+    });
+  });
+}
+
+function render() {
+  drawBoard(ctx, board);
+  drawPiece(ctx, current);
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 5. Виявлення колізій</h2>
+          <p class="task-goal">
+            Напиши функцію <code>collides(board, piece)</code>, що повертає <code>true</code>,
+            якщо фігура виходить за межі поля (ліво/право/низ) або перекриває зафіксований
+            блок. Ітеруй по матриці фігури, перевіряй кожен ненульовий елемент.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Для кожного ненульового <code>val</code> у <code>matrix[r][c]</code> перевір:
+              <code>x &lt; 0</code>, <code>x &gt;= COLS</code>, <code>y &gt;= ROWS</code>,
+              і <code>board[y] && board[y][x] !== 0</code> де <code>x = piece.x + c</code>,
+              <code>y = piece.y + r</code>.
+            </p>
+          </details>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function collides(board, piece) {
+  return piece.matrix.some((row, r) =>
+    row.some((val, c) => {
+      if (!val) return false;
+      const nx = piece.x + c;
+      const ny = piece.y + r;
+      return nx < 0 || nx >= COLS || ny >= ROWS || (board[ny] && board[ny][nx] !== 0);
+    })
+  );
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 6. Рух та обертання</h2>
+          <p class="task-goal">
+            Реалізуй рух фігури: ліво (<code>piece.x -= 1</code>), право (<code>piece.x += 1</code>),
+            вниз (<code>piece.y += 1</code>). Якщо після зміни колізія — відміни рух.
+            Для обертання транспонуй матрицю фігури і розверни рядки — класичний алгоритм
+            повороту на 90° за годинниковою стрілкою. Якщо повернута фігура колізує —
+            не повертай (wall kick можна пропустити).
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function move(dir) {
+  current.x += dir;
+  if (collides(board, current)) current.x -= dir;
+}
+
+function rotate() {
+  const prev = current.matrix;
+  current.matrix = current.matrix[0].map((_, i) =>
+    current.matrix.map((row) => row[i]).reverse()
+  );
+  if (collides(board, current)) current.matrix = prev;
+}
+
+function drop() {
+  current.y += 1;
+  if (collides(board, current)) {
+    current.y -= 1;
+    lock();
+  }
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 7. Фіксація фігури та очищення ліній</h2>
+          <p class="task-goal">
+            Напиши функцію <code>lock()</code>: копіює матрицю поточної фігури в поле
+            (<code>board[r][c] = val</code>), потім перевіряє кожен рядок поля — якщо він
+            повністю заповнений (немає нулів), видаляє його і додає порожній зверху.
+            Після цього спавни нову фігуру. Якщо нова фігура одразу колізує — гра закінчена.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function lock() {
+  current.matrix.forEach((row, r) => {
+    row.forEach((val, c) => {
+      if (val) board[current.y + r][current.x + c] = val;
+    });
+  });
+
+  // очистити заповнені рядки
+  let cleared = 0;
+  for (let r = ROWS - 1; r >= 0; ) {
+    if (board[r].every((v) => v !== 0)) {
+      board.splice(r, 1);
+      board.unshift(Array(COLS).fill(0));
+      cleared++;
+    } else {
+      r--;
+    }
+  }
+  score += [0, 100, 300, 500, 800][cleared] || 0;
+
+  current = randomPiece();
+  if (collides(board, current)) {
+    gameOver();
+  }
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 8. Ігровий цикл</h2>
+          <p class="task-goal">
+            Запусти гру через <code>requestAnimationFrame</code>. Фігура падає вниз кожні
+            N мілісекунд (на першому рівні ~800 мс). Відстежуй <code>lastTime</code> і
+            <code>dropCounter</code> — коли <code>dropCounter</code> перевищує <code>dropInterval</code>,
+            викликай <code>drop()</code> і скидай лічильник. Швидкість зростає з рівнем.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">let lastTime = 0;
+let dropCounter = 0;
+let dropInterval = 800;
+let running = false;
+
+function gameLoop(time = 0) {
+  if (!running) return;
+  const delta = time - lastTime;
+  lastTime = time;
+  dropCounter += delta;
+  if (dropCounter >= dropInterval) {
+    drop();
+    dropCounter = 0;
+  }
+  render();
+  requestAnimationFrame(gameLoop);
+}
+
+function startGame() {
+  board = createBoard();
+  current = randomPiece();
+  score = 0;
+  level = 1;
+  lines = 0;
+  running = true;
+  requestAnimationFrame(gameLoop);
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 9. Клавіатура</h2>
+          <p class="task-goal">
+            Додай обробник <code>keydown</code>: стрілка ліворуч/праворуч — рух,
+            стрілка вгору — обертання, стрілка вниз — прискорений дроп (зменш інтервал
+            до ~50 мс поки клавіша натиснута, відновлюй на <code>keyup</code>).
+            Пробіл — миттєво скидає фігуру вниз (hard drop).
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">document.addEventListener('keydown', (e) => {
+  if (!running) return;
+  switch (e.key) {
+    case 'ArrowLeft':  move(-1); break;
+    case 'ArrowRight': move(1);  break;
+    case 'ArrowUp':    rotate(); break;
+    case 'ArrowDown':  dropInterval = 50; break;
+    case ' ':
+      while (!collides(board, { ...current, y: current.y + 1 })) current.y++;
+      lock();
+      break;
+  }
+});
+
+document.addEventListener('keyup', (e) => {
+  if (e.key === 'ArrowDown') dropInterval = Math.max(100, 800 - (level - 1) * 70);
+});</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 10. Рахунок, рівні та «гра закінчена» (виклик)</h2>
+          <p class="task-goal">
+            Виводь рахунок, рівень і кількість очищених ліній у DOM поряд із Canvas.
+            Збільшуй рівень кожні 10 ліній, відповідно прискорюй падіння.
+            Коли <code>gameOver()</code> — зупини цикл і покажи напис на Canvas або
+            оверлей з фінальним рахунком і кнопкою «Нова гра».
+            Додатково: зберігай рекорд у <code>localStorage</code>.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function updateUI() {
+  document.querySelector('#score').textContent = score;
+  document.querySelector('#level').textContent = level;
+  document.querySelector('#lines').textContent = lines;
+}
+
+function gameOver() {
+  running = false;
+  ctx.fillStyle = 'rgba(0,0,0,0.6)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 24px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Гра закінчена!', canvas.width / 2, canvas.height / 2 - 20);
+  ctx.font = '18px sans-serif';
+  ctx.fillText('Рахунок: ' + score, canvas.width / 2, canvas.height / 2 + 16);
+
+  const best = parseInt(localStorage.getItem('tetris-best') || '0', 10);
+  if (score > best) localStorage.setItem('tetris-best', score);
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Тетріс — ідеальний Canvas-проєкт: він охоплює ігровий цикл через
+              <code>requestAnimationFrame</code>, двовимірні масиви, обробку клавіатури
+              і управління станом без фреймворків. Готовий результат стане відмінним
+              пунктом у портфоліо.
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth-guard.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+    <script>
+      // Живе демо Тетрісу на сторінці
+      (function () {
+        const COLS = 10, ROWS = 20, BLOCK = 20;
+        const COLORS = [null,'#00f0f0','#f0f000','#a000f0','#00f000','#f00000','#0000f0','#f0a000'];
+        const PIECES = [
+          [[0,0,0,0],[1,1,1,1],[0,0,0,0],[0,0,0,0]],
+          [[2,2],[2,2]],
+          [[0,3,0],[3,3,3],[0,0,0]],
+          [[0,4,4],[4,4,0],[0,0,0]],
+          [[5,5,0],[0,5,5],[0,0,0]],
+          [[6,0,0],[6,6,6],[0,0,0]],
+          [[0,0,7],[7,7,7],[0,0,0]],
+        ];
+        const canvas = document.getElementById('tetris-demo');
+        const ctx = canvas.getContext('2d');
+        canvas.width = COLS * BLOCK;
+        canvas.height = ROWS * BLOCK;
+
+        let board, current, score, level, lines, running = false, lastTime = 0, dropCounter = 0, dropInterval = 800;
+
+        function createBoard() { return Array.from({length:ROWS},()=>Array(COLS).fill(0)); }
+        function randomPiece() {
+          const m = PIECES[Math.floor(Math.random()*PIECES.length)];
+          return { matrix: m.map(r=>[...r]), x: Math.floor(COLS/2)-Math.floor(m[0].length/2), y: 0 };
+        }
+        function collides(b,p) {
+          return p.matrix.some((row,r)=>row.some((v,c)=>{
+            if(!v)return false;
+            const nx=p.x+c,ny=p.y+r;
+            return nx<0||nx>=COLS||ny>=ROWS||(b[ny]&&b[ny][nx]!==0);
+          }));
+        }
+        function drawBlock(x,y,ci){
+          ctx.fillStyle=COLORS[ci];
+          ctx.fillRect(x*BLOCK,y*BLOCK,BLOCK-1,BLOCK-1);
+        }
+        function render(){
+          ctx.fillStyle='#111';ctx.fillRect(0,0,canvas.width,canvas.height);
+          board.forEach((row,r)=>row.forEach((v,c)=>{
+            if(v)drawBlock(c,r,v);
+            else{ctx.strokeStyle='#1e1e2e';ctx.strokeRect(c*BLOCK,r*BLOCK,BLOCK,BLOCK);}
+          }));
+          current.matrix.forEach((row,r)=>row.forEach((v,c)=>{if(v)drawBlock(current.x+c,current.y+r,v);}));
+        }
+        function updateUI(){
+          document.getElementById('td-score').textContent=score;
+          document.getElementById('td-level').textContent=level;
+          document.getElementById('td-lines').textContent=lines;
+        }
+        function lock(){
+          current.matrix.forEach((row,r)=>row.forEach((v,c)=>{if(v)board[current.y+r][current.x+c]=v;}));
+          let cleared=0;
+          for(let r=ROWS-1;r>=0;){
+            if(board[r].every(v=>v!==0)){board.splice(r,1);board.unshift(Array(COLS).fill(0));cleared++;}
+            else r--;
+          }
+          lines+=cleared;
+          score+=[0,100,300,500,800][cleared]||0;
+          level=Math.floor(lines/10)+1;
+          dropInterval=Math.max(80,800-(level-1)*70);
+          current=randomPiece();
+          if(collides(board,current)){gameOver();return;}
+          updateUI();
+        }
+        function drop(){
+          current.y++;
+          if(collides(board,current)){current.y--;lock();}
+        }
+        function move(d){current.x+=d;if(collides(board,current))current.x-=d;}
+        function rotatePiece(){
+          const prev=current.matrix;
+          current.matrix=current.matrix[0].map((_,i)=>current.matrix.map(row=>row[i]).reverse());
+          if(collides(board,current))current.matrix=prev;
+        }
+        function gameOver(){
+          running=false;
+          ctx.fillStyle='rgba(0,0,0,0.65)';ctx.fillRect(0,0,canvas.width,canvas.height);
+          ctx.fillStyle='#fff';ctx.font='bold 16px sans-serif';ctx.textAlign='center';
+          ctx.fillText('Гра закінчена!',canvas.width/2,canvas.height/2-12);
+          ctx.font='13px sans-serif';ctx.fillText('Рахунок: '+score,canvas.width/2,canvas.height/2+10);
+        }
+        function gameLoop(time=0){
+          if(!running)return;
+          const d=time-lastTime;lastTime=time;
+          dropCounter+=d;
+          if(dropCounter>=dropInterval){drop();dropCounter=0;}
+          render();requestAnimationFrame(gameLoop);
+        }
+        function startGame(){
+          board=createBoard();current=randomPiece();score=0;level=1;lines=0;
+          running=true;lastTime=0;dropCounter=0;dropInterval=800;
+          updateUI();requestAnimationFrame(gameLoop);
+        }
+        document.getElementById('td-start').addEventListener('click',()=>{
+          if(running){running=false;document.getElementById('td-start').textContent='Продовжити';}
+          else if(board){running=true;document.getElementById('td-start').textContent='Пауза';requestAnimationFrame(gameLoop);}
+          else{startGame();document.getElementById('td-start').textContent='Пауза';}
+        });
+        document.addEventListener('keydown',(e)=>{
+          if(!running)return;
+          switch(e.key){
+            case'ArrowLeft':e.preventDefault();move(-1);break;
+            case'ArrowRight':e.preventDefault();move(1);break;
+            case'ArrowUp':e.preventDefault();rotatePiece();break;
+            case'ArrowDown':e.preventDefault();dropInterval=50;break;
+            case' ':e.preventDefault();
+              while(!collides(board,{...current,y:current.y+1}))current.y++;
+              lock();break;
+          }
+          render();
+        });
+        document.addEventListener('keyup',(e)=>{
+          if(e.key==='ArrowDown')dropInterval=Math.max(80,800-(level-1)*70);
+        });
+        // намалюємо статичний екран очікування
+        ctx.fillStyle='#111';ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle='#555';ctx.font='14px sans-serif';ctx.textAlign='center';
+        ctx.fillText('Натисни «Старт»',canvas.width/2,canvas.height/2);
+      })();
+    </script>
+  </body>
+</html>

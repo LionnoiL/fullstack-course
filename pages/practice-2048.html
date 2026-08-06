@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: 2048 · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+    <style>
+      /* ── Живе демо ─────────────────────────────────────── */
+      .demo-2048 {
+        background: #faf8ef;
+        border-radius: 10px;
+        padding: 20px;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        margin: 16px 0;
+        font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+      }
+      .demo-2048 .d-header {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+      }
+      .demo-2048 .d-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #776e65;
+      }
+      .demo-2048 .d-scores {
+        display: flex;
+        gap: 8px;
+      }
+      .demo-2048 .d-score-box {
+        background: #bbada0;
+        border-radius: 4px;
+        padding: 6px 12px;
+        text-align: center;
+        min-width: 60px;
+      }
+      .demo-2048 .d-score-box .label {
+        font-size: 10px;
+        color: #eee4da;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      .demo-2048 .d-score-box .val {
+        font-size: 18px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .demo-2048 .d-actions {
+        display: flex;
+        gap: 8px;
+      }
+      .demo-2048 button {
+        background: #8f7a66;
+        color: #f9f6f2;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .demo-2048 button:hover { background: #7f6a56; }
+      .d-grid {
+        background: #bbada0;
+        border-radius: 6px;
+        padding: 8px;
+        display: grid;
+        grid-template-columns: repeat(4, 80px);
+        grid-template-rows: repeat(4, 80px);
+        gap: 8px;
+      }
+      .d-cell {
+        background: #cdc1b4;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: 700;
+        transition: background 0.1s;
+      }
+      .d-cell[data-v="2"]    { background:#eee4da; color:#776e65; }
+      .d-cell[data-v="4"]    { background:#ede0c8; color:#776e65; }
+      .d-cell[data-v="8"]    { background:#f2b179; color:#f9f6f2; }
+      .d-cell[data-v="16"]   { background:#f59563; color:#f9f6f2; }
+      .d-cell[data-v="32"]   { background:#f67c5f; color:#f9f6f2; }
+      .d-cell[data-v="64"]   { background:#f65e3b; color:#f9f6f2; }
+      .d-cell[data-v="128"]  { background:#edcf72; color:#f9f6f2; font-size:20px; }
+      .d-cell[data-v="256"]  { background:#edcc61; color:#f9f6f2; font-size:20px; }
+      .d-cell[data-v="512"]  { background:#edc850; color:#f9f6f2; font-size:20px; }
+      .d-cell[data-v="1024"] { background:#edc53f; color:#f9f6f2; font-size:16px; }
+      .d-cell[data-v="2048"] { background:#edc22e; color:#f9f6f2; font-size:16px; }
+      .d-message {
+        font-size: 14px;
+        font-weight: 700;
+        color: #776e65;
+        min-height: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Практика: 2048</h1>
+        <p>
+          Покрокова реалізація гри 2048 на чистому JavaScript та DOM.
+          Ця гра — чудова вправа на роботу з двовимірними масивами,
+          алгоритмами зсуву та подіями клавіатури.
+        </p>
+
+        <!-- LIVE DEMO -->
+        <div class="demo-2048" id="demo-2048-wrap">
+          <div class="d-header">
+            <div class="d-title">2048</div>
+            <div class="d-scores">
+              <div class="d-score-box">
+                <div class="label">Рахунок</div>
+                <div class="val" id="d-score">0</div>
+              </div>
+              <div class="d-score-box">
+                <div class="label">Рекорд</div>
+                <div class="val" id="d-best">0</div>
+              </div>
+            </div>
+          </div>
+          <div class="d-actions">
+            <button id="d-new">Нова гра</button>
+          </div>
+          <div class="d-grid" id="d-grid"></div>
+          <div class="d-message" id="d-message">Використовуй стрілки для керування</div>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 1. Стан гри</h2>
+          <p class="task-goal">
+            Визнач структуру стану гри: <code>grid</code> — двовимірний масив 4×4
+            (нуль — порожня клітинка), <code>score</code> — поточний рахунок,
+            <code>best</code> — рекорд (зберігається в <code>localStorage</code>).
+            Напиши функцію <code>createGrid()</code>, що повертає порожній масив 4×4.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">const SIZE = 4;
+
+let grid, score, best;
+
+function createGrid() {
+  return Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
+}
+
+function initGame() {
+  grid = createGrid();
+  score = 0;
+  best = parseInt(localStorage.getItem('2048-best') || '0', 10);
+  addTile();
+  addTile();
+  render();
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 2. Відображення сітки у DOM</h2>
+          <p class="task-goal">
+            Напиши функцію <code>render()</code>, яка синхронізує DOM із масивом <code>grid</code>.
+            Для кожної клітинки встав значення (або порожньо якщо 0) та застосуй
+            відповідний CSS-клас / data-атрибут для кольору. Оновлюй також відображення рахунку.
+            Не перебудовуй весь DOM щоразу — просто оновлюй <code>textContent</code> та атрибути.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Зручно створити 16 <code>div.cell</code> заздалегідь і посилатися на них через масив.
+              У <code>render()</code> лише оновлюй <code>cell.textContent</code> і
+              <code>cell.dataset.v</code> — CSS зробить все інше через <code>[data-v="8"]</code> тощо.
+            </p>
+          </details>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">const gridEl = document.querySelector('.grid');
+const cells = [];
+
+// ініціалізація DOM-клітинок
+for (let i = 0; i < SIZE * SIZE; i++) {
+  const div = document.createElement('div');
+  div.className = 'cell';
+  gridEl.appendChild(div);
+  cells.push(div);
+}
+
+function render() {
+  grid.forEach((row, r) => {
+    row.forEach((val, c) => {
+      const cell = cells[r * SIZE + c];
+      cell.textContent = val || '';
+      cell.dataset.v = val || '';
+    });
+  });
+  document.querySelector('#score').textContent = score;
+  document.querySelector('#best').textContent = best;
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 3. Додавання нової плитки</h2>
+          <p class="task-goal">
+            Напиши <code>addTile()</code>: знайди всі порожні клітинки (<code>grid[r][c] === 0</code>),
+            обери одну випадково і постав туди <code>2</code> (90% ймовірності) або <code>4</code>
+            (10%). Якщо порожніх немає — нічого не роби.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function addTile() {
+  const empty = [];
+  grid.forEach((row, r) => row.forEach((v, c) => { if (!v) empty.push([r, c]); }));
+  if (!empty.length) return;
+  const [r, c] = empty[Math.floor(Math.random() * empty.length)];
+  grid[r][c] = Math.random() < 0.9 ? 2 : 4;
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 4. Зсув і злиття одного рядка</h2>
+          <p class="task-goal">
+            Це ядро гри. Напиши функцію <code>slideRow(row)</code>, що приймає масив із 4 елементів
+            і повертає новий масив після зсуву ліворуч та злиття: спочатку видали нулі,
+            потім злий сусідні однакові числа (подвоївши ліве і зробивши праве нулем),
+            додай нулі в кінець до довжини 4. Функція повертає <code>{ result, gained }</code>
+            де <code>gained</code> — кількість очок набраних за злиття.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Крок 1: <code>row.filter(v =&gt; v !== 0)</code>.<br>
+              Крок 2: у циклі якщо <code>arr[i] === arr[i+1]</code> — подвой <code>arr[i]</code>,
+              встав 0 замість <code>arr[i+1]</code>.<br>
+              Крок 3: знову filter і .fill(0) до довжини 4.
+            </p>
+          </details>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function slideRow(row) {
+  let arr = row.filter((v) => v !== 0);
+  let gained = 0;
+
+  for (let i = 0; i < arr.length - 1; i++) {
+    if (arr[i] === arr[i + 1]) {
+      arr[i] *= 2;
+      gained += arr[i];
+      arr[i + 1] = 0;
+      i++; // пропустити злитий елемент
+    }
+  }
+
+  arr = arr.filter((v) => v !== 0);
+  while (arr.length < SIZE) arr.push(0);
+  return { result: arr, gained };
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 5. Чотири напрямки</h2>
+          <p class="task-goal">
+            На основі <code>slideRow()</code> реалізуй функцію <code>move(dir)</code>
+            для напрямків <code>'left' | 'right' | 'up' | 'down'</code>.
+            Для <code>right</code> — обернути рядок, зсунути, обернути назад.
+            Для <code>up</code>/<code>down</code> — транспонуй сітку, зсунь, транспонуй назад
+            (вертикальний рух стає горизонтальним).
+            Якщо сітка змінилась — додай нову плитку, онови рахунок.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function transpose(g) {
+  return g[0].map((_, c) => g.map((row) => row[c]));
+}
+
+function move(dir) {
+  let g = grid.map((r) => [...r]);
+  let rotated = false;
+
+  if (dir === 'up' || dir === 'down') { g = transpose(g); rotated = true; }
+
+  let gained = 0;
+  const reverse = dir === 'right' || dir === 'down';
+
+  g = g.map((row) => {
+    if (reverse) row = [...row].reverse();
+    const { result, gained: pts } = slideRow(row);
+    gained += pts;
+    return reverse ? result.reverse() : result;
+  });
+
+  if (rotated) g = transpose(g);
+
+  // перевірити чи щось змінилось
+  const changed = grid.some((row, r) => row.some((v, c) => v !== g[r][c]));
+  if (!changed) return;
+
+  grid = g;
+  score += gained;
+  if (score > best) { best = score; localStorage.setItem('2048-best', best); }
+  addTile();
+  render();
+  checkEnd();
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 6. Керування клавіатурою та свайпи</h2>
+          <p class="task-goal">
+            Підпишись на <code>keydown</code> і мапуй стрілки на <code>move(dir)</code>.
+            Для мобільних додай підтримку свайпів: запиши координати <code>touchstart</code>,
+            порівняй з <code>touchend</code> і визнач напрямок за максимальною дельтою
+            по осі X або Y.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">const KEY_MAP = {
+  ArrowLeft: 'left', ArrowRight: 'right',
+  ArrowUp: 'up', ArrowDown: 'down',
+};
+
+document.addEventListener('keydown', (e) => {
+  const dir = KEY_MAP[e.key];
+  if (dir) { e.preventDefault(); move(dir); }
+});
+
+// Свайпи
+let touchX, touchY;
+document.addEventListener('touchstart', (e) => {
+  touchX = e.touches[0].clientX;
+  touchY = e.touches[0].clientY;
+});
+document.addEventListener('touchend', (e) => {
+  const dx = e.changedTouches[0].clientX - touchX;
+  const dy = e.changedTouches[0].clientY - touchY;
+  if (Math.abs(dx) > Math.abs(dy)) {
+    move(dx > 0 ? 'right' : 'left');
+  } else {
+    move(dy > 0 ? 'down' : 'up');
+  }
+});</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 7. Перевірка кінця гри та перемоги</h2>
+          <p class="task-goal">
+            Напиши <code>checkEnd()</code>: якщо на полі є плитка 2048 — показуй повідомлення
+            про перемогу (але дозволяй грати далі). Гра закінчена (програш) коли
+            немає порожніх клітинок <strong>і</strong> жоден хід неможливий (немає сусідів
+            з однаковим значенням). Перевір обидва напрямки по рядках і стовпцях.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function canMove() {
+  for (let r = 0; r < SIZE; r++) {
+    for (let c = 0; c < SIZE; c++) {
+      if (grid[r][c] === 0) return true;
+      if (c < SIZE - 1 && grid[r][c] === grid[r][c + 1]) return true;
+      if (r < SIZE - 1 && grid[r][c] === grid[r + 1][c]) return true;
+    }
+  }
+  return false;
+}
+
+function checkEnd() {
+  const has2048 = grid.some((row) => row.some((v) => v === 2048));
+  if (has2048) {
+    showMessage('Перемога! 🎉');
+    return;
+  }
+  if (!canMove()) {
+    showMessage('Гра закінчена! Рахунок: ' + score);
+  }
+}
+
+function showMessage(text) {
+  document.querySelector('#message').textContent = text;
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 8. Анімація та полірування (виклик)</h2>
+          <p class="task-goal">
+            Додай CSS-анімацію появи нової плитки (<code>@keyframes pop-in</code>: scale від 0 до 1).
+            При злитті — коротка підсвітка (<code>@keyframes merge-flash</code>).
+            Реалізуй кнопку «Відмінити» (<em>undo</em>): зберігай попередній стан гри у змінній
+            і відновлюй його за кліком. Зроби адаптивний CSS щоб гра виглядала на мобільних.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Для undo перед кожним ходом клонуй стан:
+              <code>prevGrid = grid.map(r =&gt; [...r]); prevScore = score;</code>.
+              Анімацію запускай через <code>classList.add('new-tile')</code> і видаляй
+              через <code>animationend</code> або <code>setTimeout</code>.
+            </p>
+          </details>
+        </div>
+
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              2048 — класичний приклад де вся логіка зведена до однієї операції
+              (<code>slideRow</code>), а решта — лише трансформації і симетрія.
+              Усвідомлення цього патерну — ключовий навик декомпозиції задач.
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth-guard.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+    <script>
+      // Живе демо 2048 на сторінці
+      (function () {
+        const SIZE = 4;
+        let grid, score, best;
+
+        const gridEl = document.getElementById('d-grid');
+        const scoreEl = document.getElementById('d-score');
+        const bestEl  = document.getElementById('d-best');
+        const msgEl   = document.getElementById('d-message');
+        const cells   = [];
+
+        for (let i = 0; i < SIZE * SIZE; i++) {
+          const d = document.createElement('div');
+          d.className = 'd-cell';
+          gridEl.appendChild(d);
+          cells.push(d);
+        }
+
+        function createGrid() { return Array.from({length:SIZE},()=>Array(SIZE).fill(0)); }
+        function addTile() {
+          const empty = [];
+          grid.forEach((row,r)=>row.forEach((v,c)=>{if(!v)empty.push([r,c]);}));
+          if(!empty.length)return;
+          const [r,c]=empty[Math.floor(Math.random()*empty.length)];
+          grid[r][c]=Math.random()<0.9?2:4;
+        }
+        function render() {
+          grid.forEach((row,r)=>row.forEach((v,c)=>{
+            const cell=cells[r*SIZE+c];
+            cell.textContent=v||'';
+            cell.dataset.v=v||'';
+          }));
+          scoreEl.textContent=score;
+          bestEl.textContent=best;
+        }
+        function slideRow(row) {
+          let arr=row.filter(v=>v!==0);
+          let gained=0;
+          for(let i=0;i<arr.length-1;i++){
+            if(arr[i]===arr[i+1]){arr[i]*=2;gained+=arr[i];arr[i+1]=0;i++;}
+          }
+          arr=arr.filter(v=>v!==0);
+          while(arr.length<SIZE)arr.push(0);
+          return{result:arr,gained};
+        }
+        function transpose(g){return g[0].map((_,c)=>g.map(row=>row[c]));}
+        function move(dir) {
+          let g=grid.map(r=>[...r]);
+          let rotated=false;
+          if(dir==='up'||dir==='down'){g=transpose(g);rotated=true;}
+          const rev=dir==='right'||dir==='down';
+          let gained=0;
+          g=g.map(row=>{
+            if(rev)row=[...row].reverse();
+            const{result,gained:pts}=slideRow(row);
+            gained+=pts;
+            return rev?result.reverse():result;
+          });
+          if(rotated)g=transpose(g);
+          const changed=grid.some((row,r)=>row.some((v,c)=>v!==g[r][c]));
+          if(!changed)return;
+          grid=g;score+=gained;
+          if(score>best){best=score;localStorage.setItem('2048-best',best);}
+          addTile();render();checkEnd();
+        }
+        function canMove(){
+          for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++){
+            if(!grid[r][c])return true;
+            if(c<SIZE-1&&grid[r][c]===grid[r][c+1])return true;
+            if(r<SIZE-1&&grid[r][c]===grid[r+1][c])return true;
+          }return false;
+        }
+        function checkEnd(){
+          if(grid.some(row=>row.some(v=>v===2048))){msgEl.textContent='Перемога! 🎉';return;}
+          if(!canMove())msgEl.textContent='Гра закінчена! Рахунок: '+score;
+          else msgEl.textContent='';
+        }
+        function initGame(){
+          grid=createGrid();score=0;
+          best=parseInt(localStorage.getItem('2048-best')||'0',10);
+          addTile();addTile();render();
+          msgEl.textContent='Використовуй стрілки для керування';
+        }
+        document.getElementById('d-new').addEventListener('click',initGame);
+        const KEY_MAP={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down'};
+        document.addEventListener('keydown',(e)=>{
+          const dir=KEY_MAP[e.key];
+          if(dir){e.preventDefault();move(dir);}
+        });
+        let tx,ty;
+        document.getElementById('d-grid').addEventListener('touchstart',(e)=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+        document.getElementById('d-grid').addEventListener('touchend',(e)=>{
+          const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
+          if(Math.abs(dx)>Math.abs(dy))move(dx>0?'right':'left');else move(dy>0?'down':'up');
+        },{passive:true});
+        initGame();
+      })();
+    </script>
+  </body>
+</html>

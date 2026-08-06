@@ -490,6 +490,11 @@
         ["project-gallery.html", "Проєкт: галерея"],
         ["project-weather.html", "Проєкт: погода з API"],
         ["project-fullstack.html", "Проєкт: fullstack-нотатник"],
+        ["practice-snake.html", "🎮 Проєкт: Snake"],
+        ["practice-tictactoe.html", "🎮 Проєкт: Хрестики-нулики"],
+        ["practice-minesweeper.html", "🎮 Проєкт: Сапер"],
+        ["practice-tetris.html", "🎮 Проєкт: Тетріс"],
+        ["practice-2048.html", "🎮 Проєкт: 2048"],
         ["project-bank.html", "🗂️ Банк проєктів (ідеї)"],
       ],
     },
@@ -658,13 +663,17 @@
     window.CourseFirebase.onWrite("jscourse.lastPage", _rel2);
   } else {
     // CourseFirebase ще не готовий — чекаємо на authready
-    window.addEventListener("jscourse:authready", function () {
-      if (window.CourseFirebase) {
-        var _m3 = location.pathname.match(/\/(pages\/.+)$/);
-        var _rel3 = _m3 ? _m3[1] : location.pathname.replace(/^\//, "");
-        window.CourseFirebase.onWrite("jscourse.lastPage", _rel3);
-      }
-    }, { once: true });
+    window.addEventListener(
+      "jscourse:authready",
+      function () {
+        if (window.CourseFirebase) {
+          var _m3 = location.pathname.match(/\/(pages\/.+)$/);
+          var _rel3 = _m3 ? _m3[1] : location.pathname.replace(/^\//, "");
+          window.CourseFirebase.onWrite("jscourse.lastPage", _rel3);
+        }
+      },
+      { once: true }
+    );
   }
 
   function buildUserPanel() {

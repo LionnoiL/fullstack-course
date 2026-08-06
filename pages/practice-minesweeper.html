@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: Сапер · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+    <style>
+      .ms-demo {
+        background: #e8e8e8;
+        border-radius: 10px;
+        padding: 16px;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin: 16px 0;
+        font-family: monospace;
+      }
+      .ms-header {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+        font-size: 14px;
+        font-weight: 700;
+        color: #333;
+      }
+      .ms-counter {
+        background: #c00;
+        color: #fff;
+        padding: 3px 8px;
+        border-radius: 3px;
+        min-width: 36px;
+        text-align: center;
+        font-size: 18px;
+        letter-spacing: 1px;
+      }
+      .ms-face {
+        font-size: 24px;
+        cursor: pointer;
+        background: #bbb;
+        border: 2px solid;
+        border-color: #fff #999 #999 #fff;
+        padding: 2px 8px;
+        border-radius: 3px;
+        line-height: 1;
+      }
+      .ms-face:hover { background: #ccc; }
+      .ms-timer { background: #c00; color: #fff; padding: 3px 8px; border-radius: 3px; min-width: 36px; text-align: center; font-size: 18px; letter-spacing: 1px; }
+      .ms-grid {
+        display: grid;
+        gap: 0;
+        border: 3px solid;
+        border-color: #fff #999 #999 #fff;
+      }
+      .ms-cell {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        user-select: none;
+        background: #bbb;
+        border: 2px solid;
+        border-color: #fff #888 #888 #fff;
+        box-sizing: border-box;
+      }
+      .ms-cell.revealed {
+        background: #c8c8c8;
+        border-color: #aaa #ccc #ccc #aaa;
+        cursor: default;
+      }
+      .ms-cell.flagged { background: #bbb; }
+      .ms-cell[data-n="1"] { color: #00c; }
+      .ms-cell[data-n="2"] { color: #060; }
+      .ms-cell[data-n="3"] { color: #c00; }
+      .ms-cell[data-n="4"] { color: #00008b; }
+      .ms-cell[data-n="5"] { color: #8b0000; }
+      .ms-cell[data-n="6"] { color: #008b8b; }
+      .ms-cell[data-n="7"] { color: #000; }
+      .ms-cell[data-n="8"] { color: #808080; }
+      .ms-cell.mine-hit { background: #f00 !important; }
+      .ms-diff-btns { display: flex; gap: 8px; }
+      .ms-diff-btns button {
+        background: #bbb;
+        border: 2px solid;
+        border-color: #fff #888 #888 #fff;
+        padding: 3px 10px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .ms-diff-btns button:hover { background: #ccc; }
+      .ms-diff-btns button.active { background: #999; border-color: #888 #fff #fff #888; }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Проєкт: Сапер</h1>
+        <p>
+          Сапер — класика жанру, де головна алгоритмічна перлина — рекурсивне
+          розкриття порожніх клітинок. Побудований на DOM: кожна клітинка — окремий
+          <code>div</code> зі станом у масиві даних.
+        </p>
+
+        <!-- LIVE DEMO -->
+        <div class="ms-demo" id="ms-demo">
+          <div class="ms-header">
+            <div class="ms-counter" id="ms-mines">10</div>
+            <button class="ms-face" id="ms-face" title="Нова гра">🙂</button>
+            <div class="ms-timer" id="ms-timer">000</div>
+          </div>
+          <div class="ms-diff-btns">
+            <button class="active" data-diff="easy">Легко 9×9</button>
+            <button data-diff="medium">Середньо 16×16</button>
+          </div>
+          <div class="ms-grid" id="ms-grid"></div>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 1. Структура клітинки та поля</h2>
+          <p class="task-goal">
+            Визнач клітинку як обʼєкт:
+            <code>{ mine, revealed, flagged, adjacentMines }</code>.
+            Напиши <code>createBoard(rows, cols)</code> — двовимірний масив клітинок,
+            усі поля спочатку <code>false</code> / <code>0</code>.
+            Параметризуй розміри та кількість мін щоб підтримувати різні рівні складності.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">const LEVELS = {
+  easy:   { rows: 9,  cols: 9,  mines: 10 },
+  medium: { rows: 16, cols: 16, mines: 40 },
+  hard:   { rows: 16, cols: 30, mines: 99 },
+};
+
+function createBoard(rows, cols) {
+  return Array.from({ length: rows }, () =>
+    Array.from({ length: cols }, () => ({
+      mine: false,
+      revealed: false,
+      flagged: false,
+      adjacentMines: 0,
+    }))
+  );
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 2. Розміщення мін</h2>
+          <p class="task-goal">
+            Напиши <code>placeMines(board, count, safeR, safeC)</code>.
+            Розстав <code>count</code> мін випадково, але <strong>не</strong> в клітинку
+            де гравець вперше натиснув (<code>safeR, safeC</code>) і не в її 8 сусідів —
+            це гарантує, що перший хід завжди безпечний.
+            Використай алгоритм Фішера–Єйтса для рівномірного перемішування.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Склади список усіх позицій крім безпечних, перемішай через Fisher-Yates,
+              візьми перші <code>count</code> — постав <code>mine = true</code>.
+            </p>
+          </details>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function placeMines(board, count, safeR, safeC) {
+  const rows = board.length;
+  const cols = board[0].length;
+  const safe = new Set();
+  for (let dr = -1; dr <= 1; dr++)
+    for (let dc = -1; dc <= 1; dc++)
+      safe.add(`${safeR + dr},${safeC + dc}`);
+
+  const candidates = [];
+  for (let r = 0; r < rows; r++)
+    for (let c = 0; c < cols; c++)
+      if (!safe.has(`${r},${c}`)) candidates.push([r, c]);
+
+  // Fisher-Yates shuffle перших count елементів
+  for (let i = 0; i < count && i < candidates.length; i++) {
+    const j = i + Math.floor(Math.random() * (candidates.length - i));
+    [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+    const [r, c] = candidates[i];
+    board[r][c].mine = true;
+  }
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 3. Підрахунок сусідніх мін</h2>
+          <p class="task-goal">
+            Напиши <code>calcAdjacent(board)</code>: для кожної клітинки що
+            <em>не є</em> міною порахуй скільки з 8 сусідів є мінами і збережи
+            в <code>adjacentMines</code>. Це потрібно обчислити <strong>після</strong>
+            розстановки мін.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function calcAdjacent(board) {
+  const rows = board.length;
+  const cols = board[0].length;
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (board[r][c].mine) continue;
+      let count = 0;
+      for (let dr = -1; dr <= 1; dr++)
+        for (let dc = -1; dc <= 1; dc++) {
+          const nr = r + dr, nc = c + dc;
+          if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && board[nr][nc].mine)
+            count++;
+        }
+      board[r][c].adjacentMines = count;
+    }
+  }
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 4. Рендер поля у DOM</h2>
+          <p class="task-goal">
+            Напиши <code>render(board)</code>: побудуй CSS Grid де кожна клітинка —
+            <code>div</code> із класами залежно від стану (<code>revealed</code>,
+            <code>flagged</code>). Для розкритих клітинок показуй цифру (якщо
+            <code>adjacentMines > 0</code>), 💣 для мін, нічого для порожніх.
+            Не перебудовуй весь DOM при кожному оновленні — оновлюй тільки змінені клітинки.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function render(board) {
+  board.forEach((row, r) => {
+    row.forEach((cell, c) => {
+      const el = document.querySelector(`[data-r="${r}"][data-c="${c}"]`);
+      el.className = 'cell';
+      el.textContent = '';
+      el.removeAttribute('data-n');
+      if (cell.revealed) {
+        el.classList.add('revealed');
+        if (cell.mine) { el.textContent = '💣'; el.classList.add('mine-hit'); }
+        else if (cell.adjacentMines) {
+          el.textContent = cell.adjacentMines;
+          el.dataset.n = cell.adjacentMines;
+        }
+      } else if (cell.flagged) {
+        el.textContent = '🚩';
+        el.classList.add('flagged');
+      }
+    });
+  });
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 5. Розкриття клітинки (рекурсія)</h2>
+          <p class="task-goal">
+            Напиши <code>reveal(board, r, c)</code>. Якщо клітинка вже розкрита,
+            помічена прапорцем або є міна — стоп. Встанови <code>revealed = true</code>.
+            Якщо <code>adjacentMines === 0</code> — <strong>рекурсивно</strong> розкрий
+            усіх 8 сусідів. Це і є flood-fill що «розливає» порожні зони.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function reveal(board, r, c) {
+  const rows = board.length;
+  const cols = board[0].length;
+  if (r < 0 || r >= rows || c < 0 || c >= cols) return;
+  const cell = board[r][c];
+  if (cell.revealed || cell.flagged || cell.mine) return;
+
+  cell.revealed = true;
+
+  if (cell.adjacentMines === 0) {
+    for (let dr = -1; dr <= 1; dr++)
+      for (let dc = -1; dc <= 1; dc++)
+        if (dr !== 0 || dc !== 0)
+          reveal(board, r + dr, c + dc);
+  }
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 6. Обробка кліків</h2>
+          <p class="task-goal">
+            Лівий клік — розкрити клітинку. Якщо там міна — розкрий усі міни
+            і завершуй гру. Правий клік — поставити / зняти прапорець
+            (тільки на нерозкритих клітинках), оновлюй лічильник мін.
+            <strong>Важливо</strong>: міни генеруй тільки після <em>першого</em> кліку
+            (щоб гарантувати безпечний старт).
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">let firstClick = true;
+
+gridEl.addEventListener('click', (e) => {
+  const el = e.target.closest('.cell');
+  if (!el || gameEnded) return;
+  const r = +el.dataset.r, c = +el.dataset.c;
+  const cell = board[r][c];
+  if (cell.revealed || cell.flagged) return;
+
+  if (firstClick) {
+    firstClick = false;
+    placeMines(board, mineCount, r, c);
+    calcAdjacent(board);
+    startTimer();
+  }
+
+  if (cell.mine) {
+    revealAll(board);
+    el.classList.add('mine-hit');
+    endGame(false);
+  } else {
+    reveal(board, r, c);
+    checkWin();
+  }
+  render(board);
+});
+
+gridEl.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+  const el = e.target.closest('.cell');
+  if (!el || gameEnded) return;
+  const r = +el.dataset.r, c = +el.dataset.c;
+  const cell = board[r][c];
+  if (cell.revealed) return;
+  cell.flagged = !cell.flagged;
+  flagCount += cell.flagged ? 1 : -1;
+  updateMineCounter();
+  render(board);
+});</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 7. Визначення перемоги та таймер</h2>
+          <p class="task-goal">
+            Гравець перемагає коли кількість нерозкритих клітинок дорівнює кількості мін
+            (тобто всі безпечні клітинки розкриті). Запусти таймер на першому кліку,
+            зупини при перемозі або програші. Виводь час у форматі <code>000</code>
+            (з ведучими нулями, макс. 999).
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function checkWin() {
+  const unrevealed = board.flat().filter((c) => !c.revealed).length;
+  if (unrevealed === mineCount) endGame(true);
+}
+
+let timerVal = 0;
+let timerInterval = null;
+
+function startTimer() {
+  timerVal = 0;
+  timerInterval = setInterval(() => {
+    timerVal = Math.min(999, timerVal + 1);
+    document.querySelector('#timer').textContent = String(timerVal).padStart(3, '0');
+  }, 1000);
+}
+
+function endGame(won) {
+  gameEnded = true;
+  clearInterval(timerInterval);
+  document.querySelector('#face').textContent = won ? '😎' : '😵';
+  if (won) {
+    board.flat().filter((c) => !c.revealed).forEach((c) => (c.flagged = true));
+    render(board);
+  }
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 8. Хорд-клік та рівні складності (виклик)</h2>
+          <p class="task-goal">
+            <strong>Chord click</strong>: якщо клікнути на вже розкриту клітинку із цифрою,
+            і кількість прапорців навколо рівна її числу — автоматично розкрий решту
+            сусідів (стандартна механіка Сапера). Додай вибір рівня складності:
+            Легко (9×9, 10 мін), Середньо (16×16, 40 мін), Складно (30×16, 99 мін).
+            Реалізуй збереження найкращого часу для кожного рівня в <code>localStorage</code>.
+          </p>
+        </div>
+
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Рекурсивний flood-fill із Сапера — той самий алгоритм що
+              використовується в Paint («заливка»), пошуку компонент зв'язності
+              у графах і BFS/DFS на гратках. Засвоїти його на грі — найприємніший спосіб.
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth-guard.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+    <script>
+    (function () {
+      const LEVELS = {
+        easy:   { rows: 9,  cols: 9,  mines: 10 },
+        medium: { rows: 16, cols: 16, mines: 40 },
+      };
+      let board, mineCount, firstClick, gameEnded, timerVal, timerInterval, flagCount;
+      let currentLevel = 'easy';
+
+      const gridEl = document.getElementById('ms-grid');
+      const faceEl = document.getElementById('ms-face');
+      const minesEl = document.getElementById('ms-mines');
+      const timerEl = document.getElementById('ms-timer');
+
+      function createBoard(rows, cols) {
+        return Array.from({ length: rows }, () =>
+          Array.from({ length: cols }, () => ({ mine: false, revealed: false, flagged: false, adjacentMines: 0 }))
+        );
+      }
+      function placeMines(count, safeR, safeC) {
+        const rows = board.length, cols = board[0].length;
+        const safe = new Set();
+        for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) safe.add((safeR+dr)+','+(safeC+dc));
+        const cands = [];
+        for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) if (!safe.has(r+','+c)) cands.push([r,c]);
+        for (let i = 0; i < count && i < cands.length; i++) {
+          const j = i + Math.floor(Math.random() * (cands.length - i));
+          [cands[i], cands[j]] = [cands[j], cands[i]];
+          board[cands[i][0]][cands[i][1]].mine = true;
+        }
+      }
+      function calcAdj() {
+        const rows = board.length, cols = board[0].length;
+        for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+          if (board[r][c].mine) continue;
+          let n = 0;
+          for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+            const nr = r+dr, nc = c+dc;
+            if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && board[nr][nc].mine) n++;
+          }
+          board[r][c].adjacentMines = n;
+        }
+      }
+      function reveal(r, c) {
+        const rows = board.length, cols = board[0].length;
+        if (r < 0 || r >= rows || c < 0 || c >= cols) return;
+        const cell = board[r][c];
+        if (cell.revealed || cell.flagged || cell.mine) return;
+        cell.revealed = true;
+        if (cell.adjacentMines === 0)
+          for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++)
+            if (dr || dc) reveal(r+dr, c+dc);
+      }
+      function renderAll() {
+        const rows = board.length, cols = board[0].length;
+        gridEl.innerHTML = '';
+        gridEl.style.gridTemplateColumns = `repeat(${cols}, 28px)`;
+        gridEl.style.gridTemplateRows = `repeat(${rows}, 28px)`;
+        for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+          const el = document.createElement('div');
+          el.className = 'ms-cell'; el.dataset.r = r; el.dataset.c = c;
+          gridEl.appendChild(el);
+        }
+        renderUpdate();
+      }
+      function renderUpdate() {
+        board.forEach((row, r) => row.forEach((cell, c) => {
+          const el = gridEl.querySelector(`[data-r="${r}"][data-c="${c}"]`);
+          if (!el) return;
+          el.className = 'ms-cell'; el.textContent = ''; el.removeAttribute('data-n');
+          if (cell.revealed) {
+            el.classList.add('revealed');
+            if (cell.mine) { el.textContent = '💣'; el.classList.add('mine-hit'); }
+            else if (cell.adjacentMines) { el.textContent = cell.adjacentMines; el.dataset.n = cell.adjacentMines; }
+          } else if (cell.flagged) { el.textContent = '🚩'; el.classList.add('flagged'); }
+        }));
+        minesEl.textContent = String(mineCount - flagCount).padStart(3, '0');
+      }
+      function revealAllMines(hitR, hitC) {
+        board.forEach((row, r) => row.forEach((cell, c) => {
+          if (cell.mine && !cell.flagged) cell.revealed = true;
+          if (!cell.mine && cell.flagged) cell.revealed = true; // wrong flag
+        }));
+      }
+      function checkWin() {
+        const unrevealed = board.flat().filter(c => !c.revealed).length;
+        if (unrevealed === mineCount) endGame(true);
+      }
+      function startTimer() {
+        timerVal = 0; timerEl.textContent = '000';
+        timerInterval = setInterval(() => {
+          timerVal = Math.min(999, timerVal + 1);
+          timerEl.textContent = String(timerVal).padStart(3, '0');
+        }, 1000);
+      }
+      function endGame(won) {
+        gameEnded = true; clearInterval(timerInterval);
+        faceEl.textContent = won ? '😎' : '😵';
+        if (won) { board.flat().filter(c => !c.revealed).forEach(c => { c.flagged = true; flagCount++; }); }
+      }
+
+      gridEl.addEventListener('click', (e) => {
+        const el = e.target.closest('.ms-cell');
+        if (!el || gameEnded) return;
+        const r = +el.dataset.r, c = +el.dataset.c;
+        const cell = board[r][c];
+        if (cell.revealed || cell.flagged) return;
+        if (firstClick) {
+          firstClick = false;
+          placeMines(mineCount, r, c);
+          calcAdj();
+          startTimer();
+        }
+        if (cell.mine) {
+          cell.revealed = true;
+          revealAllMines(r, c);
+          renderUpdate();
+          endGame(false);
+          return;
+        }
+        reveal(r, c);
+        renderUpdate();
+        checkWin();
+      });
+      gridEl.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        const el = e.target.closest('.ms-cell');
+        if (!el || gameEnded) return;
+        const r = +el.dataset.r, c = +el.dataset.c;
+        const cell = board[r][c];
+        if (cell.revealed) return;
+        cell.flagged = !cell.flagged;
+        flagCount += cell.flagged ? 1 : -1;
+        renderUpdate();
+      });
+      faceEl.addEventListener('click', initGame);
+
+      document.querySelectorAll('.ms-diff-btns button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.ms-diff-btns button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentLevel = btn.dataset.diff;
+          initGame();
+        });
+      });
+
+      function initGame() {
+        clearInterval(timerInterval);
+        const lvl = LEVELS[currentLevel];
+        mineCount = lvl.mines; flagCount = 0; firstClick = true; gameEnded = false;
+        board = createBoard(lvl.rows, lvl.cols);
+        timerEl.textContent = '000'; faceEl.textContent = '🙂';
+        minesEl.textContent = String(mineCount).padStart(3, '0');
+        renderAll();
+      }
+      initGame();
+    })();
+    </script>
+  </body>
+</html>

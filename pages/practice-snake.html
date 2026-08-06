@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: Snake · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+    <style>
+      .snake-demo {
+        background: #1a1a2e;
+        border-radius: 10px;
+        padding: 20px;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        margin: 16px 0;
+      }
+      .snake-demo .sd-header {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        color: #e0e0e0;
+        font-family: monospace;
+        font-size: 15px;
+        width: 100%;
+        justify-content: space-between;
+      }
+      .snake-demo canvas {
+        display: block;
+        border: 2px solid #16213e;
+        border-radius: 4px;
+      }
+      .snake-demo button {
+        background: #2563eb;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 7px 20px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .snake-demo button:hover { background: #1d4ed8; }
+      .snake-demo .sd-hint {
+        color: #666;
+        font-size: 12px;
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Проєкт: Snake</h1>
+        <p>
+          Класична змійка — ідеальний проєкт для закріплення Canvas API,
+          масивів та ігрового циклу. Логіка руху побудована на черзі:
+          додай голову, видали хвіст — і змійка «рухається».
+        </p>
+
+        <!-- LIVE DEMO -->
+        <div class="snake-demo">
+          <div class="sd-header">
+            <span>Рахунок: <strong id="sn-score">0</strong></span>
+            <span>Рекорд: <strong id="sn-best">0</strong></span>
+            <button id="sn-start">Старт</button>
+          </div>
+          <canvas id="sn-canvas" width="300" height="300"></canvas>
+          <div class="sd-hint">← ↑ → ↓ — керування · P — пауза</div>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 1. Константи та стан гри</h2>
+          <p class="task-goal">
+            Визнач константи: <code>COLS = 20</code>, <code>ROWS = 20</code>,
+            <code>CELL = 20</code> (пікселів). Стан гри — це обʼєкт із трьох полів:
+            <code>snake</code> — масив обʼєктів <code>{ x, y }</code> де <code>[0]</code> — голова;
+            <code>dir</code> — поточний напрямок <code>{ x, y }</code>;
+            <code>food</code> — позиція їжі <code>{ x, y }</code>.
+            Напиши функцію <code>createState()</code> що повертає початковий стан:
+            змійка з 3 сегментів по центру поля, напрямок вправо.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">const COLS = 20;
+const ROWS = 20;
+const CELL = 20;
+
+function createState() {
+  const cx = Math.floor(COLS / 2);
+  const cy = Math.floor(ROWS / 2);
+  return {
+    snake: [{ x: cx, y: cy }, { x: cx - 1, y: cy }, { x: cx - 2, y: cy }],
+    dir: { x: 1, y: 0 },
+    food: spawnFood([{ x: cx, y: cy }, { x: cx - 1, y: cy }, { x: cx - 2, y: cy }]),
+  };
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 2. Малювання поля</h2>
+          <p class="task-goal">
+            Напиши функцію <code>draw(ctx, state)</code>:
+            очисти Canvas темним фоном, намалюй кожен сегмент змійки
+            (голова — яскравіший колір), намалюй їжу (червоне коло через
+            <code>arc</code>). Легка сітка фону — опційно.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function draw(ctx, state) {
+  // фон
+  ctx.fillStyle = '#111';
+  ctx.fillRect(0, 0, COLS * CELL, ROWS * CELL);
+
+  // змійка
+  state.snake.forEach(({ x, y }, i) => {
+    ctx.fillStyle = i === 0 ? '#4ade80' : '#22c55e';
+    ctx.fillRect(x * CELL + 1, y * CELL + 1, CELL - 2, CELL - 2);
+  });
+
+  // їжа
+  const { x, y } = state.food;
+  ctx.fillStyle = '#f87171';
+  ctx.beginPath();
+  ctx.arc(x * CELL + CELL / 2, y * CELL + CELL / 2, CELL / 2 - 2, 0, Math.PI * 2);
+  ctx.fill();
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 3. Генерація їжі</h2>
+          <p class="task-goal">
+            Напиши <code>spawnFood(snake)</code>: зберери всі клітинки поля,
+            відфільтруй ті що зайняті змійкою, обери одну випадково.
+            Якщо вільних клітинок немає — поверни <code>null</code> (перемога).
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Склади Set з рядків типу <code>"x,y"</code> для всіх сегментів змійки,
+              потім відфільтруй усі <code>COLS × ROWS</code> позицій.
+            </p>
+          </details>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function spawnFood(snake) {
+  const occupied = new Set(snake.map(({ x, y }) => `${x},${y}`));
+  const free = [];
+  for (let y = 0; y < ROWS; y++)
+    for (let x = 0; x < COLS; x++)
+      if (!occupied.has(`${x},${y}`)) free.push({ x, y });
+  if (!free.length) return null;
+  return free[Math.floor(Math.random() * free.length)];
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 4. Крок змійки</h2>
+          <p class="task-goal">
+            Напиши <code>step(state)</code> що повертає новий стан після одного кроку.
+            Обчисли нову голову: <code>{ x: head.x + dir.x, y: head.y + dir.y }</code>.
+            Перевір колізію зі стінами і власним тілом — якщо є, поверни
+            <code>null</code> (game over). Якщо нова голова збіглася з їжею — не видаляй
+            хвіст (змійка росте) і спавни нову їжу. Інакше видали хвіст.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function step(state) {
+  const head = state.snake[0];
+  const newHead = { x: head.x + state.dir.x, y: head.y + state.dir.y };
+
+  // колізія зі стінами
+  if (newHead.x < 0 || newHead.x >= COLS || newHead.y < 0 || newHead.y >= ROWS)
+    return null;
+
+  // колізія з тілом (без хвоста — він зникне)
+  const body = state.snake.slice(0, -1);
+  if (body.some(({ x, y }) => x === newHead.x && y === newHead.y))
+    return null;
+
+  const ateFood = newHead.x === state.food.x && newHead.y === state.food.y;
+  const newSnake = [newHead, ...state.snake.slice(0, ateFood ? undefined : -1)];
+
+  return {
+    snake: newSnake,
+    dir: state.dir,
+    food: ateFood ? spawnFood(newSnake) : state.food,
+    grew: ateFood,
+  };
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 5. Керування клавіатурою</h2>
+          <p class="task-goal">
+            Підпишись на <code>keydown</code>. Стрілки задають новий напрямок,
+            але заборони розворот на 180° (якщо змійка рухається вправо — не можна
+            повернути ліворуч). Буферизуй наступний напрямок у змінній
+            <code>nextDir</code> і застосовуй його на початку кожного кроку —
+            це запобігає «подвійному повороту» за один тік.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">const DIRS = {
+  ArrowUp:    { x:  0, y: -1 },
+  ArrowDown:  { x:  0, y:  1 },
+  ArrowLeft:  { x: -1, y:  0 },
+  ArrowRight: { x:  1, y:  0 },
+};
+
+let nextDir = null;
+
+document.addEventListener('keydown', (e) => {
+  const d = DIRS[e.key];
+  if (!d) return;
+  e.preventDefault();
+  // заборона розвороту
+  if (d.x !== -state.dir.x || d.y !== -state.dir.y) {
+    nextDir = d;
+  }
+});</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 6. Ігровий цикл</h2>
+          <p class="task-goal">
+            Запусти гру через <code>setInterval</code> або <code>requestAnimationFrame</code>
+            з таймером. На кожному тіку: застосуй <code>nextDir</code> якщо є,
+            викликай <code>step()</code>, перемалюй Canvas. Якщо <code>step</code> повернув
+            <code>null</code> — зупини цикл і покажи екран «Гра закінчена».
+            Швидкість: 150 мс на перших рівнях, зменшуй на 10 мс кожні 5 очок.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">let timerId = null;
+let score = 0;
+let state = createState();
+
+function tick() {
+  if (nextDir) { state.dir = nextDir; nextDir = null; }
+  const next = step(state);
+  if (!next) { gameOver(); return; }
+  if (next.grew) {
+    score++;
+    updateScore();
+  }
+  state = next;
+  draw(ctx, state);
+}
+
+function startGame() {
+  clearInterval(timerId);
+  state = createState();
+  score = 0;
+  nextDir = null;
+  draw(ctx, state);
+  const interval = Math.max(80, 150 - Math.floor(score / 5) * 10);
+  timerId = setInterval(tick, interval);
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 7. Рахунок та екран завершення</h2>
+          <p class="task-goal">
+            Виводь поточний рахунок і рекорд у DOM поруч із Canvas.
+            Зберігай рекорд у <code>localStorage</code>.
+            Коли гра закінчується — намалюй напівпрозорий оверлей на Canvas
+            з фінальним рахунком і підказкою «натисни пробіл або Enter для нової гри».
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function gameOver() {
+  clearInterval(timerId);
+  timerId = null;
+
+  const best = Math.max(score, parseInt(localStorage.getItem('snake-best') || '0', 10));
+  localStorage.setItem('snake-best', best);
+
+  ctx.fillStyle = 'rgba(0,0,0,0.6)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 20px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Гра закінчена!', canvas.width / 2, canvas.height / 2 - 16);
+  ctx.font = '15px sans-serif';
+  ctx.fillText('Рахунок: ' + score, canvas.width / 2, canvas.height / 2 + 10);
+  ctx.fillStyle = '#aaa';
+  ctx.font = '12px sans-serif';
+  ctx.fillText('Пробіл / Enter → нова гра', canvas.width / 2, canvas.height / 2 + 32);
+}
+
+document.addEventListener('keydown', (e) => {
+  if ((e.key === ' ' || e.key === 'Enter') && !timerId) startGame();
+});</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 8. Прискорення та wrap-around (виклик)</h2>
+          <p class="task-goal">
+            Реалізуй два режими:
+            <strong>Класичний</strong> — зіткнення зі стіною = смерть;
+            <strong>Wrap-around</strong> — змійка виходить крізь стіну і зʼявляється
+            з протилежного боку (<code>x = (x + COLS) % COLS</code>).
+            Також динамічно перераховуй інтервал після кожного зʼїденого яблука
+            без перезапуску <code>setInterval</code> — використай
+            <code>requestAnimationFrame</code> з ручним відліком часу.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Замість <code>setInterval</code>: зберігай <code>lastTick</code>,
+              у <code>requestAnimationFrame</code>-колбеці перевіряй
+              <code>now - lastTick >= interval</code> і тільки тоді роби крок.
+              Так інтервал можна змінювати будь-коли.
+            </p>
+          </details>
+        </div>
+
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Snake навчає ключового патерну ігрового циклу: незмінний стан + чиста
+              функція переходу <code>step(state) → newState | null</code>.
+              Цей підхід масштабується на будь-яку гру і є основою Redux-архітектури.
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth-guard.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+    <script>
+    (function () {
+      const COLS = 15, ROWS = 15, CELL = 20;
+      const canvas = document.getElementById('sn-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = COLS * CELL;
+      canvas.height = ROWS * CELL;
+
+      let state, nextDir, timerId, score;
+
+      function spawnFood(snake) {
+        const occ = new Set(snake.map(s => s.x + ',' + s.y));
+        const free = [];
+        for (let y = 0; y < ROWS; y++)
+          for (let x = 0; x < COLS; x++)
+            if (!occ.has(x + ',' + y)) free.push({ x, y });
+        return free.length ? free[Math.floor(Math.random() * free.length)] : null;
+      }
+      function createState() {
+        const cx = Math.floor(COLS / 2), cy = Math.floor(ROWS / 2);
+        const snake = [{ x: cx, y: cy }, { x: cx - 1, y: cy }, { x: cx - 2, y: cy }];
+        return { snake, dir: { x: 1, y: 0 }, food: spawnFood(snake) };
+      }
+      function step(s) {
+        const h = s.snake[0];
+        const nh = { x: h.x + s.dir.x, y: h.y + s.dir.y };
+        if (nh.x < 0 || nh.x >= COLS || nh.y < 0 || nh.y >= ROWS) return null;
+        if (s.snake.slice(0, -1).some(p => p.x === nh.x && p.y === nh.y)) return null;
+        const ate = s.food && nh.x === s.food.x && nh.y === s.food.y;
+        const newSnake = [nh, ...s.snake.slice(0, ate ? undefined : -1)];
+        return { snake: newSnake, dir: s.dir, food: ate ? spawnFood(newSnake) : s.food, grew: ate };
+      }
+      function draw(s) {
+        ctx.fillStyle = '#111'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        s.snake.forEach(({ x, y }, i) => {
+          ctx.fillStyle = i === 0 ? '#4ade80' : '#22c55e';
+          ctx.fillRect(x * CELL + 1, y * CELL + 1, CELL - 2, CELL - 2);
+        });
+        if (s.food) {
+          ctx.fillStyle = '#f87171';
+          ctx.beginPath();
+          ctx.arc(s.food.x * CELL + CELL / 2, s.food.y * CELL + CELL / 2, CELL / 2 - 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      function updateUI() {
+        document.getElementById('sn-score').textContent = score;
+        const b = Math.max(score, parseInt(localStorage.getItem('snake-best') || '0', 10));
+        document.getElementById('sn-best').textContent = b;
+      }
+      function gameOver() {
+        clearInterval(timerId); timerId = null;
+        const b = Math.max(score, parseInt(localStorage.getItem('snake-best') || '0', 10));
+        localStorage.setItem('snake-best', b);
+        document.getElementById('sn-best').textContent = b;
+        ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#fff'; ctx.font = 'bold 18px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('Гра закінчена!', canvas.width / 2, canvas.height / 2 - 14);
+        ctx.font = '14px sans-serif';
+        ctx.fillText('Рахунок: ' + score, canvas.width / 2, canvas.height / 2 + 8);
+        ctx.fillStyle = '#aaa'; ctx.font = '11px sans-serif';
+        ctx.fillText('Натисни «Старт» або пробіл', canvas.width / 2, canvas.height / 2 + 28);
+        document.getElementById('sn-start').textContent = 'Нова гра';
+      }
+      function startGame() {
+        clearInterval(timerId);
+        state = createState(); nextDir = null; score = 0;
+        document.getElementById('sn-start').textContent = 'Рестарт';
+        updateUI(); draw(state);
+        timerId = setInterval(() => {
+          if (nextDir) { state.dir = nextDir; nextDir = null; }
+          const next = step(state);
+          if (!next) { gameOver(); return; }
+          if (next.grew) { score++; updateUI(); }
+          state = next; draw(state);
+        }, 130);
+      }
+      const DIRS = { ArrowUp:{x:0,y:-1}, ArrowDown:{x:0,y:1}, ArrowLeft:{x:-1,y:0}, ArrowRight:{x:1,y:0} };
+      document.addEventListener('keydown', (e) => {
+        const d = DIRS[e.key];
+        if (d) { e.preventDefault(); if (state && (d.x !== -state.dir.x || d.y !== -state.dir.y)) nextDir = d; }
+        if ((e.key === ' ' || e.key === 'Enter') && !timerId) startGame();
+      });
+      document.getElementById('sn-start').addEventListener('click', startGame);
+
+      // стартовий екран
+      ctx.fillStyle = '#111'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#555'; ctx.font = '14px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('Натисни «Старт»', canvas.width / 2, canvas.height / 2);
+      document.getElementById('sn-best').textContent = localStorage.getItem('snake-best') || 0;
+    })();
+    </script>
+  </body>
+</html>

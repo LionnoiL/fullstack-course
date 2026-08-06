@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Практика: Хрестики-нулики · JS Course</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+    <style>
+      .ttt-demo {
+        background: #f0f4ff;
+        border-radius: 12px;
+        padding: 24px;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        margin: 16px 0;
+        font-family: sans-serif;
+      }
+      .ttt-status {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1e3a8a;
+        min-height: 28px;
+      }
+      .ttt-board {
+        display: grid;
+        grid-template-columns: repeat(3, 90px);
+        grid-template-rows: repeat(3, 90px);
+        gap: 6px;
+      }
+      .ttt-cell {
+        background: #fff;
+        border: 2px solid #c7d2fe;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        cursor: pointer;
+        transition: background 0.1s;
+        user-select: none;
+      }
+      .ttt-cell:hover:not(.taken) { background: #e0e7ff; }
+      .ttt-cell.taken { cursor: default; }
+      .ttt-cell.win { background: #bbf7d0; border-color: #4ade80; }
+      .ttt-controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .ttt-controls button {
+        background: #2563eb;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 7px 18px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .ttt-controls button:hover { background: #1d4ed8; }
+      .ttt-controls label { font-size: 14px; color: #444; display: flex; align-items: center; gap: 6px; }
+      .ttt-scores {
+        display: flex;
+        gap: 20px;
+        font-size: 14px;
+        color: #334155;
+      }
+      .ttt-scores span { font-weight: 700; }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="content">
+        <h1 id="практика">Проєкт: Хрестики-нулики</h1>
+        <p>
+          Хрестики-нулики — канонічна задача на алгоритм Мінімакс.
+          Почнемо з простої гри двох гравців, потім додамо непереможного AI
+          і розберемо, як він «думає».
+        </p>
+
+        <!-- LIVE DEMO -->
+        <div class="ttt-demo">
+          <div class="ttt-status" id="ttt-status">Хід: ❌</div>
+          <div class="ttt-board" id="ttt-board"></div>
+          <div class="ttt-controls">
+            <button id="ttt-new">Нова гра</button>
+            <label>
+              <input type="checkbox" id="ttt-ai" checked />
+              AI-суперник (мінімакс)
+            </label>
+          </div>
+          <div class="ttt-scores">
+            ❌ <span id="ttt-sx">0</span> &nbsp;|&nbsp;
+            🤝 <span id="ttt-sd">0</span> &nbsp;|&nbsp;
+            ⭕ <span id="ttt-so">0</span>
+          </div>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 1. Стан та рендер</h2>
+          <p class="task-goal">
+            Стан гри — масив з 9 елементів (<code>null | 'X' | 'O'</code>) і
+            поточний гравець. Напиши <code>renderBoard(board)</code>:
+            побудуй або оновлюй 9 клітинок у DOM, показуй символ, блокуй зайняті.
+            При натисканні на вільну клітинку — роби хід і перемальовуй.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">let board = Array(9).fill(null);
+let current = 'X';
+
+const boardEl = document.querySelector('.board');
+
+function renderBoard() {
+  boardEl.querySelectorAll('.cell').forEach((el, i) => {
+    el.textContent = board[i] === 'X' ? '❌' : board[i] === 'O' ? '⭕' : '';
+    el.classList.toggle('taken', board[i] !== null);
+  });
+}
+
+boardEl.addEventListener('click', (e) => {
+  const el = e.target.closest('.cell');
+  if (!el || board[el.dataset.i] !== null || gameOver) return;
+  const i = +el.dataset.i;
+  board[i] = current;
+  const win = checkWinner(board);
+  if (win) { handleEnd(win); return; }
+  current = current === 'X' ? 'O' : 'X';
+  renderBoard();
+});</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 2. Перевірка переможця</h2>
+          <p class="task-goal">
+            Напиши <code>checkWinner(board)</code>: перевір усі 8 виграшних комбінацій
+            (3 рядки, 3 стовпці, 2 діагоналі). Поверни <code>'X'</code>, <code>'O'</code>,
+            <code>'draw'</code> (якщо всі 9 клітинок заповнені і переможця немає),
+            або <code>null</code> (гра ще йде).
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">const LINES = [
+  [0, 1, 2], [3, 4, 5], [6, 7, 8], // рядки
+  [0, 3, 6], [1, 4, 7], [2, 5, 8], // стовпці
+  [0, 4, 8], [2, 4, 6],             // діагоналі
+];
+
+function checkWinner(board) {
+  for (const [a, b, c] of LINES) {
+    if (board[a] && board[a] === board[b] && board[a] === board[c])
+      return board[a];
+  }
+  if (board.every((v) => v !== null)) return 'draw';
+  return null;
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 3. AI: випадкові ходи</h2>
+          <p class="task-goal">
+            Перший рівень AI — грає випадково серед доступних клітинок.
+            Напиши <code>aiRandom(board)</code> що повертає індекс вільної клітинки.
+            Додай режим «гравець проти AI» з перемикачем. AI робить хід через
+            короткий <code>setTimeout</code> щоб не відчувалось миттєво.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function aiRandom(board) {
+  const free = board.map((v, i) => v === null ? i : -1).filter((i) => i !== -1);
+  return free[Math.floor(Math.random() * free.length)];
+}
+
+function aiMove() {
+  setTimeout(() => {
+    const i = aiRandom(board);
+    if (i == null) return;
+    board[i] = 'O';
+    const win = checkWinner(board);
+    if (win) { handleEnd(win); return; }
+    current = 'X';
+    renderBoard();
+  }, 300);
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 4. AI: алгоритм Мінімакс</h2>
+          <p class="task-goal">
+            Мінімакс — рекурсивний алгоритм що перебирає всі можливі ігри наперед.
+            <code>minimax(board, isMaximizing)</code> повертає оцінку позиції:
+            <code>+10</code> якщо 'O' виграє, <code>-10</code> якщо 'X' виграє,
+            <code>0</code> — нічия. AI (O) максимізує, гравець (X) — мінімізує.
+            Функція <code>bestMove(board)</code> перебирає всі вільні клітинки,
+            рахує <code>minimax</code> для кожної і обирає хід із найбільшою оцінкою.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Базові випадки: якщо <code>checkWinner</code> повернув результат — поверни
+              оцінку. Інакше ітеруй по вільних клітинках: поставь символ, рекурсивно
+              викличи <code>minimax</code> з протилежним <code>isMaximizing</code>,
+              зніми символ (backtracking). Збери масив оцінок і поверни max або min.
+            </p>
+          </details>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">function minimax(board, isMaximizing) {
+  const winner = checkWinner(board);
+  if (winner === 'O') return 10;
+  if (winner === 'X') return -10;
+  if (winner === 'draw') return 0;
+
+  const scores = [];
+  for (let i = 0; i < 9; i++) {
+    if (board[i] !== null) continue;
+    board[i] = isMaximizing ? 'O' : 'X';
+    scores.push(minimax(board, !isMaximizing));
+    board[i] = null; // backtrack
+  }
+  return isMaximizing ? Math.max(...scores) : Math.min(...scores);
+}
+
+function bestMove(board) {
+  let best = -Infinity;
+  let move = null;
+  for (let i = 0; i < 9; i++) {
+    if (board[i] !== null) continue;
+    board[i] = 'O';
+    const score = minimax(board, false);
+    board[i] = null;
+    if (score > best) { best = score; move = i; }
+  }
+  return move;
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 5. Рахунок серії та підсвітка виграшу</h2>
+          <p class="task-goal">
+            Після кожної гри оновлюй лічильники перемог X, O і нічиїх —
+            зберігай між іграми в змінних (або <code>localStorage</code>).
+            Підсвіть виграшну трійку: додай CSS-клас <code>win</code> до трьох
+            відповідних клітинок. Знайди виграшну комбінацію в <code>LINES</code>
+            після того як <code>checkWinner</code> повернув переможця.
+          </p>
+          <details class="solution">
+            <summary>Рішення</summary>
+            <pre class="language-js"><code class="language-js">let scores = { X: 0, O: 0, draw: 0 };
+
+function highlightWin(winner) {
+  for (const [a, b, c] of LINES) {
+    if (board[a] === winner && board[b] === winner && board[c] === winner) {
+      [a, b, c].forEach((i) => {
+        document.querySelector(`[data-i="${i}"]`).classList.add('win');
+      });
+      break;
+    }
+  }
+}
+
+function handleEnd(result) {
+  renderBoard();
+  if (result !== 'draw') highlightWin(result);
+  gameOver = true;
+  scores[result] = (scores[result] || 0) + 1;
+  document.querySelector('#score-x').textContent = scores.X;
+  document.querySelector('#score-o').textContent = scores.O;
+  document.querySelector('#score-draw').textContent = scores.draw;
+  const msg = result === 'draw' ? 'Нічия 🤝' : `Переміг ${result === 'X' ? '❌' : '⭕'}!`;
+  document.querySelector('#status').textContent = msg;
+}</code></pre>
+          </details>
+        </div>
+
+        <div class="task">
+          <h2>Завдання 6. Мінімакс з Alpha-Beta обрізанням (виклик)</h2>
+          <p class="task-goal">
+            Для 3×3 мінімакс і так миттєвий, але на більших дошках (4×4, 5×5)
+            він стає нестерпно повільним. Реалізуй <strong>Alpha-Beta pruning</strong>:
+            додай параметри <code>alpha</code> і <code>beta</code> до рекурсії,
+            обрізай гілки де <code>beta ≤ alpha</code>.
+            Потім розшир гру до <strong>5×5, потрібно 4 в ряд</strong> — тепер тільки
+            Alpha-Beta зробить AI грати без помітних затримок.
+          </p>
+          <details class="hint">
+            <summary>Підказка</summary>
+            <p>
+              Максимізатор оновлює <code>alpha = max(alpha, score)</code>.
+              Мінімізатор — <code>beta = min(beta, score)</code>.
+              Якщо <code>beta ≤ alpha</code> — break (решта гілок не змінять результат).
+            </p>
+          </details>
+        </div>
+
+        <div class="alert alert-info hints-alert">
+          <div class="hints-icon"><i class="fa fa-info-circle"></i></div>
+          <div class="hints-container">
+            <p>
+              Мінімакс — фундамент ігрового AI: шахи, шашки, го використовують
+              його варіанти. Хрестики-нулики ідеальні для навчання бо дерево невелике
+              і можна в консолі простежити кожне рішення алгоритму.
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth-guard.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/course-tools.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/search-index.js"></script>
+    <script src="../js/search.js"></script>
+    <script>
+    (function () {
+      const LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+      let board, current, gameOver;
+      let scores = { X: 0, O: 0, draw: 0 };
+
+      const boardEl = document.getElementById('ttt-board');
+      const statusEl = document.getElementById('ttt-status');
+      const aiToggle = document.getElementById('ttt-ai');
+
+      // будуємо клітинки один раз
+      for (let i = 0; i < 9; i++) {
+        const el = document.createElement('div');
+        el.className = 'ttt-cell'; el.dataset.i = i;
+        boardEl.appendChild(el);
+      }
+
+      function checkWinner(b) {
+        for (const [a, bIdx, c] of LINES)
+          if (b[a] && b[a] === b[bIdx] && b[a] === b[c]) return b[a];
+        if (b.every(v => v !== null)) return 'draw';
+        return null;
+      }
+      function minimax(b, isMax, alpha, beta) {
+        const w = checkWinner(b);
+        if (w === 'O') return 10;
+        if (w === 'X') return -10;
+        if (w === 'draw') return 0;
+        let best = isMax ? -Infinity : Infinity;
+        for (let i = 0; i < 9; i++) {
+          if (b[i] !== null) continue;
+          b[i] = isMax ? 'O' : 'X';
+          const score = minimax(b, !isMax, alpha, beta);
+          b[i] = null;
+          if (isMax) { best = Math.max(best, score); alpha = Math.max(alpha, best); }
+          else       { best = Math.min(best, score); beta  = Math.min(beta,  best); }
+          if (beta <= alpha) break;
+        }
+        return best;
+      }
+      function bestMove(b) {
+        let best = -Infinity, move = null;
+        for (let i = 0; i < 9; i++) {
+          if (b[i] !== null) continue;
+          b[i] = 'O';
+          const score = minimax(b, false, -Infinity, Infinity);
+          b[i] = null;
+          if (score > best) { best = score; move = i; }
+        }
+        return move;
+      }
+      function renderBoard() {
+        boardEl.querySelectorAll('.ttt-cell').forEach((el, i) => {
+          el.textContent = board[i] === 'X' ? '❌' : board[i] === 'O' ? '⭕' : '';
+          el.classList.toggle('taken', board[i] !== null);
+          el.classList.remove('win');
+        });
+      }
+      function highlightWin(winner) {
+        for (const [a, b, c] of LINES)
+          if (board[a] === winner && board[b] === winner && board[c] === winner) {
+            [a, b, c].forEach(i => boardEl.querySelector(`[data-i="${i}"]`).classList.add('win'));
+            break;
+          }
+      }
+      function updateScores() {
+        document.getElementById('ttt-sx').textContent = scores.X || 0;
+        document.getElementById('ttt-so').textContent = scores.O || 0;
+        document.getElementById('ttt-sd').textContent = scores.draw || 0;
+      }
+      function handleEnd(result) {
+        gameOver = true;
+        renderBoard();
+        if (result !== 'draw') highlightWin(result);
+        scores[result] = (scores[result] || 0) + 1;
+        updateScores();
+        statusEl.textContent = result === 'draw' ? 'Нічия 🤝' : `Переміг ${result === 'X' ? '❌' : '⭕'}!`;
+      }
+      function aiMove() {
+        setTimeout(() => {
+          if (gameOver) return;
+          const i = bestMove(board);
+          if (i == null) return;
+          board[i] = 'O';
+          const w = checkWinner(board);
+          if (w) { handleEnd(w); return; }
+          current = 'X';
+          statusEl.textContent = 'Хід: ❌';
+          renderBoard();
+        }, 250);
+      }
+      boardEl.addEventListener('click', (e) => {
+        const el = e.target.closest('.ttt-cell');
+        if (!el || gameOver) return;
+        const i = +el.dataset.i;
+        if (board[i] !== null) return;
+        board[i] = current;
+        const w = checkWinner(board);
+        if (w) { handleEnd(w); return; }
+        current = current === 'X' ? 'O' : 'X';
+        statusEl.textContent = 'Хід: ' + (current === 'X' ? '❌' : '⭕');
+        renderBoard();
+        if (aiToggle.checked && current === 'O') aiMove();
+      });
+      document.getElementById('ttt-new').addEventListener('click', startGame);
+      function startGame() {
+        board = Array(9).fill(null);
+        current = 'X'; gameOver = false;
+        statusEl.textContent = 'Хід: ❌';
+        renderBoard();
+      }
+      startGame();
+    })();
+    </script>
+  </body>
+</html>
